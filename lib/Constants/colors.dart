@@ -1,0 +1,7 @@
+import 'dart:ui';
+
+const Color themeColor = Color(0xff0596DE);
+const Color bgColor = Color(0xffFFFFFF);
+const Color textColor = Color(0xff0E0D39);
+const Color greyColor = Color(0xffD9D9D9);
+const Color lightGreenColor = Color(0xff96D2Cb);
