@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
 
@@ -42,8 +43,8 @@ class LanguageContainer extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(14),
-            height: 60,
-            width: 60,
+            height: 55,
+            width: 55,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: bgColor,
@@ -51,18 +52,18 @@ class LanguageContainer extends StatelessWidget {
                 color: borderColor
               )
             ),
-            child: Center(child: Image.asset(image)),
+            child: Center(child: SvgPicture.asset(image,fit: BoxFit.cover,)),
           ),
           SizedBox(width: 10,),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextWidget1(
+              TextWidget(
                   text: title, fontSize: 24,
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor),
-              TextWidget1(
+              TextWidget(
                   text: subTitle, fontSize: 12,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor),

@@ -7,7 +7,7 @@ class InputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? hintText;
   final int? maxLines, maxLength;
-  EdgeInsets contentPadding;
+
   InputField({
     super.key,
     required this.inputController,
@@ -16,7 +16,6 @@ class InputField extends StatelessWidget {
     this.textInputAction,
     this.hintText,
     this.maxLength,
-    required this.contentPadding
   });
 
   @override
@@ -40,10 +39,10 @@ class InputField extends StatelessWidget {
         hintStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
+            color: greyColor,
             fontFamily: "Medium"
         ),
         fillColor: Colors.white,
-        contentPadding:  contentPadding,
         filled: true,
         alignLabelWithHint: true,
         border: OutlineInputBorder(
@@ -62,7 +61,7 @@ class InputField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide:  BorderSide(
-            color: Colors.grey,
+            color: greyColor,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(10),

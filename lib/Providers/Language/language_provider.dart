@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LanguageProvider extends ChangeNotifier{
 
-  int _selectedIndex = 1; // Default selection
+  int _selectedIndex = 0; // Default selection
   bool _isBouncing = false;
 
   int get selectedIndex => _selectedIndex;

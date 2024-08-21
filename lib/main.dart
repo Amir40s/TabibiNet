@@ -3,8 +3,11 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
+import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/splash_screen.dart';
+import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
+import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
+import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_screen.dart';
 
 import 'Providers/Language/language_provider.dart';
 
@@ -24,6 +27,9 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => OnboardProvider(),),
             ChangeNotifierProvider(create: (context) => LanguageProvider(),),
+            ChangeNotifierProvider(create: (context) => LocationProvider(),),
+            ChangeNotifierProvider(create: (context) => SignUpProvider(),),
+            ChangeNotifierProvider(create: (context) => PaywallProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,

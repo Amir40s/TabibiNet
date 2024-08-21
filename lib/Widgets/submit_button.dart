@@ -15,6 +15,7 @@ class SubmitButton extends StatelessWidget {
     this.textSize,
     this.bdRadius,
     this.bgColor,
+    this.textColor,
     this.gradientColors,
   });
   final String? title;
@@ -23,7 +24,7 @@ class SubmitButton extends StatelessWidget {
   final double? height;
   final double? width;
   final double? radius;
-  final Color? bdColor, bgColor;
+  final Color? bdColor, bgColor, textColor;
   final Color? iconColor;
   final double? textSize;
   final double? bdRadius;
@@ -43,13 +44,17 @@ class SubmitButton extends StatelessWidget {
             color: bgColor ?? themeColor,
             borderRadius: BorderRadius.circular(radius ?? 10.0),
             gradient: gradientColors,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 2),
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  color: Colors.grey.withOpacity(.5))
-            ]),
+            border: Border.all(
+              color: themeColor
+            )
+            // boxShadow: [
+            //   BoxShadow(
+            //       offset: const Offset(0, 2),
+            //       spreadRadius: 1,
+            //       blurRadius: 2,
+            //       color: Colors.grey.withOpacity(.5))
+            // ]
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -64,8 +69,8 @@ class SubmitButton extends StatelessWidget {
             if (title != null)
               Text(
                 title!,
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
+                style: TextStyle(
+                    color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
               ),
 
           ],

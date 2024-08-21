@@ -7,7 +7,7 @@ import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/language_screen.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
 
-import '../../Constants/colors.dart';
+import '../../../Constants/colors.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
@@ -143,7 +143,7 @@ class OnboardingScreen extends StatelessWidget {
                           child: child,
                         );
                       },
-                      child: TextWidget1(
+                      child: TextWidget(
                         text: onboardingData[value.currentIndex]['text3']!,
                         fontSize: 16, fontWeight: FontWeight.normal,
                         isTextCenter: true, textColor: textColor,maxLines: 2,
@@ -180,8 +180,8 @@ class OnboardingScreen extends StatelessWidget {
                           onTap: () {
                             Get.to(()=>LanguageScreen());
                           },
-                          child: TextWidget2(
-                              text: "Skip", fontSize: 14,
+                          child: const TextWidget(
+                              text: "Skip", fontSize: 14,fontFamily: "Medium",
                               fontWeight: FontWeight.normal, isTextCenter: false, textColor: themeColor),
                         ),
                         InkWell(
