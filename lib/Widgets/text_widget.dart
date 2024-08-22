@@ -8,7 +8,7 @@ class TextWidget extends StatelessWidget {
         required this.fontWeight,
         required this.isTextCenter,
         required this.textColor,
-        this.maxLines = 1,
+        this.maxLines,
         this.fontFamily = "Regular",
         this.valueKey
       });
@@ -17,7 +17,7 @@ class TextWidget extends StatelessWidget {
   final FontWeight fontWeight;
   final Color textColor;
   final bool isTextCenter;
-  final int maxLines;
+  final int? maxLines;
   final String fontFamily;
   final ValueKey<int>? valueKey;
   @override

@@ -7,8 +7,9 @@ class InputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? hintText;
   final int? maxLines, maxLength;
+  final IconData? prefixIcon;
 
-  InputField({
+  const InputField({
     super.key,
     required this.inputController,
     this.type,
@@ -16,12 +17,12 @@ class InputField extends StatelessWidget {
     this.textInputAction,
     this.hintText,
     this.maxLength,
+    this.prefixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-
       maxLines: maxLines,
       textInputAction: textInputAction,
       keyboardType: type,
@@ -36,6 +37,7 @@ class InputField extends StatelessWidget {
       textAlign: TextAlign.start,
       decoration: InputDecoration(
         hintText: hintText,
+        prefixIcon: Icon(prefixIcon,color: greyColor,),
         hintStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,

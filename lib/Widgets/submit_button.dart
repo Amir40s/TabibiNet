@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
 
 class SubmitButton extends StatelessWidget {
-  SubmitButton({
+  const SubmitButton({
     super.key,
     required this.title,
     this.icon,
@@ -16,19 +16,15 @@ class SubmitButton extends StatelessWidget {
     this.bdRadius,
     this.bgColor,
     this.textColor,
+    this.iconSize,
     this.gradientColors,
   });
   final String? title;
   final IconData? icon;
   final Function() press;
-  final double? height;
-  final double? width;
-  final double? radius;
-  final Color? bdColor, bgColor, textColor;
-  final Color? iconColor;
-  final double? textSize;
-  final double? bdRadius;
-  LinearGradient? gradientColors;
+  final double? height, width, radius, iconSize, textSize, bdRadius;
+  final Color? bdColor, bgColor, textColor,iconColor;
+  final LinearGradient? gradientColors;
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +54,21 @@ class SubmitButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null)
-              Padding(
-                padding: EdgeInsets.only(right: title != null ? 8.0 : 0.0),
-                child: Icon(
-                  icon,
-                  color: iconColor ?? Colors.white,
-                ),
-              ),
             if (title != null)
               Text(
                 title!,
                 style: TextStyle(
                     color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
               ),
-
+            if (icon != null)
+              Padding(
+                padding: EdgeInsets.only(left: title != null ? 8.0 : 0.0),
+                child: Icon(
+                  icon,
+                  color: iconColor ?? Colors.white,
+                  size: 20 ?? iconSize,
+                ),
+              ),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ class ImagesPath{
   static const String male = "assets/images/male_image.svg";
   static const String female = "assets/images/female_image.svg";
   static const String success = "assets/images/success_image.svg";
+  static const String bg_1 = "assets/images/bg_1.svg";
 
 }
 
@@ -21,5 +22,13 @@ class IconsPath{
   static const String facebookIcon = "assets/icons/facebook_icon.svg";
   static const String bellIcon = "assets/icons/bell_icon.svg";
   static const String favIcon = "assets/icons/fav_icon.svg";
+  static const String menuIcon = "assets/icons/menu_icon.svg";
+  static const String nextArrowIcon = "assets/icons/next_arrow_icon.svg";
+  static const String eyeIcon = "assets/icons/eye_icon.svg";
+  static const String brainIcon = "assets/icons/brain_icon.svg";
+  static const String bottom_1 = "assets/icons/bottom_1.png";
+  static const String bottom_2 = "assets/icons/bottom_2.png";
+  static const String bottom_3 = "assets/icons/bottom_3.png";
+  static const String bottom_4 = "assets/icons/bottom_4.png";
 
 }

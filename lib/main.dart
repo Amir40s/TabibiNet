@@ -7,9 +7,11 @@ import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_screen.dart';
+import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/user_home_screen.dart';
 
+import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/Language/language_provider.dart';
+import 'Providers/UserHome/user_home_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => LocationProvider(),),
             ChangeNotifierProvider(create: (context) => SignUpProvider(),),
             ChangeNotifierProvider(create: (context) => PaywallProvider(),),
+            ChangeNotifierProvider(create: (context) => BottomNavBarProvider(),),
+            ChangeNotifierProvider(create: (context) => UserHomeProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
-          home: const SplashScreen(),
+          home: UserHomeScreen(),
         ),
       );
     },);
