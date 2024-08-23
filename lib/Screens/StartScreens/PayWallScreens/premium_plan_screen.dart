@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
 
 import '../../../Constants/app_fonts.dart';
 import '../../../Constants/colors.dart';
 import '../../../Widgets/submit_button.dart';
 import '../../../Widgets/text_widget.dart';
-import '../../UserScreens/HomeScreen/user_home_screen.dart';
 
 class PremiumPlanScreen extends StatelessWidget {
   const PremiumPlanScreen({super.key});
@@ -50,7 +49,7 @@ class PremiumPlanScreen extends StatelessWidget {
             title: "Get Started",
             radius: 100,
             press: () {
-              Get.to(()=>UserHomeScreen());
+              Get.to(()=>PatientHomeScreen());
             },)
         ],
       ),

@@ -8,6 +8,7 @@ class InputField extends StatelessWidget {
   final String? hintText;
   final int? maxLines, maxLength;
   final IconData? prefixIcon;
+  final Widget? suffixIcon;
 
   const InputField({
     super.key,
@@ -18,6 +19,7 @@ class InputField extends StatelessWidget {
     this.hintText,
     this.maxLength,
     this.prefixIcon,
+    this.suffixIcon,
   });
 
   @override
@@ -38,6 +40,7 @@ class InputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(prefixIcon,color: greyColor,),
+        suffixIcon: suffixIcon,
         hintStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,

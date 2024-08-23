@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/app_fonts.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
 import 'package:tabibinet_project/Widgets/submit_button.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
-
-import '../../UserScreens/HomeScreen/user_home_screen.dart';
 
 class FreePlanScreen extends StatelessWidget {
   const FreePlanScreen({super.key});
@@ -44,7 +42,7 @@ class FreePlanScreen extends StatelessWidget {
             title: "Get Started",
             radius: 100,
             press: () {
-              Get.to(()=>UserHomeScreen());
+              Get.to(()=>PatientHomeScreen());
           },)
         ],
       ),

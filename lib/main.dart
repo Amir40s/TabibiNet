@@ -7,11 +7,11 @@ import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/user_home_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
 
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/Language/language_provider.dart';
-import 'Providers/UserHome/user_home_provider.dart';
+import 'Providers/PatientHome/patient_home_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => SignUpProvider(),),
             ChangeNotifierProvider(create: (context) => PaywallProvider(),),
             ChangeNotifierProvider(create: (context) => BottomNavBarProvider(),),
-            ChangeNotifierProvider(create: (context) => UserHomeProvider(),),
+            ChangeNotifierProvider(create: (context) => PatientHomeProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
-          home: UserHomeScreen(),
+          home: PatientHomeScreen(),
         ),
       );
     },);

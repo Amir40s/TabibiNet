@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
 
 import '../Constants/app_fonts.dart';
@@ -17,14 +20,19 @@ class Header extends StatelessWidget {
         height: 72,
         child: Row(
           children: [
-            Container(
-              height: 40,
-              width: 40,
-              decoration: const BoxDecoration(
-                  color: themeColor,
-                  shape: BoxShape.circle
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                    color: themeColor,
+                    shape: BoxShape.circle
+                ),
+                child: const Center(child: Icon(CupertinoIcons.back,color: bgColor,size: 24,)),
               ),
-              child: const Center(child: Icon(CupertinoIcons.back,color: bgColor,size: 24,)),
             ),
             const SizedBox(width: 15,),
             TextWidget(

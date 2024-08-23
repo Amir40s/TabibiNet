@@ -3,12 +3,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/user_home_screen.dart';
 
 import '../../../../Constants/colors.dart';
 import '../../../../Widgets/text_widget.dart';
 import '../../../Constants/app_fonts.dart';
 import '../../../Widgets/submit_button.dart';
+import '../../PatientScreens/HomeScreen/patient_home_screen.dart';
 
 class AdvancePlanScreen extends StatelessWidget {
   const AdvancePlanScreen({super.key});
@@ -51,7 +51,7 @@ class AdvancePlanScreen extends StatelessWidget {
             title: "Get Started",
             radius: 100,
             press: () {
-              Get.to(()=>UserHomeScreen());
+              Get.to(()=>PatientHomeScreen());
             },)
         ],
       ),

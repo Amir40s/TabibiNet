@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/app_fonts.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
@@ -11,6 +9,7 @@ import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/Components/s
 import 'package:tabibinet_project/Widgets/input_field.dart';
 import 'package:tabibinet_project/Widgets/submit_button.dart';
 
+import '../../../Widgets/dotted_line.dart';
 import '../../../Widgets/text_widget.dart';
 import '../SignUpScreen/sign_up_screen.dart';
 
@@ -90,44 +89,28 @@ class SignInScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 2,
                   width: 28.w,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 3),
-                      height: 1,
-                      width: 4,
-                      decoration: const BoxDecoration(
-                        color: greyColor
-                      ),
-                    );
-                  },),
+                  child: const DottedLine(
+                    height: 2,
+                    color: greyColor,
+                    dotLength: 4,
+                    spacing: 4,
+                    direction: Axis.horizontal,
+                  ),
                 ),
                 const TextWidget(
                     text: "Or Continue With", fontSize: 14,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor,fontFamily: AppFonts.semiBold,),
                 SizedBox(
-                  height: 2,
                   width: 28.w,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 3),
-                        height: 1,
-                        width: 4,
-                        decoration: const BoxDecoration(
-                            color: greyColor
-                        ),
-                      );
-                    },),
+                  child: const DottedLine(
+                    height: 2,
+                    color: greyColor,
+                    dotLength: 4,
+                    spacing: 4,
+                    direction: Axis.horizontal,
+                  ),
                 ),
               ],
             ),

@@ -26,6 +26,11 @@ class IconsPath{
   static const String nextArrowIcon = "assets/icons/next_arrow_icon.svg";
   static const String eyeIcon = "assets/icons/eye_icon.svg";
   static const String brainIcon = "assets/icons/brain_icon.svg";
+  static const String cancelIcon = "assets/icons/cancel_icon.svg";
+  static const String calenderIcon = "assets/icons/calender_icon.svg";
+  static const String crossIcon = "assets/icons/cross_icon.svg";
+  static const String radioOnIcon = "assets/icons/radio_on.svg";
+  static const String radioOffIcon = "assets/icons/radio_off.svg";
   static const String bottom_1 = "assets/icons/bottom_1.png";
   static const String bottom_2 = "assets/icons/bottom_2.png";
   static const String bottom_3 = "assets/icons/bottom_3.png";

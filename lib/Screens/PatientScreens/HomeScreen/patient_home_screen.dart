@@ -8,20 +8,22 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/app_fonts.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
 import 'package:tabibinet_project/Constants/images_path.dart';
-import 'package:tabibinet_project/Providers/UserHome/user_home_provider.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/Components/doctor_speciality_container.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/Components/schedule_container.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/Components/top_doctor_container.dart';
-import 'package:tabibinet_project/Screens/UserScreens/HomeScreen/FavoriteScreen/favorite_screen.dart';
-import 'package:tabibinet_project/Screens/UserScreens/NotificationScreen/notification_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/FindDoctorScreen/find_doctor_screen.dart';
 import 'package:tabibinet_project/Widgets/input_field.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
 
+import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../Widgets/bottom_nav_bar.dart';
 import 'package:intl/intl.dart';
 
-class UserHomeScreen extends StatelessWidget {
-  UserHomeScreen({super.key});
+import '../NotificationScreen/notification_screen.dart';
+import 'Components/doctor_speciality_container.dart';
+import 'Components/schedule_container.dart';
+import 'Components/top_doctor_container.dart';
+import 'FavoriteScreen/favorite_screen.dart';
+
+class PatientHomeScreen extends StatelessWidget {
+  PatientHomeScreen({super.key});
 
   final CarouselSliderController _carouselController = CarouselSliderController();
   final searchC = TextEditingController();
@@ -156,28 +158,48 @@ class UserHomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.semiBold,),
                         const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                                width: 75.w,
+                        InkWell(
+                          onTap: () {
+                            Get.to(()=>FindDoctorScreen());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
                                 height: 50,
-                                child: InputField(
-                                  inputController: searchC,
-                                  hintText: "Find here!",
-                                  prefixIcon: Icons.search,
-                                )),
-                            Container(
-                              padding: const EdgeInsets.all(15),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: themeColor,
-                                borderRadius: BorderRadius.circular(10)
+                                width: 75.w,
+                                decoration: BoxDecoration(
+                                  color: bgColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: greyColor
+                                  )
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.search,color: greyColor,size: 24,),
+                                    SizedBox(width: 10,),
+                                    TextWidget(
+                                      text: 'Find here!', fontSize: 12,
+                                      fontWeight: FontWeight.w400, isTextCenter: false,
+                                      textColor: greyColor,fontFamily: AppFonts.regular,)
+                                  ],
+                                ),
                               ),
-                              child: SvgPicture.asset(IconsPath.menuIcon),
-                            )
-                          ],
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: themeColor,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: SvgPicture.asset(IconsPath.menuIcon),
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 20,),
                         const TextWidget(
@@ -203,12 +225,12 @@ class UserHomeScreen extends StatelessWidget {
                         viewportFraction: 0.85,
                         scrollDirection: Axis.horizontal,
                         onPageChanged: (index, reason) {
-                          Provider.of<UserHomeProvider>(context,listen: false).setIndex(index);
+                          Provider.of<PatientHomeProvider>(context,listen: false).setIndex(index);
                         },
                       ),
                   ),
                   const SizedBox(height: 16.0),
-                  Consumer<UserHomeProvider>(builder: (context, value, child) {
+                  Consumer<PatientHomeProvider>(builder: (context, value, child) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: scheduleData.map((data) {
@@ -298,6 +320,7 @@ class UserHomeScreen extends StatelessWidget {
         ),
         bottomNavigationBar: const CustomBottomNavBar(),
         floatingActionButton: FloatingActionButton(
+          heroTag: "Home",
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           onPressed: () {
             // Handle the central button action here
