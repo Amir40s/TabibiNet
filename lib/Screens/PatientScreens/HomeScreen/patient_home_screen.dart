@@ -8,8 +8,11 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/app_fonts.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
 import 'package:tabibinet_project/Constants/images_path.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/Components/schedule_section.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/Components/speciality_slider_section.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/DoctorDetailScreen/doctor_detail_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/DoctorSpecialityScreen/doctor_speciality_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/FindDoctorScreen/find_doctor_screen.dart';
-import 'package:tabibinet_project/Widgets/input_field.dart';
 import 'package:tabibinet_project/Widgets/text_widget.dart';
 
 import '../../../Providers/PatientHome/patient_home_provider.dart';
@@ -80,7 +83,7 @@ class PatientHomeScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                           decoration: BoxDecoration(
-                              color: lightGreenColor.withOpacity(0.3),
+                              color: greenColor.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(8)
                           ),
                           child: const Row(
@@ -95,7 +98,7 @@ class PatientHomeScreen extends StatelessWidget {
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        Get.to(()=>NotificationScreen());
+                        Get.to(()=>const NotificationScreen());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8.0),
@@ -168,7 +171,7 @@ class PatientHomeScreen extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 15),
                                 height: 50,
-                                width: 75.w,
+                                width: 72.w,
                                 decoration: BoxDecoration(
                                   color: bgColor,
                                   borderRadius: BorderRadius.circular(10),
@@ -210,81 +213,30 @@ class PatientHomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CarouselSlider(
-                      items: scheduleData.map((data) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return ScheduleContainer();
-                          },
-                        );
-                      }).toList(),
-                    carouselController: _carouselController,
-                      options: CarouselOptions(
-                        height: 15.h,
-                        initialPage: 0,
-                        viewportFraction: 0.85,
-                        scrollDirection: Axis.horizontal,
-                        onPageChanged: (index, reason) {
-                          Provider.of<PatientHomeProvider>(context,listen: false).setIndex(index);
-                        },
-                      ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Consumer<PatientHomeProvider>(builder: (context, value, child) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: scheduleData.map((data) {
-                        int index = scheduleData.indexOf(data);
-                        return AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
-                          height: 6.0,
-                          width: value.currentIndex == index ? 25.0 : 6.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: value.currentIndex == index
-                                ? themeColor
-                                : greyColor,
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  ScheduleSection(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                       children: [
-                        TextWidget(
+                        const TextWidget(
                           text: "Doctor Speciality", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.semiBold,),
-                        Spacer(),
-                        TextWidget(
-                          text: "View All", fontSize: 14,
-                          fontWeight: FontWeight.w600, isTextCenter: false,
-                          textColor: themeColor, fontFamily: AppFonts.semiBold,),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Get.to(()=>DoctorSpecialityScreen());
+                          },
+                          child: const TextWidget(
+                            text: "View All", fontSize: 14,
+                            fontWeight: FontWeight.w600, isTextCenter: false,
+                            textColor: themeColor, fontFamily: AppFonts.semiBold,),
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(height: height1,),
-                  SizedBox(
-                    height: 78,
-                    width: 100.w,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(left: 20),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: doctorSpecialityList.length,
-                      itemBuilder: (context, index) {
-                        final data = doctorSpecialityList[index];
-                      return DoctorSpecialityContainer(
-                          title: data["title"]!,
-                          subTitle: data["subTitle"]!,
-                          icon: data["icon"]!,
-                          boxColor: data["color"]!,
-                      );
-                    },),
-                  ),
+                  SpecialitySliderSection(),
                   SizedBox(height: height1,),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -309,7 +261,11 @@ class PatientHomeScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                     return const TopDoctorContainer();
+                     return TopDoctorContainer(
+                       onTap: () {
+                         Get.to(()=>DoctorDetailScreen());
+                       },
+                     );
                     },
                   ),
                   const SizedBox(height: 30,)

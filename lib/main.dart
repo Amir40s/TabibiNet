@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
+import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_screen.dart';
 
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/Language/language_provider.dart';
@@ -15,6 +17,10 @@ import 'Providers/PatientHome/patient_home_provider.dart';
 
 void main() {
   runApp(const MyApp());
+  // runApp(DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => const MyApp(), // Wrap your app
+  // ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +44,8 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'TabibiNet',
+          // locale: DevicePreview.locale(context),
+          // builder: DevicePreview.appBuilder,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,

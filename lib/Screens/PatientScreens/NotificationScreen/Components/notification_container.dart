@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../Constants/app_fonts.dart';
 import '../../../../Constants/colors.dart';
-import '../../../../Constants/images_path.dart';
 import '../../../../Widgets/submit_button.dart';
 import '../../../../Widgets/text_widget.dart';
 
@@ -66,9 +65,9 @@ class NotificationContainer extends StatelessWidget {
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   const SizedBox(height: 10,),
                   SizedBox(
-                    width: 60.w,
+                    width: 56.w,
                     child: TextWidget(
-                      text: subTitle, fontSize: 12,
+                      text: subTitle, fontSize: 12.sp,
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.regular,maxLines: 4,),
                   ),

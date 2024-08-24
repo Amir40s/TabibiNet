@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../Constants/app_fonts.dart';
 import '../../../../Constants/colors.dart';
-import '../../../../Constants/images_path.dart';
 import '../../../../Widgets/text_widget.dart';
 
 class DoctorSpecialityContainer extends StatelessWidget {
@@ -29,7 +28,7 @@ class DoctorSpecialityContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: lightGreenColor)
+          border: Border.all(color: greenColor)
       ),
       child: Row(
         children: [
@@ -40,7 +39,7 @@ class DoctorSpecialityContainer extends StatelessWidget {
               decoration: BoxDecoration(
                   color: boxColor,
                   borderRadius: BorderRadius.circular(8), 
-                  border: Border.all(color: lightGreenColor.withOpacity(0.3))
+                  border: Border.all(color: greenColor.withOpacity(0.3))
               ),
               child: SvgPicture.asset(icon)),
           const SizedBox(width: 10,),

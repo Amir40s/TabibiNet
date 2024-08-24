@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class TextWidget extends StatelessWidget {
@@ -22,14 +23,13 @@ class TextWidget extends StatelessWidget {
   final ValueKey<int>? valueKey;
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return AutoSizeText(
       key: valueKey,
       text,
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       textAlign: isTextCenter == true ? TextAlign.center: TextAlign.start,
       style: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),
-    );
+          fontSize: fontSize, fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),);
   }
 }

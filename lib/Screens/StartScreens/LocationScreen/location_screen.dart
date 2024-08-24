@@ -20,7 +20,7 @@ class LocationScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
-        body: Column(
+        body: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -84,7 +84,7 @@ class LocationScreen extends StatelessWidget {
                     );
                   },),
                   const SizedBox(height: 10,),
-                  TextWidget(
+                  const TextWidget(
                       text: "Address", fontSize: 21,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor,fontFamily: "Medium",),
@@ -102,10 +102,13 @@ class LocationScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextWidget(
-                            text: "House no 2, Street 3, Morocco Towers.",
-                            fontSize: 16, fontWeight: FontWeight.w600,maxLines: 1,
-                            isTextCenter: false, textColor: textColor,fontFamily: "Medium",),
+                        SizedBox(
+                          width: 65.w,
+                          child: const TextWidget(
+                              text: "House no 2, Street 3, Morocco Towers.",
+                              fontSize: 16, fontWeight: FontWeight.w600,maxLines: 1,
+                              isTextCenter: false, textColor: textColor,fontFamily: "Medium",),
+                        ),
                         SvgPicture.asset(IconsPath.radioIcon,height: 35,)
                       ],
                     ),
@@ -127,7 +130,8 @@ class LocationScreen extends StatelessWidget {
                 press: () {
                   Get.to(()=>const AccountTypeScreen());
                 },),
-            )
+            ),
+            const SizedBox(height: 20,),
           ],
         ),
       ),

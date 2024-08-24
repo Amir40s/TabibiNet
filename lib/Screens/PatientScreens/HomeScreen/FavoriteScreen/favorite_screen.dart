@@ -30,7 +30,7 @@ class FavoriteScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                          width: 75.w,
+                          width: 72.w,
                           height: 50,
                           child: InputField(
                             inputController: searchC,

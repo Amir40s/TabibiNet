@@ -105,12 +105,10 @@ class SignUpScreen extends StatelessWidget {
 
               },),
             SizedBox(height: height2,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            const Row(
               children: [
-                SizedBox(
-                  width: 28.w,
-                  child: const DottedLine(
+                Expanded(
+                  child: DottedLine(
                     height: 2,
                     color: greyColor,
                     dotLength: 4,
@@ -118,13 +116,12 @@ class SignUpScreen extends StatelessWidget {
                     direction: Axis.horizontal,
                   ),
                 ),
-                const TextWidget(
+                TextWidget(
                   text: "Or Continue With", fontSize: 14,
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor,fontFamily: AppFonts.semiBold,),
-                SizedBox(
-                  width: 28.w,
-                  child: const DottedLine(
+                Expanded(
+                  child: DottedLine(
                     height: 2,
                     color: greyColor,
                     dotLength: 4,

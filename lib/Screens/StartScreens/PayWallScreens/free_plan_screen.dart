@@ -18,18 +18,18 @@ class FreePlanScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color(0xffE7EBFF)
-        )
+          color: bgColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+              color: const Color(0xffE7EBFF)
+          )
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const TextWidget(
-              text: "Free", fontSize: 20, fontWeight: FontWeight.w500,
-              isTextCenter: false, textColor: textColor,fontFamily: AppFonts.medium,),
+            text: "Free", fontSize: 20, fontWeight: FontWeight.w500,
+            isTextCenter: false, textColor: textColor,fontFamily: AppFonts.medium,),
           const SizedBox(height: 10,),
           const PlanRow(tickColor: textColor, text: "Personalized Dashboard"),
           const PlanRow(tickColor: textColor, text: "Appointment Management (Limited to 30 Appointment/Month)"),
@@ -43,7 +43,7 @@ class FreePlanScreen extends StatelessWidget {
             radius: 100,
             press: () {
               Get.to(()=>PatientHomeScreen());
-          },)
+            },)
         ],
       ),
     );

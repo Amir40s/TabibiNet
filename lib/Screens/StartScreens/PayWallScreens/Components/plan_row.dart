@@ -33,7 +33,7 @@ class PlanRow extends StatelessWidget {
           ),
           SizedBox(width: 15,),
           SizedBox(
-            width: 75.w,
+            width: 70.w,
             child: TextWidget(
                 text: text, fontSize: 16,
                 fontWeight: FontWeight.w500, isTextCenter: false,

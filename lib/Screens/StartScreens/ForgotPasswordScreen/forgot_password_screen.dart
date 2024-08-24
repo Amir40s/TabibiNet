@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
 
 import '../../../Constants/app_fonts.dart';

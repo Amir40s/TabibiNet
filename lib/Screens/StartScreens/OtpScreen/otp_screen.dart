@@ -61,7 +61,7 @@ class OtpScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: lightGreenColor
+                    color: greenColor
                   )
                 )
               ),

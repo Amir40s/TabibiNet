@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
 import 'package:tabibinet_project/Widgets/header.dart';
 

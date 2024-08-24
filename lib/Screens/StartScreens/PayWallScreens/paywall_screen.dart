@@ -23,7 +23,7 @@ class PaywallScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
-        body: Column(
+        body: ListView(
           children: [
             const SizedBox(height: 50,),
             Center(
@@ -68,10 +68,10 @@ class PaywallScreen extends StatelessWidget {
               builder: (context, screenIndexProvider, child) {
                 return IndexedStack(
                   index: screenIndexProvider.currentIndex,
-                  children: [
-                    const FreePlanScreen(),
-                    const PremiumPlanScreen(),
-                    const AdvancePlanScreen(),
+                  children: const [
+                    FreePlanScreen(),
+                    PremiumPlanScreen(),
+                    AdvancePlanScreen(),
                   ],
                 );
               },

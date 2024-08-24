@@ -15,8 +15,9 @@ class ScheduleContainer extends StatelessWidget {
     return Container(
       height: 15.h,
       width: 80.w,
+      margin: const EdgeInsetsDirectional.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-          color: lightGreenColor.withOpacity(0.3),
+          color: greenColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(15)
       ),
       child: Row(
@@ -26,14 +27,14 @@ class ScheduleContainer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TextWidget(
-                  text: "Consult with specialists,", fontSize: 16,
+                TextWidget(
+                  text: "Consult with specialists,", fontSize: 16.sp,
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.semiBold,),
                 Row(
                   children: [
-                    const TextWidget(
-                      text: "Prevent you ", fontSize: 16,
+                    TextWidget(
+                      text: "Prevent you ", fontSize: 16.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SvgPicture.asset(IconsPath.nextArrowIcon,height: 10,),
@@ -50,7 +51,7 @@ class ScheduleContainer extends StatelessWidget {
           const Spacer(),
           SizedBox(
               height: 15.h,
-              width: 25.w,
+              width: 20.w,
               child: ClipRRect(
                 borderRadius: const BorderRadius.horizontal(right: Radius.circular(15)),
                 child: Stack(
@@ -60,7 +61,7 @@ class ScheduleContainer extends StatelessWidget {
                     SvgPicture.asset(ImagesPath.bg_1,fit: BoxFit.fill,),
                     Container(
                       height: 15.h,
-                      width: 21.w,
+                      width: 16.w,
                       decoration: const BoxDecoration(
                         color: greyColor,
                         borderRadius: BorderRadius.horizontal(right: Radius.circular(15)),

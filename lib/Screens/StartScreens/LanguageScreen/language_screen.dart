@@ -59,7 +59,7 @@ class LanguageScreen extends StatelessWidget {
                         boxColor: isSelected? themeColor : bgColor,
                         textColor: isSelected? bgColor: textColor,
                         boundaryColor: isSelected? themeColor :greyColor,
-                        borderColor: isSelected ? themeColor : lightGreenColor,
+                        borderColor: isSelected ? themeColor : greenColor,
                       ),
                     );
                   },

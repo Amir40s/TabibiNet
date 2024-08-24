@@ -46,7 +46,7 @@ class FindDoctorScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              width: 75.w,
+                              width: 72.w,
                               height: 50,
                               child: InputField(
                                 inputController: searchC,
@@ -58,7 +58,7 @@ class FindDoctorScreen extends StatelessWidget {
                                     height: 20,
                                     width: 20,
                                     decoration: const BoxDecoration(
-                                      color: lightGreenColor,
+                                      color: greenColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: SvgPicture.asset(IconsPath.crossIcon),
