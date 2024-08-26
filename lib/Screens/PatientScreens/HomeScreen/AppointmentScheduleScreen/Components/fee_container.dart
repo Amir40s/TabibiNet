@@ -23,10 +23,10 @@ class FeeContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(IconsPath.radioOnIcon,height: 25,),
+          SvgPicture.asset(IconsPath.radioOnIcon,height: 17.sp,),
           const SizedBox(width: 20,),
           SizedBox(
-            width: 43.w,
+            width: 40.w,
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

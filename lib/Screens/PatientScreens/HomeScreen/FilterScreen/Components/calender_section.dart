@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../Constants/app_fonts.dart';
 import '../../../../../Constants/colors.dart';
 import '../../../../../Providers/PatientHome/patient_home_provider.dart';
 
-class CalenderSection extends StatelessWidget {
-  const CalenderSection({super.key});
+class CalendarSection extends StatelessWidget {
+  final DateTime month;
+
+  const CalendarSection({super.key, required this.month});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PatientHomeProvider>(context,listen: false);
-    final DateTime today = DateTime.now();
-    final List<DateTime> days = List.generate(
-      7,
-          (index) => today.add(Duration(days: index)),
-    );
     return SizedBox(
-      height: 130,
+      height: 120,
       width: 100.w,
       child: ListView(
         shrinkWrap: true,
@@ -33,78 +31,77 @@ class CalenderSection extends StatelessWidget {
                     color: greyColor
                 )
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0,top: 16.0,bottom: 16.0,left: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: days.map((date) {
-                  final isSelected = provider.selectedDate.day == date.day;
+            child: Consumer<DateProvider>(
+              builder: (context, dateProvider, child) {
+                DateTime selectedDate = dateProvider.selectedDate;
+                DateTime firstDayOfMonth = DateTime(month.year, month.month, 1);
+                int daysInMonth = DateTime(month.year, month.month + 1, 0).day;
 
-                  return GestureDetector(
-                    onTap: () {
-                      provider.selectDate(date);
+                return GestureDetector(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+
+                    if (pickedDate != null) {
+                      dateProvider.updateSelectedDate(pickedDate);
+                    }
+                  },
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: daysInMonth,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (context, index) {
+                      DateTime date = firstDayOfMonth.add(Duration(days: index));
+                      bool isSelected = selectedDate.day == date.day &&
+                          selectedDate.month == date.month &&
+                          selectedDate.year == date.year;
+
+                      return Container(
+                        width: 60,
+                        padding: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        decoration: BoxDecoration(
+                          color: isSelected ? themeColor : Colors.transparent,
+                          border: Border.all(color: themeColor),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              date.day.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppFonts.semiBold,
+                                color: isSelected ? bgColor : textColor,
+                              ),
+                            ),
+                            Text(
+                              DateFormat('E').format(date),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: isSelected ? bgColor : textColor,
+                                  fontFamily: AppFonts.regular
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
-                    child: Container(
-                      width: 60,
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      decoration: BoxDecoration(
-                        color: isSelected ? Colors.blue : Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: isSelected
-                            ? null
-                            : Border.all(color: themeColor),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            date.day.toString(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: isSelected ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            getWeekday(date.weekday),
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: isSelected ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],
       ),
     );
   }
-
-  String getWeekday(int weekday) {
-    switch (weekday) {
-      case DateTime.monday:
-        return 'Mon';
-      case DateTime.tuesday:
-        return 'Tue';
-      case DateTime.wednesday:
-        return 'Wed';
-      case DateTime.thursday:
-        return 'Thu';
-      case DateTime.friday:
-        return 'Fri';
-      case DateTime.saturday:
-        return 'Sat';
-      case DateTime.sunday:
-        return 'Sun';
-      default:
-        return '';
-    }
-  }
-
 }

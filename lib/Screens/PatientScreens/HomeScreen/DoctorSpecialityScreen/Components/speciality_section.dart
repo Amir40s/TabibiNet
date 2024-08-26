@@ -70,7 +70,7 @@ class SpecialitySection extends StatelessWidget {
       builder: (context, value, child) {
       return GridView.builder(
         shrinkWrap:true,
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

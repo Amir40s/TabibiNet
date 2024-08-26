@@ -8,6 +8,7 @@ class PatientHomeProvider extends ChangeNotifier{
   int? _currentRating;
   int? _currentTime;
   int? _selectSpeciality;
+  int? _selectPatientAge;
   int _currentIndex = 0;
   bool _isFilter = false;
   DateTime _selectedDate = DateTime.now();
@@ -19,6 +20,7 @@ class PatientHomeProvider extends ChangeNotifier{
   int? get currentRating => _currentRating;
   int? get currentTime => _currentTime;
   int? get selectSpeciality => _selectSpeciality;
+  int? get selectPatientAge => _selectPatientAge;
   DateTime get selectedDate => _selectedDate;
   bool get isFilter => _isFilter;
 
@@ -62,6 +64,11 @@ class PatientHomeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void setPatientAge(int index) {
+    _selectPatientAge = index;
+    notifyListeners();
+  }
+
   void selectButton(int index) {
     _selectedIndex = index;
     // _isBouncing = true;
@@ -71,4 +78,17 @@ class PatientHomeProvider extends ChangeNotifier{
       notifyListeners();
   }
 
+}
+
+// **************** Calender Provider Class ****************
+
+class DateProvider extends ChangeNotifier {
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
+  void updateSelectedDate(DateTime date) {
+    _selectedDate = date;
+    notifyListeners();
+  }
 }

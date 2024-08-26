@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibinet_project/Constants/app_fonts.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
 
 class InputField extends StatelessWidget {
@@ -31,7 +32,7 @@ class InputField extends StatelessWidget {
       style: const TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w500,
-        fontFamily: "Medium"
+        fontFamily: AppFonts.medium
       ),
       cursorColor: themeColor,
       controller: inputController,
@@ -45,7 +46,7 @@ class InputField extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.w500,
             color: greyColor,
-            fontFamily: "Medium"
+            fontFamily: AppFonts.medium
         ),
         fillColor: Colors.white,
         filled: true,
@@ -53,21 +54,21 @@ class InputField extends StatelessWidget {
         border: OutlineInputBorder(
           borderSide:  BorderSide(
             color: themeColor,
-            width: 2,
+            width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide:  BorderSide(
             color: themeColor,
-            width: 2,
+            width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide:  BorderSide(
             color: greyColor,
-            width: 2,
+            width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),

@@ -25,6 +25,7 @@ class FavoriteScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

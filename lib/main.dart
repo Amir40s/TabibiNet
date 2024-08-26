@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => PaywallProvider(),),
             ChangeNotifierProvider(create: (context) => BottomNavBarProvider(),),
             ChangeNotifierProvider(create: (context) => PatientHomeProvider(),),
+            ChangeNotifierProvider(create: (context) => DateProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,

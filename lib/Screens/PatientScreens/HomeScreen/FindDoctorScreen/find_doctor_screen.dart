@@ -39,6 +39,7 @@ class FindDoctorScreen extends StatelessWidget {
             const Header(text: "Top Doctor"),
             Expanded(
                 child: ListView(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),

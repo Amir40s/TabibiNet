@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Constants/colors.dart';
@@ -100,40 +101,64 @@ class FilterScreen extends StatelessWidget {
                          SizedBox(height: height1,),
                          ExperienceSection(),
                          SizedBox(height: height1,),
-                         Row(
-                           children: [
-                             const TextWidget(
-                               text: "Schedules", fontSize: 20,
-                               fontWeight: FontWeight.w600, isTextCenter: false,
-                               textColor: textColor, fontFamily: AppFonts.semiBold,),
-                             const Spacer(),
-                             const TextWidget(
-                                 text: "January", fontSize: 12,
-                                 fontWeight: FontWeight.w400, isTextCenter: false,
-                                 textColor: textColor),
-                             const SizedBox(width: 8,),
-                             Container(
-                               height: 35,
-                               width: 35,
-                               decoration: const BoxDecoration(
-                                 color: bgColor,
-                                 shape: BoxShape.circle,
-                                 boxShadow: [
-                                   BoxShadow(
-                                     color: Colors.grey,
-                                     blurRadius: 1.2
-                                   )
-                                 ]
-                               ),
-                               child: const Icon(CupertinoIcons.forward,color: themeColor,size: 20,),
-                             ),
-                           ],
-                         ),
+                         Consumer<DateProvider>(
+                           builder: (context, dateProvider, child) {
+                             DateTime currentMonth = dateProvider.selectedDate;
+                             return Row(
+                               children: [
+                                 const TextWidget(
+                                   text: "Schedules", fontSize: 20,
+                                   fontWeight: FontWeight.w600, isTextCenter: false,
+                                   textColor: textColor, fontFamily: AppFonts.semiBold,),
+                                 const Spacer(),
+                                 InkWell(
+                                   onTap:  () async {
+                                     DateTime? selectedDate = await showDatePicker(
+                                       context: context,
+                                       initialDate: currentMonth,
+                                       firstDate: DateTime(2000),
+                                       lastDate: DateTime(2100),
+                                     );
+                                     if (selectedDate != null) {
+                                       dateProvider.updateSelectedDate(selectedDate);
+                                     }
+                                   },
+                                   child: Row(
+                                     children: [
+                                       TextWidget(
+                                           text: DateFormat('MMMM-yyyy').format(currentMonth), fontSize: 12,
+                                           fontWeight: FontWeight.w400, isTextCenter: false,
+                                           textColor: textColor),
+                                       const SizedBox(width: 8,),
+                                       Container(
+                                         height: 35,
+                                         width: 35,
+                                         decoration: const BoxDecoration(
+                                             color: bgColor,
+                                             shape: BoxShape.circle,
+                                             boxShadow: [
+                                               BoxShadow(
+                                                   color: Colors.grey,
+                                                   blurRadius: 1.2
+                                               )
+                                             ]
+                                         ),
+                                         child: const Icon(CupertinoIcons.forward,color: themeColor,size: 20,),
+                                       ),
+                                     ],
+                                   ),
+                                 )
+                               ],
+                             );
+                           },),
                        ],
                      ),
                    ),
                    SizedBox(height: height1,),
-                   const CalenderSection(),
+                   Consumer<DateProvider>(
+                     builder: (context, dateProvider, child) {
+                       return CalendarSection(month: dateProvider.selectedDate);
+                     },),
                    SizedBox(height: height1,),
                    TimeSection(),
                    SizedBox(height: height1,),

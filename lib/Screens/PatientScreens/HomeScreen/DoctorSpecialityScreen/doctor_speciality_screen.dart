@@ -24,7 +24,10 @@ class DoctorSpecialityScreen extends StatelessWidget {
             Expanded(
                 child: ListView(
               children: [
-                SpecialitySection(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SpecialitySection(),
+                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextWidget(

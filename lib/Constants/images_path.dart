@@ -6,6 +6,8 @@ class ImagesPath{
   static const String female = "assets/images/female_image.svg";
   static const String success = "assets/images/success_image.svg";
   static const String bg_1 = "assets/images/bg_1.svg";
+  static const String creditCard = "assets/images/credit_card.png";
+  static const String qrImage = "assets/images/qr_image.svg";
 
 }
 
@@ -44,9 +46,16 @@ class IconsPath{
   static const String groupIcon = "assets/icons/group_icon.svg";
   static const String msgIcon = "assets/icons/message_icon.svg";
   static const String personIcon = "assets/icons/person_icon.svg";
+  static const String paypalIcon = "assets/icons/paypal_icon.png";
+  static const String poyneerIcon = "assets/icons/poyneer_icon.png";
+  static const String masterCardIcon = "assets/icons/master_card_icon.png";
+  static const String bankIcon = "assets/icons/bank_icon.png";
+  static const String codeIcon = "assets/icons/code_icon.png";
   static const String bottom_1 = "assets/icons/bottom_1.png";
   static const String bottom_2 = "assets/icons/bottom_2.png";
   static const String bottom_3 = "assets/icons/bottom_3.png";
   static const String bottom_4 = "assets/icons/bottom_4.png";
+  static const String payment_1 = "assets/icons/payment_icon_1.svg";
+  static const String payment_2 = "assets/icons/payment_icon_2.svg";
 
 }
