@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../Constants/colors.dart';
+import '../../../../constant.dart';
 
 class SignContainer extends StatelessWidget {
   const SignContainer({super.key,required this.image,this.onTap});

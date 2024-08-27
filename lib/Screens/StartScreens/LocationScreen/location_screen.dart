@@ -4,13 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/images_path.dart';
 import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/AccountTypeScreen/account_type_screen.dart';
 
-import '../../../Constants/colors.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_assets.dart';
+import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
 class LocationScreen extends StatelessWidget {
   const LocationScreen({super.key});
@@ -77,7 +78,7 @@ class LocationScreen extends StatelessWidget {
                           children: [
                             TextWidget(text: value.countryName, fontSize: 16, fontWeight: FontWeight.w600,
                               isTextCenter: false, textColor: textColor,fontFamily: "Medium",),
-                            SvgPicture.asset(IconsPath.downArrowIcon,height: 35,)
+                            SvgPicture.asset(AppIcons.downArrowIcon,height: 35,)
                           ],
                         ),
                       ),
@@ -109,7 +110,7 @@ class LocationScreen extends StatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.w600,maxLines: 1,
                               isTextCenter: false, textColor: textColor,fontFamily: "Medium",),
                         ),
-                        SvgPicture.asset(IconsPath.radioIcon,height: 35,)
+                        SvgPicture.asset(AppIcons.radioIcon,height: 35,)
                       ],
                     ),
                   ),
@@ -120,7 +121,7 @@ class LocationScreen extends StatelessWidget {
             SizedBox(
               width: 100.w,
               height: 40.h,
-              child: SvgPicture.asset(ImagesPath.googleMap,fit: BoxFit.cover,),
+              child: SvgPicture.asset(AppAssets.googleMap,fit: BoxFit.cover,),
             ),
             const SizedBox(height: 20,),
             Padding(

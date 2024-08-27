@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/images_path.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
-import 'package:tabibinet_project/Widgets/submit_button.dart';
 
-import '../../../Constants/colors.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_assets.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 import 'Components/account_container.dart';
 
 class AccountTypeScreen extends StatelessWidget {
@@ -39,7 +39,7 @@ class AccountTypeScreen extends StatelessWidget {
                   AccountContainer(
                     width: 17.w,
                     title: "Patient",
-                    image: ImagesPath.male,
+                    image: AppAssets.male,
                     isIcon: true,
                     textColor: bgColor,
                     cardColor: themeColor,
@@ -47,7 +47,7 @@ class AccountTypeScreen extends StatelessWidget {
                   AccountContainer(
                     width: 24.w,
                     title: "Health Professional",
-                    image: ImagesPath.female,
+                    image: AppAssets.female,
                     isIcon: false,
                     textColor: textColor,
                     cardColor: bgColor,

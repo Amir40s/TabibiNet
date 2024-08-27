@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/language_screen.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
 
-import '../../../Constants/colors.dart';
+import '../../../constant.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});

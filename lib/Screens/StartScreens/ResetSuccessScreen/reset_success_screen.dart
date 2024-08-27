@@ -3,12 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/images_path.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/paywall_screen.dart';
 
-import '../../../Constants/colors.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_assets.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
 class ResetSuccessScreen extends StatelessWidget {
   const ResetSuccessScreen({super.key});
@@ -26,7 +26,7 @@ class ResetSuccessScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              SvgPicture.asset(ImagesPath.success,height: 25.h,),
+              SvgPicture.asset(AppAssets.success,height: 25.h,),
               SizedBox(height: height2,),
               const Center(
                 child: TextWidget(

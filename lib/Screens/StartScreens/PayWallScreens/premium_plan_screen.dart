@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
 
-import '../../../Constants/app_fonts.dart';
-import '../../../Constants/colors.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 
 class PremiumPlanScreen extends StatelessWidget {
   const PremiumPlanScreen({super.key});

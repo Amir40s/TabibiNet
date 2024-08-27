@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../Constants/app_fonts.dart';
-import '../../../../Constants/colors.dart';
-import '../../../../Widgets/submit_button.dart';
-import '../../../../Widgets/text_widget.dart';
+import '../../../../constant.dart';
+import '../../../../model/res/constant/app_fonts.dart';
+import '../../../../model/res/widgets/submit_button.dart';
+import '../../../../model/res/widgets/text_widget.dart';
 
 class NotificationContainer extends StatelessWidget {
   const NotificationContainer({

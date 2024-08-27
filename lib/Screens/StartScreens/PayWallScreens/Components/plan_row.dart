@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/app_fonts.dart';
-import 'package:tabibinet_project/Constants/colors.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
+import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
+
+import '../../../../constant.dart';
+import '../../../../model/res/widgets/text_widget.dart';
 
 class PlanRow extends StatelessWidget {
   const PlanRow({
@@ -29,9 +29,9 @@ class PlanRow extends StatelessWidget {
               color: tickColor,
               shape: BoxShape.circle
             ),
-            child: Icon(Icons.done_sharp,size: 20,color: bgColor,),
+            child: const Icon(Icons.done_sharp,size: 20,color: bgColor,),
           ),
-          SizedBox(width: 15,),
+          const SizedBox(width: 15,),
           SizedBox(
             width: 70.w,
             child: TextWidget(

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
 
-import '../../../../Constants/colors.dart';
+import '../../../../constant.dart';
+import '../../../../model/res/widgets/text_widget.dart';
 
 class LanguageContainer extends StatelessWidget {
   const LanguageContainer({

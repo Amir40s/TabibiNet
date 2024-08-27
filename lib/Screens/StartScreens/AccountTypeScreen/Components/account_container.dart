@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/colors.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
+
+import '../../../../constant.dart';
+import '../../../../model/res/widgets/text_widget.dart';
 
 class AccountContainer extends StatelessWidget {
   const AccountContainer({
@@ -55,8 +56,8 @@ class AccountContainer extends StatelessWidget {
                     color: bgColor,
                     shape: BoxShape.circle
                   ),
-                  child: Icon(Icons.done,size: 20,color: themeColor,)): SizedBox(),
-              SizedBox(width: 10,),
+                  child: const Icon(Icons.done,size: 20,color: themeColor,)): SizedBox(),
+              const SizedBox(width: 10,),
               SizedBox(
                 width: width,
                 child: TextWidget(

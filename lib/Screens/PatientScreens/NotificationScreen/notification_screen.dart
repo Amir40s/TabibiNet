@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tabibinet_project/Constants/colors.dart';
-import 'package:tabibinet_project/Widgets/header.dart';
 
-import '../../../Constants/app_fonts.dart';
-import '../../../Constants/images_path.dart';
-import '../../../Widgets/dotted_line.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/dotted_line.dart';
+import '../../../model/res/widgets/header.dart';
+import '../../../model/res/widgets/text_widget.dart';
 import 'Components/notification_container.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -104,7 +104,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
-                      image: IconsPath.cancelIcon,
+                      image: AppIcons.cancelIcon,
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
@@ -112,7 +112,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
-                      image: IconsPath.calenderIcon,
+                      image: AppIcons.calenderIcon,
                       iconColor: bgColor,
                       boxColor: themeColor,
                       isButton: true),
@@ -125,7 +125,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
-                      image: IconsPath.calenderIcon,
+                      image: AppIcons.calenderIcon,
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
@@ -133,7 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
-                      image: IconsPath.bellIcon,
+                      image: AppIcons.bellIcon,
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
@@ -146,7 +146,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
-                      image: IconsPath.calenderIcon,
+                      image: AppIcons.calenderIcon,
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
@@ -154,7 +154,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
-                      image: IconsPath.bellIcon,
+                      image: AppIcons.bellIcon,
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
@@ -163,16 +163,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: "Notification",
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          onPressed: () {
-            // Handle the central button action here
-          },
-          backgroundColor: themeColor,
-          child: const Icon(Icons.arrow_downward_rounded,color: bgColor,size: 35,),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

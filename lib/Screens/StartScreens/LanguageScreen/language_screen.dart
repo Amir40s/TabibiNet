@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Constants/colors.dart';
-import 'package:tabibinet_project/Constants/images_path.dart';
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/Components/language_container.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/location_screen.dart';
-import 'package:tabibinet_project/Widgets/submit_button.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
+
+import '../../../constant.dart';
+import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
 class LanguageScreen extends StatelessWidget {
   LanguageScreen({super.key});
 
   final List<Map<String, String>> options = [
-    {'title': 'French', 'subtitle': '', 'icon': IconsPath.flag_1},
-    {'title': 'Arabic', 'subtitle': '', 'icon': IconsPath.flag_2},
-    {'title': 'English', 'subtitle': '', 'icon': IconsPath.flag_3},
-    {'title': 'Spanish', 'subtitle': '', 'icon': IconsPath.flag_4},
+    {'title': 'French', 'subtitle': '', 'icon': AppIcons.flag_1},
+    {'title': 'Arabic', 'subtitle': '', 'icon': AppIcons.flag_2},
+    {'title': 'English', 'subtitle': '', 'icon': AppIcons.flag_3},
+    {'title': 'Spanish', 'subtitle': '', 'icon': AppIcons.flag_4},
   ];
 
   @override

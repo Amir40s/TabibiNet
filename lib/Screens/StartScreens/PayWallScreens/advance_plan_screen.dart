@@ -4,11 +4,12 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
 
-import '../../../../Constants/colors.dart';
-import '../../../../Widgets/text_widget.dart';
-import '../../../Constants/app_fonts.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../PatientScreens/HomeScreen/patient_home_screen.dart';
+
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 
 class AdvancePlanScreen extends StatelessWidget {
   const AdvancePlanScreen({super.key});

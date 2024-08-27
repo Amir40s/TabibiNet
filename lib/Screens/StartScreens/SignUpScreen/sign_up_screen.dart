@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 
-import '../../../Constants/app_fonts.dart';
-import '../../../Constants/colors.dart';
-import '../../../Constants/images_path.dart';
-import '../../../Widgets/dotted_line.dart';
-import '../../../Widgets/input_field.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/dotted_line.dart';
+import '../../../model/res/widgets/input_field.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 import '../SignInScreen/Components/sign_container.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -135,11 +134,11 @@ class SignUpScreen extends StatelessWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SignContainer(image: IconsPath.googleIcon),
+                SignContainer(image: AppIcons.googleIcon),
                 SizedBox(width: 20,),
-                SignContainer(image: IconsPath.appleIcon),
+                SignContainer(image: AppIcons.appleIcon),
                 SizedBox(width: 20,),
-                SignContainer(image: IconsPath.facebookIcon),
+                SignContainer(image: AppIcons.facebookIcon),
               ],
             ),
             SizedBox(height: height2,),

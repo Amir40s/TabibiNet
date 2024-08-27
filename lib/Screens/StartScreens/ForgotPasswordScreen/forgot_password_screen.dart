@@ -3,11 +3,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
 
-import '../../../Constants/app_fonts.dart';
-import '../../../Constants/colors.dart';
-import '../../../Widgets/input_field.dart';
-import '../../../Widgets/submit_button.dart';
-import '../../../Widgets/text_widget.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/input_field.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});

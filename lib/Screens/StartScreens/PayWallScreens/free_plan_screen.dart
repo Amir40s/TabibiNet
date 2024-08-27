@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Constants/app_fonts.dart';
-import 'package:tabibinet_project/Constants/colors.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/HomeScreen/patient_home_screen.dart';
+import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
-import 'package:tabibinet_project/Widgets/submit_button.dart';
-import 'package:tabibinet_project/Widgets/text_widget.dart';
+
+import '../../../constant.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 
 class FreePlanScreen extends StatelessWidget {
   const FreePlanScreen({super.key});
