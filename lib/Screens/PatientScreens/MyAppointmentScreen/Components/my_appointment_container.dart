@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
-import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/dotted_line.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
@@ -12,15 +11,41 @@ import '../../../../model/res/widgets/text_widget.dart';
 class MyAppointmentContainer extends StatelessWidget {
   const MyAppointmentContainer({
     super.key,
-    this.onTap
+    required this.onTap,
+    required this.rightButtonTap,
+    required this.leftButtonTap,
+    required this.doctorName,
+    required this.rightButtonText,
+    required this.leftButtonText,
+    required this.appointmentStatusText,
+    required this.chatStatusText,
+    required this.appointmentTimeText,
+    required this.ratingText,
+    required this.appointmentIcon,
+    required this.statusTextColor,
+    required this.statusBoxColor,
   });
 
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
+  final VoidCallback leftButtonTap;
+  final VoidCallback rightButtonTap;
+  final String doctorName;
+  final String rightButtonText;
+  final String leftButtonText;
+  final String appointmentStatusText;
+  final String chatStatusText;
+  final String appointmentTimeText;
+  final String ratingText;
+  final String appointmentIcon;
+  final Color statusBoxColor;
+  final Color statusTextColor;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(bottom: 15),
@@ -54,8 +79,8 @@ class MyAppointmentContainer extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 35.w,
-                      child: const TextWidget(
-                        text: "Dr. Marvin McKinney", fontSize: 16,
+                      child: TextWidget(
+                        text: doctorName, fontSize: 16,
                         fontWeight: FontWeight.w600, isTextCenter: false,maxLines: 2,
                         textColor: textColor, fontFamily: AppFonts.semiBold,),
                     ),
@@ -65,40 +90,45 @@ class MyAppointmentContainer extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: 20.w,
-                          child: const TextWidget(
-                            text: "Cardiologist", fontSize: 14,
+                          child: TextWidget(
+                            text: "$chatStatusText - ", fontSize: 14,
                             fontWeight: FontWeight.w400, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.regular,),
                         ),
                         const SizedBox(width: 5,),
-                        const Icon(Icons.circle,color: textColor,size: 5,),
-                        const SizedBox(width: 5,),
-                        SizedBox(
-                          width: 20.w,
-                          child: const TextWidget(
-                            text: "JFK Medical Center", fontSize: 12,
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: statusBoxColor,
+                            borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: TextWidget(
+                            text: appointmentStatusText, fontSize: 12,
                             fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor, fontFamily: AppFonts.regular,),
+                            textColor: statusTextColor, fontFamily: AppFonts.regular,),
                         ),
                       ],
                     ),
                     const SizedBox(height: 10,),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.star,color: Colors.yellow,size: 20,),
+                        const Icon(Icons.star,color: Colors.yellow,size: 20,),
                         TextWidget(
-                          text: "4.9", fontSize: 12,
+                          text: ratingText, fontSize: 12,
                           fontWeight: FontWeight.w400, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.regular,),
-                        SizedBox(width: 5,),
-                        Icon(Icons.circle,color: textColor,size: 5,),
-                        SizedBox(width: 5,),
-                        Icon(Icons.access_time_filled_rounded,color: themeColor, size: 20,),
-                        SizedBox(width: 5,),
-                        TextWidget(
-                          text: "12pm-5pm", fontSize: 12,
-                          fontWeight: FontWeight.w400, isTextCenter: false,
-                          textColor: themeColor, fontFamily: AppFonts.regular,),
+                        const SizedBox(width: 5,),
+                        const Icon(Icons.circle,color: textColor,size: 5,),
+                        const SizedBox(width: 5,),
+                        const Icon(Icons.access_time_filled_rounded,color: themeColor, size: 20,),
+                        const SizedBox(width: 5,),
+                        SizedBox(
+                          width: 26.w,
+                          child: TextWidget(
+                            text: appointmentTimeText, fontSize: 12.sp,
+                            fontWeight: FontWeight.w400, isTextCenter: false,maxLines: 2,
+                            textColor: themeColor, fontFamily: AppFonts.regular,),
+                        ),
 
                       ],
                     )
@@ -108,11 +138,12 @@ class MyAppointmentContainer extends StatelessWidget {
                 Container(
                   height: 35,
                   width: 35,
+                  padding: const EdgeInsets.all(7),
                   decoration: BoxDecoration(
                       color: themeColor,
                       borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Icon(Icons.video_call,color: bgColor,),
+                  child: SvgPicture.asset(appointmentIcon),
                 )
               ],
             ),
@@ -126,14 +157,18 @@ class MyAppointmentContainer extends StatelessWidget {
                 SubmitButton(
                     width: 35.w,
                     height: 40,
-                    title: "Appointment",
-                    press: (){}
+                    title: leftButtonText,
+                    textColor: themeColor,
+                    bgColor: bgColor,
+                    bdRadius: 6,
+                    press: leftButtonTap
                 ),
                 SubmitButton(
                     width: 35.w,
                     height: 40,
-                    title: "Appointment",
-                    press: (){}
+                    title: rightButtonText,
+                    bdRadius: 6,
+                    press: rightButtonTap
                 ),
               ],
             ),

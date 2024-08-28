@@ -33,7 +33,7 @@ class FavoriteScreen extends StatelessWidget {
                       SizedBox(
                           width: 72.w,
                           height: 50,
-                          child: InputField(
+                          child: InputField2(
                             inputController: searchC,
                             hintText: "Find here!",
                             prefixIcon: Icons.search,

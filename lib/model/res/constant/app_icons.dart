@@ -47,5 +47,11 @@ class AppIcons{
   static const String payment_2 = "assets/icons/payment_icon_2.svg";
   static const String activeCall = "assets/icons/active_call_icon.png";
   static const String declineCall = "assets/icons/decline_call_icon.png";
+  static const String phone = "assets/icons/phone_call_icon.svg";
+  static const String video = "assets/icons/video_icon.svg";
+  static const String chat = "assets/icons/chat_icon.svg";
+  static const String walletIcon = "assets/icons/wallet_icon.svg";
+  static const String languageIcon = "assets/icons/language_icon.png";
+  static const String headphoneIcon = "assets/icons/headphone_icon.svg";
 
 }

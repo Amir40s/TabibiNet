@@ -11,7 +11,9 @@ import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
 class LanguageScreen extends StatelessWidget {
-  LanguageScreen({super.key});
+  LanguageScreen({super.key,required this.isNextButton});
+
+  final bool isNextButton;
 
   final List<Map<String, String>> options = [
     {'title': 'French', 'subtitle': '', 'icon': AppIcons.flag_1},
@@ -68,9 +70,11 @@ class LanguageScreen extends StatelessWidget {
               },),
               const SizedBox(height: 20,),
               SubmitButton(
-                title: "Next",
+                title: isNextButton? "Next" : "Select",
                 press: () {
+                  if(isNextButton){
                   Get.to(()=>const LocationScreen());
+                  }
               },)
             ],
           ),

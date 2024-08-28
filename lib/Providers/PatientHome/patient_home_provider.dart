@@ -9,6 +9,7 @@ class PatientHomeProvider extends ChangeNotifier{
   int? _currentTime;
   int? _selectSpeciality;
   int? _selectPatientAge;
+  int? _selectCancelReason;
   int _currentIndex = 0;
   bool _isFilter = false;
   DateTime _selectedDate = DateTime.now();
@@ -21,6 +22,7 @@ class PatientHomeProvider extends ChangeNotifier{
   int? get currentTime => _currentTime;
   int? get selectSpeciality => _selectSpeciality;
   int? get selectPatientAge => _selectPatientAge;
+  int? get selectCancelReason => _selectCancelReason;
   DateTime get selectedDate => _selectedDate;
   bool get isFilter => _isFilter;
 
@@ -66,6 +68,11 @@ class PatientHomeProvider extends ChangeNotifier{
 
   void setPatientAge(int index) {
     _selectPatientAge = index;
+    notifyListeners();
+  }
+
+  void setCancelReason(int index) {
+    _selectCancelReason = index;
     notifyListeners();
   }
 

@@ -178,7 +178,7 @@ class OnboardingScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.to(()=>LanguageScreen());
+                            Get.to(()=>LanguageScreen(isNextButton: true,));
                           },
                           child: const TextWidget(
                               text: "Skip", fontSize: 14,fontFamily: "Medium",
@@ -189,7 +189,7 @@ class OnboardingScreen extends StatelessWidget {
                             if(value.currentIndex < 2){
                               value.setCurrentIndex();
                             }else{
-                              Get.to(()=>LanguageScreen());
+                              Get.to(()=>LanguageScreen(isNextButton: true,));
                             }
                           },
                           child: Container(
