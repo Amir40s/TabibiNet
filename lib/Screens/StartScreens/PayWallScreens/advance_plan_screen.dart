@@ -9,6 +9,7 @@ import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 
 class AdvancePlanScreen extends StatelessWidget {
@@ -52,7 +53,7 @@ class AdvancePlanScreen extends StatelessWidget {
             title: "Get Started",
             radius: 100,
             press: () {
-              Get.to(()=>PatientHomeScreen());
+              Get.to(()=>const PatientBottomNavBar());
             },)
         ],
       ),

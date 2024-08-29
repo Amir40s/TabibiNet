@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +14,8 @@ import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_scree
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/Language/language_provider.dart';
 import 'Providers/PatientHome/patient_home_provider.dart';
+import 'Providers/PatientProfile/patient_profile_provider.dart';
+import 'Providers/SignIn/sign_in_provider.dart';
 import 'Screens/PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 import 'constant.dart';
 
@@ -40,11 +41,13 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => LanguageProvider(),),
             ChangeNotifierProvider(create: (context) => LocationProvider(),),
             ChangeNotifierProvider(create: (context) => SignUpProvider(),),
+            ChangeNotifierProvider(create: (context) => SignInProvider(),),
             ChangeNotifierProvider(create: (context) => PaywallProvider(),),
             ChangeNotifierProvider(create: (context) => BottomNavBarProvider(),),
             ChangeNotifierProvider(create: (context) => PatientHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DateProvider(),),
             ChangeNotifierProvider(create: (context) => PatientNotificationProvider(),),
+            ChangeNotifierProvider(create: (context) => PatientProfileProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
@@ -56,6 +59,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           home: const SplashScreen(),
+          // home: const PatientBottomNavBar(),
         ),
       );
     },);

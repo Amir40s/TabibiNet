@@ -56,10 +56,13 @@ class PaymentScreen extends StatelessWidget {
                             AppIcons.payment_1,
                           ),
                           SizedBox(width: height2,),
-                          const TextWidget(
-                              text: "Credit / Debit Card", fontSize: 16,
-                              fontWeight: FontWeight.w400, isTextCenter: false,
-                              textColor: textColor),
+                          SizedBox(
+                            width: 60.w,
+                            child: const TextWidget(
+                                text: "Credit / Debit Card", fontSize: 16,
+                                fontWeight: FontWeight.w400, isTextCenter: false,
+                                textColor: textColor),
+                          ),
                           const Spacer(),
                           SvgPicture.asset(
                             AppIcons.radioOffIcon,
@@ -83,10 +86,13 @@ class PaymentScreen extends StatelessWidget {
                             AppIcons.payment_1,
                           ),
                           SizedBox(width: height2,),
-                          const TextWidget(
-                              text: "Pay Through Payment Code", fontSize: 16,
-                              fontWeight: FontWeight.w400, isTextCenter: false,
-                              textColor: textColor),
+                          SizedBox(
+                            width: 60.w,
+                            child: const TextWidget(
+                                text: "Pay Through Payment Code", fontSize: 16,
+                                fontWeight: FontWeight.w400, isTextCenter: false,
+                                textColor: textColor),
+                          ),
                           const Spacer(),
                           SvgPicture.asset(
                             AppIcons.radioOnIcon,
@@ -110,10 +116,13 @@ class PaymentScreen extends StatelessWidget {
                             AppIcons.payment_2,
                           ),
                           SizedBox(width: height2,),
-                          const TextWidget(
-                              text: "Bank Account", fontSize: 16,
-                              fontWeight: FontWeight.w400, isTextCenter: false,
-                              textColor: textColor),
+                          SizedBox(
+                            width: 60.w,
+                            child: const TextWidget(
+                                text: "Bank Account", fontSize: 16,
+                                fontWeight: FontWeight.w400, isTextCenter: false,
+                                textColor: textColor),
+                          ),
                           const Spacer(),
                           SvgPicture.asset(
                             AppIcons.radioOffIcon,

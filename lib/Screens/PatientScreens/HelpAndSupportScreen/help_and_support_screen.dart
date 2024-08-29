@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/ContactUs/contact_us_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/FaqScreen/faq_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/TermsAndCondition/terms_and_condition_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 
-import '../../../Providers/PatientNotification/patient_notification_provider.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -17,7 +17,7 @@ class HelpAndSupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height1 = 20;
+    // double height1 = 20;
     double height2 = 10;
     return SafeArea(
       child: Scaffold(
@@ -53,13 +53,16 @@ class HelpAndSupportScreen extends StatelessWidget {
                           color: themeColor,
                         )
                       ),
-                      child: Icon(CupertinoIcons.forward,color: themeColor,),
+                      child: const Icon(CupertinoIcons.forward,color: themeColor,),
                     ),
                   ),
                   SizedBox(height: height2,),
                   const DottedLine(color: greyColor,),
                   SizedBox(height: height2,),
                   ListTile(
+                    onTap: (){
+                      Get.to(()=>ContactUsScreen());
+                    },
                     contentPadding: const EdgeInsets.all(0),
                     title: const TextWidget(
                       text: "Contact Us", fontSize: 16,
@@ -73,13 +76,16 @@ class HelpAndSupportScreen extends StatelessWidget {
                             color: themeColor,
                           )
                       ),
-                      child: Icon(CupertinoIcons.forward,color: themeColor,),
+                      child: const Icon(CupertinoIcons.forward,color: themeColor,),
                     ),
                   ),
                   SizedBox(height: height2,),
                   const DottedLine(color: greyColor,),
                   SizedBox(height: height2,),
                   ListTile(
+                    onTap: (){
+                      Get.to(()=>TermsAndConditionScreen());
+                    },
                     contentPadding: const EdgeInsets.all(0),
                     title: const TextWidget(
                       text: "terms & Conditions", fontSize: 16,
@@ -93,10 +99,9 @@ class HelpAndSupportScreen extends StatelessWidget {
                             color: themeColor,
                           )
                       ),
-                      child: Icon(CupertinoIcons.forward,color: themeColor,),
+                      child: const Icon(CupertinoIcons.forward,color: themeColor,),
                     ),
                   ),
-                  SizedBox(height: height2,),
 
                 ],
               ),

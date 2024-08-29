@@ -11,6 +11,7 @@ class InputField extends StatelessWidget {
   final int? maxLines, maxLength;
   final IconData? prefixIcon;
   final Widget? suffixIcon;
+  final bool obscureText;
 
   const InputField({
     super.key,
@@ -22,6 +23,7 @@ class InputField extends StatelessWidget {
     this.maxLength,
     this.prefixIcon,
     this.suffixIcon,
+    this.obscureText = false,
   });
 
   @override
@@ -39,6 +41,7 @@ class InputField extends StatelessWidget {
       controller: inputController,
       maxLength: maxLength,
       textAlign: TextAlign.start,
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
         suffixIcon: suffixIcon,

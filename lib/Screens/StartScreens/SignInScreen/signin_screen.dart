@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/Screens/StartScreens/ForgotPasswordScreen/forgot_password_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/Components/sign_container.dart';
 
+import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/dotted_line.dart';
@@ -60,10 +65,24 @@ class SignInScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
             SizedBox(height: height1,),
-            InputField(
-              inputController: passwordC,
-              hintText: "Enter password",
-            ),
+            Consumer<SignInProvider>(
+              builder: (context, value, child) {
+                return InputField(
+                  inputController: passwordC,
+                  hintText: "Enter password",
+                  obscureText: value.isSignInPasswordShow,
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      value.showSignInPassword();
+                    },
+                    child: Icon(
+                      value.isSignInPasswordShow ? CupertinoIcons.eye_slash
+                          : CupertinoIcons.eye,
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              },),
             SizedBox(height: height1,),
             Align(
               alignment: Alignment.topRight,
@@ -81,7 +100,7 @@ class SignInScreen extends StatelessWidget {
             SubmitButton(
               title: "Sign In",
               press: () {
-
+                Get.to(()=>PatientBottomNavBar());
             },),
             SizedBox(height: height2,),
             const Row(

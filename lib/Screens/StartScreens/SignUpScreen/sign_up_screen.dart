@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 
+import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -11,6 +13,7 @@ import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../SignInScreen/Components/sign_container.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -62,20 +65,48 @@ class SignUpScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
             SizedBox(height: height1,),
-            InputField(
-              inputController: passwordC,
-              hintText: "Enter password",
-            ),
+            Consumer<SignUpProvider>(
+              builder: (context, value, child) {
+              return InputField(
+                inputController: passwordC,
+                hintText: "Enter password",
+                obscureText: value.isSignUpPasswordShow,
+                suffixIcon: InkWell(
+                  onTap: () {
+                    value.showSignUpPassword();
+                  },
+                  child: Icon(
+                    value.isSignUpPasswordShow ? CupertinoIcons.eye_slash
+                        : CupertinoIcons.eye,
+                    color: Colors.grey,
+                  ),
+                ),
+              );
+            },),
             SizedBox(height: height1,),
             const TextWidget(
                 text: "Confirm Password", fontSize: 14,
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
             SizedBox(height: height1,),
-            InputField(
-              inputController: confirmPasswordC,
-              hintText: "Enter password",
-            ),
+            Consumer<SignUpProvider>(
+              builder: (context, value, child) {
+              return InputField(
+                inputController: confirmPasswordC,
+                hintText: "Enter password",
+                obscureText: value.isSignUpConfirmPasswordShow,
+                suffixIcon: InkWell(
+                  onTap: () {
+                    value.showSignUpConfirmPassword();
+                  },
+                  child: Icon(
+                    value.isSignUpConfirmPasswordShow ? CupertinoIcons.eye_slash
+                        : CupertinoIcons.eye,
+                    color: Colors.grey,
+                  ),
+                ),
+              );
+            },),
             SizedBox(height: height1,),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -101,7 +132,7 @@ class SignUpScreen extends StatelessWidget {
             SubmitButton(
               title: "Sign Up",
               press: () {
-
+                Get.to(()=>PatientBottomNavBar());
               },),
             SizedBox(height: height2,),
             const Row(

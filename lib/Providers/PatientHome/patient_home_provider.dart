@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+
 class PatientHomeProvider extends ChangeNotifier{
+
 
   int _selectedIndex = 0;
   int? _currentOption;
@@ -13,6 +15,9 @@ class PatientHomeProvider extends ChangeNotifier{
   int _currentIndex = 0;
   bool _isFilter = false;
   DateTime _selectedDate = DateTime.now();
+  String? _selectedGender;
+  String? _review;
+  String? _selectedAppointmentType;
 
   int get currentIndex => _currentIndex;
   int get selectedIndex => _selectedIndex;
@@ -25,6 +30,19 @@ class PatientHomeProvider extends ChangeNotifier{
   int? get selectCancelReason => _selectCancelReason;
   DateTime get selectedDate => _selectedDate;
   bool get isFilter => _isFilter;
+  String? get selectedGender => _selectedGender;
+  String? get review => _review;
+  String? get selectedAppointmentType => _selectedAppointmentType;
+
+  void selectGender(String gender) {
+    _selectedGender = gender;
+    notifyListeners();
+  }
+
+  void selectReview(String review) {
+    _review = review;
+    notifyListeners();
+  }
 
   setFilter(bool filter){
     _isFilter = filter;
@@ -68,6 +86,11 @@ class PatientHomeProvider extends ChangeNotifier{
 
   void setPatientAge(int index) {
     _selectPatientAge = index;
+    notifyListeners();
+  }
+
+  void setAppointmentType(String index) {
+    _selectedAppointmentType = index;
     notifyListeners();
   }
 

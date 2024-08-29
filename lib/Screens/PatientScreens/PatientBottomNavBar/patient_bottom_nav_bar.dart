@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/MyAppointmentScreen/my_appointment_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/NotificationScreen/notification_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/patient_home_screen.dart';
@@ -27,9 +26,9 @@ class PatientBottomNavBar extends StatelessWidget {
             index: value.currentIndex,
             children: [
               PatientHomeScreen(),
-              PatientMessageScreen(),
-              NotificationScreen(),
-              PatientProfileScreen()
+              const PatientMessageScreen(),
+              const NotificationScreen(),
+              const PatientProfileScreen()
             ],
           );
         },),

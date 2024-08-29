@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/Components/language_container.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/location_screen.dart';
 
@@ -74,6 +75,8 @@ class LanguageScreen extends StatelessWidget {
                 press: () {
                   if(isNextButton){
                   Get.to(()=>const LocationScreen());
+                  }else{
+                    Get.back();
                   }
               },)
             ],

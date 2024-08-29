@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
@@ -10,6 +11,7 @@ import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/input_field.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
+import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../MakePaymentScreen/make_payment_screen.dart';
 import 'Components/age_section.dart';
@@ -87,19 +89,36 @@ class PatientDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height1,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SubmitButton(
-                            bgColor: secondaryGreenColor,
-                            textColor: themeColor,
-                            width: 43.w,
-                            title: "Male",
-                            press: (){}
-                        ),
-                        SubmitButton(width: 43.w,title: "Female", press: (){}),
-                      ],
-                    ),
+                    Consumer<PatientHomeProvider>(
+                      builder: (context, value, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SubmitButton(
+                                bgColor: value.selectedGender == "Male" ? themeColor
+                                    : secondaryGreenColor,
+                                textColor: value.selectedGender == "Male" ? bgColor
+                                    : themeColor,
+                                width: 43.w,
+                                title: "Male",
+                                press: (){
+                                  value.selectGender("Male");
+                                }
+                            ),
+                            SubmitButton(
+                                width: 43.w,
+                                title: "Female",
+                                bgColor: value.selectedGender == "Female"? themeColor
+                                    : secondaryGreenColor,
+                                textColor: value.selectedGender == "Female"? bgColor
+                                    : themeColor,
+                                press: (){
+                                  value.selectGender("Female");
+                                }
+                            ),
+                          ],
+                        );
+                      },),
                     SizedBox(height: height1,),
                     const TextWidget(
                       text: "Write Your Problem", fontSize: 14,

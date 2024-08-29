@@ -33,32 +33,37 @@ class PaymentMethodSection extends StatelessWidget {
            PaymentContainer(
              image: AppIcons.paypalIcon,
              text: "Paypal",
+             isSelected: false,
              onTap: () {
 
            },),
            PaymentContainer(
-             image: AppIcons.poyneerIcon,
+             image: AppIcons.payoneerIcon,
              text: "Payoneer",
+             isSelected: false,
              onTap: () {
 
              },),
            PaymentContainer(
              image: AppIcons.bankIcon,
              text: "Bank Transfer",
+             isSelected: false,
              onTap: () {
 
              },),
            PaymentContainer(
              image: AppIcons.masterCardIcon,
              text: "Mastercard",
+             isSelected: false,
              onTap: () {
 
              },),
            PaymentContainer(
              image: AppIcons.codeIcon,
              text: "Payment Through Code",
+             isSelected: true,
              onTap: () {
-               Get.to(()=>PaymentScreen());
+               Get.to(()=>const PaymentScreen());
              },),
            GestureDetector(
              onTap: () {
@@ -113,10 +118,12 @@ class PaymentContainer extends StatelessWidget {
     required this.image,
     required this.text,
     required this.onTap,
+    required this.isSelected,
   });
   
   final String text;
   final String image;
+  final bool isSelected;
   final VoidCallback onTap;
 
   @override
@@ -159,7 +166,7 @@ class PaymentContainer extends StatelessWidget {
             ),
             SizedBox(
               height: 25,
-              child: SvgPicture.asset(AppIcons.radioOnIcon),
+              child: SvgPicture.asset(isSelected? AppIcons.radioOnIcon : AppIcons.radioOffIcon),
             ),
           ],
         ),

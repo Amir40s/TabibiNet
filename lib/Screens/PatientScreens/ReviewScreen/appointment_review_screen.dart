@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/dotted_line.dart';
@@ -87,25 +90,36 @@ class AppointmentReviewScreen extends StatelessWidget {
                   textColor: textColor, fontFamily: AppFonts.medium,
                 ),
                 SizedBox(height: 10.sp,),
-                Row(
-                  children: [
-                    SvgPicture.asset(AppIcons.radioOnIcon,height: 20.sp,),
-                    SizedBox(width: 10.sp,),
-                    const TextWidget(
-                      text: "Yes", fontSize: 14,
-                      fontWeight: FontWeight.w400, isTextCenter: false,
-                      textColor: textColor,
-                    ),
-                    SizedBox(width: 20.sp,),
-                    SvgPicture.asset(AppIcons.radioOffIcon,height: 20.sp,),
-                    SizedBox(width: 10.sp,),
-                    const TextWidget(
-                      text: "No", fontSize: 14,
-                      fontWeight: FontWeight.w400, isTextCenter: false,
-                      textColor: textColor,
-                    ),
-                  ],
-                ),
+                Consumer<PatientHomeProvider>(
+                  builder: (context, value, child) {
+                  return Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            value.selectReview("yes");
+                          },
+                          child: SvgPicture.asset(value.review == "yes" ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,height: 20.sp,)),
+                      SizedBox(width: 10.sp,),
+                      const TextWidget(
+                        text: "Yes", fontSize: 14,
+                        fontWeight: FontWeight.w400, isTextCenter: false,
+                        textColor: textColor,
+                      ),
+                      SizedBox(width: 20.sp,),
+                      InkWell(
+                          onTap: () {
+                            value.selectReview("no");
+                          },
+                          child: SvgPicture.asset(value.review == "no" ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,height: 20.sp,)),
+                      SizedBox(width: 10.sp,),
+                      const TextWidget(
+                        text: "No", fontSize: 14,
+                        fontWeight: FontWeight.w400, isTextCenter: false,
+                        textColor: textColor,
+                      ),
+                    ],
+                  );
+                },),
               ],
             )
             )
@@ -116,7 +130,7 @@ class AppointmentReviewScreen extends StatelessWidget {
           child: SubmitButton(
             title: "Submit",
             press: () {
-              Get.offAll(()=>PatientHomeScreen());
+              Get.offAll(()=>const PatientBottomNavBar());
             },),
         ),
       ),

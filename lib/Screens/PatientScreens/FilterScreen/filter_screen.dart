@@ -44,7 +44,8 @@ class FilterScreen extends StatelessWidget {
                                fontWeight: FontWeight.w600, isTextCenter: false,
                                textColor: textColor, fontFamily: AppFonts.semiBold,),
                              const Spacer(),
-                             Consumer<PatientHomeProvider>(builder: (context, provider, child) {
+                             Consumer<PatientHomeProvider>(
+                               builder: (context, provider, child) {
                                return CupertinoSwitch(
                                  applyTheme: true,
                                  value: provider.isFilter,
@@ -52,7 +53,8 @@ class FilterScreen extends StatelessWidget {
                                    provider.setFilter(value);
                                  },
                                );
-                             },),
+                             },
+                             ),
                            ],
                          ),
                          SizedBox(height: height1,),
@@ -76,19 +78,36 @@ class FilterScreen extends StatelessWidget {
                            fontWeight: FontWeight.w600, isTextCenter: false,
                            textColor: textColor, fontFamily: AppFonts.semiBold,),
                          SizedBox(height: height1,),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             SubmitButton(
-                                 bgColor: secondaryGreenColor,
-                                 textColor: themeColor,
-                                 width: 43.w,
-                                 title: "Male",
-                                 press: (){}
-                             ),
-                             SubmitButton(width: 43.w,title: "Female", press: (){}),
-                           ],
-                         ),
+                         Consumer<PatientHomeProvider>(
+                           builder: (context, value, child) {
+                           return Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               SubmitButton(
+                                   bgColor: value.selectedGender == "Male" ? themeColor
+                                       : secondaryGreenColor,
+                                   textColor: value.selectedGender == "Male" ? bgColor
+                                       : themeColor,
+                                   width: 43.w,
+                                   title: "Male",
+                                   press: (){
+                                     value.selectGender("Male");
+                                   }
+                               ),
+                               SubmitButton(
+                                   width: 43.w,
+                                   title: "Female",
+                                   bgColor: value.selectedGender == "Female"? themeColor
+                                       : secondaryGreenColor,
+                                   textColor: value.selectedGender == "Female"? bgColor
+                                       : themeColor,
+                                   press: (){
+                                     value.selectGender("Female");
+                                   }
+                               ),
+                             ],
+                           );
+                         },),
                          SizedBox(height: height1,),
                          const TextWidget(
                            text: "Work Experience ( years )", fontSize: 20,

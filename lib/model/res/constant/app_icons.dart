@@ -35,7 +35,7 @@ class AppIcons{
   static const String msgIcon = "assets/icons/message_icon.svg";
   static const String personIcon = "assets/icons/person_icon.svg";
   static const String paypalIcon = "assets/icons/paypal_icon.png";
-  static const String poyneerIcon = "assets/icons/poyneer_icon.png";
+  static const String payoneerIcon = "assets/icons/poyneer_icon.png";
   static const String masterCardIcon = "assets/icons/master_card_icon.png";
   static const String bankIcon = "assets/icons/bank_icon.png";
   static const String codeIcon = "assets/icons/code_icon.png";
@@ -53,5 +53,8 @@ class AppIcons{
   static const String walletIcon = "assets/icons/wallet_icon.svg";
   static const String languageIcon = "assets/icons/language_icon.png";
   static const String headphoneIcon = "assets/icons/headphone_icon.svg";
+  static const String caretUpIcon = "assets/icons/caret_up_icon.svg";
+  static const String caretDownIcon = "assets/icons/caret_down_icon.svg";
+  static const String notificationIcon = "assets/icons/notification_icon.svg";
 
 }

@@ -16,7 +16,8 @@ import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/submit_button.dart';
-import '../CancelAppointmentReason/cancel_appointment_reason_screen.dart';
+import '../../StartScreens/AccountTypeScreen/account_type_screen.dart';
+import '../PaymentScreen/payment_screen.dart';
 import '../UpComingAppointment/upcoming_appointment_screen.dart';
 
 class PatientProfileScreen extends StatelessWidget {
@@ -86,6 +87,9 @@ class PatientProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20,),
                     ListTile(
+                      onTap: () {
+                        Get.to(()=>PatientEditProfileScreen());
+                      },
                       minTileHeight: 70,
                       title: const TextWidget(
                         text: "Personal Info", fontSize: 18,
@@ -131,6 +135,9 @@ class PatientProfileScreen extends StatelessWidget {
                       trailing: const Icon(CupertinoIcons.forward,color: textColor,),
                     ),
                     ListTile(
+                      onTap: () {
+                        Get.to(()=>const PaymentScreen());
+                      },
                       minTileHeight: 70,
                       title: const TextWidget(
                         text: "Payment", fontSize: 18,
@@ -256,7 +263,7 @@ class PatientProfileScreen extends StatelessWidget {
                                             title: "Logout",
                                             bdRadius: 6,
                                             press: () {
-                                              Get.back();
+                                              Get.offAll(()=>AccountTypeScreen());
                                             },
                                           ),
                                         ],

@@ -17,6 +17,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+
   String? _selectedItem;
 
   final List<String> _dropdownItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
@@ -100,7 +101,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
                   const SizedBox(height: 10,),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
@@ -108,20 +112,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
                       image: AppIcons.calenderIcon,
                       iconColor: bgColor,
                       boxColor: themeColor,
-                      isButton: true),
+                      isButton: false),
                   TextWidget(
                     text: "Yesterday, April 19-2022", fontSize: 14,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
                   const SizedBox(height: 10,),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
@@ -129,7 +139,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
@@ -142,7 +155,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
                   const SizedBox(height: 10,),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Appointment Cancel!",
                       subTitle: "Never miss a medical appointment with"
                           " our reliable appointment alarm system!",
@@ -150,7 +166,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       iconColor: themeColor,
                       boxColor: secondaryGreenColor,
                       isButton: false),
-                  const NotificationContainer(
+                  NotificationContainer(
+                      onTap: () {
+
+                      },
                       title: "Schedule Changed",
                       subTitle: "Schedule Updated! Please check for "
                           "changes in your appointments.",
