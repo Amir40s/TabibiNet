@@ -47,3 +47,28 @@ class Header extends StatelessWidget {
     );
   }
 }
+
+class Header2 extends StatelessWidget {
+  const Header2({super.key,required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+      child: SizedBox(
+        height: 8.h,
+        child: Row(
+          children: [
+            const SizedBox(width: 15,),
+            TextWidget(
+              text: text, fontSize: 24,
+              fontWeight: FontWeight.w600, isTextCenter: false,
+              textColor: textColor,fontFamily: AppFonts.semiBold,),
+          ],
+        ),
+      ),
+    );
+  }
+}

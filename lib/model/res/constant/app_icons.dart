@@ -56,5 +56,21 @@ class AppIcons{
   static const String caretUpIcon = "assets/icons/caret_up_icon.svg";
   static const String caretDownIcon = "assets/icons/caret_down_icon.svg";
   static const String notificationIcon = "assets/icons/notification_icon.svg";
+  static const String bottom_5 = "assets/icons/bottom_5.svg";
+  static const String bottom_6 = "assets/icons/bottom_6.svg";
+  static const String bottom_7 = "assets/icons/bottom_7.svg";
+  static const String bottom_8 = "assets/icons/bottom_8.svg";
+  static const String bellIcon_2 = "assets/icons/bell_2_icon.svg";
+  static const String profileIcon = "assets/icons/profile_icon.svg";
+  static const String docIcon = "assets/icons/doc_icon.svg";
+  static const String docShareIcon = "assets/icons/doc_share_icon.svg";
+  static const String patientIcon = "assets/icons/patient_icon.svg";
+  static const String upcomingEventIcon = "assets/icons/upcoming_event_icon.svg";
+  static const String upcomingAppointmentIcon = "assets/icons/upcoming_appointment_icon.svg";
+  static const String newMessageIcon = "assets/icons/new_message_icon.svg";
+  static const String availabilityIcon = "assets/icons/availability_icon.svg";
+  static const String privacyIcon = "assets/icons/privacy_icon.svg";
+  static const String agendaIcon = "assets/icons/agenda_icon.svg";
+  static const String smsIcon = "assets/icons/sms_icon.svg";
 
 }
