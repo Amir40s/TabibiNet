@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/SignIn/sign_in_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
@@ -33,27 +35,36 @@ class AccountTypeScreen extends StatelessWidget {
                     textColor: textColor),
               ),
               SizedBox(height: height1,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AccountContainer(
-                    width: 17.w,
-                    title: "Patient",
-                    image: AppAssets.male,
-                    isIcon: true,
-                    textColor: bgColor,
-                    cardColor: themeColor,
-                  ),
-                  AccountContainer(
-                    width: 24.w,
-                    title: "Health Professional",
-                    image: AppAssets.female,
-                    isIcon: false,
-                    textColor: textColor,
-                    cardColor: bgColor,
-                  ),
-                ],
-              ),
+              Consumer<SignInProvider>(
+                builder: (context, value, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AccountContainer(
+                      onTap: () {
+                        value.setUserType("Patient");
+                      },
+                      width: 17.w,
+                      title: "Patient",
+                      image: AppAssets.male,
+                      isIcon: value.userType == "Patient",
+                      textColor: value.userType == "Patient" ? bgColor : textColor,
+                      cardColor: value.userType == "Patient" ? themeColor : bgColor,
+                    ),
+                    AccountContainer(
+                      onTap: () {
+                        value.setUserType("Health Professional");
+                      },
+                      width: 24.w,
+                      title: "Health Professional",
+                      image: AppAssets.female,
+                      isIcon: value.userType == "Health Professional",
+                      textColor: value.userType == "Health Professional" ? bgColor : textColor,
+                      cardColor: value.userType == "Health Professional" ? themeColor : bgColor,
+                    ),
+                  ],
+                );
+              },),
               SizedBox(height: height1,),
               SubmitButton(
                 title: "Login",

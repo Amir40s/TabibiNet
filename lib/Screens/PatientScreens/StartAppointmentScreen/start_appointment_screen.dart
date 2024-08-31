@@ -21,7 +21,6 @@ class StartAppointmentScreen extends StatelessWidget {
 
   final List<String> _dropdownItems = ['Consultancy', 'Video Call', 'Help Center '];
 
-
   @override
   Widget build(BuildContext context) {
 

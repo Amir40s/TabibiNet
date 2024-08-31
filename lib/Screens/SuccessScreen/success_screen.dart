@@ -15,10 +15,12 @@ class SuccessScreen extends StatelessWidget {
     super.key,
     required this.title,
     required this.subTitle,
+    this.title3,
   });
 
   final String title;
   final String subTitle;
+  final String? title3;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,14 @@ class SuccessScreen extends StatelessWidget {
                 child: TextWidget(
                   text: subTitle, fontSize: 14,
                   fontWeight: FontWeight.w400, isTextCenter: true,
-                  textColor: textColor,maxLines: 2,),
+                  textColor: textColor,maxLines: 5,),
+              ),
+              SizedBox(height: height1,),
+              Center(
+                child: TextWidget(
+                  text: title3 ?? "", fontSize: 24,
+                  fontWeight: FontWeight.w600, isTextCenter: true,
+                  textColor: textColor),
               ),
               SizedBox(height: height2,),
               const Spacer(),

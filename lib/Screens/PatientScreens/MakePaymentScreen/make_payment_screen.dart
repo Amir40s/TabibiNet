@@ -16,9 +16,7 @@ class MakePaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double height1 = 20.0;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,

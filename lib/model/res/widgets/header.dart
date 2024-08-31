@@ -10,9 +10,16 @@ import '../constant/app_fonts.dart';
 
 
 class Header extends StatelessWidget {
-  const Header({super.key,required this.text});
+  const Header({
+    super.key,
+    required this.text,
+    this.iconColor,
+    this.boxColor,
+  });
 
   final String text;
+  final Color? iconColor;
+  final Color? boxColor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +36,11 @@ class Header extends StatelessWidget {
               child: Container(
                 height: 40,
                 width: 40,
-                decoration: const BoxDecoration(
-                    color: themeColor,
+                decoration: BoxDecoration(
+                    color: boxColor ?? themeColor,
                     shape: BoxShape.circle
                 ),
-                child: const Center(child: Icon(CupertinoIcons.back,color: bgColor,size: 24,)),
+                child: Center(child: Icon(CupertinoIcons.back,color: iconColor ?? bgColor,size: 24,)),
               ),
             ),
             const SizedBox(width: 15,),

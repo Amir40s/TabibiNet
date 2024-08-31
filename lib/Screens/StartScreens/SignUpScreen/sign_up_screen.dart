@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 
-import '../../../Providers/PatientHome/patient_home_provider.dart';
+import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -13,6 +13,7 @@ import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../SignInScreen/Components/sign_container.dart';
 
@@ -27,6 +28,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height1 = 10.0;
     double height2 = 30.0;
+    final signInP = Provider.of<SignInProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -132,7 +134,11 @@ class SignUpScreen extends StatelessWidget {
             SubmitButton(
               title: "Sign Up",
               press: () {
-                Get.to(()=>PatientBottomNavBar());
+                if(signInP.userType == "Patient"){
+                  Get.to(()=>PatientBottomNavBar());
+                }else{
+                  Get.to(()=>DoctorBottomNavbar());
+                }
               },),
             SizedBox(height: height2,),
             const Row(

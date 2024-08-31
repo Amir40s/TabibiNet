@@ -12,5 +12,6 @@ class AppAssets{
   static const String image_1 = "assets/images/image_1.png";
   static const String image_2 = "assets/images/image_2.png";
   static const String partyPopImage = "assets/images/party_pop_image.svg";
+  static const String medicineImage = "assets/images/medicine_image.png";
 
 }

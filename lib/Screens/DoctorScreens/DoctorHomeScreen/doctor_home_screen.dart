@@ -73,7 +73,6 @@ class DoctorHomeScreen extends StatelessWidget {
             ))
           ],
         ),
-        bottomNavigationBar: const CustomBottomNavBar2(),
       ),
     );
   }

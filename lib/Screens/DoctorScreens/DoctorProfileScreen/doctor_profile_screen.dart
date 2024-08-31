@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/constant.dart';
@@ -17,6 +16,7 @@ import '../../PatientScreens/NotificationSetting/notification_setting_screen.dar
 import '../../PatientScreens/UpComingAppointment/upcoming_appointment_screen.dart';
 import '../../StartScreens/AccountTypeScreen/account_type_screen.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
+import '../PaymentManagementScreen/payment_management_screen.dart';
 
 class DoctorProfileScreen extends StatelessWidget {
   const DoctorProfileScreen({super.key});
@@ -114,7 +114,7 @@ class DoctorProfileScreen extends StatelessWidget {
                       iconBgColor: secondaryGreenColor,
                       iconColor: themeColor,
                       onTap: () {
-                        // Get.to(()=>NotificationSettingScreen());
+                        Get.to(()=>PaymentManagementScreen());
                       },),
                     ListTile(
                       onTap: () {

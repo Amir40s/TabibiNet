@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/Screens/StartScreens/ForgotPasswordScreen/forgot_password_screen.dart';
@@ -27,6 +27,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height1 = 10.0;
     double height2 = 30.0;
+    final signInP = Provider.of<SignInProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -100,7 +101,12 @@ class SignInScreen extends StatelessWidget {
             SubmitButton(
               title: "Sign In",
               press: () {
-                Get.to(()=>PatientBottomNavBar());
+                if(signInP.userType == "Patient"){
+                  Get.to(()=>PatientBottomNavBar());
+                }else{
+                  Get.to(()=>DoctorBottomNavbar());
+                }
+
             },),
             SizedBox(height: height2,),
             const Row(

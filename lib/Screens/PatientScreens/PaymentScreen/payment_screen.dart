@@ -161,7 +161,7 @@ class PaymentScreen extends StatelessWidget {
                     ),
                     SizedBox(height: height1),
                     SubmitButton(
-                      title: "Confirm Appoinment",
+                      title: "Confirm Appointment",
                       press: () {
                         Get.to(()=>CodeGenerationScreen());
                     },),

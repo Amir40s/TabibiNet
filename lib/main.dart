@@ -10,6 +10,7 @@ import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Providers/PatientNotification/patient_notification_provider.dart';
 import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/doctor_home_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_screen.dart';
@@ -17,6 +18,7 @@ import 'package:tabibinet_project/Screens/StartScreens/SplashScreen/splash_scree
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/Language/language_provider.dart';
+import 'Providers/Medicine/medicine_provider.dart';
 import 'Providers/PatientHome/patient_home_provider.dart';
 import 'Providers/PatientProfile/patient_profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => PatientProfileProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorAppointmentProvider(),),
+            ChangeNotifierProvider(create: (context) => MedicineProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
@@ -64,8 +67,8 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
-          // home: const SplashScreen(),
-          home: const DoctorHomeScreen(),
+          home: const SplashScreen(),
+          // home: const DoctorBottomNavbar(),
           // home: const PatientBottomNavBar(),
         ),
       );

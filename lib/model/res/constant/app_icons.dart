@@ -78,5 +78,9 @@ class AppIcons{
   static const String doneIcon = "assets/icons/done_icon.svg";
   static const String checkInteractionIcon = "assets/icons/check_interaction_icon.png";
   static const String calculateDosageIcon = "assets/icons/calculate_dosage_icon.png";
+  static const String emrIcon = "assets/icons/emr_icon.png";
+  static const String managePatientIcon = "assets/icons/manage_patient_icon.png";
+  static const String prescriptionIcon = "assets/icons/prescription_icon.png";
+  static const String resultIcon = "assets/icons/result_icon.png";
 
 }
