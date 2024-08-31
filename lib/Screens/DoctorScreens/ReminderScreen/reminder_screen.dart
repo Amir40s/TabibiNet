@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
@@ -9,10 +12,13 @@ import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
-class SmsReminderScreen extends StatelessWidget {
-  SmsReminderScreen({super.key});
+class ReminderScreen extends StatelessWidget {
+  const ReminderScreen({
+    super.key,
+    required this.appBarText
+  });
 
-  final nameC = TextEditingController();
+  final String appBarText;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class SmsReminderScreen extends StatelessWidget {
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "SMS Reminder"),
+            Header(text: appBarText),
             Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -69,7 +75,11 @@ class SmsReminderScreen extends StatelessWidget {
                     SubmitButton(
                       title: "Send Reminder",
                       press: () {
-
+                        Get.to(()=>const SuccessScreen(
+                            title: "Reminder Sent Successfully!",
+                            subTitle: "Reminder has been sent to the patient"
+                                " about his appointment with you."
+                        ));
                       },)
                   ],
                 )

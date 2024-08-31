@@ -38,7 +38,7 @@ class Header extends StatelessWidget {
             ),
             const SizedBox(width: 15,),
             TextWidget(
-              text: text, fontSize: 24,
+              text: text, fontSize: 19.sp,
               fontWeight: FontWeight.w600, isTextCenter: false,
               textColor: textColor,fontFamily: AppFonts.semiBold,),
           ],
@@ -63,7 +63,7 @@ class Header2 extends StatelessWidget {
           children: [
             const SizedBox(width: 15,),
             TextWidget(
-              text: text, fontSize: 24,
+              text: text, fontSize: 19.sp,
               fontWeight: FontWeight.w600, isTextCenter: false,
               textColor: textColor,fontFamily: AppFonts.semiBold,),
           ],

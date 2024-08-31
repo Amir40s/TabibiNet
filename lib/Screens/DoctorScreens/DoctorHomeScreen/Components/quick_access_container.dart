@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,30 +14,35 @@ class QuickAccessContainer extends StatelessWidget {
     required this.text,
     required this.boxColor,
     required this.icon,
+    required this.onTap
   });
 
   final Color boxColor;
   final String text;
   final String icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: boxColor,
-              shape: BoxShape.circle
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: boxColor,
+                shape: BoxShape.circle
+            ),
+            child: SvgPicture.asset(icon,height: 5.h,),
           ),
-          child: SvgPicture.asset(icon,height: 5.h,),
-        ),
-        const SizedBox(height: 10,),
-        TextWidget(
-          text: text, fontSize: 12,
-          fontWeight: FontWeight.w600, isTextCenter: true, maxLines: 2,
-          textColor: textColor,fontFamily: AppFonts.semiBold,),
-      ],
+          const SizedBox(height: 10,),
+          TextWidget(
+            text: text, fontSize: 12,
+            fontWeight: FontWeight.w600, isTextCenter: true, maxLines: 2,
+            textColor: textColor,fontFamily: AppFonts.semiBold,),
+        ],
+      ),
     );
   }
 }

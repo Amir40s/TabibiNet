@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
+import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../constant.dart';
 
@@ -154,3 +156,87 @@ class InputField2 extends StatelessWidget {
     );
   }
 }
+
+class InputField3 extends StatelessWidget {
+  final TextEditingController inputController;
+  final TextInputType? type;
+  final TextInputAction? textInputAction;
+  final String? hintText;
+  final String? labelText;
+  final int? maxLines, maxLength;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
+  final bool obscureText;
+
+  const InputField3({
+    super.key,
+    required this.inputController,
+    this.type,
+    this.maxLines = 1,
+    this.textInputAction,
+    this.hintText,
+    this.maxLength,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.labelText,
+    this.obscureText = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      maxLines: maxLines,
+      textInputAction: textInputAction,
+      keyboardType: type,
+      style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          fontFamily: AppFonts.medium
+      ),
+      cursorColor: themeColor,
+      controller: inputController,
+      maxLength: maxLength,
+      textAlign: TextAlign.start,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        label: TextWidget(
+            text: labelText ?? "",
+            fontSize: 12.sp, fontWeight: FontWeight.w400,
+            isTextCenter: false, textColor: textColor),
+        suffixIcon: suffixIcon,
+        hintStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: greyColor,
+            fontFamily: AppFonts.medium
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        alignLabelWithHint: true,
+        border: OutlineInputBorder(
+          borderSide:  BorderSide(
+            color: themeColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide:  BorderSide(
+            color: themeColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide:  BorderSide(
+            color: greyColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+}
+

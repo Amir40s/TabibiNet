@@ -72,5 +72,11 @@ class AppIcons{
   static const String privacyIcon = "assets/icons/privacy_icon.svg";
   static const String agendaIcon = "assets/icons/agenda_icon.svg";
   static const String smsIcon = "assets/icons/sms_icon.svg";
+  static const String editIcon = "assets/icons/edit_icon.svg";
+  static const String micIcon = "assets/icons/mic_icon.svg";
+  static const String speakerIcon = "assets/icons/speaker_icon.svg";
+  static const String doneIcon = "assets/icons/done_icon.svg";
+  static const String checkInteractionIcon = "assets/icons/check_interaction_icon.png";
+  static const String calculateDosageIcon = "assets/icons/calculate_dosage_icon.png";
 
 }

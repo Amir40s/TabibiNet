@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorAppointmentSchedule/doctor_appointment_schedule_screen.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/Components/doctor_home_header.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/Components/quick_access_container.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/Components/quick_access_section.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/Components/range_select_calendar.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/EPrescriptionScreen/e_prescription_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../model/res/widgets/bottom_nav_bar.dart';
+import '../DoctorAppointmentSchedule/doctor_appointment_schedule_screen.dart';
+import 'Components/doctor_home_header.dart';
+import 'Components/patient_detail_chart.dart';
+import 'Components/quick_access_section.dart';
+import 'Components/range_select_calendar.dart';
 
 class DoctorHomeScreen extends StatelessWidget {
   const DoctorHomeScreen({super.key});
@@ -33,19 +32,12 @@ class DoctorHomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     SizedBox(height: height,),
-                    Container(
-                      height: 25.h,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                    ),
+                    const PatientDetailChart(),
                     SizedBox(height: height,),
                     SubmitButton(
                       title: "View E-prescriptions",
                       press: () {
-
+                        Get.to(()=>EPrescriptionScreen());
                     },),
                     SizedBox(height: height,),
                     Row(
@@ -59,8 +51,8 @@ class DoctorHomeScreen extends StatelessWidget {
                           onTap: () {
                             Get.to(()=>DoctorAppointmentSchedule());
                           },
-                          child: const TextWidget(
-                            text: "View All", fontSize: 14,
+                          child: TextWidget(
+                            text: "View All", fontSize: 15.sp,
                             fontWeight: FontWeight.w600, isTextCenter: false,
                             textColor: themeColor,fontFamily: AppFonts.semiBold,),
                         ),
@@ -85,4 +77,5 @@ class DoctorHomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }

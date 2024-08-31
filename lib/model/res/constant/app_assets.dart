@@ -9,5 +9,8 @@ class AppAssets{
   static const String creditCard = "assets/images/credit_card.png";
   static const String qrImage = "assets/images/qr_image.svg";
   static const String noFoundImage = "assets/images/no_found_image.svg";
+  static const String image_1 = "assets/images/image_1.png";
+  static const String image_2 = "assets/images/image_2.png";
+  static const String partyPopImage = "assets/images/party_pop_image.svg";
 
 }

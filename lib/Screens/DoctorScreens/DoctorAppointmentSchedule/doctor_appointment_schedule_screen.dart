@@ -5,19 +5,20 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/DoctorAppointment/doctor_appointment_provider.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorAppointmentSchedule/Components/doctor_appointment_button.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/SessionDetailScreen/session_detail_screen.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/SmsReminderScreen/sms_reminder_screen.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/FilterScreen/Components/calender_section.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 
+import '../../../Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/appointment_container.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/FilterScreen/Components/calender_section.dart';
 import '../../PatientScreens/FindDoctorScreen/Components/suggestion_container.dart';
+import '../ReminderScreen/reminder_screen.dart';
+import '../SessionDetailScreen/session_detail_screen.dart';
+import 'Components/doctor_appointment_button.dart';
 
 class DoctorAppointmentSchedule extends StatelessWidget {
   DoctorAppointmentSchedule({super.key});
@@ -128,7 +129,7 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                           SizedBox(height: height,),
                           DoctorAppointmentButton(
                               onTap: () {
-                                Get.to(()=>SmsReminderScreen());
+                                Get.to(()=>const ReminderScreen(appBarText: "SMS Reminder",));
                               },
                               title: "SMS Reminder",
                               icon: AppIcons.smsIcon,
@@ -147,7 +148,6 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                                 textColor: Colors.grey,fontFamily: AppFonts.semiBold,)
                             ],
                           ),
-
                         ],
                       ),
                     ),
@@ -183,80 +183,20 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       itemCount: appointmentStatus.length,
                       itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.to(()=>SessionDetailScreen(
-                            status: appointmentStatus[index]["status"]!,
-                            statusTextColor: appointmentStatus[index]["textColor"],
-                            boxColor: appointmentStatus[index]["boxColor"],
-                          ));
-                        },
-                        child: Container(
-                          width: 100.w,
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              color: bgColor,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                  color: greyColor
-                              )
-                          ),
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: "Micheal Rickliff", fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.semiBold,),
-                                  TextWidget(
-                                    text: "Phone Number: +23883884", fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.regular,),
-                                  TextWidget(
-                                    text: "Age: 22", fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.regular,),
-                                  TextWidget(
-                                    text: "Gender: Male", fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.regular,),
-                                  TextWidget(
-                                    text: "Complaint: Heart Burn", fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.regular,),
-                                ],
-                              ),
-                              const Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: "Appointment Date", fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.regular,),
-                                  TextWidget(
-                                    text: "4 Aug 2024", fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.semiBold,),
-                                  Container(
-                                    padding: const EdgeInsets.all(7),
-                                    decoration: BoxDecoration(
-                                        color: appointmentStatus[index]["boxColor"],
-                                        borderRadius: BorderRadius.circular(8)
-                                    ),
-                                    child: TextWidget(
-                                      text: appointmentStatus[index]["status"], fontSize: 16,
-                                      fontWeight: FontWeight.w500, isTextCenter: false,
-                                      textColor: appointmentStatus[index]["textColor"], fontFamily: AppFonts.medium,),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      return AppointmentContainer(
+                          onTap : () {
+                            Get.to(() =>
+                                SessionDetailScreen(
+                                  status: appointmentStatus[index]["status"]!,
+                                  statusTextColor: appointmentStatus[index]["textColor"],
+                                  boxColor: appointmentStatus[index]["boxColor"],
+                                ));
+                          },
+                          statusText: appointmentStatus[index]["status"],
+                          text1: "Appointment Date",
+                          text2: "4 Aug 2024",
+                          statusTextColor: appointmentStatus[index]["textColor"],
+                          boxColor: appointmentStatus[index]["boxColor"]);
                     },
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: 15,);

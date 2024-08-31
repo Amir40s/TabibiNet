@@ -10,8 +10,15 @@ import '../../../model/res/constant/app_assets.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
-class ResetSuccessScreen extends StatelessWidget {
-  const ResetSuccessScreen({super.key});
+class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({
+    super.key,
+    required this.title,
+    required this.subTitle,
+  });
+
+  final String title;
+  final String subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +35,16 @@ class ResetSuccessScreen extends StatelessWidget {
               const Spacer(),
               SvgPicture.asset(AppAssets.success,height: 25.h,),
               SizedBox(height: height2,),
-              const Center(
+              Center(
                 child: TextWidget(
-                    text: "Reset Successfully!", fontSize: 24,
+                    text: title, fontSize: 24,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor),
               ),
               SizedBox(height: height1,),
-              const Center(
+              Center(
                 child: TextWidget(
-                  text: "Your password has been reset successfully."
-                      " Please login with new credentials.", fontSize: 14,
+                  text: subTitle, fontSize: 14,
                   fontWeight: FontWeight.w400, isTextCenter: true,
                   textColor: textColor,maxLines: 2,),
               ),
@@ -47,7 +53,11 @@ class ResetSuccessScreen extends StatelessWidget {
               SubmitButton(
                 title: "Okay!",
                 press: () {
-                  Get.to(()=>PaywallScreen());
+                  if(title == "Reset Successfully!"){
+                    Get.to(()=>PaywallScreen());
+                  }else {
+                    Get.back();
+                  }
                 },),
               SizedBox(height: height2,),
             ],

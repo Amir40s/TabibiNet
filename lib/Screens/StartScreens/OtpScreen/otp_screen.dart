@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pinput/pinput.dart';
-import 'package:tabibinet_project/Screens/StartScreens/ResetSuccessScreen/reset_success_screen.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../SuccessScreen/success_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   OtpScreen({super.key});
@@ -84,7 +84,11 @@ class OtpScreen extends StatelessWidget {
             SubmitButton(
               title: "Send OTP",
               press: () {
-                Get.to(()=>ResetSuccessScreen());
+                Get.to(()=>const SuccessScreen(
+                  title: "Reset Successfully!",
+                  subTitle: "Your password has been reset successfully."
+                      " Please login with new credentials.",
+                ));
               },),
           ],
         ),
