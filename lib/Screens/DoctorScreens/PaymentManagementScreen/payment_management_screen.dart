@@ -121,19 +121,41 @@ class PaymentManagementScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: height1,),
-            TextWidget(
-                text: "Oct 26, 2022", fontSize: 16.sp,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: Colors.grey
-            ),
-            const PaymentTile(),
-            SizedBox(height: height1,),
-            TextWidget(
-                text: "Oct 26, 2022", fontSize: 16.sp,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: Colors.grey
-            ),
-            const PaymentTile()
+            Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  shrinkWrap: true,
+                  children: [
+                    Center(
+                      child: TextWidget(
+                          text: "Oct 26, 2022", fontSize: 16.sp,
+                          fontWeight: FontWeight.w600, isTextCenter: false,
+                          textColor: Colors.grey
+                      ),
+                    ),
+                    const PaymentTile(),
+                    SizedBox(height: height1,),
+                    Center(
+                      child: TextWidget(
+                          text: "Oct 26, 2022", fontSize: 16.sp,
+                          fontWeight: FontWeight.w600, isTextCenter: false,
+                          textColor: Colors.grey
+                      ),
+                    ),
+                    const PaymentTile(),
+                    SizedBox(height: height1,),
+                    Center(
+                      child: TextWidget(
+                          text: "Oct 26, 2022", fontSize: 16.sp,
+                          fontWeight: FontWeight.w600, isTextCenter: false,
+                          textColor: Colors.grey
+                      ),
+                    ),
+                    SizedBox(height: height1,),
+                    const PaymentTile(),
+                    SizedBox(height: height1,),
+                  ],
+            )),
           ],
         ),
       ),

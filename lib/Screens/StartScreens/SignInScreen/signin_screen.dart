@@ -2,26 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/Screens/StartScreens/ForgotPasswordScreen/forgot_password_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/Components/sign_container.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../../model/services/FirebaseServices/auth_services.dart';
+import '../../DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
+import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
+import '../ForgotPasswordScreen/forgot_password_screen.dart';
 import '../SignUpScreen/sign_up_screen.dart';
+import 'Components/sign_container.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
-  final emailC = TextEditingController();
-  final passwordC = TextEditingController();
+  final AuthServices authServices = AuthServices();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,34 +57,42 @@ class SignInScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
             SizedBox(height: height1,),
-            InputField(
-              inputController: emailC,
-              hintText: "Enter email",
-            ),
-            SizedBox(height: height1,),
-            const TextWidget(
-                text: "Password", fontSize: 14,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: textColor,fontFamily: AppFonts.semiBold,),
-            SizedBox(height: height1,),
-            Consumer<SignInProvider>(
-              builder: (context, value, child) {
-                return InputField(
-                  inputController: passwordC,
-                  hintText: "Enter password",
-                  obscureText: value.isSignInPasswordShow,
-                  suffixIcon: InkWell(
-                    onTap: () {
-                      value.showSignInPassword();
-                    },
-                    child: Icon(
-                      value.isSignInPasswordShow ? CupertinoIcons.eye_slash
-                          : CupertinoIcons.eye,
-                      color: Colors.grey,
-                    ),
+            Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InputField(
+                    inputController: signInP.emailC,
+                    hintText: "Enter email",
                   ),
-                );
-              },),
+                  SizedBox(height: height1,),
+                  const TextWidget(
+                    text: "Password", fontSize: 14,
+                    fontWeight: FontWeight.w600, isTextCenter: false,
+                    textColor: textColor,fontFamily: AppFonts.semiBold,),
+                  SizedBox(height: height1,),
+                  Consumer<SignInProvider>(
+                    builder: (context, value, child) {
+                      return InputField(
+                        inputController: value.passwordC,
+                        hintText: "Enter password",
+                        obscureText: value.isSignInPasswordShow,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            value.showSignInPassword();
+                          },
+                          child: Icon(
+                            value.isSignInPasswordShow ? CupertinoIcons.eye_slash
+                                : CupertinoIcons.eye,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },),
+                ],
+              ),
+            ),
             SizedBox(height: height1,),
             Align(
               alignment: Alignment.topRight,
@@ -98,15 +107,31 @@ class SignInScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: height2,),
-            SubmitButton(
-              title: "Sign In",
-              press: () {
-                if(signInP.userType == "Patient"){
-                  Get.to(()=>PatientBottomNavBar());
-                }else{
-                  Get.to(()=>DoctorBottomNavbar());
-                }
+            Consumer<SignInProvider>(
+              builder: (context, value, child) {
+              return value.isLoading ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator()),
+                ],
+              )
+                  : SubmitButton(
+                title: "Sign In",
+                press: () async {
+                  FocusScope.of(context).unfocus();
+                  if(formKey.currentState!.validate()){
+                    await value.signIn();
+                  }
+                  // if(signInP.userType == "Patient"){
+                  //   Get.to(()=>PatientBottomNavBar());
+                  // }else{
+                  //   Get.to(()=>DoctorBottomNavbar());
+                  // }
 
+                },);
             },),
             SizedBox(height: height2,),
             const Row(
@@ -136,10 +161,14 @@ class SignInScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: height2,),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SignContainer(image: AppIcons.googleIcon),
+                InkWell(
+                  onTap: () {
+                    signInP.signInWithGoogle();
+                  },
+                    child: SignContainer(image: AppIcons.googleIcon)),
                 SizedBox(width: 20,),
                 SignContainer(image: AppIcons.appleIcon),
                 SizedBox(width: 20,),

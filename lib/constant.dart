@@ -1,4 +1,7 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 const Color themeColor = Color(0xff0596DE);
 const Color bgColor = Color(0xffFFFFFF);
@@ -10,3 +13,8 @@ const Color lightRedColor = Color(0xffF75555);
 const Color secondaryGreenColor = Color(0xffE6F4F2);
 const Color gradientGreenColor = Color(0xffC5E6E2);
 const Color purpleColor = Color(0xff5554DB);
+
+
+FirebaseFirestore fireStore = FirebaseFirestore.instance;
+FirebaseAuth auth = FirebaseAuth.instance;
+FirebaseStorage storage = FirebaseStorage.instance;

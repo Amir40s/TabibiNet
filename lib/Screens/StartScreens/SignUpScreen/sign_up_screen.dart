@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 
@@ -20,15 +21,19 @@ import '../SignInScreen/Components/sign_container.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
-  final emailC = TextEditingController();
-  final passwordC = TextEditingController();
-  final confirmPasswordC = TextEditingController();
+  // final emailC = TextEditingController();
+  // final passwordC = TextEditingController();
+  // final confirmPasswordC = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     double height1 = 10.0;
     double height2 = 30.0;
+    final signUpP = Provider.of<SignUpProvider>(context,listen: false);
     final signInP = Provider.of<SignInProvider>(context,listen: false);
+    final locationP = Provider.of<LocationProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -57,58 +62,66 @@ class SignUpScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
             SizedBox(height: height1,),
-            InputField(
-              inputController: emailC,
-              hintText: "Enter email",
+            Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InputField(
+                    inputController: signUpP.emailC,
+                    hintText: "Enter email",
+                  ),
+                  SizedBox(height: height1,),
+                  const TextWidget(
+                    text: "Password", fontSize: 14,
+                    fontWeight: FontWeight.w600, isTextCenter: false,
+                    textColor: textColor,fontFamily: AppFonts.semiBold,),
+                  SizedBox(height: height1,),
+                  Consumer<SignUpProvider>(
+                    builder: (context, value, child) {
+                      return InputField(
+                        inputController: value.passwordC,
+                        hintText: "Enter password",
+                        obscureText: value.isSignUpPasswordShow,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            value.showSignUpPassword();
+                          },
+                          child: Icon(
+                            value.isSignUpPasswordShow ? CupertinoIcons.eye_slash
+                                : CupertinoIcons.eye,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },),
+                  SizedBox(height: height1,),
+                  const TextWidget(
+                    text: "Confirm Password", fontSize: 14,
+                    fontWeight: FontWeight.w600, isTextCenter: false,
+                    textColor: textColor,fontFamily: AppFonts.semiBold,),
+                  SizedBox(height: height1,),
+                  Consumer<SignUpProvider>(
+                    builder: (context, value, child) {
+                      return InputField(
+                        inputController: value.confirmPasswordC,
+                        hintText: "Enter password",
+                        obscureText: value.isSignUpConfirmPasswordShow,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            value.showSignUpConfirmPassword();
+                          },
+                          child: Icon(
+                            value.isSignUpConfirmPasswordShow ? CupertinoIcons.eye_slash
+                                : CupertinoIcons.eye,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },),
+                ],
+              ),
             ),
-            SizedBox(height: height1,),
-            const TextWidget(
-                text: "Password", fontSize: 14,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: textColor,fontFamily: AppFonts.semiBold,),
-            SizedBox(height: height1,),
-            Consumer<SignUpProvider>(
-              builder: (context, value, child) {
-              return InputField(
-                inputController: passwordC,
-                hintText: "Enter password",
-                obscureText: value.isSignUpPasswordShow,
-                suffixIcon: InkWell(
-                  onTap: () {
-                    value.showSignUpPassword();
-                  },
-                  child: Icon(
-                    value.isSignUpPasswordShow ? CupertinoIcons.eye_slash
-                        : CupertinoIcons.eye,
-                    color: Colors.grey,
-                  ),
-                ),
-              );
-            },),
-            SizedBox(height: height1,),
-            const TextWidget(
-                text: "Confirm Password", fontSize: 14,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: textColor,fontFamily: AppFonts.semiBold,),
-            SizedBox(height: height1,),
-            Consumer<SignUpProvider>(
-              builder: (context, value, child) {
-              return InputField(
-                inputController: confirmPasswordC,
-                hintText: "Enter password",
-                obscureText: value.isSignUpConfirmPasswordShow,
-                suffixIcon: InkWell(
-                  onTap: () {
-                    value.showSignUpConfirmPassword();
-                  },
-                  child: Icon(
-                    value.isSignUpConfirmPasswordShow ? CupertinoIcons.eye_slash
-                        : CupertinoIcons.eye,
-                    color: Colors.grey,
-                  ),
-                ),
-              );
-            },),
             SizedBox(height: height1,),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -131,15 +144,30 @@ class SignUpScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: height2,),
-            SubmitButton(
-              title: "Sign Up",
-              press: () {
-                if(signInP.userType == "Patient"){
-                  Get.to(()=>PatientBottomNavBar());
-                }else{
-                  Get.to(()=>DoctorBottomNavbar());
-                }
-              },),
+            Consumer<SignUpProvider>(
+              builder: (context, value, child) {
+              return value.isLoading ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator()),
+                ],
+              )
+                  : SubmitButton(
+                title: "Sign Up",
+                press: () async {
+                  if(formKey.currentState!.validate()){
+                    await value.signUp(signInP.userType, locationP.countryName);
+                  }
+                  // if(signInP.userType == "Patient"){
+                  //   Get.to(()=>PatientBottomNavBar());
+                  // }else{
+                  //   Get.to(()=>DoctorBottomNavbar());
+                  // }
+                },);
+            },),
             SizedBox(height: height2,),
             const Row(
               children: [

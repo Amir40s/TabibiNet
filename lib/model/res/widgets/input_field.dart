@@ -30,7 +30,7 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       maxLines: maxLines,
       textInputAction: textInputAction,
       keyboardType: type,
@@ -39,6 +39,13 @@ class InputField extends StatelessWidget {
         fontWeight: FontWeight.w500,
         fontFamily: AppFonts.medium
       ),
+      validator: (value) {
+        if(value!.isEmpty){
+          return "Enter the Field";
+        }else{
+          return null;
+        }
+      },
       cursorColor: themeColor,
       controller: inputController,
       maxLength: maxLength,
@@ -57,21 +64,21 @@ class InputField extends StatelessWidget {
         filled: true,
         alignLabelWithHint: true,
         border: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: greyColor,
             width: 1.5,
           ),
@@ -105,7 +112,7 @@ class InputField2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       maxLines: maxLines,
       textInputAction: textInputAction,
       keyboardType: type,
@@ -115,6 +122,13 @@ class InputField2 extends StatelessWidget {
           fontFamily: AppFonts.medium
       ),
       cursorColor: themeColor,
+      validator: (value) {
+        if(value!.isEmpty){
+          return "Enter the Field";
+        }else{
+          return null;
+        }
+      },
       controller: inputController,
       maxLength: maxLength,
       textAlign: TextAlign.start,
@@ -132,21 +146,21 @@ class InputField2 extends StatelessWidget {
         filled: true,
         alignLabelWithHint: true,
         border: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: greyColor,
             width: 1.5,
           ),
@@ -184,7 +198,7 @@ class InputField3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       maxLines: maxLines,
       textInputAction: textInputAction,
       keyboardType: type,
@@ -193,6 +207,13 @@ class InputField3 extends StatelessWidget {
           fontWeight: FontWeight.w500,
           fontFamily: AppFonts.medium
       ),
+      validator: (value) {
+        if(value!.isEmpty){
+          return "Enter the Field";
+        }else{
+          return null;
+        }
+      },
       cursorColor: themeColor,
       controller: inputController,
       maxLength: maxLength,
@@ -215,21 +236,21 @@ class InputField3 extends StatelessWidget {
         filled: true,
         alignLabelWithHint: true,
         border: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: themeColor,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(
+          borderSide:  const BorderSide(
             color: greyColor,
             width: 1.5,
           ),

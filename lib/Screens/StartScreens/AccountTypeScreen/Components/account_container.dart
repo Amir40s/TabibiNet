@@ -60,7 +60,8 @@ class AccountContainer extends StatelessWidget {
                       color: bgColor,
                       shape: BoxShape.circle
                     ),
-                    child: const Icon(Icons.done,size: 20,color: themeColor,)): SizedBox(),
+                    child: const Icon(Icons.done,size: 20,color: themeColor,))
+                    : const SizedBox(),
                 const SizedBox(width: 10,),
                 SizedBox(
                   width: width,

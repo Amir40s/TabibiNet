@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +20,7 @@ class LocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locationP = Provider.of<LocationProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -58,7 +61,7 @@ class LocationScreen extends StatelessWidget {
                           context: context,
                           showPhoneCode: false, // Do not show the phone code
                           onSelect: (Country country) {
-                            print('Selected country: ${country.name}');
+                            log('Selected country: ${country.name}');
                             value.selectCountryName(country.name);
                           },
                         );
@@ -129,7 +132,11 @@ class LocationScreen extends StatelessWidget {
               child: SubmitButton(
                 title: "Next",
                 press: () {
-                  Get.to(()=>const AccountTypeScreen());
+                  if(locationP.countryName.isNotEmpty){
+                    Get.to(()=>const AccountTypeScreen());
+                  }else{
+                    Get.snackbar("Error!", "Please Select Country");
+                  }
                 },),
             ),
             const SizedBox(height: 20,),
