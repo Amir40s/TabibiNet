@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
@@ -12,8 +13,6 @@ import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../../model/services/FirebaseServices/auth_services.dart';
-import '../../DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
-import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../ForgotPasswordScreen/forgot_password_screen.dart';
 import '../SignUpScreen/sign_up_screen.dart';
 import 'Components/sign_container.dart';
@@ -29,6 +28,7 @@ class SignInScreen extends StatelessWidget {
     double height1 = 10.0;
     double height2 = 30.0;
     final signInP = Provider.of<SignInProvider>(context,listen: false);
+    final locationP = Provider.of<LocationProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -164,15 +164,19 @@ class SignInScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                InkWell(
-                  onTap: () {
-                    signInP.signInWithGoogle();
-                  },
-                    child: SignContainer(image: AppIcons.googleIcon)),
-                SizedBox(width: 20,),
-                SignContainer(image: AppIcons.appleIcon),
-                SizedBox(width: 20,),
-                SignContainer(image: AppIcons.facebookIcon),
+                SignContainer(
+                    onTap: () {
+                      signInP.signInWithGoogle(context, locationP.countryName);
+                    },
+                    image: AppIcons.googleIcon),
+                const SizedBox(width: 20,),
+                SignContainer(
+                    onTap: () {
+                      auth.signOut();
+                    },
+                    image: AppIcons.appleIcon),
+                const SizedBox(width: 20,),
+                const SignContainer(image: AppIcons.facebookIcon),
               ],
             ),
             SizedBox(height: height2,),

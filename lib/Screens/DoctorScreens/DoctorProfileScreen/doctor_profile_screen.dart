@@ -202,7 +202,10 @@ class DoctorProfileScreen extends StatelessWidget {
                                             title: "Logout",
                                             bdRadius: 6,
                                             press: () {
-                                              Get.offAll(()=>AccountTypeScreen());
+                                              auth.signOut()
+                                                  .whenComplete(() {
+                                                Get.offAll(()=>LanguageScreen(isNextButton: true));
+                                              },);
                                             },
                                           ),
                                         ],

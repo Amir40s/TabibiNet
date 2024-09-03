@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/services/SplashServices/splash_services.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_assets.dart';
@@ -17,13 +19,18 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  SplashServices splashServices = SplashServices();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 4), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => OnboardingScreen(),));
-    },);
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await Firebase.initializeApp();
+    splashServices.isLogin();
   }
 
   @override
@@ -36,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(AppAssets.splashImage,height: 30.h,),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

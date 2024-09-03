@@ -129,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  email_auth:
+    dependency: "direct main"
+    description:
+      name: email_auth
+      sha256: "980674f7bc5be3bb6cf46f684349c00192210cc1246fa01c5ea3fd68d390ca23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   equatable:
     dependency: transitive
     description:
@@ -413,6 +421,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  mailer:
+    dependency: "direct main"
+    description:
+      name: mailer
+      sha256: "3b27d204ff92a20aba227c25bc6467e245b0f19f9fbbc83aa357a9b7fa40267f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.2"
   matcher:
     dependency: transitive
     description:
@@ -437,6 +461,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+  mime:
+    dependency: transitive
+    description:
+      name: mime
+      sha256: "801fd0b26f14a4a58ccb09d5892c3fbdeff209594300a542492cf13fba9d247a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   nested:
     dependency: transitive
     description:

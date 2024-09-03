@@ -1,10 +1,19 @@
+import 'dart:developer';
+
+import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
+import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
+import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/Components/sign_up_form.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
@@ -14,16 +23,10 @@ import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
-import '../../DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
-import '../../PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../SignInScreen/Components/sign_container.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
-
-  // final emailC = TextEditingController();
-  // final passwordC = TextEditingController();
-  // final confirmPasswordC = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -31,7 +34,6 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height1 = 10.0;
     double height2 = 30.0;
-    final signUpP = Provider.of<SignUpProvider>(context,listen: false);
     final signInP = Provider.of<SignInProvider>(context,listen: false);
     final locationP = Provider.of<LocationProvider>(context,listen: false);
     return SafeArea(
@@ -57,71 +59,9 @@ class SignUpScreen extends StatelessWidget {
                 textColor: textColor,maxLines: 2,),
             ),
             SizedBox(height: height2,),
-            const TextWidget(
-                text: "Email", fontSize: 14,
-                fontWeight: FontWeight.w600, isTextCenter: false,
-                textColor: textColor,fontFamily: AppFonts.semiBold,),
-            SizedBox(height: height1,),
             Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InputField(
-                    inputController: signUpP.emailC,
-                    hintText: "Enter email",
-                  ),
-                  SizedBox(height: height1,),
-                  const TextWidget(
-                    text: "Password", fontSize: 14,
-                    fontWeight: FontWeight.w600, isTextCenter: false,
-                    textColor: textColor,fontFamily: AppFonts.semiBold,),
-                  SizedBox(height: height1,),
-                  Consumer<SignUpProvider>(
-                    builder: (context, value, child) {
-                      return InputField(
-                        inputController: value.passwordC,
-                        hintText: "Enter password",
-                        obscureText: value.isSignUpPasswordShow,
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            value.showSignUpPassword();
-                          },
-                          child: Icon(
-                            value.isSignUpPasswordShow ? CupertinoIcons.eye_slash
-                                : CupertinoIcons.eye,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    },),
-                  SizedBox(height: height1,),
-                  const TextWidget(
-                    text: "Confirm Password", fontSize: 14,
-                    fontWeight: FontWeight.w600, isTextCenter: false,
-                    textColor: textColor,fontFamily: AppFonts.semiBold,),
-                  SizedBox(height: height1,),
-                  Consumer<SignUpProvider>(
-                    builder: (context, value, child) {
-                      return InputField(
-                        inputController: value.confirmPasswordC,
-                        hintText: "Enter password",
-                        obscureText: value.isSignUpConfirmPasswordShow,
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            value.showSignUpConfirmPassword();
-                          },
-                          child: Icon(
-                            value.isSignUpConfirmPasswordShow ? CupertinoIcons.eye_slash
-                                : CupertinoIcons.eye,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    },),
-                ],
-              ),
-            ),
+                key: formKey,
+                child: const SignUpForm()),
             SizedBox(height: height1,),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -158,15 +98,17 @@ class SignUpScreen extends StatelessWidget {
                   : SubmitButton(
                 title: "Sign Up",
                 press: () async {
-                  if(formKey.currentState!.validate()){
-                    await value.signUp(signInP.userType, locationP.countryName);
+                  FocusScope.of(context).unfocus();
+                  if(value.passwordC.text == value.confirmPasswordC.text){
+                    // sentOTP(value.emailC.text.toString());
+                    if(formKey.currentState!.validate()){
+                      await value.signUp(signInP.userType, locationP.countryName);
+                    }
+                  }else{
+                    ToastMsg().toastMsg("Confirm Password is not Correct");
                   }
-                  // if(signInP.userType == "Patient"){
-                  //   Get.to(()=>PatientBottomNavBar());
-                  // }else{
-                  //   Get.to(()=>DoctorBottomNavbar());
-                  // }
-                },);
+                  },
+              );
             },),
             SizedBox(height: height2,),
             const Row(
@@ -196,14 +138,18 @@ class SignUpScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: height2,),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SignContainer(image: AppIcons.googleIcon),
-                SizedBox(width: 20,),
-                SignContainer(image: AppIcons.appleIcon),
-                SizedBox(width: 20,),
-                SignContainer(image: AppIcons.facebookIcon),
+                SignContainer(
+                    onTap: () {
+                      signInP.signInWithGoogle(context, locationP.countryName);
+                    },
+                    image: AppIcons.googleIcon),
+                const SizedBox(width: 20,),
+                const SignContainer(image: AppIcons.appleIcon),
+                const SizedBox(width: 20,),
+                const SignContainer(image: AppIcons.facebookIcon),
               ],
             ),
             SizedBox(height: height2,),
@@ -221,9 +167,39 @@ class SignUpScreen extends StatelessWidget {
 
               ],
             ),
+            SizedBox(height: height2,),
           ],
         ),
       ),
     );
   }
+
+  void sentOTP(String email) async {
+    String userName = "usman1903naveed@gmail.com";
+    String password = "";
+    final smtpServer = gmail(userName, password);
+    final message = Message()
+    ..from = Address(userName, "Mail Service")
+    ..recipients.add(email)
+    ..subject = "Mail"
+    ..text = "123456";
+    try{
+      await send(message, smtpServer);
+      Get.snackbar("", "Email Send Successfully");
+    }catch(e){
+      if(kDebugMode){
+        log(e.toString());
+      }
+    }
+  }
+
 }
+
+//EmailAuth emailAuth =  EmailAuth(sessionName: "Sample session");
+//     var res = await emailAuth.sendOtp(recipientMail: email,otpLength: 4);
+//     if(res){
+//       Get.to(()=>OtpScreen());
+//       ToastMsg().toastMsg("OTP Sent");
+//     }else{
+//       ToastMsg().toastMsg("We could not sent the OTP");
+//     }

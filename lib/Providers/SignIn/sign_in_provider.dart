@@ -1,27 +1,32 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tabibinet_project/model/services/FirebaseServices/auth_services.dart';
+import 'package:tabibinet_project/model/res/constant/user_type.dart';
 
+import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
+import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
 import '../../model/res/widgets/toast_msg.dart';
+import '../../model/services/FirebaseServices/auth_services.dart';
 
 class SignInProvider extends ChangeNotifier{
 
   final AuthServices authServices = AuthServices();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   String _userType = "Patient";
+  String _signInType = "Custom";
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
   bool _isSignInPasswordShow = true;
   bool _isLoading = false;
 
   String get userType => _userType;
+  String get signInType => _signInType;
   bool get isSignInPasswordShow => _isSignInPasswordShow;
   bool get isLoading => _isLoading;
 
@@ -42,7 +47,25 @@ class SignInProvider extends ChangeNotifier{
         email: emailC.text.toString(),
         password: passwordC.text.toString()
     )
-        .then((value) {
+        .then((value) async {
+      DocumentReference docRef = fireStore.collection("users").doc(auth.currentUser!.uid);
+
+      // Check if the document exists
+      DocumentSnapshot docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        // Document exists, check the user type
+        final type = docSnapshot.get("userType");
+        Get.back(); // Dismiss the dialog
+
+        if (type == "Patient") {
+          Get.off(() => const PatientBottomNavBar());
+        } else if (type == "Health Professional") {
+          Get.off(() => const DoctorBottomNavbar());
+        }
+      }
+
+      debugPrint('Successfully signed in with Google');
       _isLoading = false;
       notifyListeners();
       log("*********Login********");
@@ -55,45 +78,105 @@ class SignInProvider extends ChangeNotifier{
       log("*********$error********");
     },);
   }
-  Future signInWithGoogle() async {
+
+  Future<void> signInWithGoogle(BuildContext context, String country) async {
+    // Show the loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
     try {
+      // Sign out from Google to ensure the account selection dialog appears
+      await googleSignIn.signOut();
+
       // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) {
+        // The user canceled the sign-in process, dismiss the dialog
+        Get.back();
+        return;
+      }
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
       // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
-      Future.delayed(
-        const Duration(seconds: 4),
-            () async {
-          if (auth.currentUser != null) {
-            // await fireStore.collection('users').doc(auth.currentUser!.uid).set({
-            //   'name': auth.currentUser!.displayName,
-            //   'email': auth.currentUser!.email,
-            //   'profilePicUrl': auth.currentUser!.photoURL,
-            //   'uid': '',
-            //   'status': 'active',
-            //   'phoneNumber': '',
-            //   'city': '',
-            //   'country': '',
-            //   'provider': 'Google',
-            //   'state': '',
-            //   'joinDate': DateFormat.yMMMd().format(DateTime.now()),
-            //   'joinTime': DateFormat('KK:mm: a').format(DateTime.now()),
-            // });
+
+      _signInType = "Google";
+      notifyListeners();
+      // Sign in with the credential
+      UserCredential userCredential = await auth.signInWithCredential(credential);
+
+      // Get a reference to the user's document
+      DocumentReference docRef = fireStore.collection("users").doc(auth.currentUser!.uid);
+
+      // Check if the document exists
+      DocumentSnapshot docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        // Document exists, check the user type
+        final type = docSnapshot.get("userType");
+        Get.back(); // Dismiss the dialog
+
+        if (type == "Patient") {
+          Get.off(() => const PatientBottomNavBar());
+        } else if (type == "Health Professional") {
+          Get.off(() => const DoctorBottomNavbar());
+        }
+      } else {
+        // Document does not exist, create a new one
+        await docRef.set({
+          "userUid": auth.currentUser!.uid,
+          "email": auth.currentUser!.email,
+          "country": country,
+          "name" : auth.currentUser!.displayName,
+          "phoneNumber" : auth.currentUser!.phoneNumber,
+          "userType": _userType,
+          "accountType": _signInType
+        }).whenComplete(() {
+          Navigator.of(context).pop(); // Dismiss the dialog
+          if (_userType == "Patient") {
+            Get.off(() => const PatientBottomNavBar());
+          } else {
+            Get.off(() => const DoctorBottomNavbar());
           }
-          debugPrint('Successfully created');
-          // Get.to(() => DocInfoScreen());
-        },
-      );
-      return await auth.signInWithCredential(credential);
+        });
+      }
+
+      debugPrint('Successfully signed in with Google');
     } catch (e) {
+      // Dismiss the dialog in case of error
+      Get.back();
       debugPrint("Error: ${e.toString()}");
     }
-  }
-}
+  }}
+
+
+//else {
+//         // Document does not exist, create a new one
+//         await docRef.set({
+//           "userUid": auth.currentUser!.uid,
+//           "email": auth.currentUser!.email,
+//           "country": country,
+//           "userType": _userType,
+//           "accountType": _userType
+//         }).whenComplete(() {
+//           Get.back(); // Dismiss the dialog
+//           if (_userType == "Patient") {
+//             Get.to(() => const PatientBottomNavBar());
+//           } else {
+//             Get.to(() => const DoctorBottomNavbar());
+//           }
+//         });
+//       }

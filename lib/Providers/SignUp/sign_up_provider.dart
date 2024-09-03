@@ -1,8 +1,12 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../constant.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
@@ -19,6 +23,8 @@ class SignUpProvider extends ChangeNotifier{
   bool _isSignUpConfirmPasswordShow = true;
 
   TextEditingController emailC = TextEditingController();
+  TextEditingController nameC = TextEditingController();
+  TextEditingController phoneC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
   TextEditingController confirmPasswordC = TextEditingController();
   bool get isCheck => _isCheck;
@@ -54,24 +60,32 @@ class SignUpProvider extends ChangeNotifier{
           {
             "userUid" : userUID,
             "email" : emailC.text.toString(),
+            "name" : nameC.text,
+            "phoneNumber" : phoneC.text,
             "country" : country,
-            "type" : type
+            "userType" : type,
+            "accountType" : "Custom",
           }
-      )
+          )
           .whenComplete(() {
-        ToastMsg().toastMsg("Account Created Successfully");
-        log("*********** Complete ************");
-        _isLoading = false;
-        notifyListeners();
-      },)
+            if(type == "Patient"){
+              Get.off(()=>const PatientBottomNavBar());
+            }else{
+              Get.off(()=>const DoctorBottomNavbar());
+            }
+            ToastMsg().toastMsg("Account Created Successfully");
+            log("*********** Complete ************");
+            _isLoading = false;
+            notifyListeners();
+            },)
           .onError((error, stackTrace) {
-        ToastMsg().toastMsg(error.toString());
-        log("*********** Error ************");
-        _isLoading = false;
-        log(error.toString());
-        notifyListeners();
-      },);
-    },)
+            ToastMsg().toastMsg(error.toString());
+            log("*********** Error ************");
+            _isLoading = false;
+            log(error.toString());
+            notifyListeners();
+            },);
+      },)
         .onError((error, stackTrace) {
           ToastMsg().toastMsg(error.toString());
           log("*********** Error ************");
