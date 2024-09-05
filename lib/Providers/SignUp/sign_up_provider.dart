@@ -47,7 +47,12 @@ class SignUpProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> signUp(type, country) async{
+  Future<void> signUp(
+      speciality, specialityDetail,
+      yearsOfExperience, appointmentFrom,
+      appointmentTo, appointmentFee,
+      type, country,
+      ) async{
     _isLoading = true;
     notifyListeners();
     auth.createUserWithEmailAndPassword(
@@ -62,6 +67,14 @@ class SignUpProvider extends ChangeNotifier{
             "email" : emailC.text.toString(),
             "name" : nameC.text,
             "phoneNumber" : phoneC.text,
+            "speciality" : speciality,
+            "specialityDetail" : specialityDetail,
+            "experience": yearsOfExperience,
+            "availabilityFrom": appointmentFrom,
+            "availabilityTo": appointmentTo,
+            "appointmentFee": appointmentFee,
+            "reviews": "0",
+            "patients": "0",
             "country" : country,
             "userType" : type,
             "accountType" : "Custom",

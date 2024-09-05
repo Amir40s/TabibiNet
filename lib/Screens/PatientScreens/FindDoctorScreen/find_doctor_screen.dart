@@ -128,7 +128,14 @@ class FindDoctorScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return const TopDoctorContainer();
+                        return const TopDoctorContainer(
+                          doctorName: "user.name",
+                          specialityName: "user.speciality",
+                          specialityDetail: "user.specialityDetail",
+                          availabilityFrom: "",
+                          availabilityTo: "",
+                          appointmentFee: "40",
+                        );
                       },
                     ),
                     

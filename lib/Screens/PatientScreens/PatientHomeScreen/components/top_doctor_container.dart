@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../constant.dart';
+import '../../../../model/data/user_model.dart';
 import '../../../../model/res/constant/app_fonts.dart';
 import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/dotted_line.dart';
@@ -12,13 +14,26 @@ import '../../../../model/res/widgets/text_widget.dart';
 class TopDoctorContainer extends StatelessWidget {
   const TopDoctorContainer({
     super.key,
-    this.onTap
+    required this.doctorName,
+    required this.specialityName,
+    required this.specialityDetail,
+    required this.availabilityFrom,
+    required this.availabilityTo,
+    required this.appointmentFee,
+    this.onTap,
   });
 
+  final String doctorName;
+  final String specialityName;
+  final String specialityDetail;
+  final String availabilityFrom;
+  final String availabilityTo;
+  final String appointmentFee;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = Provider.of<UserViewModel>(context);
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 15),
@@ -73,8 +88,8 @@ class TopDoctorContainer extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 35.w,
-                    child: const TextWidget(
-                      text: "Dr. Marvin McKinney", fontSize: 16,
+                    child: TextWidget(
+                      text: "Dr. $doctorName", fontSize: 16,
                       fontWeight: FontWeight.w600, isTextCenter: false,maxLines: 2,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                   ),
@@ -84,8 +99,8 @@ class TopDoctorContainer extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 20.w,
-                        child: const TextWidget(
-                          text: "Cardiologist", fontSize: 14,
+                        child: TextWidget(
+                          text: specialityName, fontSize: 14,
                           fontWeight: FontWeight.w400, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.regular,),
                       ),
@@ -94,31 +109,30 @@ class TopDoctorContainer extends StatelessWidget {
                       const SizedBox(width: 5,),
                       SizedBox(
                         width: 20.w,
-                        child: const TextWidget(
-                          text: "JFK Medical Center", fontSize: 12,
+                        child: TextWidget(
+                          text: specialityDetail, fontSize: 12,
                           fontWeight: FontWeight.w400, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.regular,),
                       ),
                     ],
                   ),
                   const SizedBox(height: 10,),
-                  const Row(
+                  Row(
                     children: [
-                      Icon(Icons.star,color: Colors.yellow,size: 20,),
-                      TextWidget(
+                      const Icon(Icons.star,color: Colors.yellow,size: 20,),
+                      const TextWidget(
                         text: "4.9", fontSize: 12,
                         fontWeight: FontWeight.w400, isTextCenter: false,
                         textColor: textColor, fontFamily: AppFonts.regular,),
-                      SizedBox(width: 5,),
-                      Icon(Icons.circle,color: textColor,size: 5,),
-                      SizedBox(width: 5,),
-                      Icon(Icons.access_time_filled_rounded,color: themeColor, size: 20,),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5,),
+                      const Icon(Icons.circle,color: textColor,size: 5,),
+                      const SizedBox(width: 5,),
+                      const Icon(Icons.access_time_filled_rounded,color: themeColor, size: 20,),
+                      const SizedBox(width: 5,),
                       TextWidget(
-                        text: "12pm-5pm", fontSize: 12,
+                        text: "$availabilityFrom-$availabilityTo", fontSize: 12,
                         fontWeight: FontWeight.w400, isTextCenter: false,
                         textColor: themeColor, fontFamily: AppFonts.regular,),
-
                     ],
                   )
                 ],
@@ -155,8 +169,8 @@ class TopDoctorContainer extends StatelessWidget {
                     color: greyColor,
                   )),
               const SizedBox(width: 10,),
-              const TextWidget(
-                text: "\$40", fontSize: 18,
+              TextWidget(
+                text: "\$$appointmentFee", fontSize: 18,
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor, fontFamily: AppFonts.semiBold,),
             ],

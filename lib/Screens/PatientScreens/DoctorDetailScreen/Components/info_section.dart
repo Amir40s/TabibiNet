@@ -8,7 +8,20 @@ import '../../../../../model/res/widgets/text_widget.dart';
 import '../../../../model/res/constant/app_icons.dart';
 
 class InfoSection extends StatelessWidget {
-  const InfoSection({super.key});
+  const InfoSection({
+    super.key,
+    required this.doctorName,
+    required this.specialityName,
+    required this.yearsOfExperience,
+    required this.patients,
+    required this.reviews,
+  });
+
+  final String doctorName;
+  final String specialityName;
+  final String yearsOfExperience;
+  final String patients;
+  final String reviews;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,7 @@ class InfoSection extends StatelessWidget {
           Row(
             children: [
               TextWidget(
-                text: "Dr. Dianne Johnson", fontSize: 20.sp,
+                text: "Dr. $doctorName", fontSize: 20.sp,
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: bgColor, fontFamily: AppFonts.semiBold,),
               const Spacer(),
@@ -42,7 +55,7 @@ class InfoSection extends StatelessWidget {
             ],
           ),
           TextWidget(
-            text: "Gynecologist", fontSize: 16.sp,
+            text: specialityName, fontSize: 16.sp,
             fontWeight: FontWeight.w400, isTextCenter: false,
             textColor: bgColor,),
           const SizedBox(height: 20,),
@@ -65,7 +78,7 @@ class InfoSection extends StatelessWidget {
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(
-                    text: "500", fontSize: 12.sp,
+                    text: patients, fontSize: 12.sp,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: bgColor, fontFamily: AppFonts.semiBold,),
                 ],
@@ -86,7 +99,7 @@ class InfoSection extends StatelessWidget {
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(
-                    text: "10+", fontSize: 12.sp,
+                    text: yearsOfExperience, fontSize: 12.sp,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: bgColor, fontFamily: AppFonts.semiBold,),
                 ],
@@ -107,7 +120,7 @@ class InfoSection extends StatelessWidget {
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(
-                    text: "#60", fontSize: 12.sp,
+                    text: "#$reviews", fontSize: 12.sp,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: bgColor, fontFamily: AppFonts.semiBold,),
                 ],

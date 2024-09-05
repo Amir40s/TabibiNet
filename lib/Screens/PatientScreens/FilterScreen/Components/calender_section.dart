@@ -8,9 +8,15 @@ import '../../../../../model/res/constant/app_fonts.dart';
 import '../../../../../Providers/PatientHome/patient_home_provider.dart';
 
 class CalendarSection extends StatelessWidget {
+
+  final DateTime? firstDate;
   final DateTime month;
 
-  const CalendarSection({super.key, required this.month});
+  const CalendarSection({
+    super.key,
+    required this.month,
+    this.firstDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,7 @@ class CalendarSection extends StatelessWidget {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
-                      firstDate: DateTime(2000),
+                      firstDate: firstDate ?? DateTime(2000),
                       lastDate: DateTime(2100),
                     );
 

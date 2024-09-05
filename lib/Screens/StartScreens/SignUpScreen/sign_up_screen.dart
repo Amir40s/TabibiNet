@@ -102,7 +102,16 @@ class SignUpScreen extends StatelessWidget {
                   if(value.passwordC.text == value.confirmPasswordC.text){
                     // sentOTP(value.emailC.text.toString());
                     if(formKey.currentState!.validate()){
-                      await value.signUp(signInP.userType, locationP.countryName);
+                      await value.signUp(
+                          signInP.specialityC.text.toString(),
+                          signInP.specialityDetailC.text.toString(),
+                          signInP.yearsOfExperienceC.text.toString(),
+                          signInP.appointmentFrom,
+                          signInP.appointmentTo,
+                          signInP.appointmentFeeC.text.toString(),
+                          signInP.userType,
+                          locationP.countryName
+                      );
                     }
                   }else{
                     ToastMsg().toastMsg("Confirm Password is not Correct");

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../model/res/constant/app_fonts.dart';
@@ -7,38 +8,20 @@ import '../../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../../model/res/widgets/text_widget.dart';
 
 class TimeSection extends StatelessWidget {
-  TimeSection({super.key});
+  const TimeSection({
+    super.key,
+    required this.filteredTime,
+    // required this.isFilter
+  });
 
-  final List<String> time = [
-
-    "01.00 AM",
-    "02.00 AM",
-    "03.00 AM",
-    "04.00 AM",
-    "05.00 AM",
-    "06.00 AM",
-    "07.00 AM",
-    "08.00 AM",
-    "09.00 AM",
-    "10.00 AM",
-    "11.00 AM",
-    "12.00 AM",
-    "01.00 PM",
-    "03.00 PM",
-    "04.00 PM",
-    "05.00 PM",
-    "06.00 PM",
-    "07.00 PM",
-    "08.00 PM",
-    "09.00 PM",
-    "10.00 PM",
-    "11.00 PM",
-    "12.00 PM",
-
-  ];
+  // final bool isFilter;
+  final List<String> filteredTime;
 
   @override
   Widget build(BuildContext context) {
+
+    final patientAppointmentPro = Provider.of<PatientAppointmentProvider>(context,listen: false);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
@@ -59,12 +42,13 @@ class TimeSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: time.length,
+                itemCount: filteredTime.length,
                 itemBuilder: (context, index) {
                   final isSelected = value.currentTime == index;
                   return GestureDetector(
                     onTap: () {
                       value.selectTime(index);
+                      patientAppointmentPro.setAppointmentTime(filteredTime[index]);
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
@@ -76,7 +60,7 @@ class TimeSection extends StatelessWidget {
                       ),
                       child: Center(
                         child: TextWidget(
-                          text: time[index], fontSize: 16,
+                          text: filteredTime[index], fontSize: 16,
                           fontWeight: FontWeight.w500, isTextCenter: false,
                           textColor: isSelected ? bgColor : themeColor, fontFamily: AppFonts.medium,),
                       ),

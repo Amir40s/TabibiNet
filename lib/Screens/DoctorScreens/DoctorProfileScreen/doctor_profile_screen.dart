@@ -16,6 +16,7 @@ import '../../PatientScreens/NotificationSetting/notification_setting_screen.dar
 import '../../PatientScreens/UpComingAppointment/upcoming_appointment_screen.dart';
 import '../../StartScreens/AccountTypeScreen/account_type_screen.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
+import '../../StartScreens/OnboardingScreen/onboarding_screen.dart';
 import '../PaymentManagementScreen/payment_management_screen.dart';
 
 class DoctorProfileScreen extends StatelessWidget {
@@ -204,7 +205,7 @@ class DoctorProfileScreen extends StatelessWidget {
                                             press: () {
                                               auth.signOut()
                                                   .whenComplete(() {
-                                                Get.offAll(()=>LanguageScreen(isNextButton: true));
+                                                Get.offAll(()=>OnboardingScreen());
                                               },);
                                             },
                                           ),

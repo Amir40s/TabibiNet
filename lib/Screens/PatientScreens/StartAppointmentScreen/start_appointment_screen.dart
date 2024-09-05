@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
+import 'package:tabibinet_project/model/res/widgets/reusable_drop_down.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/header.dart';
@@ -78,49 +79,28 @@ class StartAppointmentScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Container(
-                    width: 100.w,
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                    decoration: BoxDecoration(
-                      color: bgColor,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: themeColor
-                      )
-                    ),
-                    child: Consumer<PatientHomeProvider>(
-                      builder: (context, provider, child) {
-                      return DropdownButton<String>(
-                        dropdownColor: bgColor,
-                        icon: const Icon(CupertinoIcons.chevron_down,size: 15,),
-                        underline: const SizedBox(),
-                        borderRadius: BorderRadius.circular(15),
-                        hint: const TextWidget(
-                          text: "All", fontSize: 16,
-                          fontWeight: FontWeight.w600, isTextCenter: false,
-                          textColor: textColor,fontFamily: AppFonts.semiBold,),
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontFamily: AppFonts.semiBold,
-                            fontWeight: FontWeight.w600,
-                            color: textColor
-                        ),
-                        isExpanded: true,
-                        value: provider.selectedAppointmentType,
-                        onChanged: (newValue) {
-                          provider.setAppointmentType(newValue!);
-                        },
-                        items: _dropdownItems.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
-                      );
-                    },),
-                  ),
+                  Consumer<PatientHomeProvider>(
+                    builder: (context, provider, child) {
+                    return ReusableDropdown(
+                      width: 100.w,
+                      verticalPad: 5.0,
+                      borderRadius: 15,
+                      fontSize: 16,
+                      selectedValue: provider.selectedAppointmentType,
+                      items: _dropdownItems,
+                      fontFamily: AppFonts.semiBold,
+                      borderColor: themeColor,
+
+                      hintText: "All",
+                      onChanged: (value) {
+                        provider.setAppointmentType(value!);
+                    },);
+                  },),
                   SizedBox(height: height1,),
-                  const FeeContainer(),
+                  const FeeContainer(
+                    title: "Consultancy",
+                    subTitle: "Book a free consultancy ",
+                  ),
                 ],
               ),
             ),

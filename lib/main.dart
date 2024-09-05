@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
+import 'package:tabibinet_project/model/data/user_model.dart';
 
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
@@ -24,7 +27,14 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   runApp(const MyApp());
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp
+      ]
+  );
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -59,6 +69,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => DoctorHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => MedicineProvider(),),
+            ChangeNotifierProvider(create: (context) => UserViewModel(),),
+            ChangeNotifierProvider(create: (context) => PatientAppointmentProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/SignIn/sign_in_provider.dart';
+import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/doctor_info_detail_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
@@ -17,6 +18,7 @@ class AccountTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final signP = Provider.of<SignInProvider>(context,listen: false);
     double height1 = 50.0;
     return SafeArea(
       child: Scaffold(
@@ -69,7 +71,11 @@ class AccountTypeScreen extends StatelessWidget {
               SubmitButton(
                 title: "Login",
                 press: () {
-                Get.to(()=>SignInScreen());
+                  if(signP.userType == "Health Professional"){
+                    Get.to(()=> DoctorInfoDetailScreen());
+                  }else{
+                    Get.to(()=>SignInScreen());
+                  }
               },),
               const SizedBox(height: 10,),
               SubmitButton(
@@ -77,8 +83,12 @@ class AccountTypeScreen extends StatelessWidget {
                 bgColor: bgColor,
                 textColor: themeColor,
                 press: () {
-                  Get.to(()=>SignUpScreen());
-              },),
+                  if(signP.userType == "Health Professional"){
+                    Get.to(()=> DoctorInfoDetailScreen());
+                  }else{
+                    Get.to(()=>SignInScreen());
+                  }
+                  },),
             ],
           ),
         ),

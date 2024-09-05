@@ -5,7 +5,9 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
+import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 
 import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
@@ -18,13 +20,27 @@ import '../PatientDetailScreen/patient_detail_screen.dart';
 import 'Components/fee_container.dart';
 
 class AppointmentScheduleScreen extends StatelessWidget {
-  const AppointmentScheduleScreen({super.key});
+  AppointmentScheduleScreen({super.key});
 
+  final List<Map<String ,String>> feesList = [
+    {
+      "title" : "Consultancy",
+      "subTitle" : "Book a free consultancy",
+    },
+    {
+      "title" : "Voice Call",
+      "subTitle" : "Can make a voice call with doctor",
+    },
+    {
+      "title" : "Help Center ",
+      "subTitle" : "Contact with Admin if you are facing Any issues",
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
 
-    final DateTime currentMonth = Provider.of<DateProvider>(context,listen: false).selectedDate;
+    // final DateTime currentMonth = Provider.of<DateProvider>(context,listen: false).selectedDate;
 
     double height1 = 20;
     return SafeArea(
@@ -55,7 +71,7 @@ class AppointmentScheduleScreen extends StatelessWidget {
                                 DateTime? selectedDate = await showDatePicker(
                                   context: context,
                                   initialDate: currentMonth,
-                                  firstDate: DateTime(2000),
+                                  firstDate: DateTime.now(),
                                   lastDate: DateTime(2100),
                                 );
                                 if (selectedDate != null) {
@@ -94,10 +110,18 @@ class AppointmentScheduleScreen extends StatelessWidget {
                     SizedBox(height: height1,),
                     Consumer<DateProvider>(
                       builder: (context, dateProvider, child) {
-                        return CalendarSection(month: dateProvider.selectedDate);
+                        return CalendarSection(
+                          month: dateProvider.selectedDate,
+                          firstDate: DateTime.now(),
+                        );
                       },),
                     SizedBox(height: height1,),
-                    TimeSection(),
+                    Consumer<PatientAppointmentProvider>(
+                      builder: (context, value, child) {
+                      return TimeSection(
+                        filteredTime: value.filteredTime,
+                      );
+                    },),
                     SizedBox(height: height1,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -109,11 +133,29 @@ class AppointmentScheduleScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.semiBold,),
                           SizedBox(height: height1,),
-                          const FeeContainer(),
-                          SizedBox(height: height1,),
-                          const FeeContainer(),
-                          SizedBox(height: height1,),
-                          const FeeContainer(),
+                          Consumer<PatientAppointmentProvider>(
+                            builder: (context, value, child) {
+                              return ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: feesList.length,
+                                itemBuilder: (context, index) {
+                                  final isSelected = value.selectFee == index;
+                                  return FeeContainer(
+                                    onTap: () {
+                                      value.setSelectedFee(index);
+                                    },
+                                    title: feesList[index]["title"]!,
+                                    subTitle: feesList[index]["subTitle"]!,
+                                    borderColor: isSelected ? themeColor : greyColor,
+                                    icon: isSelected ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(height: height1,);
+                                },
+                              );
+                          },),
                           SizedBox(height: 30.sp,),
                           SubmitButton(
                             title: "Continue",

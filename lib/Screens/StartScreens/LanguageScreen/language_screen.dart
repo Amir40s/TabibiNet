@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Providers/Language/language_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
-import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/Components/language_container.dart';
-import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/location_screen.dart';
 
+import '../../../Providers/Language/language_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../LocationScreen/location_screen.dart';
+import 'Components/language_container.dart';
 
 class LanguageScreen extends StatelessWidget {
   LanguageScreen({super.key,required this.isNextButton});

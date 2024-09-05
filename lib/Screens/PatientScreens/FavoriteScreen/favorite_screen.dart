@@ -56,7 +56,14 @@ class FavoriteScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return TopDoctorContainer();
+                      return const TopDoctorContainer(
+                        doctorName: "user.name",
+                        specialityName: "user.speciality",
+                        specialityDetail: "user.specialityDetail",
+                        availabilityFrom: "",
+                        availabilityTo: "",
+                        appointmentFee: "40",
+                      );
                     },
                   ),
                   const SizedBox(height: 30,)

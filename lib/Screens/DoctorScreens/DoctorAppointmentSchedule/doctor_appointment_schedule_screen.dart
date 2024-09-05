@@ -115,7 +115,9 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                         },),
                     ),
                     SizedBox(height: height,),
-                    CalendarSection(month: DateTime.now()),
+                    CalendarSection(
+                        month: DateTime.now(),
+                    ),
                     SizedBox(height: height,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),

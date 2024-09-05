@@ -10,7 +10,12 @@ import '../../../../../model/res/widgets/text_widget.dart';
 import '../../AppointmentScheduleScreen/appointment_schedule_screen.dart';
 
 class AboutSection extends StatelessWidget {
-  const AboutSection({super.key});
+  const AboutSection({
+    super.key,
+    required this.doctorDetail
+  });
+
+  final String doctorDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +43,7 @@ class AboutSection extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   TextWidget(
-                    text: "Dr. Dianne Johnson is a dedicated gynecologist "
-                        "committed to women's health and well-being. With "
-                        "expertise in obstetrics and gynecology, she provides "
-                        "compassionate care, emphasizing preventive measures and"
-                        " personalized treatment. Dr. Johnson's approach focuses"
-                        " on empowering her patients through education and comprehensive"
-                        " medical guidance, ensuring their comfort and confidence throughout"
-                        " their healthcare journey.",
+                    text: doctorDetail,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400, isTextCenter: false,
                     textColor: textColor,maxLines: 10,)

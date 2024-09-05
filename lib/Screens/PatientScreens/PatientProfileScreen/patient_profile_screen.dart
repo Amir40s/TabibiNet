@@ -8,6 +8,7 @@ import 'package:tabibinet_project/Screens/PatientScreens/EditProfileScreen/patie
 import 'package:tabibinet_project/Screens/PatientScreens/HelpAndSupportScreen/help_and_support_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/NotificationSetting/notification_setting_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/language_screen.dart';
+import 'package:tabibinet_project/Screens/StartScreens/OnboardingScreen/onboarding_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
@@ -263,7 +264,10 @@ class PatientProfileScreen extends StatelessWidget {
                                             title: "Logout",
                                             bdRadius: 6,
                                             press: () {
-                                              Get.offAll(()=>AccountTypeScreen());
+                                              auth.signOut()
+                                                  .whenComplete(() {
+                                                Get.offAll(()=>OnboardingScreen());
+                                              },);
                                             },
                                           ),
                                         ],

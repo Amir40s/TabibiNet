@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tabibinet_project/model/res/constant/user_type.dart';
 
 import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
+import '../../model/data/user_model.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 
@@ -19,14 +19,22 @@ class SignInProvider extends ChangeNotifier{
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   String _userType = "Patient";
-  String _signInType = "Custom";
+  String? _appointmentFrom;
+  String? _appointmentTo;
+  // String _signInType = "Custom";
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+  TextEditingController specialityC = TextEditingController();
+  TextEditingController specialityDetailC = TextEditingController();
+  TextEditingController yearsOfExperienceC = TextEditingController();
+  TextEditingController appointmentFeeC = TextEditingController();
   bool _isSignInPasswordShow = true;
   bool _isLoading = false;
 
   String get userType => _userType;
-  String get signInType => _signInType;
+  String? get appointmentFrom => _appointmentFrom;
+  String? get appointmentTo => _appointmentTo;
+  // String get signInType => _signInType;
   bool get isSignInPasswordShow => _isSignInPasswordShow;
   bool get isLoading => _isLoading;
 
@@ -37,6 +45,16 @@ class SignInProvider extends ChangeNotifier{
 
   setUserType(String userType){
     _userType = userType;
+    notifyListeners();
+  }
+
+  setAppointmentFrom(String from){
+    _appointmentFrom = from;
+    notifyListeners();
+  }
+
+  setAppointmentTo(String to){
+    _appointmentTo = to;
     notifyListeners();
   }
 
@@ -113,8 +131,6 @@ class SignInProvider extends ChangeNotifier{
         idToken: googleAuth.idToken,
       );
 
-      _signInType = "Google";
-      notifyListeners();
       // Sign in with the credential
       UserCredential userCredential = await auth.signInWithCredential(credential);
 
@@ -141,9 +157,17 @@ class SignInProvider extends ChangeNotifier{
           "email": auth.currentUser!.email,
           "country": country,
           "name" : auth.currentUser!.displayName,
-          "phoneNumber" : auth.currentUser!.phoneNumber,
+          "phoneNumber" : auth.currentUser!.phoneNumber ?? "",
+          "speciality": specialityC.text.toString(),
+          "experience": yearsOfExperienceC.text.toString(),
+          "availabilityFrom": _appointmentFrom,
+          "availabilityTo": _appointmentTo,
+          "appointmentFee": appointmentFeeC.text.toString(),
+          "specialityDetail": specialityDetailC.text.toString(),
+          "reviews": "0",
+          "patients": "0",
           "userType": _userType,
-          "accountType": _signInType
+          "accountType": "Google"
         }).whenComplete(() {
           Navigator.of(context).pop(); // Dismiss the dialog
           if (_userType == "Patient") {
@@ -153,14 +177,15 @@ class SignInProvider extends ChangeNotifier{
           }
         });
       }
-
       debugPrint('Successfully signed in with Google');
     } catch (e) {
       // Dismiss the dialog in case of error
       Get.back();
       debugPrint("Error: ${e.toString()}");
     }
-  }}
+  }
+
+}
 
 
 //else {
