@@ -153,6 +153,7 @@ class SignInProvider extends ChangeNotifier{
       } else {
         // Document does not exist, create a new one
         await docRef.set({
+          "creationDate": DateTime.now(),
           "userUid": auth.currentUser!.uid,
           "email": auth.currentUser!.email,
           "country": country,

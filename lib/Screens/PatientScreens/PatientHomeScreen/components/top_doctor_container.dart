@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/data/user_model.dart';
 import '../../../../model/res/constant/app_fonts.dart';
@@ -33,7 +34,6 @@ class TopDoctorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userViewModel = Provider.of<UserViewModel>(context);
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 15),

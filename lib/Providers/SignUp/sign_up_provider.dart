@@ -63,6 +63,7 @@ class SignUpProvider extends ChangeNotifier{
       String? userUID = auth.currentUser!.uid;
       await fireStore.collection("users").doc(userUID).set(
           {
+            "creationDate": DateTime.now(),
             "userUid" : userUID,
             "email" : emailC.text.toString(),
             "name" : nameC.text,

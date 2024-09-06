@@ -6,6 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/components/doctor_section.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
 import '../../../constant.dart';
@@ -26,35 +27,10 @@ import 'components/speciality_slider_section.dart';
 import 'components/top_doctor_container.dart';
 
 class PatientHomeScreen extends StatelessWidget {
-  PatientHomeScreen({super.key});
-
-  final CarouselSliderController _carouselController =
-      CarouselSliderController();
-  final searchC = TextEditingController();
-  final List<String> scheduleData = [
-    "Slide 1",
-    "Slide 2",
-    "Slide 3"
-  ]; // Replace with your actual data
-  final List<Map<String, dynamic>> doctorSpecialityList = [
-    {
-      'title': "Ophthalmologist",
-      'subTitle': '213 doctors',
-      'icon': AppIcons.eyeIcon,
-      'color': themeColor,
-    },
-    {
-      'title': "Neurologist",
-      'subTitle': '200 doctors',
-      'icon': AppIcons.brainIcon,
-      'color': bgColor,
-    },
-  ]; // Replace with your actual data
+  const PatientHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userViewModel = Provider.of<UserViewModel>(context);
-    final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
     double height1 = 20;
     DateTime now = DateTime.now();
     // Format the time using intl
@@ -198,13 +174,9 @@ class PatientHomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: height1,
-                  ),
+                  SizedBox(height: height1,),
                   SpecialitySliderSection(),
-                  SizedBox(
-                    height: height1,
-                  ),
+                  SizedBox(height: height1,),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
@@ -229,56 +201,8 @@ class PatientHomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: height1,
-                  ),
-                  StreamBuilder<List<UserModel>>(
-                    stream: userViewModel.fetchUsers(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No users found'));
-                      }
-
-                      // List of users
-                      final users = snapshot.data!;
-
-                      return ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: users.length,
-                        itemBuilder: (context, index) {
-                          final user = users[index];
-                          return TopDoctorContainer(
-                            doctorName: user.name,
-                            specialityName: user.speciality,
-                            specialityDetail: user.specialityDetail,
-                            availabilityFrom: user.availabilityFrom,
-                            availabilityTo: user.availabilityTo,
-                            appointmentFee: user.appointmentFee,
-                            onTap: () {
-                              appointmentScheduleP.setFromTime(user.availabilityFrom);
-                              appointmentScheduleP.setToTime(user.availabilityTo);
-                              Get.to(()=> DoctorDetailScreen(
-                                doctorName: user.name,
-                                specialityName: user.speciality,
-                                doctorDetail: user.specialityDetail,
-                                yearsOfExperience: user.experience,
-                                patients: user.patients,
-                                reviews: user.reviews,
-                              ));
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
+                  SizedBox(height: height1,),
+                  const DoctorSection(),
                   const SizedBox(
                     height: 30,
                   )

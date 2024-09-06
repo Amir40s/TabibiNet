@@ -1,8 +1,17 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/model/data/patient_model.dart';
+
+import '../../Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 
 class PatientAppointmentProvider with ChangeNotifier {
+
+  final nameC = TextEditingController();
+  final phoneC = TextEditingController();
+  final problemC = TextEditingController();
 
   final List<String> _time = [
     "01.00 AM", "02.00 AM", "03.00 AM", "04.00 AM", "05.00 AM", "06.00 AM",
@@ -11,10 +20,15 @@ class PatientAppointmentProvider with ChangeNotifier {
     "07.00 PM", "08.00 PM", "09.00 PM", "10.00 PM", "11.00 PM", "12.00 PM",
   ];
 
+  String? _doctorId;
   String? _fromTime;
   String? _toTime;
   String? _appointmentTime;
+  String? _appointmentDate;
   int? _selectFee;
+  int? _selectPatientAge;
+  String? _selectedGender;
+  String? _patientAge;
   List<String> _filteredTime = [];
 
   PatientAppointmentProvider() {
@@ -23,14 +37,44 @@ class PatientAppointmentProvider with ChangeNotifier {
 
   List<String> get time => _time;
   List<String> get filteredTime => _filteredTime;
+  String? get doctorId => _doctorId;
   String? get fromTime => _fromTime;
   String? get toTime => _toTime;
   String? get appointmentTime => _appointmentTime;
+  String? get appointmentDate => _appointmentDate;
   int? get selectFee => _selectFee;
+  String? get selectedGender => _selectedGender;
+  String? get patientAge => _patientAge;
+  int? get selectPatientAge => _selectPatientAge;
 
+  void selectGender(String gender) {
+    _selectedGender = gender;
+    notifyListeners();
+  }
+
+  void setPatientAge(int index, String age) {
+    _selectPatientAge = index;
+    _patientAge = age;
+    notifyListeners();
+  }
 
   void setSelectedFee(index){
     _selectFee = index;
+    log(_appointmentDate.toString());
+    notifyListeners();
+  }
+
+  void setDoctorId(doctorId){
+    _doctorId = doctorId;
+    log(_doctorId.toString());
+    notifyListeners();
+  }
+
+  void setAppointmentDate(DateTime date){
+    // Format the time using intl
+    String formattedDate = DateFormat('EEEE, MMMM d').format(date);
+    _appointmentDate = formattedDate;
+    log(_appointmentDate.toString());
     notifyListeners();
   }
 
@@ -40,13 +84,9 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setFromTime(String? value) {
-    _fromTime = value;
-    _filterTimes();
-  }
-
-  void setToTime(String? value) {
-    _toTime = value;
+  void setAvailabilityTime(String? from, String? to) {
+    _fromTime = from;
+    _toTime = to;
     _filterTimes();
   }
 
@@ -61,4 +101,28 @@ class PatientAppointmentProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> addPatient() async {
+    await fireStore.collection("users").doc(_doctorId).collection("patients").doc(auth.currentUser!.uid).set({
+      "patientId" : auth.currentUser!.uid,
+      "patientName" : nameC.text.toString(),
+      "patientAge" : _patientAge,
+      "patientPhone" : phoneC.text.toString(),
+      "patientGender" : _selectedGender,
+      "patientProblem" : problemC.text.toString(),
+      "appointmentTime" : _appointmentTime,
+      "appointmentDate" : _appointmentDate,
+    })
+        .whenComplete(() {
+      Get.off(()=>StartAppointmentScreen());
+    },);
+  }
+
+  Stream<List<PatientModel>> fetchPatients() {
+    return fireStore.collection('users').doc(auth.currentUser!.uid).collection("patients")
+        .snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => PatientModel.fromDocumentSnapshot(doc)).toList();
+    });
+  }
+  
 }

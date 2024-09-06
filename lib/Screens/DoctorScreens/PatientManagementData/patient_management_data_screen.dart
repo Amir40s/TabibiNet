@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/PatientManagementDetailScreen/patient_management_detail_screen.dart';
+import 'package:tabibinet_project/model/data/patient_model.dart';
 
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../constant.dart';
+import '../../../model/data/user_model.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
@@ -19,6 +24,7 @@ class PatientManagementDataScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final patientViewModel = Provider.of<PatientAppointmentProvider>(context,listen: false);
     double height1 = 20.0;
     return SafeArea(
       child: Scaffold(
@@ -47,52 +53,75 @@ class PatientManagementDataScreen extends StatelessWidget {
             ),
             SizedBox(height: height1,),
             Expanded(
-                child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            color: bgColor,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                                color: greyColor
-                            )
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                TextWidget(
-                                  text: "Micheal Rickliff", fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600, isTextCenter: false,
-                                  textColor: textColor, fontFamily: AppFonts.semiBold,),
-                                const SizedBox(height: 10,),
-                                TextWidget(
-                                  text: "ID Number: #33883", fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400, isTextCenter: false,
-                                  textColor: textColor, ),
+                child: StreamBuilder<List<PatientModel>>(
+                  stream: patientViewModel.fetchPatients(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No users found'));
+                    }
 
+                    // List of users
+                    final users = snapshot.data!;
+
+                    return ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        itemBuilder: (context, index) {
+                          final user = users[index];
+                          return Container(
+                            padding: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                color: bgColor,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: greyColor
+                                )
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                      text: user.patientName, fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600, isTextCenter: false,
+                                      textColor: textColor, fontFamily: AppFonts.semiBold,),
+                                    const SizedBox(height: 10,),
+                                    TextWidget(
+                                      text: "ID Number: #33883", fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400, isTextCenter: false,
+                                      textColor: textColor, ),
+                                  ],
+                                ),
+                                SubmitButton(
+                                  width: 26.w,
+                                  height: 40,
+                                  title: "View Detail",
+                                  textColor: themeColor,
+                                  bgColor: themeColor.withOpacity(0.1),
+                                  press: () {
+                                    Get.to(()=> PatientManagementDetailScreen(
+                                      patientName: user.patientName,
+                                      patientAge: user.patientAge,
+                                      patientGender: user.patientGender,
+                                    ));
+                                  },)
                               ],
                             ),
-                            SubmitButton(
-                              width: 26.w,
-                              height: 40,
-                              title: "View Detail",
-                              textColor: themeColor,
-                              bgColor: themeColor.withOpacity(0.1),
-                              press: () {
-                                Get.to(()=>const PatientManagementDetailScreen());
-                              },)
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 15,);
-                    },
-                    itemCount: 10
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(height: 15,);
+                        },
+                        itemCount: users.length
+                    );
+                  },
                 )
             ),
             SizedBox(height: height1,),

@@ -9,6 +9,7 @@ import 'package:tabibinet_project/model/data/user_model.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/DoctorHome/doctor_home_provider.dart';
+import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/Language/language_provider.dart';
 import 'Providers/Location/location_provider.dart';
 import 'Providers/Medicine/medicine_provider.dart';
@@ -69,8 +70,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => DoctorHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => MedicineProvider(),),
-            ChangeNotifierProvider(create: (context) => UserViewModel(),),
             ChangeNotifierProvider(create: (context) => PatientAppointmentProvider(),),
+            ChangeNotifierProvider(create: (context) => FindDoctorProvider(),),
           ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,

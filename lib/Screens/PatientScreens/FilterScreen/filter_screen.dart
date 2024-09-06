@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
@@ -105,7 +106,7 @@ class FilterScreen extends StatelessWidget {
                            fontWeight: FontWeight.w600, isTextCenter: false,
                            textColor: textColor, fontFamily: AppFonts.semiBold,),
                          SizedBox(height: height1,),
-                         Consumer<PatientHomeProvider>(
+                         Consumer<PatientAppointmentProvider>(
                            builder: (context, value, child) {
                            return Row(
                              mainAxisAlignment: MainAxisAlignment.spaceBetween,

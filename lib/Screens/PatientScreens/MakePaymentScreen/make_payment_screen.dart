@@ -41,7 +41,7 @@ class MakePaymentScreen extends StatelessWidget {
                     SubmitButton(
                       title: "Confirm Appointment",
                       press: () {
-                        Get.to(()=>BookingConfirmedScreen());
+                        Get.to(()=>const BookingConfirmedScreen());
                       },),
                     SizedBox(height: height1),
               ],

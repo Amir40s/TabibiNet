@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../model/res/constant/app_fonts.dart';
@@ -20,6 +21,7 @@ class CalendarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final patientAppointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
     return SizedBox(
       height: 120,
       width: 100.w,
@@ -53,6 +55,7 @@ class CalendarSection extends StatelessWidget {
                     );
 
                     if (pickedDate != null) {
+                      patientAppointmentP.setAppointmentDate(selectedDate);
                       dateProvider.updateSelectedDate(pickedDate);
                     }
                   },

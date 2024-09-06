@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class UserModel {
   final String userUid;
@@ -56,23 +55,3 @@ class UserModel {
   }
 }
 
-class UserViewModel extends ChangeNotifier{
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
-  // Stream to fetch users from FireStore
-  Stream<List<UserModel>> fetchUsers() {
-    return _fireStore.collection('users')
-        .where( "userType", isEqualTo: "Health Professional")
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => UserModel.fromDocumentSnapshot(doc)).toList();
-    });
-  }
-
-  // Function to add a user
-  Future<void> addUser(UserModel user) async {
-    await _fireStore.collection('users').add({
-      'name': user.name,
-      'email': user.email,
-    });
-  }
-}

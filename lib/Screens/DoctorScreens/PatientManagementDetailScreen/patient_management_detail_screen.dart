@@ -12,7 +12,16 @@ import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 class PatientManagementDetailScreen extends StatelessWidget {
-  const PatientManagementDetailScreen({super.key});
+  const PatientManagementDetailScreen({
+    super.key,
+    required this.patientName,
+    required this.patientAge,
+    required this.patientGender,
+  });
+
+  final String patientName;
+  final String patientAge;
+  final String patientGender;
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +48,21 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Micheal Rickliff"),
+                    InfoTile(title: patientName),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Age", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "22"),
+                    InfoTile(title: patientAge),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Gender", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Male"),
+                    InfoTile(title: patientGender),
                     SizedBox(height: height1,),
                     SubmitButton(
                       title: "Chat",

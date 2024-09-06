@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
@@ -40,6 +41,7 @@ class AppointmentScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final patientAppointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
     // final DateTime currentMonth = Provider.of<DateProvider>(context,listen: false).selectedDate;
 
     double height1 = 20;
@@ -75,6 +77,7 @@ class AppointmentScheduleScreen extends StatelessWidget {
                                   lastDate: DateTime(2100),
                                 );
                                 if (selectedDate != null) {
+                                  patientAppointmentP.setAppointmentDate(selectedDate);
                                   dateProvider.updateSelectedDate(selectedDate);
                                 }
                               },
@@ -160,7 +163,14 @@ class AppointmentScheduleScreen extends StatelessWidget {
                           SubmitButton(
                             title: "Continue",
                             press: () {
-                              Get.to(()=> PatientDetailScreen());
+                              if(patientAppointmentP.appointmentTime != null){
+                                if(patientAppointmentP.appointmentDate == null){
+                                  patientAppointmentP.setAppointmentDate(DateTime.now());
+                                }
+                                Get.to(()=> PatientDetailScreen());
+                              }else{
+                                ToastMsg().toastMsg("Select Appointment Time!",toastColor: redColor);
+                              }
                           },),
                         ],
                       ),

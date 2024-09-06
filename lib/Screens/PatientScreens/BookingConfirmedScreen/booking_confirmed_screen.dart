@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 import 'package:tabibinet_project/model/res/components/circle_icon.dart';
 import '../../../../constant.dart';
@@ -16,6 +18,7 @@ class BookingConfirmedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondaryGreenColor,
@@ -205,8 +208,8 @@ class BookingConfirmedScreen extends StatelessWidget {
                             const SizedBox(height: 20,),
                             SubmitButton(
                               title: "Done",
-                              press: () {
-                                Get.off(()=>StartAppointmentScreen());
+                              press: () async {
+                                await appointmentP.addPatient();
                             },),
                             const SizedBox(height: 20,),
                           ],

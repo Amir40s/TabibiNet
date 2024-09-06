@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 
@@ -11,7 +12,10 @@ import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/input_field.dart';
 import '../../../../model/res/widgets/text_widget.dart';
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
+import '../../../model/data/user_model.dart';
 import '../../../model/res/constant/app_icons.dart';
+import '../DoctorDetailScreen/doctor_detail_screen.dart';
 import '../FilterScreen/filter_screen.dart';
 import '../PatientHomeScreen/components/top_doctor_container.dart';
 import 'Components/suggestion_container.dart';
@@ -22,6 +26,7 @@ class FindDoctorScreen extends StatelessWidget {
   final List<Map<String, String>> suggestion = [
     {'title': 'All'},
     {'title': 'General'},
+    {'title': 'Cardiologist'},
     {'title': 'Dentist'},
     {'title': 'Nutritionist'},
     {'title': 'Label'},
@@ -30,6 +35,9 @@ class FindDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = Provider.of<PatientHomeProvider>(context,listen: false);
+    final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
+    final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -87,7 +95,7 @@ class FindDoctorScreen extends StatelessWidget {
                     SizedBox(
                       height: 40,
                       width: 100.w,
-                      child: Consumer<PatientHomeProvider>(
+                      child: Consumer<FindDoctorProvider>(
                         builder: (context, provider, child) {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -98,7 +106,7 @@ class FindDoctorScreen extends StatelessWidget {
                             final isSelected = provider.selectedIndex == index;
                             return GestureDetector(
                               onTap: () {
-                                provider.selectButton(index);
+                                provider.setDoctorCategory(index,suggestion[index]["title"]!);
                               },
                               child: SuggestionContainer(
                                   text: suggestion[index]["title"]!,
@@ -122,22 +130,60 @@ class FindDoctorScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20,),
-                    ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return const TopDoctorContainer(
-                          doctorName: "user.name",
-                          specialityName: "user.speciality",
-                          specialityDetail: "user.specialityDetail",
-                          availabilityFrom: "",
-                          availabilityTo: "",
-                          appointmentFee: "40",
+                    Consumer<FindDoctorProvider>(
+                      builder: (context, provider, child) {
+                        return StreamBuilder<List<UserModel>>(
+                          stream: provider.selectDoctorCategory != null && provider.selectDoctorCategory != "All" ?
+                          userViewModel.fetchFilterDoctors(provider.selectDoctorCategory!)
+                              : userViewModel.fetchDoctors(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                            if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            }
+                            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                              return const Center(child: Text('No users found'));
+                            }
+
+                            // List of users
+                            final users = snapshot.data!;
+
+                            return ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: users.length,
+                              itemBuilder: (context, index) {
+                                final user = users[index];
+                                return TopDoctorContainer(
+                                  doctorName: user.name,
+                                  specialityName: user.speciality,
+                                  specialityDetail: user.specialityDetail,
+                                  availabilityFrom: user.availabilityFrom,
+                                  availabilityTo: user.availabilityTo,
+                                  appointmentFee: user.appointmentFee,
+                                  onTap: () {
+                                    appointmentScheduleP.setAvailabilityTime(
+                                        user.availabilityFrom,
+                                        user.availabilityTo
+                                    );
+                                    Get.to(()=> DoctorDetailScreen(
+                                      doctorName: user.name,
+                                      specialityName: user.speciality,
+                                      doctorDetail: user.specialityDetail,
+                                      yearsOfExperience: user.experience,
+                                      patients: user.patients,
+                                      reviews: user.reviews,
+                                    ));
+                                  },
+                                );
+                              },
+                            );
+                          },
                         );
-                      },
-                    ),
+                    },)
                     
                   ],
             ))
