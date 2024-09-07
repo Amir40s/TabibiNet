@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/global_provider.dart';
 
 import '../../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
@@ -15,6 +17,8 @@ class SplashServices {
   Future<void> isLogin() async {
 
     final user = FirebaseAuth.instance.currentUser;
+    final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
+    final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
 
     if (user != null) {
       CollectionReference userCollection = fireStore.collection("users");
@@ -34,9 +38,16 @@ class SplashServices {
             Get.back(); // Dismiss the dialog
 
             if (type == "Patient") {
-              Get.off(() => const PatientBottomNavBar());
+              await patientProfileProvider!.getSelfInfo()
+                  .whenComplete(() {
+                Get.off(() => const PatientBottomNavBar());
+              },);
             } else if (type == "Health Professional") {
-              Get.off(() => const DoctorBottomNavbar());
+              doctorProfileProvider!.getSelfInfo()
+                  .whenComplete(() {
+                Get.off(() => const DoctorBottomNavbar());
+              },);
+
             }
           } else {
             Timer(const Duration(seconds: 3), () {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/model/data/user_model.dart';
 
@@ -24,6 +25,8 @@ import 'Screens/StartScreens/SplashScreen/splash_screen.dart';
 import 'constant.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'global_provider.dart';
 
 
 void main() async {
@@ -72,8 +75,10 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => MedicineProvider(),),
             ChangeNotifierProvider(create: (context) => PatientAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => FindDoctorProvider(),),
+            ChangeNotifierProvider(create: (context) => DoctorProfileProvider(),),
           ],
         child: GetMaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'TabibiNet',
           // locale: DevicePreview.locale(context),

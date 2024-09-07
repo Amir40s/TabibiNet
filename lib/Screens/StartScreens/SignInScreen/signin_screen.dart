@@ -65,6 +65,7 @@ class SignInScreen extends StatelessWidget {
                   InputField(
                     inputController: signInP.emailC,
                     hintText: "Enter email",
+                    type: TextInputType.emailAddress,
                   ),
                   SizedBox(height: height1,),
                   const TextWidget(

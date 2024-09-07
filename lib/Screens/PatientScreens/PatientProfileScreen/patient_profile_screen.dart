@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/EditProfileScreen/patient_edit_profile_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/HelpAndSupportScreen/help_and_support_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/NotificationSetting/notification_setting_screen.dart';
@@ -49,30 +51,49 @@ class PatientProfileScreen extends StatelessWidget {
                         ),
                         child:Row(
                           children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              decoration: const BoxDecoration(
-                                color: greyColor,
-                                shape: BoxShape.circle
-                              ),
-                            ),
+                            Consumer<PatientProfileProvider>(
+                              builder: (context, value, child) {
+                                return InkWell(
+                                  onTap: () {
+                                    value.pickImage();
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Container(
+                                      height: 70,
+                                      width: 70,
+                                      decoration: const BoxDecoration(
+                                          color: greyColor,
+                                          shape: BoxShape.circle
+                                      ),
+                                      child: value.image != null ? Image.file(
+                                        value.image!,
+                                        fit: BoxFit.cover,)
+                                          : const SizedBox(),
+                                    ),
+                                  ),
+                                );
+                              },),
                             const SizedBox(width: 10,),
-                            const Column(
-                              children: [
-                                TextWidget(
-                                  text: "Fatima Noor", fontSize: 20,
-                                  fontWeight: FontWeight.w600, isTextCenter: false,
-                                  textColor: bgColor, fontFamily: AppFonts.medium,
-                                ),
-                                SizedBox(height: 10,),
-                                TextWidget(
-                                  text: "+212611343456", fontSize: 16,
-                                  fontWeight: FontWeight.w400, isTextCenter: false,
-                                  textColor: bgColor
-                                ),
-                              ],
-                            ),
+                            Consumer<PatientProfileProvider>(
+                              builder: (context, value, child) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextWidget(
+                                    text: value.patientName, fontSize: 20,
+                                    fontWeight: FontWeight.w600, isTextCenter: false,
+                                    textColor: bgColor, fontFamily: AppFonts.medium,
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  TextWidget(
+                                      text: value.patientPhone, fontSize: 16,
+                                      fontWeight: FontWeight.w400, isTextCenter: false,
+                                      textColor: bgColor
+                                  ),
+                                ],
+                              );
+                            },),
                             const Spacer(),
                             Container(
                               padding: const EdgeInsets.all(10),
@@ -110,7 +131,7 @@ class PatientProfileScreen extends StatelessWidget {
                     ),
                     ListTile(
                       onTap: (){
-                        Get.to(()=>NotificationSettingScreen());
+                        Get.to(()=>const NotificationSettingScreen());
                       },
                       minTileHeight: 70,
                       title: const TextWidget(
@@ -184,7 +205,7 @@ class PatientProfileScreen extends StatelessWidget {
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(()=>HelpAndSupportScreen());
+                        Get.to(()=>const HelpAndSupportScreen());
                       },
                       minTileHeight: 70,
                       title: const TextWidget(

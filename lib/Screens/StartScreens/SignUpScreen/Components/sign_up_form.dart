@@ -37,6 +37,7 @@ class SignUpForm extends StatelessWidget {
         InputField(
           inputController: signUpP.emailC,
           hintText: "Enter email",
+          type: TextInputType.emailAddress,
         ),
         SizedBox(height: height1,),
         const TextWidget(

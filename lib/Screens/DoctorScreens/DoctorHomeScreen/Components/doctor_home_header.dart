@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorNotification/doctor_notification_screen.dart';
 
 import '../../../../constant.dart';
@@ -20,20 +22,36 @@ class DoctorHomeHeader extends StatelessWidget {
         height: 72,
         child: Row(
           children: [
-            Container(
-              height: 72,
-              width: 72,
-              decoration: BoxDecoration(
-                  color: greyColor,
-                  borderRadius: BorderRadius.circular(10)
-              ),
-            ),
+            Consumer<DoctorProfileProvider>(
+              builder: (context, value, child) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    height: 72,
+                    width: 72,
+                    decoration: BoxDecoration(
+                        color: greyColor,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: value.image != null ? Image.file(
+                      value.image!,
+                      fit: BoxFit.cover,)
+                        : const SizedBox(),
+                  ),
+                );
+            },),
             const SizedBox(width: 10,),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TextWidget(text: "Hi, Dr Fatima", fontSize: 20, fontWeight: FontWeight.w600, isTextCenter: false, textColor: textColor),
+                Consumer<DoctorProfileProvider>(
+                  builder: (context, value, child) {
+                    return TextWidget(
+                        text: "Hi, ${value.doctorName}", fontSize: 20,
+                        fontWeight: FontWeight.w600, isTextCenter: false,
+                        textColor: textColor);
+                },),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                   decoration: BoxDecoration(

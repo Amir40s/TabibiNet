@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/widgets/profile_tile.dart';
 
@@ -14,7 +16,6 @@ import '../../../model/res/widgets/text_widget.dart';
 import '../../PatientScreens/EditProfileScreen/patient_edit_profile_screen.dart';
 import '../../PatientScreens/NotificationSetting/notification_setting_screen.dart';
 import '../../PatientScreens/UpComingAppointment/upcoming_appointment_screen.dart';
-import '../../StartScreens/AccountTypeScreen/account_type_screen.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
 import '../../StartScreens/OnboardingScreen/onboarding_screen.dart';
 import '../PaymentManagementScreen/payment_management_screen.dart';
@@ -36,7 +37,7 @@ class DoctorProfileScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(()=>PatientEditProfileScreen());
+                        Get.to(()=>const DoctorEditProfileScreen());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),
@@ -47,30 +48,65 @@ class DoctorProfileScreen extends StatelessWidget {
                         ),
                         child:Row(
                           children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              decoration: const BoxDecoration(
-                                  color: greyColor,
-                                  shape: BoxShape.circle
-                              ),
-                            ),
+                            Consumer<DoctorProfileProvider>(
+                              builder: (context, value, child) {
+                                return Center(
+                                  child: Stack(
+                                    alignment: Alignment.bottomRight,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          value.pickImage();
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(100),
+                                          child: Container(
+                                            height: 70,
+                                            width: 70,
+                                            decoration: const BoxDecoration(
+                                                color: greyColor,
+                                                shape: BoxShape.circle
+                                            ),
+                                            child: value.image != null ? Image.file(
+                                              value.image!,
+                                              fit: BoxFit.cover,)
+                                                : const SizedBox(),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(10.sp),
+                                        decoration: const BoxDecoration(
+                                            color: themeColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: const Icon(Icons.camera_alt_outlined,color: bgColor,),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },),
                             const SizedBox(width: 10,),
-                            const Column(
-                              children: [
-                                TextWidget(
-                                  text: "Dr Fatima", fontSize: 20,
-                                  fontWeight: FontWeight.w600, isTextCenter: false,
-                                  textColor: bgColor, fontFamily: AppFonts.medium,
-                                ),
-                                SizedBox(height: 10,),
-                                TextWidget(
-                                    text: "+212611343456", fontSize: 16,
-                                    fontWeight: FontWeight.w400, isTextCenter: false,
-                                    textColor: bgColor
-                                ),
-                              ],
-                            ),
+                            Consumer<DoctorProfileProvider>(
+                              builder: (context, value, child) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                      text: value.doctorName, fontSize: 20,
+                                      fontWeight: FontWeight.w600, isTextCenter: false,
+                                      textColor: bgColor, fontFamily: AppFonts.medium,
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    TextWidget(
+                                        text: value.doctorPhone, fontSize: 16,
+                                        fontWeight: FontWeight.w400, isTextCenter: false,
+                                        textColor: bgColor
+                                    ),
+                                  ],
+                                );
+                            },),
                             const Spacer(),
                             Container(
                               padding: const EdgeInsets.all(10),

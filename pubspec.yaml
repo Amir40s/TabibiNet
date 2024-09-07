@@ -55,6 +55,9 @@ dependencies:
   google_sign_in: ^6.2.1
   email_auth: ^2.0.0
   mailer: ^6.1.2
+  cached_network_image: any
+  file_picker: any
+  image_picker: ^1.1.2
 
 
 dev_dependencies:

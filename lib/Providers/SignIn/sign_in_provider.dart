@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
-import '../../model/data/user_model.dart';
+import '../../global_provider.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 
@@ -17,6 +17,8 @@ class SignInProvider extends ChangeNotifier{
 
   final AuthServices authServices = AuthServices();
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
+  final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
 
   String _userType = "Patient";
   String? _appointmentFrom;
@@ -77,9 +79,15 @@ class SignInProvider extends ChangeNotifier{
         Get.back(); // Dismiss the dialog
 
         if (type == "Patient") {
-          Get.off(() => const PatientBottomNavBar());
+          await patientProfileProvider!.getSelfInfo()
+              .whenComplete(() {
+            Get.off(() => const PatientBottomNavBar());
+          },);
         } else if (type == "Health Professional") {
-          Get.off(() => const DoctorBottomNavbar());
+          doctorProfileProvider!.getSelfInfo()
+              .whenComplete(() {
+            Get.off(() => const DoctorBottomNavbar());
+          },);
         }
       }
 

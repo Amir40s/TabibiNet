@@ -1,38 +1,36 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tabibinet_project/constant.dart';
 
-class PatientProfileProvider extends ChangeNotifier{
+import '../../constant.dart';
+
+class DoctorProfileProvider extends ChangeNotifier{
 
   final TextEditingController nameC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  int? _selectFaq;
-  int? _selectFaqCat;
-  String _patientName = "";
-  String _patientPhone = "";
+  String _doctorName = "";
+  String _doctorPhone = "";
   File? _image;
 
-  int? get selectFaq => _selectFaq;
-  int? get selectFaqCat => _selectFaqCat;
-  String get patientName => _patientName;
-  String get patientPhone => _patientPhone;
+  String get doctorName => _doctorName;
+  String get doctorPhone => _doctorPhone;
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
     await fireStore.collection("users").doc(auth.currentUser!.uid).get()
         .then((value) {
-          _patientName = value.get("name");
-          _patientPhone = value.get("phoneNumber");
-          nameC.text = _patientName;
-          notifyListeners();
+      _doctorName = value.get("name");
+      _doctorPhone = value.get("phoneNumber");
+      nameC.text = _doctorName;
+      notifyListeners();
     },);
-    log(_patientName);
-    log(_patientPhone);
+    log(_doctorName);
+    log(_doctorPhone);
   }
 
   Future<void> pickImage() async {
@@ -56,14 +54,19 @@ class PatientProfileProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  setFaq(index){
-    _selectFaq = index;
-    notifyListeners();
-  }
-
-  setFaqCat(int index){
-    _selectFaqCat = index;
-    notifyListeners();
-  }
-
 }
+
+
+//FilePickerResult? result = await FilePicker.platform.pickFiles(
+//       type: FileType.image,
+//       allowedExtensions: ['png',],
+//     );
+//
+//     if (result != null) {
+//       // Handle the file selection here
+//       // Example: Access the file using result.files.first
+//       print('File selected: ${result.files.first.name}');
+//     } else {
+//       // User canceled the picker
+//       print('File selection canceled');
+//     }
