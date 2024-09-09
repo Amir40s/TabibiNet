@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:email_auth/email_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,9 +8,9 @@ import 'package:mailer/smtp_server.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/Components/sign_up_form.dart';
+import 'package:tabibinet_project/model/res/constant/app_utils.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
@@ -20,7 +18,6 @@ import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/dotted_line.dart';
-import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../SignInScreen/Components/sign_container.dart';
@@ -98,24 +95,12 @@ class SignUpScreen extends StatelessWidget {
                   : SubmitButton(
                 title: "Sign Up",
                 press: () async {
-                  FocusScope.of(context).unfocus();
-                  if(value.passwordC.text == value.confirmPasswordC.text){
-                    // sentOTP(value.emailC.text.toString());
-                    if(formKey.currentState!.validate()){
-                      await value.signUp(
-                          signInP.specialityC.text.toString(),
-                          signInP.specialityDetailC.text.toString(),
-                          signInP.yearsOfExperienceC.text.toString(),
-                          signInP.appointmentFrom,
-                          signInP.appointmentTo,
-                          signInP.appointmentFeeC.text.toString(),
-                          signInP.userType,
-                          locationP.countryName
-                      );
-                    }
-                  }else{
-                    ToastMsg().toastMsg("Confirm Password is not Correct");
-                  }
+                  int otp = AppUtils().generateUniqueNumber();
+                  AppUtils().sendMail(
+                      recipientEmail: value.emailC.text.toString(),
+                      otpCode: otp.toString(),
+                      context: context
+                  );
                   },
               );
             },),
@@ -152,7 +137,13 @@ class SignUpScreen extends StatelessWidget {
               children: [
                 SignContainer(
                     onTap: () {
-                      signInP.signInWithGoogle(context, locationP.countryName);
+                      signInP.signInWithGoogle(
+                          context,
+                          locationP.countryName,
+                          locationP.userLocation,
+                          locationP.latitude,
+                          locationP.longitude
+                      );
                     },
                     image: AppIcons.googleIcon),
                 const SizedBox(width: 20,),

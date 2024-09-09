@@ -51,7 +51,8 @@ class SignUpProvider extends ChangeNotifier{
       speciality, specialityDetail,
       yearsOfExperience, appointmentFrom,
       appointmentTo, appointmentFee,
-      type, country,
+      type, country,location,
+      latitude,longitude
       ) async{
     _isLoading = true;
     notifyListeners();
@@ -68,6 +69,12 @@ class SignUpProvider extends ChangeNotifier{
             "email" : emailC.text.toString(),
             "name" : nameC.text,
             "phoneNumber" : phoneC.text,
+            "country": country,
+            "profileUrl": "",
+            "rating": "0.0",
+            "location": location,
+            "latitude": latitude,
+            "longitude": longitude,
             "speciality" : speciality,
             "specialityDetail" : specialityDetail,
             "experience": yearsOfExperience,
@@ -76,16 +83,22 @@ class SignUpProvider extends ChangeNotifier{
             "appointmentFee": appointmentFee,
             "reviews": "0",
             "patients": "0",
-            "country" : country,
             "userType" : type,
             "accountType" : "Custom",
           }
           )
           .whenComplete(() {
-            if(type == "Patient"){
-              Get.off(()=>const PatientBottomNavBar());
+            if(type == type){
+              if (type == "Patient") {
+                Get.off(() => const PatientBottomNavBar());
+              } else if (type == "Health Professional") {
+                Get.off(() => const DoctorBottomNavbar());
+              }
             }else{
-              Get.off(()=>const DoctorBottomNavbar());
+              Get.snackbar(
+              "Error!",
+              "Your account is already created on another Type"
+              );
             }
             ToastMsg().toastMsg("Account Created Successfully");
             log("*********** Complete ************");

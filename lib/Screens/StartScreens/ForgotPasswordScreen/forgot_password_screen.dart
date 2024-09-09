@@ -62,7 +62,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 //     .onError((error, stackTrace) {
                 //       ToastMsg().toastMsg(error.toString());
                 // },);
-                Get.to(()=>OtpScreen());
+                // Get.to(()=>OtpScreen());
               },),
           ],
         ),

@@ -9,6 +9,7 @@ import 'package:tabibinet_project/model/res/widgets/profile_tile.dart';
 
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/helpers/image_loader.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';
@@ -50,40 +51,20 @@ class DoctorProfileScreen extends StatelessWidget {
                           children: [
                             Consumer<DoctorProfileProvider>(
                               builder: (context, value, child) {
-                                return Center(
-                                  child: Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          value.pickImage();
-                                        },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(100),
-                                          child: Container(
-                                            height: 70,
-                                            width: 70,
-                                            decoration: const BoxDecoration(
-                                                color: greyColor,
-                                                shape: BoxShape.circle
-                                            ),
-                                            child: value.image != null ? Image.file(
-                                              value.image!,
-                                              fit: BoxFit.cover,)
-                                                : const SizedBox(),
-                                          ),
-                                        ),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                      height: 70,
+                                      width: 70,
+                                      decoration: const BoxDecoration(
+                                          color: greyColor,
+                                          shape: BoxShape.circle
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.all(10.sp),
-                                        decoration: const BoxDecoration(
-                                            color: themeColor,
-                                            shape: BoxShape.circle
-                                        ),
-                                        child: const Icon(Icons.camera_alt_outlined,color: bgColor,),
-                                      )
-                                    ],
+                                      child: const ImageLoaderWidget(imageUrl: "")
+                                    // value.image != null ? Image.file(
+                                    //   value.image!,
+                                    //   fit: BoxFit.cover,)
+                                    //     : const SizedBox(),
                                   ),
                                 );
                               },),

@@ -14,6 +14,7 @@ import 'package:tabibinet_project/Screens/StartScreens/OnboardingScreen/onboardi
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
+import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
@@ -53,24 +54,20 @@ class PatientProfileScreen extends StatelessWidget {
                           children: [
                             Consumer<PatientProfileProvider>(
                               builder: (context, value, child) {
-                                return InkWell(
-                                  onTap: () {
-                                    value.pickImage();
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: const BoxDecoration(
-                                          color: greyColor,
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: value.image != null ? Image.file(
-                                        value.image!,
-                                        fit: BoxFit.cover,)
-                                          : const SizedBox(),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: const BoxDecoration(
+                                        color: greyColor,
+                                        shape: BoxShape.circle
                                     ),
+                                    child: const ImageLoaderWidget(imageUrl: "")
+                                    // value.image != null ? Image.file(
+                                    //   value.image!,
+                                    //   fit: BoxFit.cover,)
+                                    //     : const SizedBox(),
                                   ),
                                 );
                               },),

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tabibinet_project/constant.dart';
 
@@ -15,12 +16,14 @@ class PatientProfileProvider extends ChangeNotifier{
   int? _selectFaqCat;
   String _patientName = "";
   String _patientPhone = "";
+  String _patientCountry = "";
   File? _image;
 
   int? get selectFaq => _selectFaq;
   int? get selectFaqCat => _selectFaqCat;
   String get patientName => _patientName;
   String get patientPhone => _patientPhone;
+  String get patientCountry => _patientCountry;
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
@@ -28,6 +31,7 @@ class PatientProfileProvider extends ChangeNotifier{
         .then((value) {
           _patientName = value.get("name");
           _patientPhone = value.get("phoneNumber");
+          _patientCountry = value.get("country");
           nameC.text = _patientName;
           notifyListeners();
     },);
@@ -39,6 +43,7 @@ class PatientProfileProvider extends ChangeNotifier{
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _image = File(pickedFile.path);
+      Get.back();
       notifyListeners();
     }
   }
@@ -47,6 +52,7 @@ class PatientProfileProvider extends ChangeNotifier{
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       _image = File(pickedFile.path);
+      Get.back();
       notifyListeners();
     }
   }

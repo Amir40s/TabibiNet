@@ -20,6 +20,7 @@ class SignInProvider extends ChangeNotifier{
   final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
   final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
 
+
   String _userType = "Patient";
   String? _appointmentFrom;
   String? _appointmentTo;
@@ -83,7 +84,8 @@ class SignInProvider extends ChangeNotifier{
               .whenComplete(() {
             Get.off(() => const PatientBottomNavBar());
           },);
-        } else if (type == "Health Professional") {
+        }
+        else if (type == "Health Professional") {
           doctorProfileProvider!.getSelfInfo()
               .whenComplete(() {
             Get.off(() => const DoctorBottomNavbar());
@@ -91,7 +93,7 @@ class SignInProvider extends ChangeNotifier{
         }
       }
 
-      debugPrint('Successfully signed in with Google');
+      debugPrint('Successfully signed in with Custom');
       _isLoading = false;
       notifyListeners();
       log("*********Login********");
@@ -105,7 +107,13 @@ class SignInProvider extends ChangeNotifier{
     },);
   }
 
-  Future<void> signInWithGoogle(BuildContext context, String country) async {
+  Future<void> signInWithGoogle(
+      BuildContext context,
+      String country,
+      String location,
+      String latitude,
+      String longitude,
+      ) async {
     // Show the loading dialog
     showDialog(
       context: context,
@@ -153,10 +161,17 @@ class SignInProvider extends ChangeNotifier{
         final type = docSnapshot.get("userType");
         Get.back(); // Dismiss the dialog
 
-        if (type == "Patient") {
-          Get.off(() => const PatientBottomNavBar());
-        } else if (type == "Health Professional") {
-          Get.off(() => const DoctorBottomNavbar());
+        if(type == userType){
+          if (type == "Patient") {
+            Get.off(() => const PatientBottomNavBar());
+          } else if (type == "Health Professional") {
+            Get.off(() => const DoctorBottomNavbar());
+          }
+        }else{
+          Get.snackbar(
+              "Error!",
+              "Your account is already created on another Type"
+          );
         }
       } else {
         // Document does not exist, create a new one
@@ -164,7 +179,12 @@ class SignInProvider extends ChangeNotifier{
           "creationDate": DateTime.now(),
           "userUid": auth.currentUser!.uid,
           "email": auth.currentUser!.email,
+          "profileUrl": auth.currentUser!.photoURL,
+          "rating": "0.0",
           "country": country,
+          "location": location,
+          "latitude": latitude,
+          "longitude": longitude,
           "name" : auth.currentUser!.displayName,
           "phoneNumber" : auth.currentUser!.phoneNumber ?? "",
           "speciality": specialityC.text.toString(),

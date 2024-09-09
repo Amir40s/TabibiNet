@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
 
 import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
@@ -21,6 +22,7 @@ class TopDoctorContainer extends StatelessWidget {
     required this.availabilityFrom,
     required this.availabilityTo,
     required this.appointmentFee,
+    required this.imageUrl,
     this.onTap,
   });
 
@@ -30,6 +32,7 @@ class TopDoctorContainer extends StatelessWidget {
   final String availabilityFrom;
   final String availabilityTo;
   final String appointmentFee;
+  final String imageUrl;
   final VoidCallback? onTap;
 
   @override
@@ -43,7 +46,7 @@ class TopDoctorContainer extends StatelessWidget {
           border: Border.all(
               color: greyColor,
               width: 1.5
-          )
+          ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,6 +65,7 @@ class TopDoctorContainer extends StatelessWidget {
                       color: greyColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    child: ImageLoaderWidget(imageUrl: imageUrl),
                   ),
                   Positioned(
                     right: -7.5,

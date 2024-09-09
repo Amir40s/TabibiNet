@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
+import '../../../Providers/Location/location_provider.dart';
+import '../../../Providers/SignIn/sign_in_provider.dart';
+import '../../../Providers/SignUp/sign_up_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../../model/res/widgets/toast_msg.dart';
 import '../../SuccessScreen/success_screen.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
+  OtpScreen({super.key,required this.otp});
 
   final pinC = TextEditingController();
+  final String otp;
 
   @override
   Widget build(BuildContext context) {
     double height1 = 10.0;
     double height2 = 30.0;
+    final signInP = Provider.of<SignInProvider>(context,listen: false);
+    final locationP = Provider.of<LocationProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -81,14 +89,46 @@ class OtpScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 120,),
-            SubmitButton(
-              title: "Send OTP",
-              press: () {
-                Get.to(()=>const SuccessScreen(
-                  title: "Reset Successfully!",
-                  subTitle: "Your password has been reset successfully."
-                      " Please login with new credentials.",
-                ));
+            Consumer<SignUpProvider>(
+              builder: (context, value, child) {
+                return value.isLoading ? const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator()),
+                  ],
+                )
+                    : SubmitButton(
+                  title: "Send OTP",
+                  press: () async {
+                    FocusScope.of(context).unfocus();
+                    if(value.passwordC.text == value.confirmPasswordC.text){
+                      // sentOTP(value.emailC.text.toString());
+                      await value.signUp(
+                          signInP.specialityC.text.toString(),
+                          signInP.specialityDetailC.text.toString(),
+                          signInP.yearsOfExperienceC.text.toString(),
+                          signInP.appointmentFrom,
+                          signInP.appointmentTo,
+                          signInP.appointmentFeeC.text.toString(),
+                          signInP.userType,
+                          locationP.countryName,
+                          locationP.userLocation,
+                          locationP.latitude,
+                          locationP.longitude
+                      );
+                    }
+                    else{
+                      ToastMsg().toastMsg("Confirm Password is not Correct");
+                    }
+                    // Get.to(()=>const SuccessScreen(
+                    //   title: "Reset Successfully!",
+                    //   subTitle: "Your password has been reset successfully."
+                    //       " Please login with new credentials.",
+                    // ));
+                  },);
               },),
           ],
         ),

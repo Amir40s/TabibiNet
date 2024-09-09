@@ -167,7 +167,13 @@ class SignInScreen extends StatelessWidget {
               children: [
                 SignContainer(
                     onTap: () {
-                      signInP.signInWithGoogle(context, locationP.countryName);
+                      signInP.signInWithGoogle(
+                          context,
+                          locationP.countryName,
+                          locationP.userLocation,
+                          locationP.latitude,
+                          locationP.longitude
+                      );
                     },
                     image: AppIcons.googleIcon),
                 const SizedBox(width: 20,),

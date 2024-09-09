@@ -5,7 +5,6 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/SignIn/sign_in_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/doctor_info_detail_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_assets.dart';

@@ -58,6 +58,12 @@ dependencies:
   cached_network_image: any
   file_picker: any
   image_picker: ^1.1.2
+  google_maps_flutter: ^2.9.0
+  geocoding: ^3.0.0
+  geolocator: any
+  uuid: ^4.5.0
+  http: ^1.2.2
+  permission_handler: ^10.2.0
 
 
 dev_dependencies:

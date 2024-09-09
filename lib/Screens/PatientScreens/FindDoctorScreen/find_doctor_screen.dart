@@ -144,12 +144,11 @@ class FindDoctorScreen extends StatelessWidget {
                               return Center(child: Text('Error: ${snapshot.error}'));
                             }
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                              return const Center(child: Text('No users found'));
+                              return const Center(child: Text('No Doctors found'));
                             }
 
                             // List of users
                             final users = snapshot.data!;
-
                             return ListView.builder(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               shrinkWrap: true,
@@ -164,6 +163,7 @@ class FindDoctorScreen extends StatelessWidget {
                                   availabilityFrom: user.availabilityFrom,
                                   availabilityTo: user.availabilityTo,
                                   appointmentFee: user.appointmentFee,
+                                  imageUrl: "",
                                   onTap: () {
                                     appointmentScheduleP.setAvailabilityTime(
                                         user.availabilityFrom,

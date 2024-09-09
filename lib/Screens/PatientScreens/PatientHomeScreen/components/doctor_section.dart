@@ -45,6 +45,7 @@ class DoctorSection extends StatelessWidget {
               availabilityFrom: user.availabilityFrom,
               availabilityTo: user.availabilityTo,
               appointmentFee: user.appointmentFee,
+              imageUrl: "",
               onTap: () {
                 appointmentScheduleP.setDoctorId(user.userUid);
                 appointmentScheduleP.setAvailabilityTime(

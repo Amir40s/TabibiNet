@@ -8,15 +8,30 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/Location/location_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/AccountTypeScreen/account_type_screen.dart';
+import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/Components/google_map_section.dart';
+import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/Components/search_location_field.dart';
 
 import '../../../constant.dart';
-import '../../../model/res/constant/app_assets.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
-class LocationScreen extends StatelessWidget {
+class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
+
+  @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<LocationProvider>(context,listen: false).getUserCurrentLocation(context);
+    Provider.of<LocationProvider>(context,listen: false).location(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +40,7 @@ class LocationScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: bgColor,
         body: ListView(
+          shrinkWrap: true,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -32,7 +48,7 @@ class LocationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 50,),
+                  SizedBox(height: 5.h,),
                   const Center(
                     child: TextWidget(
                         text: "Choose Location", fontSize: 24,
@@ -93,30 +109,7 @@ class LocationScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor,fontFamily: "Medium",),
                   const SizedBox(height: 10,),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 9.h,
-                    width: 100.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: themeColor,
-                        )
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 65.w,
-                          child: const TextWidget(
-                              text: "House no 2, Street 3, Morocco Towers.",
-                              fontSize: 16, fontWeight: FontWeight.w600,maxLines: 1,
-                              isTextCenter: false, textColor: textColor,fontFamily: "Medium",),
-                        ),
-                        SvgPicture.asset(AppIcons.radioIcon,height: 35,)
-                      ],
-                    ),
-                  ),
+                  const SearchLocationField(),
                 ],
               ),
             ),
@@ -124,7 +117,7 @@ class LocationScreen extends StatelessWidget {
             SizedBox(
               width: 100.w,
               height: 40.h,
-              child: SvgPicture.asset(AppAssets.googleMap,fit: BoxFit.cover,),
+              child: const GoogleMapSection(),
             ),
             const SizedBox(height: 20,),
             Padding(

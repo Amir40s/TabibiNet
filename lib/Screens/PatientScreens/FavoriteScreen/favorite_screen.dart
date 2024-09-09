@@ -63,6 +63,7 @@ class FavoriteScreen extends StatelessWidget {
                         availabilityFrom: "",
                         availabilityTo: "",
                         appointmentFee: "40",
+                        imageUrl: "",
                       );
                     },
                   ),

@@ -11,6 +11,7 @@ import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
+import '../../../model/res/helpers/image_loader.dart';
 
 class PatientEditProfileScreen extends StatelessWidget {
   const PatientEditProfileScreen({super.key});
@@ -74,10 +75,11 @@ class PatientEditProfileScreen extends StatelessWidget {
                                       color: greyColor,
                                       shape: BoxShape.circle
                                   ),
-                                  child: value.image != null ? Image.file(
-                                    value.image!,
-                                    fit: BoxFit.cover,)
-                                      : const SizedBox(),
+                                  child: const ImageLoaderWidget(imageUrl: "")
+                                  // value.image != null ? Image.file(
+                                  //   value.image!,
+                                  //   fit: BoxFit.cover,)
+                                  //     : const SizedBox(),
                                 ),
                               ),
                             ),
@@ -213,10 +215,11 @@ class DoctorEditProfileScreen extends StatelessWidget {
                                       color: greyColor,
                                       shape: BoxShape.circle
                                   ),
-                                  child: value.image != null ? Image.file(
-                                    value.image!,
-                                    fit: BoxFit.cover,)
-                                      : const SizedBox(),
+                                  child: const ImageLoaderWidget(imageUrl: "")
+                                  // value.image != null ? Image.file(
+                                  //   value.image!,
+                                  //   fit: BoxFit.cover,)
+                                  //     : const SizedBox(),
                                 ),
                               ),
                             ),

@@ -6,6 +6,7 @@ import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provi
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
+import '../../../../model/res/helpers/image_loader.dart';
 import '../../../../model/res/widgets/text_widget.dart';
 import '../../FavoriteScreen/favorite_screen.dart';
 import '../../NotificationScreen/notification_screen.dart';
@@ -32,38 +33,39 @@ class PatientHomeHeader extends StatelessWidget {
                         color: greyColor,
                         borderRadius: BorderRadius.circular(10)
                     ),
-                    child: value.image != null ? Image.file(value.image!, fit: BoxFit.cover,)
-                        : const SizedBox(),
+                    child: const ImageLoaderWidget(imageUrl: "")
+                    // value.image != null ? Image.file(value.image!, fit: BoxFit.cover,)
+                    //     : const SizedBox(),
                   ),
                 );
               },),
             const SizedBox(width: 10,),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Consumer<PatientProfileProvider>(
-                  builder: (context, value, child) {
-                  return TextWidget(
-                      text: "HI, ${value.patientName.toString()}!", fontSize: 20,
-                      fontWeight: FontWeight.w600, isTextCenter: false,
-                      textColor: textColor);
-                },),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                  decoration: BoxDecoration(
-                      color: greenColor.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(8)
-                  ),
-                  child: const Row(
-                    children: [
-                      TextWidget(text: "Uttara", fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
-                      Icon(Icons.location_on,color: themeColor,size: 20,),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            Consumer<PatientProfileProvider>(
+              builder: (context, value, child) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                        text: "HI, ${value.patientName.toString()}!", fontSize: 20,
+                        fontWeight: FontWeight.w600, isTextCenter: false,
+                        textColor: textColor),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      decoration: BoxDecoration(
+                          color: greenColor.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(8)
+                      ),
+                      child: Row(
+                        children: [
+                          TextWidget(text: value.patientCountry, fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
+                          const Icon(Icons.location_on,color: themeColor,size: 20,),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+            },),
             const Spacer(),
             InkWell(
               onTap: () {
