@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
 import 'Components/about_section.dart';
@@ -13,6 +14,7 @@ class DoctorDetailScreen extends StatelessWidget {
     required this.yearsOfExperience,
     required this.patients,
     required this.reviews,
+    required this.image,
   });
 
   final String doctorName;
@@ -21,6 +23,7 @@ class DoctorDetailScreen extends StatelessWidget {
   final String yearsOfExperience;
   final String patients;
   final String reviews;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,12 @@ class DoctorDetailScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: const BoxDecoration(
-                      color: Colors.grey,
+                      color: skyBlueColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Image.network(image,width: 100.w,height: 50.h,),
+                      ],
                     ),
                   ),
                   InfoSection(

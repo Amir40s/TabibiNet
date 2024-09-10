@@ -4,12 +4,14 @@ import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provide
 import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
 
+import 'Providers/PatientNotification/patient_notification_provider.dart';
 import 'Providers/PatientProfile/patient_profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class GlobalProviderAccess {
+
   static SignInProvider? get signPro {
     final context = navigatorKey.currentContext;
     if (context != null) {
@@ -41,4 +43,13 @@ class GlobalProviderAccess {
     }
     return null;
   }
+
+  static PatientNotificationProvider? get patientNotificationPro {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<PatientNotificationProvider>(context, listen: false);
+    }
+    return null;
+  }
+
 }

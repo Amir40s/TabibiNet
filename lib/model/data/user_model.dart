@@ -15,6 +15,15 @@ class UserModel {
   final String experience;
   final String patients;
   final String reviews;
+  final Timestamp creationDate;
+  final String profileUrl;
+  final String rating;
+  final String isOnline;
+  final String location;
+  final String latitude;
+  final String longitude;
+  final String accountType;
+  final bool isFav;
 
   UserModel({
     required this.userUid,
@@ -31,6 +40,15 @@ class UserModel {
     required this.experience,
     required this.patients,
     required this.reviews,
+    required this.creationDate,
+    required this.profileUrl,
+    required this.rating,
+    required this.isOnline,
+    required this.location,
+    required this.latitude,
+    required this.longitude,
+    required this.accountType,
+    required this.isFav,
   });
 
   // Factory method to create a UserModel from FireStore data
@@ -51,6 +69,15 @@ class UserModel {
       experience: data['experience'] ?? '',
       patients: data['patients'] ?? '',
       reviews: data['reviews'] ?? '',
+      creationDate: data['creationDate'] ?? '',
+      profileUrl: data['profileUrl'] ?? '',
+      rating: data['rating'] ?? '',
+      isOnline: data['isOnline'] ?? '',
+      location: data['location'] ?? '',
+      latitude: data['latitude'] ?? '',
+      longitude: data['longitude'] ?? '',
+      accountType: data['accountType'] ?? '',
+      isFav: data['isFav'] ?? false,
     );
   }
 }

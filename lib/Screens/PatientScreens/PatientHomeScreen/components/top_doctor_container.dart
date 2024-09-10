@@ -23,7 +23,10 @@ class TopDoctorContainer extends StatelessWidget {
     required this.availabilityTo,
     required this.appointmentFee,
     required this.imageUrl,
+    required this.rating,
+    required this.isFav,
     this.onTap,
+    this.likeTap,
   });
 
   final String doctorName;
@@ -33,7 +36,10 @@ class TopDoctorContainer extends StatelessWidget {
   final String availabilityTo;
   final String appointmentFee;
   final String imageUrl;
+  final String rating;
+  final bool isFav;
   final VoidCallback? onTap;
+  final VoidCallback? likeTap;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,7 @@ class TopDoctorContainer extends StatelessWidget {
                     height: 72,
                     width: 72,
                     decoration: BoxDecoration(
-                      color: greyColor,
+                      color:  skyBlueColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: ImageLoaderWidget(imageUrl: imageUrl),
@@ -102,7 +108,6 @@ class TopDoctorContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 20.w,
                         child: TextWidget(
                           text: specialityName, fontSize: 14,
                           fontWeight: FontWeight.w400, isTextCenter: false,
@@ -124,8 +129,8 @@ class TopDoctorContainer extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(Icons.star,color: Colors.yellow,size: 20,),
-                      const TextWidget(
-                        text: "4.9", fontSize: 12,
+                      TextWidget(
+                        text: rating, fontSize: 12,
                         fontWeight: FontWeight.w400, isTextCenter: false,
                         textColor: textColor, fontFamily: AppFonts.regular,),
                       const SizedBox(width: 5,),
@@ -142,18 +147,27 @@ class TopDoctorContainer extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                    color: bgColor,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                        color: greenColor
-                    )
+              InkWell(
+                onTap: likeTap ?? (){},
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                          color: greenColor
+                      )
+                  ),
+                  child: Center(
+                    child: Icon(
+                      isFav ?  Icons.favorite
+                          : Icons.favorite_border,
+                      color: themeColor,size: 20,),
+                  ),
+                  //SvgPicture.asset(AppIcons.favIcon)
                 ),
-                child: SvgPicture.asset(AppIcons.favIcon),
               )
             ],
           ),

@@ -30,10 +30,10 @@ class PatientHomeHeader extends StatelessWidget {
                     height: 72,
                     width: 72,
                     decoration: BoxDecoration(
-                        color: greyColor,
+                        color: skyBlueColor,
                         borderRadius: BorderRadius.circular(10)
                     ),
-                    child: const ImageLoaderWidget(imageUrl: "")
+                    child: ImageLoaderWidget(imageUrl: value.imageUrl)
                     // value.image != null ? Image.file(value.image!, fit: BoxFit.cover,)
                     //     : const SizedBox(),
                   ),

@@ -17,11 +17,13 @@ class DoctorProfileProvider extends ChangeNotifier{
   String _doctorName = "";
   String _doctorPhone = "";
   String _doctorCountry = "";
+  String _imageUrl = "";
   File? _image;
 
   String get doctorName => _doctorName;
   String get doctorPhone => _doctorPhone;
   String get doctorCountry => _doctorCountry;
+  String get imageUrl => _imageUrl;
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
@@ -30,11 +32,13 @@ class DoctorProfileProvider extends ChangeNotifier{
       _doctorName = value.get("name");
       _doctorPhone = value.get("phoneNumber");
       _doctorCountry = value.get("country");
+      _imageUrl = value.get("profileUrl");
       nameC.text = _doctorName;
       notifyListeners();
     },);
     log(_doctorName);
     log(_doctorPhone);
+    log(_imageUrl);
   }
 
   Future<void> pickImage() async {

@@ -17,6 +17,7 @@ class PatientProfileProvider extends ChangeNotifier{
   String _patientName = "";
   String _patientPhone = "";
   String _patientCountry = "";
+  String _imageUrl = "";
   File? _image;
 
   int? get selectFaq => _selectFaq;
@@ -24,6 +25,7 @@ class PatientProfileProvider extends ChangeNotifier{
   String get patientName => _patientName;
   String get patientPhone => _patientPhone;
   String get patientCountry => _patientCountry;
+  String get imageUrl => _imageUrl;
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
@@ -32,11 +34,13 @@ class PatientProfileProvider extends ChangeNotifier{
           _patientName = value.get("name");
           _patientPhone = value.get("phoneNumber");
           _patientCountry = value.get("country");
+          _imageUrl = value.get("profileUrl");
           nameC.text = _patientName;
           notifyListeners();
     },);
     log(_patientName);
     log(_patientPhone);
+    log(_imageUrl);
   }
 
   Future<void> pickImage() async {

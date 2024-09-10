@@ -2,13 +2,18 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/services/SplashServices/splash_services.dart';
+import 'package:tabibinet_project/model/services/NotificationServices/flutter_local_notification.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_assets.dart';
 import '../OnboardingScreen/onboarding_screen.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     _initialize();
+    FlutterLocalNotification.initialize(flutterLocalNotificationsPlugin);
   }
 
   Future<void> _initialize() async {

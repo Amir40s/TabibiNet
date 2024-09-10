@@ -156,6 +156,7 @@ class FindDoctorScreen extends StatelessWidget {
                               itemCount: users.length,
                               itemBuilder: (context, index) {
                                 final user = users[index];
+                                final doctorId = user.userUid;
                                 return TopDoctorContainer(
                                   doctorName: user.name,
                                   specialityName: user.speciality,
@@ -163,7 +164,9 @@ class FindDoctorScreen extends StatelessWidget {
                                   availabilityFrom: user.availabilityFrom,
                                   availabilityTo: user.availabilityTo,
                                   appointmentFee: user.appointmentFee,
-                                  imageUrl: "",
+                                  imageUrl: user.profileUrl,
+                                  rating: user.rating,
+                                  isFav: true,
                                   onTap: () {
                                     appointmentScheduleP.setAvailabilityTime(
                                         user.availabilityFrom,
@@ -176,6 +179,7 @@ class FindDoctorScreen extends StatelessWidget {
                                       yearsOfExperience: user.experience,
                                       patients: user.patients,
                                       reviews: user.reviews,
+                                      image: user.profileUrl,
                                     ));
                                   },
                                 );

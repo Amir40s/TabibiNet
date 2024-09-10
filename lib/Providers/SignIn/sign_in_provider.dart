@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tabibinet_project/model/services/NotificationServices/flutter_local_notification.dart';
 
 import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
+import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_chart.dart';
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
 import '../../global_provider.dart';
@@ -19,7 +22,11 @@ class SignInProvider extends ChangeNotifier{
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
   final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
+  final patientNotificationProvider = GlobalProviderAccess.patientNotificationPro;
 
+  final String title = "Congratulations!";
+  final String subTitle = "Your Account Created Successfully";
+  final String type = "Account Registration";
 
   String _userType = "Patient";
   String? _appointmentFrom;
@@ -77,19 +84,27 @@ class SignInProvider extends ChangeNotifier{
       if (docSnapshot.exists) {
         // Document exists, check the user type
         final type = docSnapshot.get("userType");
-        Get.back(); // Dismiss the dialog
+        // Get.back(); // Dismiss the dialog
 
-        if (type == "Patient") {
-          await patientProfileProvider!.getSelfInfo()
-              .whenComplete(() {
-            Get.off(() => const PatientBottomNavBar());
-          },);
-        }
-        else if (type == "Health Professional") {
-          doctorProfileProvider!.getSelfInfo()
-              .whenComplete(() {
-            Get.off(() => const DoctorBottomNavbar());
-          },);
+        if(type == _userType){
+          if (type == "Patient") {
+            await patientProfileProvider!.getSelfInfo()
+                .whenComplete(() {
+              Get.off(() => const PatientBottomNavBar());
+            },);
+          }
+          else if (type == "Health Professional") {
+            doctorProfileProvider!.getSelfInfo()
+                .whenComplete(() {
+              Get.off(() => const DoctorBottomNavbar());
+            },);
+          }
+        }else{
+          auth.signOut();
+          Get.snackbar(
+              "Error!",
+              "Your account is already created on another Type"
+          );
         }
       }
 
@@ -168,6 +183,7 @@ class SignInProvider extends ChangeNotifier{
             Get.off(() => const DoctorBottomNavbar());
           }
         }else{
+          auth.signOut();
           Get.snackbar(
               "Error!",
               "Your account is already created on another Type"
@@ -179,8 +195,9 @@ class SignInProvider extends ChangeNotifier{
           "creationDate": DateTime.now(),
           "userUid": auth.currentUser!.uid,
           "email": auth.currentUser!.email,
-          "profileUrl": auth.currentUser!.photoURL,
+          "profileUrl": auth.currentUser!.photoURL ?? "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
           "rating": "0.0",
+          "isOnline": "false",
           "country": country,
           "location": location,
           "latitude": latitude,
@@ -197,12 +214,29 @@ class SignInProvider extends ChangeNotifier{
           "patients": "0",
           "userType": _userType,
           "accountType": "Google"
-        }).whenComplete(() {
+        }).whenComplete(() async {
           Navigator.of(context).pop(); // Dismiss the dialog
           if (_userType == "Patient") {
-            Get.off(() => const PatientBottomNavBar());
-          } else {
-            Get.off(() => const DoctorBottomNavbar());
+            sendNotification();
+            await patientNotificationProvider!.storeNotification(
+                title: title,
+                subTitle: subTitle,
+                type: type);
+            await patientProfileProvider!.getSelfInfo()
+              .whenComplete(() {
+          Get.off(() => const PatientBottomNavBar());
+          },);
+          }
+          else{
+            sendNotification();
+            await patientNotificationProvider!.storeNotification(
+                title: title,
+                subTitle: subTitle,
+                type: type);
+            await doctorProfileProvider!.getSelfInfo()
+                .whenComplete(() {
+                  Get.off(() => const DoctorBottomNavbar());
+                  },);
           }
         });
       }
@@ -212,6 +246,13 @@ class SignInProvider extends ChangeNotifier{
       Get.back();
       debugPrint("Error: ${e.toString()}");
     }
+  }
+
+  sendNotification(){
+    FlutterLocalNotification.showBigTextNotification(
+        title: title,
+        body: subTitle,
+        fln: flutterLocalNotificationsPlugin);
   }
 
 }

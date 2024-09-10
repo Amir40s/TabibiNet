@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../../constant.dart';
@@ -51,17 +48,19 @@ class ForgotPasswordScreen extends StatelessWidget {
               inputController: emailC,
               hintText: "Enter email",
             ),
-            SizedBox(height: 120,),
+            const SizedBox(height: 120,),
             SubmitButton(
               title: "Send OTP",
               press: () {
-                // auth.sendPasswordResetEmail(email: emailC.text.toString())
-                //     .then((value) {
-                //       ToastMsg().toastMsg("We have sent Email to Recover your Password, Please Check Email");
-                // },)
-                //     .onError((error, stackTrace) {
-                //       ToastMsg().toastMsg(error.toString());
-                // },);
+                auth.sendPasswordResetEmail(email: emailC.text.toString())
+                    .then((value) {
+                      ToastMsg().toastMsg(
+                          "We have sent Email to Recover"
+                          " your Password, Please Check Email");
+                      },)
+                    .onError((error, stackTrace) {
+                      ToastMsg().toastMsg(error.toString());
+                      },);
                 // Get.to(()=>OtpScreen());
               },),
           ],

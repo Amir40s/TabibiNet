@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../Providers/Favorite/favorite_doctor_provider.dart';
 import '../../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../model/data/user_model.dart';
@@ -45,7 +46,12 @@ class DoctorSection extends StatelessWidget {
               availabilityFrom: user.availabilityFrom,
               availabilityTo: user.availabilityTo,
               appointmentFee: user.appointmentFee,
-              imageUrl: "",
+              imageUrl: user.profileUrl,
+              rating: user.rating,
+              isFav: context.read<FavoritesProvider>().isFavorite(user.userUid),
+              likeTap: () {
+                context.read<FavoritesProvider>().toggleFavorite(user.userUid);
+              },
               onTap: () {
                 appointmentScheduleP.setDoctorId(user.userUid);
                 appointmentScheduleP.setAvailabilityTime(
@@ -59,6 +65,7 @@ class DoctorSection extends StatelessWidget {
                   yearsOfExperience: user.experience,
                   patients: user.patients,
                   reviews: user.reviews,
+                  image: user.profileUrl,
                 ));
               },
             );

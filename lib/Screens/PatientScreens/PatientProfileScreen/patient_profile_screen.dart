@@ -63,7 +63,7 @@ class PatientProfileScreen extends StatelessWidget {
                                         color: greyColor,
                                         shape: BoxShape.circle
                                     ),
-                                    child: const ImageLoaderWidget(imageUrl: "")
+                                    child: ImageLoaderWidget(imageUrl: value.imageUrl)
                                     // value.image != null ? Image.file(
                                     //   value.image!,
                                     //   fit: BoxFit.cover,)

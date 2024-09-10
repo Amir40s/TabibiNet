@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import '../../../Providers/Location/location_provider.dart';
@@ -54,7 +52,7 @@ class OtpScreen extends StatelessWidget {
               defaultPinTheme: PinTheme(
                 height: 60,
                 width: 60,
-                  textStyle: TextStyle(fontFamily: AppFonts.semiBold,fontSize: 18),
+                  textStyle: const TextStyle(fontFamily: AppFonts.semiBold,fontSize: 18),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -65,7 +63,7 @@ class OtpScreen extends StatelessWidget {
               focusedPinTheme: PinTheme(
                 height: 60,
                 width: 60,
-                  textStyle: TextStyle(fontFamily: AppFonts.semiBold,fontSize: 18),
+                  textStyle: const TextStyle(fontFamily: AppFonts.semiBold,fontSize: 18),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
@@ -88,7 +86,7 @@ class OtpScreen extends StatelessWidget {
                       isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,)),
               ],
             ),
-            SizedBox(height: 120,),
+            const SizedBox(height: 120,),
             Consumer<SignUpProvider>(
               builder: (context, value, child) {
                 return value.isLoading ? const Row(
@@ -101,7 +99,7 @@ class OtpScreen extends StatelessWidget {
                   ],
                 )
                     : SubmitButton(
-                  title: "Send OTP",
+                  title: "Continue",
                   press: () async {
                     FocusScope.of(context).unfocus();
                     if(value.passwordC.text == value.confirmPasswordC.text){

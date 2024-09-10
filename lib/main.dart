@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
-import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
-import 'package:tabibinet_project/model/data/user_model.dart';
+import 'package:tabibinet_project/Providers/Favorite/favorite_doctor_provider.dart';
 
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/DoctorHome/doctor_home_provider.dart';
+import 'Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/Language/language_provider.dart';
 import 'Providers/Location/location_provider.dart';
 import 'Providers/Medicine/medicine_provider.dart';
 import 'Providers/Onboard/onboard_provider.dart';
+import 'Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'Providers/PatientHome/patient_home_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
 import 'Providers/PatientProfile/patient_profile_provider.dart';
@@ -27,6 +28,9 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'global_provider.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 void main() async {
   runApp(const MyApp());
@@ -75,6 +79,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => PatientAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => FindDoctorProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorProfileProvider(),),
+            ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

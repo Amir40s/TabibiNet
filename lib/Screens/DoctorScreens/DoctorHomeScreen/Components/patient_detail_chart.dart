@@ -1,10 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
+import 'package:tabibinet_project/model/services/NotificationServices/flutter_local_notification.dart';
 
 import '../../../../constant.dart';
+import '../../../../model/res/constant/app_fonts.dart';
 import '../../../../model/res/widgets/text_widget.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 class PatientDetailChart extends StatelessWidget {
   const PatientDetailChart({super.key});
@@ -12,50 +17,58 @@ class PatientDetailChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = 20;
-    return Container(
-      padding: const EdgeInsets.all(15),
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: themeColor,
-          borderRadius: BorderRadius.circular(15)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget(
-              text: "Patient Details", fontSize: 18.sp,
-              fontWeight: FontWeight.w600, isTextCenter: false,
-              textColor: bgColor),
-          SizedBox(height: height,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Pie Chart
-              SizedBox(
-                height: 100,
-                width: 30.w,
-                child: PieChart(
-                  PieChartData(
-                    sections: showingSections(),
-                    centerSpaceRadius: 40,
-                    sectionsSpace: 4,
+    return InkWell(
+      onTap: () {
+        FlutterLocalNotification.showBigTextNotification(
+            title: "Hello",
+            body: "How are you?",
+            fln: FlutterLocalNotificationsPlugin());
+      },
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        width: 100.w,
+        decoration: BoxDecoration(
+            color: themeColor,
+            borderRadius: BorderRadius.circular(15)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextWidget(
+                text: "Patient Details", fontSize: 18.sp,
+                fontWeight: FontWeight.w600, isTextCenter: false,
+                textColor: bgColor),
+            SizedBox(height: height,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Pie Chart
+                SizedBox(
+                  height: 100,
+                  width: 30.w,
+                  child: PieChart(
+                    PieChartData(
+                      sections: showingSections(),
+                      centerSpaceRadius: 40,
+                      sectionsSpace: 4,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              // Details
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildDetailItem(Colors.lightBlueAccent, "Today's Patient", "03"),
-                  buildDetailItem(Colors.red, "Prescription sent", "04"),
-                  buildDetailItem(Colors.yellow, "Documents shared", "22"),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: height,),
-        ],
+                const SizedBox(width: 20),
+                // Details
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildDetailItem(Colors.lightBlueAccent, "Today's Patient", "03"),
+                    buildDetailItem(Colors.red, "Prescription sent", "04"),
+                    buildDetailItem(Colors.yellow, "Documents shared", "22"),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: height,),
+          ],
+        ),
       ),
     );
   }
