@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Location/location_provider.dart';
+import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/doctor_info_detail_screen.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
@@ -193,7 +194,11 @@ class SignInScreen extends StatelessWidget {
                 const TextWidget(text: "Don’t have an account?", fontSize: 16, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
                 InkWell(
                     onTap: () {
-                      Get.to(()=>SignUpScreen());
+                      if(signInP.userType == "Health Professional"){
+                        Get.to(()=>DoctorInfoDetailScreen());
+                      }else{
+                        Get.to(()=>SignUpScreen());
+                      }
                     },
                     child: const TextWidget(
                         text: " Sign Up ", fontSize: 16, fontWeight: FontWeight.w400,

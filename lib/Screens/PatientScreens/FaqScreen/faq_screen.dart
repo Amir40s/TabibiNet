@@ -1,20 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/FaqScreen/Components/faq_cat_section.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/FaqScreen/Components/faq_section.dart';
-import 'package:tabibinet_project/model/res/widgets/dotted_line.dart';
 
-import '../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../constant.dart';
-import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/input_field.dart';
-import '../../../model/res/widgets/text_widget.dart';
-import '../FindDoctorScreen/Components/suggestion_container.dart';
+import 'Components/faq_cat_section.dart';
+import 'Components/faq_section.dart';
 
 class FaqScreen extends StatelessWidget {
   FaqScreen({super.key});

@@ -8,6 +8,10 @@ import '../constant/app_fonts.dart';
 class AppointmentContainer extends StatelessWidget {
   const AppointmentContainer({
     super.key,
+    required this.patientName,
+    required this.patientPhone,
+    required this.patientAge,
+    required this.patientGender,
     required this.statusText,
     required this.text1,
     required this.text2,
@@ -16,6 +20,10 @@ class AppointmentContainer extends StatelessWidget {
     this.onTap,
   });
 
+  final String patientName;
+  final String patientPhone;
+  final String patientAge;
+  final String patientGender;
   final String statusText;
   final String text1;
   final String text2;
@@ -43,19 +51,19 @@ class AppointmentContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  text: "Micheal Rickliff", fontSize: 16.sp,
+                  text: patientName, fontSize: 16.sp,
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.semiBold,),
                 TextWidget(
-                  text: "Phone Number: +23883884", fontSize: 12.sp,
+                  text: "Phone Number: $patientPhone", fontSize: 12.sp,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.regular,),
                 TextWidget(
-                  text: "Age: 22", fontSize: 12.sp,
+                  text: "Age: $patientAge", fontSize: 12.sp,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.regular,),
                 TextWidget(
-                  text: "Gender: Male", fontSize: 12.sp,
+                  text: "Gender: $patientGender", fontSize: 12.sp,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.regular,),
                 TextWidget(

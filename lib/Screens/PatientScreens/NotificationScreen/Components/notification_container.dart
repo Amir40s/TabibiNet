@@ -60,7 +60,7 @@ class NotificationContainer extends StatelessWidget {
                     color: boxColor,
                     shape: BoxShape.circle,
                   ),
-                  child: SvgPicture.asset(image,color: iconColor,),
+                  child: SvgPicture.asset(image,colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn) ,),
                 ),
                 const SizedBox(width: 10,),
                 Column(

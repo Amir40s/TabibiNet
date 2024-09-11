@@ -11,7 +11,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<BottomNavBarProvider>(context);
+    // final provider = Provider.of<BottomNavBarProvider>(context);
 
     return BottomAppBar(
       color: themeColor,
@@ -44,7 +44,7 @@ class CustomBottomNavBar extends StatelessWidget {
         debugPrint(index.toString());
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         width: 50,
         height: 50,
         decoration: BoxDecoration(
@@ -66,7 +66,7 @@ class CustomBottomNavBar2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<BottomNavBarProvider>(context,listen: false);
+    // final provider = Provider.of<BottomNavBarProvider>(context,listen: false);
 
     return BottomAppBar(
       color: themeColor,
@@ -107,7 +107,7 @@ class CustomBottomNavBar2 extends StatelessWidget {
         ),
         child: SvgPicture.asset(
           icon,
-          color: isSelected ? bgColor : themeColor,
+          colorFilter: ColorFilter.mode(isSelected ? bgColor : themeColor, BlendMode.srcIn),
           height: 15,
         ),
       ),

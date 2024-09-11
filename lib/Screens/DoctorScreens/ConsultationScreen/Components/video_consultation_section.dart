@@ -72,6 +72,10 @@ class VideoConsultationSection extends StatelessWidget {
                 onTap: () {
                   Get.to(()=>ConsultationDetailScreen());
                 },
+                patientName: "",
+                patientGender: "",
+                patientAge: "",
+                patientPhone: "",
                 statusText: "Pending",
                 text1: "Consultations Type",
                 text2: "Video",

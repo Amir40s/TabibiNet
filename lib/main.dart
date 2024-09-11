@@ -28,6 +28,7 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'global_provider.dart';
+import 'model/LifeCycle/life_cycle.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => FindDoctorProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorProfileProvider(),),
             ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
+            ChangeNotifierProvider(create: (context) => AppStateProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

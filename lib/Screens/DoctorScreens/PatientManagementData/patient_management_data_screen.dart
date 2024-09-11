@@ -3,19 +3,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/PatientManagementDetailScreen/patient_management_detail_screen.dart';
-import 'package:tabibinet_project/model/data/patient_model.dart';
 
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../constant.dart';
-import '../../../model/data/user_model.dart';
+import '../../../model/data/patient_model.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../PatientManagementDetailScreen/patient_management_detail_screen.dart';
 
 class PatientManagementDataScreen extends StatelessWidget {
   PatientManagementDataScreen({super.key});
@@ -63,7 +61,7 @@ class PatientManagementDataScreen extends StatelessWidget {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No users found'));
+                      return const Center(child: Text('No Patients found'));
                     }
 
                     // List of users

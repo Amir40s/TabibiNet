@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 import 'package:tabibinet_project/model/res/components/circle_icon.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
@@ -11,7 +8,7 @@ import '../../../../model/res/widgets/dotted_line.dart';
 import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
-import '../DoctorDetailScreen/doctor_detail_screen.dart';
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 
 class BookingConfirmedScreen extends StatelessWidget {
   const BookingConfirmedScreen({super.key});

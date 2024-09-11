@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/EnterAmountScreen/enter_amount_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
@@ -10,9 +9,7 @@ import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
-import '../../PatientScreens/BookingConfirmedScreen/booking_confirmed_screen.dart';
-import '../../PatientScreens/MakePaymentScreen/Components/payment_detail_section.dart';
-import '../../PatientScreens/MakePaymentScreen/Components/payment_method_section.dart';
+import '../EnterAmountScreen/enter_amount_screen.dart';
 
 class WithDrawScreen extends StatelessWidget {
   const WithDrawScreen({super.key});

@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tabibinet_project/model/services/NotificationServices/flutter_local_notification.dart';
 
 import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_chart.dart';
@@ -15,6 +13,7 @@ import '../../constant.dart';
 import '../../global_provider.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
+import '../../model/services/NotificationServices/flutter_local_notification.dart';
 
 class SignInProvider extends ChangeNotifier{
 
@@ -206,8 +205,8 @@ class SignInProvider extends ChangeNotifier{
           "phoneNumber" : auth.currentUser!.phoneNumber ?? "",
           "speciality": specialityC.text.toString(),
           "experience": yearsOfExperienceC.text.toString(),
-          "availabilityFrom": _appointmentFrom,
-          "availabilityTo": _appointmentTo,
+          "availabilityFrom": _appointmentFrom ?? "",
+          "availabilityTo": _appointmentTo ?? "",
           "appointmentFee": appointmentFeeC.text.toString(),
           "specialityDetail": specialityDetailC.text.toString(),
           "reviews": "0",
@@ -215,14 +214,14 @@ class SignInProvider extends ChangeNotifier{
           "userType": _userType,
           "accountType": "Google"
         }).whenComplete(() async {
-          Navigator.of(context).pop(); // Dismiss the dialog
+          Get.back(); // Dismiss the dialog
           if (_userType == "Patient") {
             sendNotification();
             await patientNotificationProvider!.storeNotification(
                 title: title,
                 subTitle: subTitle,
                 type: type);
-            await patientProfileProvider!.getSelfInfo()
+            patientProfileProvider!.getSelfInfo()
               .whenComplete(() {
           Get.off(() => const PatientBottomNavBar());
           },);
@@ -233,7 +232,7 @@ class SignInProvider extends ChangeNotifier{
                 title: title,
                 subTitle: subTitle,
                 type: type);
-            await doctorProfileProvider!.getSelfInfo()
+            doctorProfileProvider!.getSelfInfo()
                 .whenComplete(() {
                   Get.off(() => const DoctorBottomNavbar());
                   },);

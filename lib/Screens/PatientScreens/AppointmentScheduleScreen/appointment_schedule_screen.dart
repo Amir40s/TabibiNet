@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
+import 'package:tabibinet_project/model/data/fee_information_model.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
@@ -136,29 +137,52 @@ class AppointmentScheduleScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.semiBold,),
                           SizedBox(height: height1,),
-                          Consumer<PatientAppointmentProvider>(
-                            builder: (context, value, child) {
-                              return ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: feesList.length,
-                                itemBuilder: (context, index) {
-                                  final isSelected = value.selectFee == index;
-                                  return FeeContainer(
-                                    onTap: () {
-                                      value.setSelectedFee(index);
+                          StreamBuilder<List<FeeInformationModel>>(
+                            stream: patientAppointmentP.fetchFeeInfo(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child: CircularProgressIndicator());
+                              }
+                              if (snapshot.hasError) {
+                                return Center(child: Text('Error: ${snapshot.error}'));
+                              }
+                              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                return const Center(child: Text('No users found'));
+                              }
+
+                              // List of users
+                              final fees = snapshot.data!;
+
+                              return Consumer<PatientAppointmentProvider>(
+                                builder: (context, provider, child) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: fees.length,
+                                    itemBuilder: (context, index) {
+                                      final isSelected = provider.selectFeeIndex == index;
+                                      final fee = fees[index];
+                                      return FeeContainer(
+                                        onTap: () {
+                                          provider.setSelectedFee(
+                                              index,
+                                              fee.type,
+                                              fee.fees
+                                          );
+                                        },
+                                        title: fee.type,
+                                        subTitle: fee.subTitle,
+                                        borderColor: isSelected ? themeColor : greyColor,
+                                        icon: isSelected ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,
+                                      );
                                     },
-                                    title: feesList[index]["title"]!,
-                                    subTitle: feesList[index]["subTitle"]!,
-                                    borderColor: isSelected ? themeColor : greyColor,
-                                    icon: isSelected ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(height: height1,);
+                                    },
                                   );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(height: height1,);
-                                },
-                              );
-                          },),
+                                },);
+                            },
+                          ),
                           SizedBox(height: 30.sp,),
                           SubmitButton(
                             title: "Continue",

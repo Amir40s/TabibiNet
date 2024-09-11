@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/CancelAppointmentReason/Components/cancel_reason_section.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/CancelScreen/cancel_successful_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+
+import '../CancelScreen/cancel_successful_screen.dart';
+import 'Components/cancel_reason_section.dart';
 
 class CancelAppointmentReasonScreen extends StatelessWidget {
   CancelAppointmentReasonScreen({super.key});
@@ -71,7 +70,7 @@ class CancelAppointmentReasonScreen extends StatelessWidget {
                     SubmitButton(
                       title: "Submit",
                       press: () {
-                        Get.to(()=>CancelSuccessfulScreen());
+                        Get.to(()=>const CancelSuccessfulScreen());
                     },),
                     const SizedBox(height: 20,),
                     

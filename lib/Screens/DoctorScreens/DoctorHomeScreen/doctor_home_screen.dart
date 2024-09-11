@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/EPrescriptionScreen/e_prescription_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
-import '../../../model/res/widgets/bottom_nav_bar.dart';
+import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
 import '../DoctorAppointmentSchedule/doctor_appointment_schedule_screen.dart';
+import '../EPrescriptionScreen/e_prescription_screen.dart';
 import 'Components/doctor_home_header.dart';
 import 'Components/patient_detail_chart.dart';
 import 'Components/quick_access_section.dart';
@@ -20,6 +21,7 @@ class DoctorHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<DoctorProfileProvider>(context,listen: false).getSelfInfo();
     double height = 20;
     return SafeArea(
       child: Scaffold(
@@ -37,7 +39,7 @@ class DoctorHomeScreen extends StatelessWidget {
                     SubmitButton(
                       title: "View E-prescriptions",
                       press: () {
-                        Get.to(()=>EPrescriptionScreen());
+                        Get.to(()=>const EPrescriptionScreen());
                     },),
                     SizedBox(height: height,),
                     Row(

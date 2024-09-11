@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
@@ -18,7 +17,7 @@ class MedicationLookupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height1 = 20.0;
-    double height2 = 10.0;
+    // double height2 = 10.0;
     return SafeArea(
       child: Scaffold(
         backgroundColor: themeColor,

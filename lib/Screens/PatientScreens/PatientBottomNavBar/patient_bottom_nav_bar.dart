@@ -24,11 +24,11 @@ class PatientBottomNavBar extends StatelessWidget {
           builder: (context, value, child) {
           return IndexedStack(
             index: value.currentIndex,
-            children: [
+            children: const [
               PatientHomeScreen(),
-              const PatientMessageScreen(),
-              const NotificationScreen(),
-              const PatientProfileScreen()
+              PatientMessageScreen(),
+              NotificationScreen(),
+              PatientProfileScreen()
             ],
           );
         },),

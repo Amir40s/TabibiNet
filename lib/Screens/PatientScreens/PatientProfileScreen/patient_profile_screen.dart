@@ -5,12 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/EditProfileScreen/patient_edit_profile_screen.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/HelpAndSupportScreen/help_and_support_screen.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/NotificationSetting/notification_setting_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/language_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/OnboardingScreen/onboarding_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
@@ -18,9 +12,14 @@ import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/submit_button.dart';
-import '../../StartScreens/AccountTypeScreen/account_type_screen.dart';
+import '../../StartScreens/LanguageScreen/language_screen.dart';
+import '../../StartScreens/OnboardingScreen/onboarding_screen.dart';
+import '../EditProfileScreen/patient_edit_profile_screen.dart';
+import '../HelpAndSupportScreen/help_and_support_screen.dart';
+import '../NotificationSetting/notification_setting_screen.dart';
 import '../PaymentScreen/payment_screen.dart';
 import '../UpComingAppointment/upcoming_appointment_screen.dart';
 

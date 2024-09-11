@@ -4,8 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/dotted_line.dart';
@@ -13,9 +11,10 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 
+import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/text_widget.dart';
-import '../PatientHomeScreen/patient_home_screen.dart';
+import '../PatientBottomNavBar/patient_bottom_nav_bar.dart';
 
 class AppointmentReviewScreen extends StatelessWidget {
   AppointmentReviewScreen({super.key});

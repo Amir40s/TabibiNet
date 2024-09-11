@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/info_tile.dart';
-import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../SuccessScreen/success_screen.dart';
 
 class ReminderScreen extends StatelessWidget {
   const ReminderScreen({

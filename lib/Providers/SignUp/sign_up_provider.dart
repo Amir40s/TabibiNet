@@ -83,8 +83,8 @@ class SignUpProvider extends ChangeNotifier{
             "speciality": speciality,
             "specialityDetail": specialityDetail,
             "experience": yearsOfExperience,
-            "availabilityFrom": appointmentFrom,
-            "availabilityTo": appointmentTo,
+            "availabilityFrom": appointmentFrom ?? "",
+            "availabilityTo": appointmentTo ?? "",
             "appointmentFee": appointmentFee,
             "reviews": "0",
             "patients": "0",
@@ -116,7 +116,6 @@ class SignUpProvider extends ChangeNotifier{
               },);
               // Get.off(() => const DoctorBottomNavbar());
             }
-            ToastMsg().toastMsg("Account Created Successfully");
             log("*********** Complete ************");
             _isLoading = false;
             notifyListeners();

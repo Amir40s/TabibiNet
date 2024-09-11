@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/ThankFeedbackScreen/thank_feedback_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+
+import '../ThankFeedbackScreen/thank_feedback_screen.dart';
 
 class ConsultationCallEndScreen extends StatelessWidget {
   ConsultationCallEndScreen({super.key});
@@ -161,7 +160,7 @@ class ConsultationCallEndScreen extends StatelessWidget {
                       SubmitButton(
                         title: "Submit",
                         press: () {
-                          Get.to(()=>ThankFeedbackScreen());
+                          Get.to(()=>const ThankFeedbackScreen());
                         },),
                       const SizedBox(height: 10,),
                       Center(

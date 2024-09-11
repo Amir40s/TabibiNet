@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/WithDrawScreen/with_draw_screen.dart';
 import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../WithDrawScreen/with_draw_screen.dart';
 
 class PaymentManagementScreen extends StatelessWidget {
   const PaymentManagementScreen({super.key});
@@ -30,7 +28,7 @@ class PaymentManagementScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       color: greyColor.withOpacity(0.5),
-                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))
+                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30))
                   ),
                   child: Column(
                     children: [

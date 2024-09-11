@@ -9,7 +9,6 @@ import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../../model/res/widgets/toast_msg.dart';
-import '../../SuccessScreen/success_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   OtpScreen({super.key,required this.otp});

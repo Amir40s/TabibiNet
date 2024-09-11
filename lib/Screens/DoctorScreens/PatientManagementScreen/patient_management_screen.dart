@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/EmrScreen/emr_screen.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/PatientManagementData/patient_management_data_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
-import '../CheckInteractionScreen/check_interaction_screen.dart';
-import '../DosageCalculatorScreen/dosage_calculator_screen.dart';
 import '../EPrescriptionScreen/Components/prescription_container.dart';
+import '../EmrScreen/emr_screen.dart';
 import '../MedicationLookupScreen/medication_lookup_screen.dart';
+import '../PatientManagementData/patient_management_data_screen.dart';
 import '../PrescribeMedicineScreen/prescribe_medicine_screen.dart';
 
 class PatientManagementScreen extends StatelessWidget {

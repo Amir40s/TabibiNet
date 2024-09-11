@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
-import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/text_widget.dart';
 
 class QuickAccessContainer extends StatelessWidget {

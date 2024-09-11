@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/ConsultationCallEndScreen/consultation_call_end_screen.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/VoiceCallEndedScreen/appointment_voice_call_ended_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+
+import '../ConsultationCallEndScreen/consultation_call_end_screen.dart';
 
 class ConsultationCallScreen extends StatelessWidget {
   const ConsultationCallScreen({super.key});

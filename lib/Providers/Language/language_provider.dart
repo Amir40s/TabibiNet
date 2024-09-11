@@ -12,7 +12,7 @@ class LanguageProvider extends ChangeNotifier{
     _selectedIndex = index;
     _isBouncing = true;
     notifyListeners();
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       _isBouncing = false;
       notifyListeners();
     });

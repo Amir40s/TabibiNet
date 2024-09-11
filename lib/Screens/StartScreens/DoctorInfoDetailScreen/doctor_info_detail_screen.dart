@@ -1,18 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/SignIn/sign_in_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/Components/doctor_appointment_time_section.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
+import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../SignInScreen/signin_screen.dart';
+import 'Components/doctor_appointment_time_section.dart';
 
 class DoctorInfoDetailScreen extends StatelessWidget {
   DoctorInfoDetailScreen({super.key});

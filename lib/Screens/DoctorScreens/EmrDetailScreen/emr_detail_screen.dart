@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/Prescription_creation_screen/prescription_creation_screen.dart';
 

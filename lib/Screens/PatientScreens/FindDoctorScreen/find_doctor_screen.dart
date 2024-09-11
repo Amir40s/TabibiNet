@@ -37,7 +37,7 @@ class FindDoctorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<PatientHomeProvider>(context,listen: false);
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
-    final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
+    // final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -156,7 +156,7 @@ class FindDoctorScreen extends StatelessWidget {
                               itemCount: users.length,
                               itemBuilder: (context, index) {
                                 final user = users[index];
-                                final doctorId = user.userUid;
+                                // final doctorId = user.userUid;
                                 return TopDoctorContainer(
                                   doctorName: user.name,
                                   specialityName: user.speciality,

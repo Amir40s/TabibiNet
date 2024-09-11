@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/OtpScreen/otp_screen.dart';
+
+import '../../../Screens/StartScreens/OtpScreen/otp_screen.dart';
 
 class AppUtils{
 

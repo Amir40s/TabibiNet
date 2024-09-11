@@ -168,8 +168,8 @@ class LocationProvider extends ChangeNotifier{
 
     var response = await http.get(Uri.parse(request));
     var data = response.body.toString();
-    print("data");
-    print(data);
+    log("data");
+    log(data);
     if(response.statusCode == 200){
       placesList = jsonDecode(response.body.toString())["predictions"];
       notifyListeners();

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/data/user_model.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/input_field.dart';
+import '../../../Providers/Favorite/favorite_doctor_provider.dart';
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
+import '../DoctorDetailScreen/doctor_detail_screen.dart';
 import '../PatientHomeScreen/components/top_doctor_container.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -15,6 +21,8 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
+    final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -51,24 +59,62 @@ class FavoriteScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20,),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return const TopDoctorContainer(
-                        doctorName: "user.name",
-                        specialityName: "user.speciality",
-                        specialityDetail: "user.specialityDetail",
-                        availabilityFrom: "",
-                        availabilityTo: "",
-                        appointmentFee: "40",
-                        rating: "4.0",
-                        imageUrl: "",
-                        isFav: true,
+              StreamBuilder<List<UserModel>>(
+                stream: favoritesProvider.favoriteDoctorDetailsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text("No favorite doctors yet"));
+                  }
+
+                  final favoriteDoctors = snapshot.data!;
+
+                  return Consumer<FavoritesProvider>(
+                    builder: (context, provider, child) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: favoriteDoctors.length,
+                        itemBuilder: (context, index) {
+                          var doctor = favoriteDoctors[index];
+                          return TopDoctorContainer(
+                            doctorName: doctor.name,
+                            specialityName: doctor.speciality,
+                            specialityDetail: doctor.specialityDetail,
+                            availabilityFrom: doctor.availabilityFrom,
+                            availabilityTo: doctor.availabilityTo,
+                            appointmentFee: doctor.appointmentFee,
+                            rating: doctor.rating,
+                            imageUrl: doctor.profileUrl,
+                            isFav: provider.isFavorite(doctor.userUid),
+                            likeTap: () {
+                              provider.toggleFavorite(doctor.userUid);
+                            },
+                            onTap: () {
+                              appointmentScheduleP.setDoctorId(doctor.userUid);
+                              appointmentScheduleP.setAvailabilityTime(
+                                  doctor.availabilityFrom,
+                                  doctor.availabilityTo
+                              );
+                              Get.to(()=> DoctorDetailScreen(
+                                doctorName: doctor.name,
+                                specialityName: doctor.speciality,
+                                doctorDetail: doctor.specialityDetail,
+                                yearsOfExperience: doctor.experience,
+                                patients: doctor.patients,
+                                reviews: doctor.reviews,
+                                image: doctor.profileUrl,
+                              ));
+                            },
+                          );
+                        },
                       );
-                    },
-                  ),
+                  },);
+                },
+              ),
                   const SizedBox(height: 30,)
                 ],
               ),

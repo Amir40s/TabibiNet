@@ -69,8 +69,12 @@ class AtClinicSection extends StatelessWidget {
           itemBuilder: (context, index) {
             return AppointmentContainer(
                 onTap: () {
-                  Get.to(()=>ConsultationDetailScreen());
+                  Get.to(()=>const ConsultationDetailScreen());
                 },
+                patientName: "",
+                patientGender: "",
+                patientAge: "",
+                patientPhone: "",
                 statusText: "Pending",
                 text1: "At Clinic",
                 text2: "Video",

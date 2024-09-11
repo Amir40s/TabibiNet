@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
 
-import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../constant.dart';
-import '../../../../model/data/user_model.dart';
 import '../../../../model/res/constant/app_fonts.dart';
-import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/dotted_line.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';

@@ -10,7 +10,9 @@ import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 
 import '../../../Providers/DoctorAppointment/doctor_appointment_provider.dart';
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../Providers/PatientHome/patient_home_provider.dart';
+import '../../../model/data/patient_model.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/appointment_container.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -51,6 +53,7 @@ class DoctorAppointmentSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final patientViewModel = Provider.of<PatientAppointmentProvider>(context,listen: false);
     double height = 20.0;
     return SafeArea(
       child: Scaffold(
@@ -179,30 +182,53 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                           },)
                     ),
                     SizedBox(height: height,),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: appointmentStatus.length,
-                      itemBuilder: (context, index) {
-                      return AppointmentContainer(
-                          onTap : () {
-                            Get.to(() =>
-                                SessionDetailScreen(
-                                  status: appointmentStatus[index]["status"]!,
-                                  statusTextColor: appointmentStatus[index]["textColor"],
-                                  boxColor: appointmentStatus[index]["boxColor"],
-                                ));
+                    StreamBuilder<List<PatientModel>>(
+                      stream: patientViewModel.fetchPatients(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        }
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No Patients found'));
+                        }
+
+                        // List of users
+                        final patients = snapshot.data!;
+
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemCount: patients.length,
+                          itemBuilder: (context, index) {
+                            final patient = patients[index];
+                            return AppointmentContainer(
+                                onTap : () {
+                                  Get.to(() =>
+                                      SessionDetailScreen(
+                                        status: patient.patientName,
+                                        statusTextColor: appointmentStatus[index]["textColor"],
+                                        boxColor: appointmentStatus[index]["boxColor"],
+                                      ));
+                                },
+                                patientName: patient.patientName,
+                                patientGender: patient.patientGender,
+                                patientAge: patient.patientAge,
+                                patientPhone: patient.patientPhone,
+                                statusText: patient.status,
+                                text1: "Appointment Date",
+                                text2: patient.appointmentDate,
+                                statusTextColor: appointmentStatus[index]["textColor"],
+                                boxColor: appointmentStatus[index]["boxColor"]);
                           },
-                          statusText: appointmentStatus[index]["status"],
-                          text1: "Appointment Date",
-                          text2: "4 Aug 2024",
-                          statusTextColor: appointmentStatus[index]["textColor"],
-                          boxColor: appointmentStatus[index]["boxColor"]);
-                    },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 15,);
-                      },),
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 15,);
+                          },);
+                      },
+                    ),
                     SizedBox(height: height,),
                   ],
                 )
@@ -213,3 +239,4 @@ class DoctorAppointmentSchedule extends StatelessWidget {
     );
   }
 }
+

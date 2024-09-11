@@ -19,6 +19,7 @@ class PatientProfileProvider extends ChangeNotifier{
   String _patientCountry = "";
   String _imageUrl = "";
   File? _image;
+  bool _isDataFetched = true;
 
   int? get selectFaq => _selectFaq;
   int? get selectFaqCat => _selectFaqCat;
@@ -29,18 +30,21 @@ class PatientProfileProvider extends ChangeNotifier{
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
-    await fireStore.collection("users").doc(auth.currentUser!.uid).get()
-        .then((value) {
-          _patientName = value.get("name");
-          _patientPhone = value.get("phoneNumber");
-          _patientCountry = value.get("country");
-          _imageUrl = value.get("profileUrl");
-          nameC.text = _patientName;
-          notifyListeners();
-    },);
-    log(_patientName);
-    log(_patientPhone);
-    log(_imageUrl);
+    if(_isDataFetched){
+      await fireStore.collection("users").doc(auth.currentUser!.uid).get()
+          .then((value) {
+        _patientName = value.get("name");
+        _patientPhone = value.get("phoneNumber");
+        _patientCountry = value.get("country");
+        _imageUrl = value.get("profileUrl");
+        nameC.text = _patientName;
+        _isDataFetched = false;
+        notifyListeners();
+      },);
+      log(_patientName);
+      log(_patientPhone);
+      log(_imageUrl);
+    }
   }
 
   Future<void> pickImage() async {

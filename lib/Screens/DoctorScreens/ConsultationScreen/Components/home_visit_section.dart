@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -72,6 +71,10 @@ class HomeVisitSection extends StatelessWidget {
                 onTap: () {
                   Get.to(()=>ConsultationDetailScreen());
                 },
+                patientName: "",
+                patientGender: "",
+                patientAge: "",
+                patientPhone: "",
                 statusText: "Pending",
                 text1: "Consultations Type",
                 text2: "Video",

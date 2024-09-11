@@ -3,12 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../model/res/constant/app_fonts.dart';
 import '../../../../../model/res/widgets/text_widget.dart';
+import '../../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../../model/res/constant/app_icons.dart';
 
 class SpecialitySection extends StatelessWidget {

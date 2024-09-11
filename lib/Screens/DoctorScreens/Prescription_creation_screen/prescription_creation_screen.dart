@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 import 'package:tabibinet_project/model/res/widgets/info_tile.dart';

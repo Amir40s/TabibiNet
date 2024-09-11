@@ -1,36 +1,38 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/components/doctor_section.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
+import '../../../Providers/Favorite/favorite_doctor_provider.dart';
+import '../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../constant.dart';
-import '../../../model/data/user_model.dart';
 import '../../../model/res/constant/app_icons.dart';
-import '../../../model/res/widgets/bottom_nav_bar.dart';
 import 'package:intl/intl.dart';
 
 import '../../../model/res/widgets/text_widget.dart';
-import '../DoctorDetailScreen/doctor_detail_screen.dart';
 import '../DoctorSpecialityScreen/doctor_speciality_screen.dart';
-import '../FavoriteScreen/favorite_screen.dart';
 import '../FindDoctorScreen/find_doctor_screen.dart';
-import '../NotificationScreen/notification_screen.dart';
+import 'components/doctor_section.dart';
 import 'components/patient_home_header.dart';
 import 'components/schedule_section.dart';
 import 'components/speciality_slider_section.dart';
-import 'components/top_doctor_container.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<PatientProfileProvider>(context,listen: false).getSelfInfo();
+    Provider.of<FavoritesProvider>(context,listen: false).fetchFavoriteDoctors();
+    // final appStateProvider = Provider.of<AppStateProvider>(context,listen: false);
+    // final lifecycleObserver = AppLifecycleObserver(appStateProvider);
+    //
+    // // Add observer to handle lifecycle events
+    // lifecycleObserver.addObserver();
 
     double height1 = 20;
     DateTime now = DateTime.now();

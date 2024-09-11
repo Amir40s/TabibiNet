@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/SignIn/sign_in_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/doctor_info_detail_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
+import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_assets.dart';
@@ -70,11 +71,7 @@ class AccountTypeScreen extends StatelessWidget {
               SubmitButton(
                 title: "Login",
                 press: () {
-                  if(signP.userType == "Health Professional"){
-                    Get.to(()=> DoctorInfoDetailScreen());
-                  }else{
                     Get.to(()=>SignInScreen());
-                  }
               },),
               const SizedBox(height: 10,),
               SubmitButton(
@@ -85,7 +82,7 @@ class AccountTypeScreen extends StatelessWidget {
                   if(signP.userType == "Health Professional"){
                     Get.to(()=> DoctorInfoDetailScreen());
                   }else{
-                    Get.to(()=>SignInScreen());
+                    Get.to(()=>SignUpScreen());
                   }
                   },),
             ],

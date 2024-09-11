@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
@@ -13,7 +12,7 @@ import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/input_field.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
-import '../../../Providers/PatientHome/patient_home_provider.dart';
+import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../MakePaymentScreen/make_payment_screen.dart';
 import 'Components/age_section.dart';
@@ -52,7 +51,9 @@ class PatientDetailScreen extends StatelessWidget {
                         hintText: "Full Name",
                         suffixIcon: Padding(
                           padding: const EdgeInsets.all(9.0),
-                          child: SvgPicture.asset(AppIcons.personIcon,color: greyColor),
+                          child: SvgPicture.asset(
+                              AppIcons.personIcon,
+                              colorFilter: const ColorFilter.mode(greyColor, BlendMode.srcIn)),
                         ),
                       ),
                       SizedBox(height: height1,),

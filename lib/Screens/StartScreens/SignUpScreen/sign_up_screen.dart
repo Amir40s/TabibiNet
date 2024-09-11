@@ -1,19 +1,10 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Providers/Location/location_provider.dart';
-import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/Components/sign_up_form.dart';
 import 'package:tabibinet_project/model/res/constant/app_utils.dart';
-import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
-
+import '../../../Providers/Location/location_provider.dart';
 import '../../../Providers/SignIn/sign_in_provider.dart';
+import '../../../Providers/SignUp/sign_up_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -21,6 +12,8 @@ import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../SignInScreen/Components/sign_container.dart';
+import '../SignInScreen/signin_screen.dart';
+import 'Components/sign_up_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -173,33 +166,4 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
-
-  void sentOTP(String email) async {
-    String userName = "usman1903naveed@gmail.com";
-    String password = "";
-    final smtpServer = gmail(userName, password);
-    final message = Message()
-    ..from = Address(userName, "Mail Service")
-    ..recipients.add(email)
-    ..subject = "Mail"
-    ..text = "123456";
-    try{
-      await send(message, smtpServer);
-      Get.snackbar("", "Email Send Successfully");
-    }catch(e){
-      if(kDebugMode){
-        log(e.toString());
-      }
-    }
-  }
-
 }
-
-//EmailAuth emailAuth =  EmailAuth(sessionName: "Sample session");
-//     var res = await emailAuth.sendOtp(recipientMail: email,otpLength: 4);
-//     if(res){
-//       Get.to(()=>OtpScreen());
-//       ToastMsg().toastMsg("OTP Sent");
-//     }else{
-//       ToastMsg().toastMsg("We could not sent the OTP");
-//     }

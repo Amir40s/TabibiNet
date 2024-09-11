@@ -3,11 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/global_provider.dart';
+import 'package:tabibinet_project/model/data/fee_information_model.dart';
 import 'package:tabibinet_project/model/data/patient_model.dart';
 
 import '../../Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 
 class PatientAppointmentProvider with ChangeNotifier {
+
+  PatientAppointmentProvider() {
+    _filteredTime = List.from(_time); // Initially show all times
+  }
+
+  final profileP = GlobalProviderAccess.patientProfilePro;
 
   final nameC = TextEditingController();
   final phoneC = TextEditingController();
@@ -25,15 +33,15 @@ class PatientAppointmentProvider with ChangeNotifier {
   String? _toTime;
   String? _appointmentTime;
   String? _appointmentDate;
-  int? _selectFee;
   int? _selectPatientAge;
   String? _selectedGender;
   String? _patientAge;
+  //
+  int? _selectFeeIndex;
+  String _selectFeeType = "";
+  String _selectFee = "";
+  //
   List<String> _filteredTime = [];
-
-  PatientAppointmentProvider() {
-    _filteredTime = List.from(_time); // Initially show all times
-  }
 
   List<String> get time => _time;
   List<String> get filteredTime => _filteredTime;
@@ -42,9 +50,13 @@ class PatientAppointmentProvider with ChangeNotifier {
   String? get toTime => _toTime;
   String? get appointmentTime => _appointmentTime;
   String? get appointmentDate => _appointmentDate;
-  int? get selectFee => _selectFee;
   String? get selectedGender => _selectedGender;
   String? get patientAge => _patientAge;
+  //Fee Variables
+  String get selectFeeType => _selectFeeType;
+  String get selectFee => _selectFee;
+  int? get selectFeeIndex => _selectFeeIndex;
+  //
   int? get selectPatientAge => _selectPatientAge;
 
   void selectGender(String gender) {
@@ -58,9 +70,13 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedFee(index){
-    _selectFee = index;
-    log(_appointmentDate.toString());
+  void setSelectedFee(index,feeType,feeAmount){
+    _selectFeeIndex = index;
+    _selectFeeType = feeType;
+    _selectFee = feeAmount;
+    log(_selectFeeIndex.toString());
+    log(_selectFeeType);
+    log(_selectFee);
     notifyListeners();
   }
 
@@ -102,9 +118,23 @@ class PatientAppointmentProvider with ChangeNotifier {
     }
   }
 
+  Stream<List<FeeInformationModel>> fetchFeeInfo() {
+    return fireStore.collection('feeInformation')
+        .snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => FeeInformationModel.fromDocumentSnapshot(doc)).toList();
+    });
+  }
+
   Future<void> addPatient() async {
-    await fireStore.collection("users").doc(_doctorId).collection("patients").doc(auth.currentUser!.uid).set({
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    await fireStore.collection("appointment").doc(id).set({
+      "id" : id,
       "patientId" : auth.currentUser!.uid,
+      "doctorId" : _doctorId,
+      "name": profileP!.patientName,
+      "phone": profileP!.patientPhone,
+      "image": profileP!.imageUrl,
+      "status": "requesting",
       "patientName" : nameC.text.toString(),
       "patientAge" : _patientAge,
       "patientPhone" : phoneC.text.toString(),
@@ -112,6 +142,8 @@ class PatientAppointmentProvider with ChangeNotifier {
       "patientProblem" : problemC.text.toString(),
       "appointmentTime" : _appointmentTime,
       "appointmentDate" : _appointmentDate,
+      "appointmentPayment" : _selectFee,
+      "applyDate" : DateTime.now(),
     })
         .whenComplete(() {
       Get.off(()=>StartAppointmentScreen());
@@ -119,7 +151,9 @@ class PatientAppointmentProvider with ChangeNotifier {
   }
 
   Stream<List<PatientModel>> fetchPatients() {
-    return fireStore.collection('users').doc(auth.currentUser!.uid).collection("patients")
+    return fireStore.collection('appointment')
+        .where("doctorId",isEqualTo: auth.currentUser!.uid)
+        .where("status",isEqualTo: "completed")
         .snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => PatientModel.fromDocumentSnapshot(doc)).toList();
     });
