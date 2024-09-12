@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/Favorite/favorite_doctor_provider.dart';
 import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/Providers/PatientHome/patient_home_provider.dart';
@@ -131,10 +132,10 @@ class FindDoctorScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20,),
                     Consumer<FindDoctorProvider>(
-                      builder: (context, provider, child) {
+                      builder: (context, findProvider, child) {
                         return StreamBuilder<List<UserModel>>(
-                          stream: provider.selectDoctorCategory != null && provider.selectDoctorCategory != "All" ?
-                          userViewModel.fetchFilterDoctors(provider.selectDoctorCategory!)
+                          stream: findProvider.selectDoctorCategory != null && findProvider.selectDoctorCategory != "All" ?
+                          userViewModel.fetchFilterDoctors(findProvider.selectDoctorCategory!)
                               : userViewModel.fetchDoctors(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -149,42 +150,48 @@ class FindDoctorScreen extends StatelessWidget {
 
                             // List of users
                             final users = snapshot.data!;
-                            return ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: users.length,
-                              itemBuilder: (context, index) {
-                                final user = users[index];
-                                // final doctorId = user.userUid;
-                                return TopDoctorContainer(
-                                  doctorName: user.name,
-                                  specialityName: user.speciality,
-                                  specialityDetail: user.specialityDetail,
-                                  availabilityFrom: user.availabilityFrom,
-                                  availabilityTo: user.availabilityTo,
-                                  appointmentFee: user.appointmentFee,
-                                  imageUrl: user.profileUrl,
-                                  rating: user.rating,
-                                  isFav: true,
-                                  onTap: () {
-                                    appointmentScheduleP.setAvailabilityTime(
-                                        user.availabilityFrom,
-                                        user.availabilityTo
-                                    );
-                                    Get.to(()=> DoctorDetailScreen(
+                            return Consumer<FavoritesProvider>(
+                              builder: (context, favProvider, child) {
+                                return ListView.builder(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: users.length,
+                                  itemBuilder: (context, index) {
+                                    final user = users[index];
+                                    // final doctorId = user.userUid;
+                                    return TopDoctorContainer(
                                       doctorName: user.name,
                                       specialityName: user.speciality,
-                                      doctorDetail: user.specialityDetail,
-                                      yearsOfExperience: user.experience,
-                                      patients: user.patients,
-                                      reviews: user.reviews,
-                                      image: user.profileUrl,
-                                    ));
+                                      specialityDetail: user.specialityDetail,
+                                      availabilityFrom: user.availabilityFrom,
+                                      availabilityTo: user.availabilityTo,
+                                      appointmentFee: user.appointmentFee,
+                                      imageUrl: user.profileUrl,
+                                      rating: user.rating,
+                                      isFav: favProvider.isFavorite(user.userUid),
+                                      likeTap: () {
+                                        favProvider.toggleFavorite(user.userUid);
+                                      },
+                                      onTap: () {
+                                        appointmentScheduleP.setAvailabilityTime(
+                                            user.availabilityFrom,
+                                            user.availabilityTo
+                                        );
+                                        Get.to(()=> DoctorDetailScreen(
+                                          doctorName: user.name,
+                                          specialityName: user.speciality,
+                                          doctorDetail: user.specialityDetail,
+                                          yearsOfExperience: user.experience,
+                                          patients: user.patients,
+                                          reviews: user.reviews,
+                                          image: user.profileUrl,
+                                        ));
+                                      },
+                                    );
                                   },
                                 );
-                              },
-                            );
+                            },);
                           },
                         );
                     },)

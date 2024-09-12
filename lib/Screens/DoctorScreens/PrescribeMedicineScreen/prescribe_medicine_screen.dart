@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/Medicine/medicine_provider.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/FindDoctorScreen/Components/suggestion_container.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/model/res/widgets/header.dart';
-import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
+import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 
+import '../../../Providers/Medicine/medicine_provider.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/input_field.dart';
+import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../PatientScreens/FindDoctorScreen/Components/suggestion_container.dart';
 
 class PrescribeMedicineScreen extends StatelessWidget {
-  PrescribeMedicineScreen({super.key});
+  PrescribeMedicineScreen({super.key,required this.isVisible});
 
   final medC = TextEditingController();
 
@@ -35,7 +37,8 @@ class PrescribeMedicineScreen extends StatelessWidget {
     "Before food",
   ];
 
-
+  final bool isVisible;
+  
   @override
   Widget build(BuildContext context) {
     double height1 = 20.0;
@@ -230,12 +233,37 @@ class PrescribeMedicineScreen extends StatelessWidget {
                           },)
                     ),
                     const SizedBox(height: 30,),
-                    SubmitButton(
-                      title: "Prescribe Medicine ",
-                      press: () {
+                    Visibility(
+                      visible: isVisible,
+                      child: SubmitButton(
+                        title: "Prescribe Medicine ",
+                        press: () {
 
-                    },)
+                      },),
+                    ),
+                    Visibility(
+                      visible: !isVisible,
+                      child: SubmitButton(
+                        title: "Update",
+                        press: () {
+                          Get.to(()=> const SuccessScreen(
+                              title: "Prescription Updated Successfully!",
+                              subTitle: "Prescription has been updated to the patient"
+                          )
+                          );
+                      },),
+                    ),
+                    SizedBox(height: height1,),
+                    Visibility(
+                      visible: !isVisible,
+                      child: SubmitButton(
+                        title: "Renew Prescription",
+                        textColor: themeColor,
+                        bgColor: bgColor,
+                        press: () {
 
+                        },),
+                    ),
                   ],
                 ))
           ],

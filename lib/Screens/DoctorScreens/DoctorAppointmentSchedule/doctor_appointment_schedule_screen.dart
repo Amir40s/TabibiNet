@@ -53,7 +53,7 @@ class DoctorAppointmentSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final patientViewModel = Provider.of<PatientAppointmentProvider>(context,listen: false);
+    final doctorAppointmentP = Provider.of<DoctorAppointmentProvider>(context,listen: false);
     double height = 20.0;
     return SafeArea(
       child: Scaffold(
@@ -171,7 +171,7 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                                 final isSelected = provider.selectedIndex == index;
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectButton(index);
+                                    provider.selectButton(index,suggestion[index]);
                                   },
                                   child: SuggestionContainer(
                                       text: suggestion[index],
@@ -182,53 +182,58 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                           },)
                     ),
                     SizedBox(height: height,),
-                    StreamBuilder<List<PatientModel>>(
-                      stream: patientViewModel.fetchPatients(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        }
-                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No Patients found'));
-                        }
+                    Consumer<DoctorAppointmentProvider>(
+                      builder: (context, provider, child) {
+                        return StreamBuilder<List<PatientModel>>(
+                          stream: provider.selectedAppointmentStatus != "All"
+                              ? provider.fetchPatients()
+                              : provider.fetchAllPatients(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                            if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            }
+                            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                              return const Center(child: Text('No Patients found'));
+                            }
 
-                        // List of users
-                        final patients = snapshot.data!;
+                            // List of users
+                            final patients = snapshot.data!;
 
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          itemCount: patients.length,
-                          itemBuilder: (context, index) {
-                            final patient = patients[index];
-                            return AppointmentContainer(
-                                onTap : () {
-                                  Get.to(() =>
-                                      SessionDetailScreen(
-                                        status: patient.patientName,
-                                        statusTextColor: appointmentStatus[index]["textColor"],
-                                        boxColor: appointmentStatus[index]["boxColor"],
-                                      ));
-                                },
-                                patientName: patient.patientName,
-                                patientGender: patient.patientGender,
-                                patientAge: patient.patientAge,
-                                patientPhone: patient.patientPhone,
-                                statusText: patient.status,
-                                text1: "Appointment Date",
-                                text2: patient.appointmentDate,
-                                statusTextColor: appointmentStatus[index]["textColor"],
-                                boxColor: appointmentStatus[index]["boxColor"]);
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              itemCount: patients.length,
+                              itemBuilder: (context, index) {
+                                final patient = patients[index];
+                                return AppointmentContainer(
+                                    onTap : () {
+                                      Get.to(() =>
+                                          SessionDetailScreen(
+                                            status: patient.patientName,
+                                            statusTextColor: appointmentStatus[index]["textColor"],
+                                            boxColor: appointmentStatus[index]["boxColor"],
+                                          ));
+                                    },
+                                    patientName: patient.patientName,
+                                    patientGender: patient.patientGender,
+                                    patientAge: patient.patientAge,
+                                    patientPhone: patient.patientPhone,
+                                    statusText: patient.status,
+                                    text1: "Appointment Date",
+                                    text2: patient.appointmentDate,
+                                    statusTextColor: appointmentStatus[index]["textColor"],
+                                    boxColor: appointmentStatus[index]["boxColor"]);
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 15,);
+                              },);
                           },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: 15,);
-                          },);
-                      },
-                    ),
+                        );
+                    },),
                     SizedBox(height: height,),
                   ],
                 )

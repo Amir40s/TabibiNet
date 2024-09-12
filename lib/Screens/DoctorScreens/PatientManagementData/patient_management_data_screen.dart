@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorAppointment/doctor_appointment_provider.dart';
 
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../constant.dart';
@@ -22,7 +23,7 @@ class PatientManagementDataScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final patientViewModel = Provider.of<PatientAppointmentProvider>(context,listen: false);
+    final doctorAppointmentP = Provider.of<DoctorAppointmentProvider>(context,listen: false);
     double height1 = 20.0;
     return SafeArea(
       child: Scaffold(
@@ -52,7 +53,7 @@ class PatientManagementDataScreen extends StatelessWidget {
             SizedBox(height: height1,),
             Expanded(
                 child: StreamBuilder<List<PatientModel>>(
-                  stream: patientViewModel.fetchPatients(),
+                  stream: doctorAppointmentP.fetchPatients(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -92,7 +93,7 @@ class PatientManagementDataScreen extends StatelessWidget {
                                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                                     const SizedBox(height: 10,),
                                     TextWidget(
-                                      text: "ID Number: #33883", fontSize: 14.sp,
+                                      text: "ID Number: #${user.id}", fontSize: 14.sp,
                                       fontWeight: FontWeight.w400, isTextCenter: false,
                                       textColor: textColor, ),
                                   ],
@@ -125,13 +126,13 @@ class PatientManagementDataScreen extends StatelessWidget {
             SizedBox(height: height1,),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: redColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          child: const Icon(Icons.add_rounded,color: bgColor,size: 35,),
-          onPressed: () {
-
-        },),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: redColor,
+        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        //   child: const Icon(Icons.add_rounded,color: bgColor,size: 35,),
+        //   onPressed: () {
+        //
+        // },),
       ),
     );
   }

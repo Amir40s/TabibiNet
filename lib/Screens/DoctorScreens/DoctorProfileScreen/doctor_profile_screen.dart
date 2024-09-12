@@ -9,7 +9,7 @@ import 'package:tabibinet_project/model/res/widgets/profile_tile.dart';
 
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
-import '../../../model/res/helpers/image_loader.dart';
+import '../../../model/res/widgets/image_loader.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';

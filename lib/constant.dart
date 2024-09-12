@@ -14,6 +14,9 @@ const Color secondaryGreenColor = Color(0xffE6F4F2);
 const Color gradientGreenColor = Color(0xffC5E6E2);
 const Color purpleColor = Color(0xff5554DB);
 const Color skyBlueColor = Color(0xffCBE2FF);
+const Color green1Color = Color(0xff39F20A);
+const Color yellow1Color = Color(0xffE5EA01);
+const Color red1Color = Color(0xffE30505);
 
 
 FirebaseFirestore fireStore = FirebaseFirestore.instance;

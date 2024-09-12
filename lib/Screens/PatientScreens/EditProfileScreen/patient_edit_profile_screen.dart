@@ -11,7 +11,7 @@ import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
-import '../../../model/res/helpers/image_loader.dart';
+import '../../../model/res/widgets/image_loader.dart';
 
 class PatientEditProfileScreen extends StatelessWidget {
   const PatientEditProfileScreen({super.key});

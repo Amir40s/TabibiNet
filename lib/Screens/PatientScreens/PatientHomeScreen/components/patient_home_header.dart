@@ -6,7 +6,7 @@ import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provi
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
-import '../../../../model/res/helpers/image_loader.dart';
+import '../../../../model/res/widgets/image_loader.dart';
 import '../../../../model/res/widgets/text_widget.dart';
 import '../../FavoriteScreen/favorite_screen.dart';
 import '../../NotificationScreen/notification_screen.dart';

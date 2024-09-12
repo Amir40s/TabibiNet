@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
+import 'package:tabibinet_project/model/res/widgets/image_loader.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';

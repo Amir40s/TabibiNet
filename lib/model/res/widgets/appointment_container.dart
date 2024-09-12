@@ -93,7 +93,10 @@ class AppointmentContainer extends StatelessWidget {
                   child: TextWidget(
                     text: statusText, fontSize: 16,
                     fontWeight: FontWeight.w500, isTextCenter: false,
-                    textColor: statusTextColor, fontFamily: AppFonts.medium,),
+                    textColor: statusText == "Pending" ? purpleColor
+                        : statusText == "Cancelled" ? redColor
+                        : themeColor,
+                    fontFamily: AppFonts.medium,),
                 ),
               ],
             ),

@@ -8,7 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
-import 'package:tabibinet_project/model/res/helpers/image_loader.dart';
+import 'package:tabibinet_project/model/res/widgets/image_loader.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 

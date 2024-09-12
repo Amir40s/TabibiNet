@@ -50,7 +50,7 @@ class InOfficeSection extends StatelessWidget {
                     final isSelected = provider.selectedIndex == index;
                     return GestureDetector(
                       onTap: () {
-                        provider.selectButton(index);
+                        provider.selectButton(index,suggestion[index]);
                       },
                       child: SuggestionContainer(
                           text: suggestion[index],

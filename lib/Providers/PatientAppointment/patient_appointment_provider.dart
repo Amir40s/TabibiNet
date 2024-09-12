@@ -134,7 +134,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "name": profileP!.patientName,
       "phone": profileP!.patientPhone,
       "image": profileP!.imageUrl,
-      "status": "requesting",
+      "status": "Requesting",
       "patientName" : nameC.text.toString(),
       "patientAge" : _patientAge,
       "patientPhone" : phoneC.text.toString(),
@@ -148,15 +148,6 @@ class PatientAppointmentProvider with ChangeNotifier {
         .whenComplete(() {
       Get.off(()=>StartAppointmentScreen());
     },);
-  }
-
-  Stream<List<PatientModel>> fetchPatients() {
-    return fireStore.collection('appointment')
-        .where("doctorId",isEqualTo: auth.currentUser!.uid)
-        .where("status",isEqualTo: "completed")
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => PatientModel.fromDocumentSnapshot(doc)).toList();
-    });
   }
   
 }

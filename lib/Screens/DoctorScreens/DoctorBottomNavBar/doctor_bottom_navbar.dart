@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/PatientsLabReportScreen/patient_lab_report_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 
 import '../../../Providers/BottomNav/bottom_navbar_provider.dart';
@@ -25,7 +26,7 @@ class DoctorBottomNavbar extends StatelessWidget {
                 const DoctorHomeScreen(),
                 DoctorAppointmentSchedule(),
                 const PatientManagementScreen(),
-                const Center(child: Text("document"),)
+                const PatientLabReportScreen()
               ],
             );
           },),

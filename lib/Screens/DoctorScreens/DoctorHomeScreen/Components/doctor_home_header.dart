@@ -7,7 +7,7 @@ import 'package:tabibinet_project/Screens/DoctorScreens/DoctorNotification/docto
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
-import '../../../../model/res/helpers/image_loader.dart';
+import '../../../../model/res/widgets/image_loader.dart';
 import '../../../../model/res/widgets/text_widget.dart';
 import '../../DoctorProfileScreen/doctor_profile_screen.dart';
 

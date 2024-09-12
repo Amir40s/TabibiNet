@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/EPrescription_data/e_prescription_data_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -9,7 +10,7 @@ import '../EPrescriptionScreen/Components/prescription_container.dart';
 import '../EmrScreen/emr_screen.dart';
 import '../MedicationLookupScreen/medication_lookup_screen.dart';
 import '../PatientManagementData/patient_management_data_screen.dart';
-import '../PrescribeMedicineScreen/prescribe_medicine_screen.dart';
+import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 
 class PatientManagementScreen extends StatelessWidget {
   const PatientManagementScreen({super.key});
@@ -46,7 +47,7 @@ class PatientManagementScreen extends StatelessWidget {
                     icon: AppIcons.emrIcon,
                     boxColor: const Color(0xffF24C0F),
                     onTap: () {
-                      Get.to(()=>EmrScreen());
+                      Get.to(()=>const EmrScreen());
                     },
                   ),
                   PrescriptionContainer(
@@ -54,7 +55,7 @@ class PatientManagementScreen extends StatelessWidget {
                     icon: AppIcons.resultIcon,
                     boxColor: const Color(0xffDEBA05),
                     onTap: () {
-                      Get.to(()=>PrescribeMedicineScreen());
+                      Get.to(()=>const PatientLabReportScreen());
                     },
                   ),
                   PrescriptionContainer(
@@ -62,7 +63,7 @@ class PatientManagementScreen extends StatelessWidget {
                     icon: AppIcons.prescriptionIcon,
                     boxColor: const Color(0xff0596DE),
                     onTap: () {
-                      Get.to(()=>MedicationLookupScreen());
+                      Get.to(()=>const EPrescriptionDataScreen());
                     },
                   ),
                 ],
