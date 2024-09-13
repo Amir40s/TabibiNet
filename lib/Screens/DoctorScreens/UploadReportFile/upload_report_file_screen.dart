@@ -37,48 +37,48 @@ class UploadReportFileScreen extends StatelessWidget {
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
                   Consumer<LabReportProvider>(
-                    builder: (context, value, child) {
-                      return InkWell(
-                        onTap: () {
-                          value.pickFile();
-                        },
-                        child: DottedBorderContainer(
-                            width: 100.w,
-                            height: 8.h,
-                            borderColor: greyColor,
-                            strokeWidth: 1.5,
-                            dashWidth: 10,
-                            borderRadius: 15,
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.attach_file_outlined,color: themeColor,),
-                                SizedBox(
-                                  width: value.selectedFilePath != null ? 60.w : 19.w,
-                                  child: TextWidget(
-                                      text: value.selectedFilePath != null ? "${value.selectedFilePath}"
-                                          : "Add a file",
-                                      maxLines: 1,
+                      builder: (context, value, child) {
+                        return InkWell(
+                          onTap: () {
+                            value.pickFile();
+                          },
+                          child: DottedBorderContainer(
+                              width: 100.w,
+                              height: 8.h,
+                              borderColor: greyColor,
+                              strokeWidth: 1.5,
+                              dashWidth: 10,
+                              borderRadius: 15,
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.attach_file_outlined,color: themeColor,),
+                                  SizedBox(
+                                    width: value.selectedFilePath != null ? 60.w : 19.w,
+                                    child: TextWidget(
+                                        text: value.selectedFilePath != null ? "${value.selectedFilePath}"
+                                            : "Add a file",
+                                        maxLines: 1,
+                                        fontFamily: AppFonts.medium,
+                                        fontSize: 16.sp, fontWeight: FontWeight.w500,
+                                        isTextCenter: false, textColor: themeColor),
+                                  ),
+                                  value.selectedFilePath == null ? TextWidget(
+                                      text: " or drop it here",
                                       fontFamily: AppFonts.medium,
                                       fontSize: 16.sp, fontWeight: FontWeight.w500,
-                                      isTextCenter: false, textColor: themeColor),
-                                ),
-                                value.selectedFilePath == null ? TextWidget(
-                                    text: " or drop it here",
-                                    fontFamily: AppFonts.medium,
-                                    fontSize: 16.sp, fontWeight: FontWeight.w500,
-                                    isTextCenter: false, textColor: textColor)
-                                    : const SizedBox(),
-                              ],
-                            )
-                        ),
-                      );
-                  },),
+                                      isTextCenter: false, textColor: textColor)
+                                      : const SizedBox(),
+                                ],
+                              )
+                          ),
+                        );
+                    },),
                   SizedBox(height: height2,),
                   TextWidget(
-                    text: "File should be pdf, docs or ppt", fontSize: 12.sp,
-                    fontWeight: FontWeight.w500, isTextCenter: false,
-                    textColor: textColor, fontFamily: AppFonts.regular,),
+                      text: "File should be pdf, docs or ppt", fontSize: 12.sp,
+                      fontWeight: FontWeight.w500, isTextCenter: false,
+                      textColor: textColor, fontFamily: AppFonts.regular,),
                   SizedBox(height: height1,),
                   SubmitButton(
                     title: "Send Document to Micheal",

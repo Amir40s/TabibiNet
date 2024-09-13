@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,12 +10,15 @@ import 'package:tabibinet_project/model/data/fee_information_model.dart';
 import 'package:tabibinet_project/model/data/patient_model.dart';
 
 import '../../Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
+import '../../model/services/CloudinaryServices/cloudinary_services.dart';
 
 class PatientAppointmentProvider with ChangeNotifier {
 
   PatientAppointmentProvider() {
     _filteredTime = List.from(_time); // Initially show all times
   }
+
+  final CloudinaryService _cloudinaryService = CloudinaryService();
 
   final profileP = GlobalProviderAccess.patientProfilePro;
 
@@ -37,12 +42,20 @@ class PatientAppointmentProvider with ChangeNotifier {
   String? _selectedGender;
   String? _patientAge;
   //
+  bool _isLoading = false;
+  String? _uploadedFileUrl;
+  //
   int? _selectFeeIndex;
   String _selectFeeType = "";
   String _selectFee = "";
   //
   List<String> _filteredTime = [];
+  String? _selectedFile;
+  String? _selectedFilePath;
 
+
+  String? get selectedFilePath => _selectedFilePath;
+  String? get selectedFile => _selectedFile;
   List<String> get time => _time;
   List<String> get filteredTime => _filteredTime;
   String? get doctorId => _doctorId;
@@ -58,6 +71,11 @@ class PatientAppointmentProvider with ChangeNotifier {
   int? get selectFeeIndex => _selectFeeIndex;
   //
   int? get selectPatientAge => _selectPatientAge;
+  //
+  bool get isLoading => _isLoading;
+  String? get uploadedFileUrl => _uploadedFileUrl;
+
+
 
   void selectGender(String gender) {
     _selectedGender = gender;
@@ -127,6 +145,7 @@ class PatientAppointmentProvider with ChangeNotifier {
 
   Future<void> addPatient() async {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
+
     await fireStore.collection("appointment").doc(id).set({
       "id" : id,
       "patientId" : auth.currentUser!.uid,
@@ -148,6 +167,55 @@ class PatientAppointmentProvider with ChangeNotifier {
         .whenComplete(() {
       Get.off(()=>StartAppointmentScreen());
     },);
+  }
+
+  Future<void> pickFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'ppt'],
+      );
+
+      if (result != null) {
+        _selectedFilePath = result.files.single.path;
+        notifyListeners();
+      } else {
+        // User canceled the picker
+        _selectedFilePath = null;
+        notifyListeners();
+      }
+    } catch (e) {
+      log("Error picking file: $e");
+    }
+  }
+
+  setSelectedFile(file){
+    _selectedFile = file;
+    notifyListeners();
+  }
+
+  void clearSelectedFile() {
+    _selectedFilePath = null;
+    notifyListeners();
+  }
+
+  Future<void> uploadFile() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      String? url = await _cloudinaryService.uploadFile(File(_selectedFilePath!));
+      if (url != null) {
+        _uploadedFileUrl = url;
+        log("message:: $url");
+        notifyListeners();
+      }
+    } catch (e) {
+      log("Error: $e");
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
   
 }
