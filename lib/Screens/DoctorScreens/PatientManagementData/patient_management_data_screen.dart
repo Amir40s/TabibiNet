@@ -7,7 +7,7 @@ import 'package:tabibinet_project/Providers/DoctorAppointment/doctor_appointment
 
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../constant.dart';
-import '../../../model/data/patient_model.dart';
+import '../../../model/data/appointment_model.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
@@ -52,7 +52,7 @@ class PatientManagementDataScreen extends StatelessWidget {
             ),
             SizedBox(height: height1,),
             Expanded(
-                child: StreamBuilder<List<PatientModel>>(
+                child: StreamBuilder<List<AppointmentModel>>(
                   stream: doctorAppointmentP.fetchPatients(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 
 import '../../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../../constant.dart';
@@ -23,7 +24,7 @@ class FaqCatSection extends StatelessWidget {
     return SizedBox(
         height: 40,
         width: 100.w,
-        child: Consumer<PatientProfileProvider>(
+        child: Consumer<FaqProvider>(
           builder: (context, provider, child) {
             return ListView.builder(
               shrinkWrap: true,

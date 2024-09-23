@@ -29,7 +29,7 @@ class AppUtils{
     return randomNumber;
   }
 
-  void sendMail({
+  sendMail({
     required String recipientEmail,
     required String otpCode,
     required BuildContext context,

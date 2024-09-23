@@ -11,6 +11,7 @@ import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_c
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
 import '../../global_provider.dart';
+import '../../model/data/specialize_model.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 import '../../model/services/NotificationServices/flutter_local_notification.dart';
@@ -30,6 +31,8 @@ class SignInProvider extends ChangeNotifier{
   String _userType = "Patient";
   String? _appointmentFrom;
   String? _appointmentTo;
+  String? _speciality;
+  String? _specialityId;
   // String _signInType = "Custom";
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
@@ -43,9 +46,18 @@ class SignInProvider extends ChangeNotifier{
   String get userType => _userType;
   String? get appointmentFrom => _appointmentFrom;
   String? get appointmentTo => _appointmentTo;
+  String? get speciality => _speciality;
+  String? get specialityId => _specialityId;
   // String get signInType => _signInType;
   bool get isSignInPasswordShow => _isSignInPasswordShow;
   bool get isLoading => _isLoading;
+
+  setSpeciality(speciality){
+    _speciality = speciality;
+    _specialityId = speciality;
+    log(specialityId!);
+    notifyListeners();
+  }
 
   showSignInPassword(){
     _isSignInPasswordShow = !_isSignInPasswordShow;
@@ -197,7 +209,9 @@ class SignInProvider extends ChangeNotifier{
           "profileUrl": auth.currentUser!.photoURL ?? "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
           "rating": "0.0",
           "isOnline": "false",
+          "specialityId": _speciality ?? "",
           "country": country,
+          "memberShip": "No",
           "location": location,
           "latitude": latitude,
           "longitude": longitude,

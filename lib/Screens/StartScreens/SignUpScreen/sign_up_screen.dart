@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_utils.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../../Providers/Location/location_provider.dart';
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../Providers/SignUp/sign_up_provider.dart';
@@ -19,6 +20,7 @@ class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
+  final appUtils = AppUtils();
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +90,18 @@ class SignUpScreen extends StatelessWidget {
                   : SubmitButton(
                 title: "Sign Up",
                 press: () async {
-                  int otp = AppUtils().generateUniqueNumber();
-                  AppUtils().sendMail(
-                      recipientEmail: value.emailC.text.toString(),
-                      otpCode: otp.toString(),
-                      context: context
-                  );
+                  if(value.passwordC.text == value.confirmPasswordC.text){
+                    int otp = AppUtils().generateUniqueNumber();
+                    value.setLoading(true);
+                    await appUtils.sendMail(
+                        recipientEmail: value.emailC.text.toString(),
+                        otpCode: otp.toString(),
+                        context: context
+                    );
+                    value.setLoading(false);
+                  }else{
+                    ToastMsg().toastMsg("Confirm Password is InCorrect!");
+                  }
                   },
               );
             },),

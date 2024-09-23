@@ -104,17 +104,18 @@ class OtpScreen extends StatelessWidget {
                     if(value.passwordC.text == value.confirmPasswordC.text){
                       // sentOTP(value.emailC.text.toString());
                       await value.signUp(
-                          signInP.specialityC.text.toString(),
-                          signInP.specialityDetailC.text.toString(),
-                          signInP.yearsOfExperienceC.text.toString(),
-                          signInP.appointmentFrom,
-                          signInP.appointmentTo,
-                          signInP.appointmentFeeC.text.toString(),
-                          signInP.userType,
-                          locationP.countryName,
-                          locationP.userLocation,
-                          locationP.latitude,
-                          locationP.longitude
+                          speciality:  signInP.specialityC.text.toString(),
+                          specialityId: signInP.specialityId,
+                          specialityDetail:  signInP.specialityDetailC.text.toString(),
+                          yearsOfExperience: signInP.yearsOfExperienceC.text.toString(),
+                          appointmentFrom:  signInP.appointmentFrom,
+                          appointmentTo: signInP.appointmentTo,
+                          appointmentFee: signInP.appointmentFeeC.text.toString(),
+                          type: signInP.userType,
+                          country: locationP.countryName,
+                          location: locationP.userLocation,
+                          latitude: locationP.latitude,
+                          longitude: locationP.longitude
                       );
                     }
                     else{

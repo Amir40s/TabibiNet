@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../../constant.dart';
-import '../../model/data/patient_model.dart';
+import '../../model/data/appointment_model.dart';
 
 class DoctorAppointmentProvider extends ChangeNotifier{
 
@@ -20,16 +20,16 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Stream<List<PatientModel>> fetchPatients() {
+  Stream<List<AppointmentModel>> fetchPatients() {
     return fireStore.collection('appointment')
         .where("doctorId",isEqualTo: auth.currentUser!.uid)
         .where("status",isEqualTo: _selectedAppointmentStatus)
         .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => PatientModel.fromDocumentSnapshot(doc)).toList();
+      return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
     });
   }
 
-  Stream<List<PatientModel>> fetchAllPatients() {
+  Stream<List<AppointmentModel>> fetchAllPatients() {
     return fireStore
         .collection('appointment')
         .where("doctorId", isEqualTo: auth.currentUser!.uid)
@@ -38,7 +38,7 @@ class DoctorAppointmentProvider extends ChangeNotifier{
       // Filter locally on 'status' to exclude 'Requesting'
       return snapshot.docs
           .where((doc) => doc['status'] != 'Requesting')
-          .map((doc) => PatientModel.fromDocumentSnapshot(doc))
+          .map((doc) => AppointmentModel.fromDocumentSnapshot(doc))
           .toList();
     });
   }

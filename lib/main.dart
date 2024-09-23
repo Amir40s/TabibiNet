@@ -10,6 +10,7 @@ import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/DoctorHome/doctor_home_provider.dart';
 import 'Providers/DoctorProfile/doctor_profile_provider.dart';
+import 'Providers/FaqProvider/faq_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/LabReport/lab_report_provider.dart';
 import 'Providers/Language/language_provider.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
             ChangeNotifierProvider(create: (context) => AppStateProvider(),),
             ChangeNotifierProvider(create: (context) => LabReportProvider(),),
+            ChangeNotifierProvider(create: (context) => FaqProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

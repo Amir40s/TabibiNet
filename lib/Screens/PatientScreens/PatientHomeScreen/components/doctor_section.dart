@@ -57,7 +57,7 @@ class DoctorSection extends StatelessWidget {
                         provider.toggleFavorite(user.userUid);
                       },
                       onTap: () {
-                        appointmentScheduleP.setDoctorId(user.userUid);
+                        appointmentScheduleP.setDoctorDetails(user.userUid,user.email);
                         appointmentScheduleP.setAvailabilityTime(
                             user.availabilityFrom,
                             user.availabilityTo

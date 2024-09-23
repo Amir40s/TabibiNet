@@ -5,12 +5,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constant.dart';
+import '../../../main.dart';
 import '../../../model/res/constant/app_assets.dart';
 import '../../../model/services/NotificationServices/flutter_local_notification.dart';
 import '../../../model/services/SplashServices/splash_services.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+// FlutterLocalNotificationsPlugin();
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

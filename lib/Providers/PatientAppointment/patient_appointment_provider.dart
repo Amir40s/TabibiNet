@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/data/fee_information_model.dart';
-import 'package:tabibinet_project/model/data/patient_model.dart';
+import 'package:tabibinet_project/model/data/appointment_model.dart';
 
 import '../../Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 import '../../model/services/CloudinaryServices/cloudinary_services.dart';
@@ -34,6 +34,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   ];
 
   String? _doctorId;
+  String? _doctorMail;
   String? _fromTime;
   String? _toTime;
   String? _appointmentTime;
@@ -48,6 +49,8 @@ class PatientAppointmentProvider with ChangeNotifier {
   int? _selectFeeIndex;
   String _selectFeeType = "";
   String _selectFee = "";
+  String _selectFeeId = "";
+  String _selectFeeSubTitle = "";
   //
   List<String> _filteredTime = [];
   String? _selectedFile;
@@ -59,6 +62,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   List<String> get time => _time;
   List<String> get filteredTime => _filteredTime;
   String? get doctorId => _doctorId;
+  String? get doctorMail => _doctorMail;
   String? get fromTime => _fromTime;
   String? get toTime => _toTime;
   String? get appointmentTime => _appointmentTime;
@@ -68,13 +72,14 @@ class PatientAppointmentProvider with ChangeNotifier {
   //Fee Variables
   String get selectFeeType => _selectFeeType;
   String get selectFee => _selectFee;
+  String get selectFeeId => _selectFeeId;
+  String get selectFeeSubTitle => _selectFeeSubTitle;
   int? get selectFeeIndex => _selectFeeIndex;
   //
   int? get selectPatientAge => _selectPatientAge;
   //
   bool get isLoading => _isLoading;
   String? get uploadedFileUrl => _uploadedFileUrl;
-
 
 
   void selectGender(String gender) {
@@ -88,18 +93,21 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedFee(index,feeType,feeAmount){
+  void setSelectedFee(index,feeType,feeAmount,feeId,feeSubTitle){
     _selectFeeIndex = index;
-    _selectFeeType = feeType;
     _selectFee = feeAmount;
+    _selectFeeId = feeId;
+    _selectFeeSubTitle = feeSubTitle;
+    _selectFeeType = feeType;
     log(_selectFeeIndex.toString());
     log(_selectFeeType);
     log(_selectFee);
     notifyListeners();
   }
 
-  void setDoctorId(doctorId){
+  void setDoctorDetails(doctorId,doctorMail){
     _doctorId = doctorId;
+    _doctorId = doctorMail;
     log(_doctorId.toString());
     notifyListeners();
   }
@@ -150,10 +158,15 @@ class PatientAppointmentProvider with ChangeNotifier {
       "id" : id,
       "patientId" : auth.currentUser!.uid,
       "doctorId" : _doctorId,
+      "doctorMail" : _doctorMail,
       "name": profileP!.patientName,
       "phone": profileP!.patientPhone,
       "image": profileP!.imageUrl,
-      "status": "Requesting",
+      "fees": _selectFee,
+      "feesId": _selectFeeId,
+      "feesType": _selectFeeType,
+      "feeSubTitle": _selectFeeSubTitle,
+      "status": "upcoming",
       "patientName" : nameC.text.toString(),
       "patientAge" : _patientAge,
       "patientPhone" : phoneC.text.toString(),

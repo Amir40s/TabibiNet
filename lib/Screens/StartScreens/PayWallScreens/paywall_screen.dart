@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/Providers/PayWall/paywall_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/advance_plan_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/free_plan_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/premium_plan_screen.dart';
 
+import '../../../Providers/PayWall/paywall_provider.dart';
 import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import 'advance_plan_screen.dart';
+import 'free_plan_screen.dart';
 
 class PaywallScreen extends StatelessWidget {
   PaywallScreen({super.key});
@@ -30,7 +32,8 @@ class PaywallScreen extends StatelessWidget {
             Center(
               child: SizedBox(
                 height: 70,
-                child: Consumer<PaywallProvider>(builder: (context, provider, child) {
+                child: Consumer<PaywallProvider>(
+                  builder: (context, provider, child) {
                   return ListView.builder(
                     itemCount: tabs.length,
                     shrinkWrap: true,
@@ -61,7 +64,8 @@ class PaywallScreen extends StatelessWidget {
                         ),
                       );
                     },);
-                },),
+                },
+                ),
               ),
             ),
             const SizedBox(height: 20,),
@@ -83,3 +87,4 @@ class PaywallScreen extends StatelessWidget {
     );
   }
 }
+

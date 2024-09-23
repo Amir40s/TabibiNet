@@ -12,7 +12,6 @@ import 'Components/faq_section.dart';
 class FaqScreen extends StatelessWidget {
   FaqScreen({super.key});
 
-
   final searchC = TextEditingController();
 
   @override

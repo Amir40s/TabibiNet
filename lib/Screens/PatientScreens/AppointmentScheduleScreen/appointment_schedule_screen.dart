@@ -169,7 +169,9 @@ class AppointmentScheduleScreen extends StatelessWidget {
                                           provider.setSelectedFee(
                                               index,
                                               fee.type,
-                                              fee.fees
+                                              fee.fees,
+                                              fee.id,
+                                              fee.subTitle
                                           );
                                         },
                                         title: fee.type,

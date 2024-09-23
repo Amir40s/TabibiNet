@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../../Providers/SignUp/sign_up_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
@@ -14,6 +16,7 @@ class AdvancePlanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<SignUpProvider>(context,listen: false);
     return Container(
       width: 100.w,
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -50,7 +53,7 @@ class AdvancePlanScreen extends StatelessWidget {
             title: "Get Started",
             radius: 100,
             press: () {
-              Get.to(()=>const PatientBottomNavBar());
+              provider.memberShip("Advance");
             },)
         ],
       ),

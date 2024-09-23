@@ -6,15 +6,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/Location/location_provider.dart';
-import 'package:tabibinet_project/Screens/StartScreens/AccountTypeScreen/account_type_screen.dart';
-import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/Components/google_map_section.dart';
-import 'package:tabibinet_project/Screens/StartScreens/LocationScreen/Components/search_location_field.dart';
 
+import '../../../Providers/Location/location_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../AccountTypeScreen/account_type_screen.dart';
+import 'Components/google_map_section.dart';
+import 'Components/search_location_field.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/widgets/input_field.dart';
-import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
+import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/input_field.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
+import '../../../model/res/widgets/toast_msg.dart';
 import '../SignInScreen/signin_screen.dart';
 import 'Components/doctor_appointment_time_section.dart';
+import 'Components/speciality_dropdown.dart';
 
 class DoctorInfoDetailScreen extends StatelessWidget {
   DoctorInfoDetailScreen({super.key});
@@ -52,10 +53,7 @@ class DoctorInfoDetailScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
               SizedBox(height: height2,),
-              InputField(
-                inputController: signP.specialityC,
-                hintText: "Enter Speciality",
-              ),
+              SpecialityDropdown(),
               SizedBox(height: height1,),
               const TextWidget(
                 text: "Years of Experience", fontSize: 14,

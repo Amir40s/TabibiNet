@@ -8,10 +8,12 @@ class UserModel {
   final String phoneNumber;
   final String country;
   final String speciality;
+  final String specialityId;
   final String availabilityFrom;
   final String availabilityTo;
   final String specialityDetail;
   final String appointmentFee;
+  final String memberShip;
   final String experience;
   final String patients;
   final String reviews;
@@ -33,10 +35,12 @@ class UserModel {
     required this.phoneNumber,
     required this.country,
     required this.speciality,
+    required this.specialityId,
     required this.availabilityFrom,
     required this.availabilityTo,
     required this.specialityDetail,
     required this.appointmentFee,
+    required this.memberShip,
     required this.experience,
     required this.patients,
     required this.reviews,
@@ -62,10 +66,12 @@ class UserModel {
       phoneNumber: data['phoneNumber'] ?? '',
       country: data['country'] ?? '',
       speciality: data['speciality'] ?? '',
+      specialityId: data['specialityId'] ?? '',
       availabilityFrom: data['availabilityFrom'] ?? '',
       availabilityTo: data['availabilityTo'] ?? '',
       specialityDetail: data['specialityDetail'] ?? '',
       appointmentFee: data['appointmentFee'] ?? '',
+      memberShip: data['memberShip'] ?? '',
       experience: data['experience'] ?? '',
       patients: data['patients'] ?? '',
       reviews: data['reviews'] ?? '',

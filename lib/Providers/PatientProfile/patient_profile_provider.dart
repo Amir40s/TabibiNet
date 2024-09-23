@@ -12,8 +12,6 @@ class PatientProfileProvider extends ChangeNotifier{
   final TextEditingController dateC = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  int? _selectFaq;
-  int? _selectFaqCat;
   String _patientName = "";
   String _patientPhone = "";
   String _patientCountry = "";
@@ -21,8 +19,6 @@ class PatientProfileProvider extends ChangeNotifier{
   File? _image;
   bool _isDataFetched = true;
 
-  int? get selectFaq => _selectFaq;
-  int? get selectFaqCat => _selectFaqCat;
   String get patientName => _patientName;
   String get patientPhone => _patientPhone;
   String get patientCountry => _patientCountry;
@@ -67,16 +63,6 @@ class PatientProfileProvider extends ChangeNotifier{
 
   void clearImage() {
     _image = null;
-    notifyListeners();
-  }
-
-  setFaq(index){
-    _selectFaq = index;
-    notifyListeners();
-  }
-
-  setFaqCat(int index){
-    _selectFaqCat = index;
     notifyListeners();
   }
 

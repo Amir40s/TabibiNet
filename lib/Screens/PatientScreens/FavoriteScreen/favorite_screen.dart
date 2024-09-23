@@ -94,7 +94,7 @@ class FavoriteScreen extends StatelessWidget {
                               provider.toggleFavorite(doctor.userUid);
                             },
                             onTap: () {
-                              appointmentScheduleP.setDoctorId(doctor.userUid);
+                              appointmentScheduleP.setDoctorDetails(doctor.userUid,doctor.email);
                               appointmentScheduleP.setAvailabilityTime(
                                   doctor.availabilityFrom,
                                   doctor.availabilityTo

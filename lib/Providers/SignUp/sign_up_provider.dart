@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
+import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/paywall_screen.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_chart.dart';
 import '../../constant.dart';
@@ -36,6 +37,11 @@ class SignUpProvider extends ChangeNotifier{
   bool get isSignUpPasswordShow => _isSignUpPasswordShow;
   bool get isSignUpConfirmPasswordShow => _isSignUpConfirmPasswordShow;
 
+  setLoading(value){
+    _isLoading = value;
+    notifyListeners();
+  }
+
   checkRememberPassword(bool isCheck){
     _isCheck = isCheck;
     notifyListeners();
@@ -51,13 +57,13 @@ class SignUpProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> signUp(
-      speciality, specialityDetail,
-      yearsOfExperience, appointmentFrom,
-      appointmentTo, appointmentFee,
-      type, country,location,
-      latitude,longitude
-      ) async{
+  Future<void> signUp({
+    required speciality, required specialityDetail, required specialityId,
+    required yearsOfExperience, required appointmentFrom,
+    required appointmentTo, required appointmentFee,
+    required type, required country, required location,
+    required latitude, required longitude
+  }) async{
     _isLoading = true;
     notifyListeners();
     auth.createUserWithEmailAndPassword(
@@ -74,6 +80,8 @@ class SignUpProvider extends ChangeNotifier{
             "name": nameC.text,
             "phoneNumber": phoneC.text,
             "country": country,
+            "memberShip": "No",
+            "specialityId": specialityId,
             "profileUrl": "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
             "rating": "0.0",
             "isOnline": "false",
@@ -101,10 +109,11 @@ class SignUpProvider extends ChangeNotifier{
                   type: type);
               await patientProfileProvider!.getSelfInfo()
             .whenComplete(() {
-              Get.off(() => const PatientBottomNavBar());
+                Get.to(()=>PaywallScreen());
               },);
               // Get.off(() => const PatientBottomNavBar());
-            } else if (type == "Health Professional") {
+            }
+            else if (type == "Health Professional") {
               sendNotification();
               await patientNotificationProvider!.storeNotification(
                   title: title,
@@ -144,4 +153,14 @@ class SignUpProvider extends ChangeNotifier{
         fln: flutterLocalNotificationsPlugin);
   }
 
+  Future<void> memberShip(memberShip)async{
+    await fireStore.collection("users").doc(auth.currentUser!.uid).update(
+        {
+          "memberShip" : memberShip.toString()
+        }
+    ).whenComplete(() => Get.to(()=>PatientBottomNavBar()),);
+  }
+
 }
+
+

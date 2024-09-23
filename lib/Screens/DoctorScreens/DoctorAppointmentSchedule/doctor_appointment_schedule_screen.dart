@@ -12,7 +12,7 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import '../../../Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../Providers/PatientHome/patient_home_provider.dart';
-import '../../../model/data/patient_model.dart';
+import '../../../model/data/appointment_model.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/appointment_container.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -184,7 +184,7 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                     SizedBox(height: height,),
                     Consumer<DoctorAppointmentProvider>(
                       builder: (context, provider, child) {
-                        return StreamBuilder<List<PatientModel>>(
+                        return StreamBuilder<List<AppointmentModel>>(
                           stream: provider.selectedAppointmentStatus != "All"
                               ? provider.fetchPatients()
                               : provider.fetchAllPatients(),
