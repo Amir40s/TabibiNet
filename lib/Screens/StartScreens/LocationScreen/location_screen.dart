@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/Language/language_provider.dart';
 
 import '../../../Providers/Location/location_provider.dart';
 import '../../../constant.dart';
@@ -25,6 +26,8 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
 
+  final List<String> supportedLanguages = ['en', 'fr', 'es', 'ar'];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -33,9 +36,12 @@ class _LocationScreenState extends State<LocationScreen> {
     Provider.of<LocationProvider>(context,listen: false).location(context);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final locationP = Provider.of<LocationProvider>(context,listen: false);
+    final languageP = Provider.of<LanguageProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -49,22 +55,23 @@ class _LocationScreenState extends State<LocationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 5.h,),
-                  const Center(
+                  Center(
                     child: TextWidget(
-                        text: "Choose Location", fontSize: 24,
+                        text: languageP.translate("Choose Location"), fontSize: 24,
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor),
                   ),
                   const SizedBox(height: 10,),
-                  const Center(
+                  Center(
                     child: TextWidget(
-                        text: "Choose your location for near hospitals", fontSize: 14,
+                        text: languageP.translate("Choose your location for near hospitals"),
+                        fontSize: 14,
                         fontWeight: FontWeight.w400, isTextCenter: false,
                         textColor: textColor),
                   ),
                   const SizedBox(height: 20,),
-                  const TextWidget(
-                      text: "Country", fontSize: 21,
+                  TextWidget(
+                      text: languageP.translate("Country"), fontSize: 21,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor,fontFamily: "Medium",),
                   const SizedBox(height: 10,),
@@ -104,8 +111,8 @@ class _LocationScreenState extends State<LocationScreen> {
                     );
                   },),
                   const SizedBox(height: 10,),
-                  const TextWidget(
-                      text: "Address", fontSize: 21,
+                  TextWidget(
+                      text: languageP.translate("Address"), fontSize: 21,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor,fontFamily: "Medium",),
                   const SizedBox(height: 10,),
@@ -123,7 +130,7 @@ class _LocationScreenState extends State<LocationScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: SubmitButton(
-                title: "Next",
+                title: languageP.translate("Next"),
                 press: () {
                   if(locationP.countryName.isNotEmpty){
                     Get.to(()=>const AccountTypeScreen());

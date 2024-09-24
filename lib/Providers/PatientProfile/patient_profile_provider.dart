@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/global_provider.dart';
 
 class PatientProfileProvider extends ChangeNotifier{
+
+  final languageP = GlobalProviderAccess.languagePro;
 
   final TextEditingController nameC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
@@ -15,23 +18,27 @@ class PatientProfileProvider extends ChangeNotifier{
   String _patientName = "";
   String _patientPhone = "";
   String _patientCountry = "";
+  String _patientEmail = "";
   String _imageUrl = "";
   File? _image;
   bool _isDataFetched = true;
 
   String get patientName => _patientName;
+  String get patientEmail => _patientEmail;
   String get patientPhone => _patientPhone;
   String get patientCountry => _patientCountry;
   String get imageUrl => _imageUrl;
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
+    languageP?.loadSavedLanguage();
     if(_isDataFetched){
       await fireStore.collection("users").doc(auth.currentUser!.uid).get()
           .then((value) {
         _patientName = value.get("name");
         _patientPhone = value.get("phoneNumber");
         _patientCountry = value.get("country");
+        _patientEmail = value.get("email");
         _imageUrl = value.get("profileUrl");
         nameC.text = _patientName;
         _isDataFetched = false;
@@ -39,6 +46,7 @@ class PatientProfileProvider extends ChangeNotifier{
       },);
       log(_patientName);
       log(_patientPhone);
+      log(_patientEmail);
       log(_imageUrl);
     }
   }

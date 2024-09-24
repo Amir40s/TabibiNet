@@ -34,7 +34,8 @@ class PatientAppointmentProvider with ChangeNotifier {
   ];
 
   String? _doctorId;
-  String? _doctorMail;
+  String? _doctorName;
+  String? _doctorLocation;
   String? _fromTime;
   String? _toTime;
   String? _appointmentTime;
@@ -62,7 +63,8 @@ class PatientAppointmentProvider with ChangeNotifier {
   List<String> get time => _time;
   List<String> get filteredTime => _filteredTime;
   String? get doctorId => _doctorId;
-  String? get doctorMail => _doctorMail;
+  String? get doctorName => _doctorName;
+  String? get doctorLocation => _doctorLocation;
   String? get fromTime => _fromTime;
   String? get toTime => _toTime;
   String? get appointmentTime => _appointmentTime;
@@ -105,9 +107,10 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDoctorDetails(doctorId,doctorMail){
+  void setDoctorDetails(doctorId,doctorName,doctorLocation){
     _doctorId = doctorId;
-    _doctorId = doctorMail;
+    _doctorName = doctorName;
+    _doctorLocation = doctorLocation;
     log(_doctorId.toString());
     notifyListeners();
   }
@@ -158,7 +161,8 @@ class PatientAppointmentProvider with ChangeNotifier {
       "id" : id,
       "patientId" : auth.currentUser!.uid,
       "doctorId" : _doctorId,
-      "doctorMail" : _doctorMail,
+      "doctorName" : _doctorName,
+      "doctorLocation" : _doctorLocation,
       "name": profileP!.patientName,
       "phone": profileP!.patientPhone,
       "image": profileP!.imageUrl,
@@ -168,6 +172,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "feeSubTitle": _selectFeeSubTitle,
       "status": "upcoming",
       "patientName" : nameC.text.toString(),
+      "patientEmail" : profileP!.patientEmail,
       "patientAge" : _patientAge,
       "patientPhone" : phoneC.text.toString(),
       "patientGender" : _selectedGender,

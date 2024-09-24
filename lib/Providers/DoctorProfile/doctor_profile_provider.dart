@@ -6,8 +6,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../constant.dart';
+import '../../global_provider.dart';
 
 class DoctorProfileProvider extends ChangeNotifier{
+
+  final languageP = GlobalProviderAccess.languagePro;
 
   final TextEditingController nameC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
@@ -18,6 +21,7 @@ class DoctorProfileProvider extends ChangeNotifier{
   String _doctorCountry = "";
   String _imageUrl = "";
   File? _image;
+  bool _isDataFetched = true;
 
   String get doctorName => _doctorName;
   String get doctorPhone => _doctorPhone;
@@ -26,18 +30,22 @@ class DoctorProfileProvider extends ChangeNotifier{
   File? get image => _image;
 
   Future<void> getSelfInfo() async {
-    await fireStore.collection("users").doc(auth.currentUser!.uid).get()
-        .then((value) {
-      _doctorName = value.get("name");
-      _doctorPhone = value.get("phoneNumber");
-      _doctorCountry = value.get("country");
-      _imageUrl = value.get("profileUrl");
-      nameC.text = _doctorName;
-      notifyListeners();
-    },);
-    log(_doctorName);
-    log(_doctorPhone);
-    log(_imageUrl);
+    languageP?.loadSavedLanguage();
+    if(_isDataFetched){
+      await fireStore.collection("users").doc(auth.currentUser!.uid).get()
+          .then((value) {
+        _doctorName = value.get("name");
+        _doctorPhone = value.get("phoneNumber");
+        _doctorCountry = value.get("country");
+        _imageUrl = value.get("profileUrl");
+        nameC.text = _doctorName;
+        _isDataFetched = false;
+        notifyListeners();
+      },);
+      log(_doctorName);
+      log(_doctorPhone);
+      log(_imageUrl);
+    }
   }
 
   Future<void> pickImage() async {

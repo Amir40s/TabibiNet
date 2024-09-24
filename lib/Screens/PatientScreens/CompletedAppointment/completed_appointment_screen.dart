@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
 
+import '../../../Providers/MyAppointment/my_appointment_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../MyAppointmentScreen/Components/my_appointment_container.dart';
 
@@ -9,6 +12,7 @@ class CompletedAppointmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myAppP = Provider.of<MyAppointmentProvider>(context,listen: false);
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       keyboardDismissBehavior:
@@ -17,33 +21,53 @@ class CompletedAppointmentScreen extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return MyAppointmentContainer(
-              appointmentIcon: AppIcons.chat,
-              doctorName: "Dr. Jenny Wilson",
-              appointmentStatusText: "Accepted",
-              chatStatusText: "Messaging",
-              appointmentTimeText: "09-00 AM - 10-00 AM",
-              ratingText: "4.9",
-              leftButtonText: "Book Again",
-              rightButtonText: "Leave a Review",
-              statusTextColor: themeColor,
-              statusBoxColor: secondaryGreenColor,
-              onTap: () {
+        StreamBuilder(
+            stream: myAppP.fetchMyAppointment("completed"),
+            builder: (context, snapshot) {
 
-              },
-              leftButtonTap: () {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No appointment found'));
+              }
 
-              },
-              rightButtonTap: () {
+              final appoints = snapshot.data!;
 
-              },
-            );
-          },
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: appoints.length,
+                itemBuilder: (context, index) {
+                  final appoint = appoints[index];
+                  return MyAppointmentContainer(
+                    appointmentIcon: AppIcons.chat,
+                    doctorName: appoint.doctorName,
+                    appointmentStatusText: "Accepted",
+                    chatStatusText: appoint.feesType,
+                    image: appoint.image,
+                    appointmentTimeText: "09-00 AM - 10-00 AM",
+                    ratingText: "4.9",
+                    leftButtonText: "Book Again",
+                    rightButtonText: "Leave a Review",
+                    statusTextColor: themeColor,
+                    statusBoxColor: secondaryGreenColor,
+                    onTap: () {
+
+                    },
+                    leftButtonTap: () {
+
+                    },
+                    rightButtonTap: () {
+
+                    },
+                  );
+                },
+              );
+            },
         ),
         const SizedBox(
           height: 30,

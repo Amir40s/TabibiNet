@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/Language/language_provider.dart';
 import 'Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
@@ -14,6 +15,14 @@ class GlobalProviderAccess {
     final context = navigatorKey.currentContext;
     if (context != null) {
       return Provider.of<SignInProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static LanguageProvider? get languagePro {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<LanguageProvider>(context, listen: false);
     }
     return null;
   }

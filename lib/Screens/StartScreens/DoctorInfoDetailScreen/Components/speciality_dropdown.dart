@@ -58,7 +58,7 @@ class SpecialityDropdown extends StatelessWidget {
                         fontSize: 14.sp,
                         color: textColor
                     ),
-                    value: provider.speciality,
+                    value: provider.specialityId,
                     isExpanded: true,
                     dropdownColor: bgColor,
                     borderRadius: BorderRadius.circular(10),

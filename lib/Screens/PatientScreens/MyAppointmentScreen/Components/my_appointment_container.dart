@@ -15,6 +15,7 @@ class MyAppointmentContainer extends StatelessWidget {
     required this.rightButtonTap,
     required this.leftButtonTap,
     required this.doctorName,
+    required this.image,
     required this.rightButtonText,
     required this.leftButtonText,
     required this.appointmentStatusText,
@@ -30,6 +31,7 @@ class MyAppointmentContainer extends StatelessWidget {
   final VoidCallback leftButtonTap;
   final VoidCallback rightButtonTap;
   final String doctorName;
+  final String image;
   final String rightButtonText;
   final String leftButtonText;
   final String appointmentStatusText;
@@ -68,7 +70,8 @@ class MyAppointmentContainer extends StatelessWidget {
                   height: 72,
                   width: 72,
                   decoration: BoxDecoration(
-                    color: greyColor,
+                    image: DecorationImage(image: NetworkImage(image)),
+                    color: skyBlueColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),

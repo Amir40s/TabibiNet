@@ -59,62 +59,66 @@ class FavoriteScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20,),
-              StreamBuilder<List<UserModel>>(
-                stream: favoritesProvider.favoriteDoctorDetailsStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                  StreamBuilder<List<UserModel>>(
+                    stream: favoritesProvider.favoriteDoctorDetailsStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text("No favorite doctors yet"));
-                  }
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text("No favorite doctors yet"));
+                      }
 
-                  final favoriteDoctors = snapshot.data!;
+                      final favoriteDoctors = snapshot.data!;
 
-                  return Consumer<FavoritesProvider>(
-                    builder: (context, provider, child) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: favoriteDoctors.length,
-                        itemBuilder: (context, index) {
-                          var doctor = favoriteDoctors[index];
-                          return TopDoctorContainer(
-                            doctorName: doctor.name,
-                            specialityName: doctor.speciality,
-                            specialityDetail: doctor.specialityDetail,
-                            availabilityFrom: doctor.availabilityFrom,
-                            availabilityTo: doctor.availabilityTo,
-                            appointmentFee: doctor.appointmentFee,
-                            rating: doctor.rating,
-                            imageUrl: doctor.profileUrl,
-                            isFav: provider.isFavorite(doctor.userUid),
-                            likeTap: () {
-                              provider.toggleFavorite(doctor.userUid);
-                            },
-                            onTap: () {
-                              appointmentScheduleP.setDoctorDetails(doctor.userUid,doctor.email);
-                              appointmentScheduleP.setAvailabilityTime(
-                                  doctor.availabilityFrom,
-                                  doctor.availabilityTo
-                              );
-                              Get.to(()=> DoctorDetailScreen(
+                      return Consumer<FavoritesProvider>(
+                        builder: (context, provider, child) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: favoriteDoctors.length,
+                            itemBuilder: (context, index) {
+                              var doctor = favoriteDoctors[index];
+                              return TopDoctorContainer(
                                 doctorName: doctor.name,
                                 specialityName: doctor.speciality,
-                                doctorDetail: doctor.specialityDetail,
-                                yearsOfExperience: doctor.experience,
-                                patients: doctor.patients,
-                                reviews: doctor.reviews,
-                                image: doctor.profileUrl,
-                              ));
-                            },
+                                specialityDetail: doctor.specialityDetail,
+                                availabilityFrom: doctor.availabilityFrom,
+                                availabilityTo: doctor.availabilityTo,
+                                appointmentFee: doctor.appointmentFee,
+                                rating: doctor.rating,
+                                imageUrl: doctor.profileUrl,
+                                isFav: provider.isFavorite(doctor.userUid),
+                                likeTap: () {
+                                  provider.toggleFavorite(doctor.userUid);
+                                  },
+                                onTap: () {
+                                  appointmentScheduleP.setDoctorDetails(
+                                      doctor.userUid,
+                                      doctor.name,
+                                      doctor.location
+                                  );
+                                  appointmentScheduleP.setAvailabilityTime(
+                                      doctor.availabilityFrom,
+                                      doctor.availabilityTo
+                                  );
+                                  Get.to(()=> DoctorDetailScreen(
+                                    doctorName: doctor.name,
+                                    specialityName: doctor.speciality,
+                                    doctorDetail: doctor.specialityDetail,
+                                    yearsOfExperience: doctor.experience,
+                                    patients: doctor.patients,
+                                    reviews: doctor.reviews,
+                                    image: doctor.profileUrl,
+                                  ));
+                                  },
+                              );
+                              },
                           );
-                        },
-                      );
-                  },);
-                },
-              ),
+                          },);
+                      },
+                  ),
                   const SizedBox(height: 30,)
                 ],
               ),

@@ -14,6 +14,7 @@ import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/input_field.dart';
 import '../../../../model/res/widgets/text_widget.dart';
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
+import '../../../model/data/specialize_model.dart';
 import '../../../model/data/user_model.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../DoctorDetailScreen/doctor_detail_screen.dart';
@@ -38,7 +39,7 @@ class FindDoctorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<PatientHomeProvider>(context,listen: false);
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
-    // final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
+    final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -96,26 +97,46 @@ class FindDoctorScreen extends StatelessWidget {
                     SizedBox(
                       height: 40,
                       width: 100.w,
-                      child: Consumer<FindDoctorProvider>(
-                        builder: (context, provider, child) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(left: 20),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: suggestion.length,
-                          itemBuilder: (context, index) {
-                            final isSelected = provider.selectedIndex == index;
-                            return GestureDetector(
-                              onTap: () {
-                                provider.setDoctorCategory(index,suggestion[index]["title"]!);
-                              },
-                              child: SuggestionContainer(
-                                  text: suggestion[index]["title"]!,
-                                  boxColor: isSelected ? themeColor : bgColor,
-                                  textColor: isSelected ? bgColor : themeColor),
-                            );
-                          },);
-                      },)
+                      child: StreamBuilder<List<SpecializeModel>>(
+                        stream: findDoctorP.fetchSpeciality(),
+                        builder: (context, snapshot) {
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Center(child: Text('No specialities found'));
+                          }
+
+                          // List of users
+                          final specs = snapshot.data!;
+
+                          return Consumer<FindDoctorProvider>(
+                            builder: (context, provider, child) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(left: 20),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: specs.length,
+                                itemBuilder: (context, index) {
+                                  final spec = specs[index];
+                                  final isSelected = provider.selectedIndex == index;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      provider.setDoctorCategory(index,spec.id);
+                                    },
+                                    child: SuggestionContainer(
+                                        text: spec.specialty,
+                                        boxColor: isSelected ? themeColor : bgColor,
+                                        textColor: isSelected ? bgColor : themeColor),
+                                  );
+                                },);
+                            },);
+                        },
+                      )
                     ),
                     const SizedBox(height: 20,),
                     const Padding(
@@ -135,7 +156,7 @@ class FindDoctorScreen extends StatelessWidget {
                       builder: (context, findProvider, child) {
                         return StreamBuilder<List<UserModel>>(
                           stream: findProvider.selectDoctorCategory != null && findProvider.selectDoctorCategory != "All" ?
-                          userViewModel.fetchFilterDoctors(findProvider.selectDoctorCategory!)
+                          findDoctorP.fetchFilterDoctors(findProvider.selectDoctorCategory!)
                               : userViewModel.fetchDoctors(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {

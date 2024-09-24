@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/PatientNotification/patient_notification_provider.dart';
+import 'package:tabibinet_project/model/data/notification_model.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
@@ -24,6 +27,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final notificationP = Provider.of<PatientNotificationProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -96,87 +100,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     direction: Axis.horizontal,
                   ),
                   const SizedBox(height: 20,),
-                  TextWidget(
-                    text: "Yesterday, April 19-2022", fontSize: 14,
-                    fontWeight: FontWeight.w600, isTextCenter: false,
-                    textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
-                  const SizedBox(height: 10,),
-                  NotificationContainer(
-                      onTap: () {
+                  StreamBuilder<List<NotificationModel>>(
+                      stream: notificationP.fetchNotifications(),
+                      builder: (context, snapshot) {
 
-                      },
-                      title: "Appointment Cancel!",
-                      subTitle: "Never miss a medical appointment with"
-                          " our reliable appointment alarm system!",
-                      image: AppIcons.cancelIcon,
-                      iconColor: themeColor,
-                      boxColor: secondaryGreenColor,
-                      isButton: false),
-                  NotificationContainer(
-                      onTap: () {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        }
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No Notification found'));
+                        }
 
-                      },
-                      title: "Schedule Changed",
-                      subTitle: "Schedule Updated! Please check for "
-                          "changes in your appointments.",
-                      image: AppIcons.calenderIcon,
-                      iconColor: bgColor,
-                      boxColor: themeColor,
-                      isButton: false),
-                  TextWidget(
-                    text: "Yesterday, April 19-2022", fontSize: 14,
-                    fontWeight: FontWeight.w600, isTextCenter: false,
-                    textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
-                  const SizedBox(height: 10,),
-                  NotificationContainer(
-                      onTap: () {
+                        // List of users
+                        final nots = snapshot.data!;
 
-                      },
-                      title: "Appointment Cancel!",
-                      subTitle: "Never miss a medical appointment with"
-                          " our reliable appointment alarm system!",
-                      image: AppIcons.calenderIcon,
-                      iconColor: themeColor,
-                      boxColor: secondaryGreenColor,
-                      isButton: false),
-                  NotificationContainer(
-                      onTap: () {
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: nots.length,
+                          itemBuilder: (context, index) {
+                            final not = nots[index];
+                            return NotificationContainer(
+                                onTap: () {
 
-                      },
-                      title: "Schedule Changed",
-                      subTitle: "Schedule Updated! Please check for "
-                          "changes in your appointments.",
-                      image: AppIcons.bellIcon,
-                      iconColor: themeColor,
-                      boxColor: secondaryGreenColor,
-                      isButton: false),
-                  TextWidget(
-                    text: "February 22-2022", fontSize: 14,
-                    fontWeight: FontWeight.w600, isTextCenter: false,
-                    textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
-                  const SizedBox(height: 10,),
-                  NotificationContainer(
-                      onTap: () {
-
-                      },
-                      title: "Appointment Cancel!",
-                      subTitle: "Never miss a medical appointment with"
-                          " our reliable appointment alarm system!",
-                      image: AppIcons.calenderIcon,
-                      iconColor: themeColor,
-                      boxColor: secondaryGreenColor,
-                      isButton: false),
-                  NotificationContainer(
-                      onTap: () {
-
-                      },
-                      title: "Schedule Changed",
-                      subTitle: "Schedule Updated! Please check for "
-                          "changes in your appointments.",
-                      image: AppIcons.bellIcon,
-                      iconColor: themeColor,
-                      boxColor: secondaryGreenColor,
-                      isButton: false),
+                                },
+                                title: not.title,
+                                subTitle: not.subTitle,
+                                image: AppIcons.calenderIcon,
+                                iconColor: themeColor,
+                                boxColor: secondaryGreenColor,
+                                isButton: not.read == "false"
+                            );
+                          },);
+                        },
+                  )
                 ],
               ),
             )
@@ -186,3 +146,85 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 }
+
+//TextWidget(
+//                     text: "Yesterday, April 19-2022", fontSize: 14,
+//                     fontWeight: FontWeight.w600, isTextCenter: false,
+//                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
+//                   const SizedBox(height: 10,),
+//NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Appointment Cancel!",
+//                       subTitle: "Never miss a medical appointment with"
+//                           " our reliable appointment alarm system!",
+//                       image: AppIcons.cancelIcon,
+//                       iconColor: themeColor,
+//                       boxColor: secondaryGreenColor,
+//                       isButton: false),
+//                   NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Schedule Changed",
+//                       subTitle: "Schedule Updated! Please check for "
+//                           "changes in your appointments.",
+//                       image: AppIcons.calenderIcon,
+//                       iconColor: bgColor,
+//                       boxColor: themeColor,
+//                       isButton: false),
+//                   TextWidget(
+//                     text: "Yesterday, April 19-2022", fontSize: 14,
+//                     fontWeight: FontWeight.w600, isTextCenter: false,
+//                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
+//                   const SizedBox(height: 10,),
+//                   NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Appointment Cancel!",
+//                       subTitle: "Never miss a medical appointment with"
+//                           " our reliable appointment alarm system!",
+//                       image: AppIcons.calenderIcon,
+//                       iconColor: themeColor,
+//                       boxColor: secondaryGreenColor,
+//                       isButton: false),
+//                   NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Schedule Changed",
+//                       subTitle: "Schedule Updated! Please check for "
+//                           "changes in your appointments.",
+//                       image: AppIcons.bellIcon,
+//                       iconColor: themeColor,
+//                       boxColor: secondaryGreenColor,
+//                       isButton: false),
+//                   TextWidget(
+//                     text: "February 22-2022", fontSize: 14,
+//                     fontWeight: FontWeight.w600, isTextCenter: false,
+//                     textColor: textColor.withOpacity(0.5), fontFamily: AppFonts.semiBold,),
+//                   const SizedBox(height: 10,),
+//                   NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Appointment Cancel!",
+//                       subTitle: "Never miss a medical appointment with"
+//                           " our reliable appointment alarm system!",
+//                       image: AppIcons.calenderIcon,
+//                       iconColor: themeColor,
+//                       boxColor: secondaryGreenColor,
+//                       isButton: false),
+//                   NotificationContainer(
+//                       onTap: () {
+//
+//                       },
+//                       title: "Schedule Changed",
+//                       subTitle: "Schedule Updated! Please check for "
+//                           "changes in your appointments.",
+//                       image: AppIcons.bellIcon,
+//                       iconColor: themeColor,
+//                       boxColor: secondaryGreenColor,
+//                       isButton: false),

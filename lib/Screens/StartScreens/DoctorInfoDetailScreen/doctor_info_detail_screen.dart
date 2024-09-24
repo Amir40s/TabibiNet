@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../constant.dart';
@@ -100,7 +101,7 @@ class DoctorInfoDetailScreen extends StatelessWidget {
                 press: () {
                   if(formKey.currentState!.validate()){
                     if(signP.appointmentFrom != null && signP.appointmentTo != null){
-                      Get.to(SignInScreen());
+                      Get.to(SignUpScreen());
                     }else{
                       ToastMsg().toastMsg("Enter the Availability Time");
                     }

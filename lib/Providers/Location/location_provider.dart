@@ -104,24 +104,28 @@ class LocationProvider extends ChangeNotifier{
   }
 
   location(context){
-    getUserCurrentLocation(context).then((value) async {
-      kGooglePlex = CameraPosition(
-        target: LatLng(value.latitude, value.longitude),
-        zoom: 14,
-      );
-      notifyListeners();
-      GoogleMapController controller = await gController.future;
-      await controller.animateCamera(CameraUpdate.newCameraPosition(
-          kGooglePlex = CameraPosition(
-              target: LatLng(value.latitude,value.longitude),
-              zoom: 14
-          )
-      ));
-      List<Placemark> place = await placemarkFromCoordinates(value.latitude, value.longitude);
-      searchController.text = "${place.reversed.last.street}, ${place.reversed.last.subLocality},"
-          " ${place.reversed.last.locality}, ${place.reversed.last.postalCode} ${place.reversed.last.country}";
-      notifyListeners();
-    });
+    try{
+      getUserCurrentLocation(context).then((value) async {
+        kGooglePlex = CameraPosition(
+          target: LatLng(value.latitude, value.longitude),
+          zoom: 14,
+        );
+        notifyListeners();
+        GoogleMapController controller = await gController.future;
+        await controller.animateCamera(CameraUpdate.newCameraPosition(
+            kGooglePlex = CameraPosition(
+                target: LatLng(value.latitude,value.longitude),
+                zoom: 14
+            )
+        ));
+        List<Placemark> place = await placemarkFromCoordinates(value.latitude, value.longitude);
+        searchController.text = "${place.reversed.last.street}, ${place.reversed.last.subLocality},"
+            " ${place.reversed.last.locality}, ${place.reversed.last.postalCode} ${place.reversed.last.country}";
+        notifyListeners();
+      });
+    }catch(e){
+      log(e.toString());
+    }
   }
 
   moveLocation(latitude,longitude,index) async {

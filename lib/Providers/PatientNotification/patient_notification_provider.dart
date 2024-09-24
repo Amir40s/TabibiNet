@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/model/data/notification_model.dart';
+import '../../constant.dart';
 
 class PatientNotificationProvider extends ChangeNotifier {
 
@@ -22,6 +23,15 @@ class PatientNotificationProvider extends ChangeNotifier {
       "subTitle": subTitle,
       "read": "false",
       "type": type,
+    });
+  }
+
+  Stream<List<NotificationModel>> fetchNotifications() {
+    return fireStore.collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection("notifications")
+        .snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => NotificationModel.fromDocumentSnapshot(doc)).toList();
     });
   }
 

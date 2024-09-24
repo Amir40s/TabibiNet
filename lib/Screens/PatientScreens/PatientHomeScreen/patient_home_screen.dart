@@ -180,11 +180,11 @@ class PatientHomeScreen extends StatelessWidget {
                   SizedBox(height: height1,),
                   SpecialitySliderSection(),
                   SizedBox(height: height1,),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                       children: [
-                        TextWidget(
+                        const TextWidget(
                           text: "Top Doctor",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -192,14 +192,17 @@ class PatientHomeScreen extends StatelessWidget {
                           textColor: textColor,
                           fontFamily: AppFonts.semiBold,
                         ),
-                        Spacer(),
-                        TextWidget(
-                          text: "View All",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          isTextCenter: false,
-                          textColor: themeColor,
-                          fontFamily: AppFonts.semiBold,
+                        const Spacer(),
+                        InkWell(
+                          onTap: () => Get.to(()=>FindDoctorScreen()),
+                          child: const TextWidget(
+                            text: "View All",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            isTextCenter: false,
+                            textColor: themeColor,
+                            fontFamily: AppFonts.semiBold,
+                          ),
                         ),
                       ],
                     ),

@@ -52,10 +52,17 @@ class SignInProvider extends ChangeNotifier{
   bool get isSignInPasswordShow => _isSignInPasswordShow;
   bool get isLoading => _isLoading;
 
-  setSpeciality(speciality){
-    _speciality = speciality;
+  setSpeciality(speciality) async {
+
     _specialityId = speciality;
-    log(specialityId!);
+
+    await fireStore.collection("doctorsSpecialty").doc(speciality)
+        .get().then((value) {
+          _speciality = value.get("specialty");
+          notifyListeners();
+          },);
+    log(_specialityId!);
+    log(_speciality!);
     notifyListeners();
   }
 
@@ -206,10 +213,11 @@ class SignInProvider extends ChangeNotifier{
           "creationDate": DateTime.now(),
           "userUid": auth.currentUser!.uid,
           "email": auth.currentUser!.email,
-          "profileUrl": auth.currentUser!.photoURL ?? "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
+          "profileUrl": "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
           "rating": "0.0",
           "isOnline": "false",
-          "specialityId": _speciality ?? "",
+          "specialityId": _specialityId ?? "",
+          "specialityName": _speciality ?? "",
           "country": country,
           "memberShip": "No",
           "location": location,

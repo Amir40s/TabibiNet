@@ -15,6 +15,8 @@ class LanguageScreen extends StatelessWidget {
 
   final bool isNextButton;
 
+  final List<String> supportedLanguages = ['fr', 'ar', 'en', 'es'];
+
   final List<Map<String, String>> options = [
     {'title': 'French', 'subtitle': '', 'icon': AppIcons.flag_1},
     {'title': 'Arabic', 'subtitle': '', 'icon': AppIcons.flag_2},
@@ -54,6 +56,7 @@ class LanguageScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         provider.selectButton(index);
+                        provider.loadLanguage(supportedLanguages[index]);
                       },
                       child: LanguageContainer(
                         title: options[index]['title']!,

@@ -96,17 +96,6 @@ class PatientHomeProvider extends ChangeNotifier{
     });
   }
 
-  Stream<List<UserModel>> fetchFilterDoctors(String doctorCat) {
-    return fireStore
-        .collection('users')
-        .where("userType", isEqualTo: "Health Professional")
-        .where("speciality", isEqualTo: doctorCat) // Example of another filter
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) => UserModel.fromDocumentSnapshot(doc)).toList();
-    });
-  }
-
 }
 
 // **************** Calender Provider Class ****************

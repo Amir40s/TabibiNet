@@ -27,7 +27,9 @@ class GoogleMapSection extends StatelessWidget {
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
             onMapCreated: (controller){
-              provider.gController.complete(controller);
+              if (!provider.gController.isCompleted) {
+                provider.gController.complete(controller);
+              }
             },
             gestureRecognizers: Set()
               ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))

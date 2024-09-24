@@ -4,6 +4,7 @@ class AppointmentModel {
   final String id;
   final String patientId;
   final String patientName;
+  final String patientEmail;
   final String patientPhone;
   final String patientProblem;
   final String patientGender;
@@ -11,12 +12,13 @@ class AppointmentModel {
   final String appointmentTime;
   final String appointmentDate;
   final String doctorId;
-  final String doctorMail;
+  final String doctorName;
+  final String doctorLocation;
   final String image;
   final String fees;
   final String feesId;
   final String feesTitle;
-  final String feeSubTitle;
+  final String feesType;
   final String name;
   final String phone;
   final String status;
@@ -25,9 +27,11 @@ class AppointmentModel {
   AppointmentModel({
     required this.id,
     required this.doctorId,
-    required this.doctorMail,
+    required this.doctorName,
+    required this.doctorLocation,
     required this.patientId,
     required this.patientName,
+    required this.patientEmail,
     required this.patientPhone,
     required this.patientProblem,
     required this.patientGender,
@@ -38,7 +42,7 @@ class AppointmentModel {
     required this.fees,
     required this.feesId,
     required this.feesTitle,
-    required this.feeSubTitle,
+    required this.feesType,
     required this.name,
     required this.phone,
     required this.status,
@@ -51,6 +55,7 @@ class AppointmentModel {
       id: doc.id,
       patientId: data['patientId'] ?? '',
       patientName: data['patientName'] ?? '',
+      patientEmail: data['patientEmail'] ?? '',
       patientPhone: data['patientPhone'] ?? '',
       patientProblem: data['patientProblem'] ?? '',
       patientGender: data['patientGender'] ?? '',
@@ -58,7 +63,8 @@ class AppointmentModel {
       appointmentTime: data['appointmentTime'] ?? '',
       appointmentDate: data['appointmentDate'] ?? '',
       doctorId: data['doctorId'] ?? '',
-      doctorMail: data['doctorMail'] ?? '',
+      doctorName: data['doctorName'] ?? '',
+      doctorLocation: data['doctorLocation'] ?? '',
       image: data['image'] ?? '',
       name: data['name'] ?? '',
       phone: data['phone'] ?? '',
@@ -66,7 +72,7 @@ class AppointmentModel {
       fees: data['fees'] ?? '',
       feesId: data['feesId'] ?? '',
       feesTitle: data['feesTitle'] ?? '',
-      feeSubTitle: data['feeSubTitle'] ?? '',
+      feesType: data['feesType'] ?? '',
     );
   }
 }

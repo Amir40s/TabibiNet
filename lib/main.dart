@@ -16,6 +16,7 @@ import 'Providers/LabReport/lab_report_provider.dart';
 import 'Providers/Language/language_provider.dart';
 import 'Providers/Location/location_provider.dart';
 import 'Providers/Medicine/medicine_provider.dart';
+import 'Providers/MyAppointment/my_appointment_provider.dart';
 import 'Providers/Onboard/onboard_provider.dart';
 import 'Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'Providers/PatientHome/patient_home_provider.dart';
@@ -36,9 +37,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
 
 void main() async {
-  runApp(const MyApp());
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const MyApp());
 
   SystemChrome.setPreferredOrientations(
       [
@@ -86,6 +88,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => AppStateProvider(),),
             ChangeNotifierProvider(create: (context) => LabReportProvider(),),
             ChangeNotifierProvider(create: (context) => FaqProvider(),),
+            ChangeNotifierProvider(create: (context) => MyAppointmentProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

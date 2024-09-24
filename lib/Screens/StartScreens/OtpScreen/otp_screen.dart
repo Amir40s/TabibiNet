@@ -104,7 +104,7 @@ class OtpScreen extends StatelessWidget {
                     if(value.passwordC.text == value.confirmPasswordC.text){
                       // sentOTP(value.emailC.text.toString());
                       await value.signUp(
-                          speciality:  signInP.specialityC.text.toString(),
+                          speciality:  signInP.speciality,
                           specialityId: signInP.specialityId,
                           specialityDetail:  signInP.specialityDetailC.text.toString(),
                           yearsOfExperience: signInP.yearsOfExperienceC.text.toString(),

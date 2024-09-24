@@ -13,6 +13,7 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../Providers/PatientProfile/patient_profile_provider.dart';
+import '../../../model/res/widgets/curved_top_painter.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
