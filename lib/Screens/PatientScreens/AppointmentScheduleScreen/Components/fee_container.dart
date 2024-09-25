@@ -14,6 +14,7 @@ class FeeContainer extends StatelessWidget {
     required this.title,
     required this.subTitle,
     this.borderColor,
+    this.fees,
     this.icon,
     this.onTap,
   });
@@ -21,6 +22,7 @@ class FeeContainer extends StatelessWidget {
   final String title;
   final String subTitle;
   final Color? borderColor;
+  final String? fees;
   final String? icon;
   final VoidCallback? onTap;
 
@@ -58,7 +60,7 @@ class FeeContainer extends StatelessWidget {
             ),
             const SizedBox(width: 20,),
             SubmitButton(
-              title: "120 MAD",
+              title: fees ?? "120 MAD",
               bgColor: secondaryGreenColor,
               height: 50,
               width: 25.w,

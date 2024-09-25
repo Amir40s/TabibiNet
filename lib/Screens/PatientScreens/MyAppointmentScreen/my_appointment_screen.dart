@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/CancelAppointment/cancel_appointment_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/CompletedAppointment/completed_appointment_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PendingAppointment/pending_appointment_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/UpComingAppointment/upcoming_appointment_screen.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 
+import '../../../Providers/MyAppointment/my_appointment_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/input_field.dart';
@@ -18,9 +21,10 @@ class MyAppointmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myAppP = Provider.of<MyAppointmentProvider>(context,listen: false);
     return SafeArea(
       child: DefaultTabController(
-        length: 3, // Number of tabs
+        length: 4, // Number of tabs
         child: Scaffold(
           backgroundColor: bgColor,
           body: Column(
@@ -38,6 +42,9 @@ class MyAppointmentScreen extends StatelessWidget {
                           inputController: searchC,
                           hintText: "Find here!",
                           prefixIcon: Icons.search,
+                          onChanged: (value) {
+                            myAppP.filterAppointment(value);
+                          },
                         )),
                     Container(
                       padding: const EdgeInsets.all(15),
@@ -59,7 +66,21 @@ class MyAppointmentScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   fontFamily: AppFonts.semiBold
                 ),
+                // onTap: (value) {
+                //   if(value == 0){
+                //     myAppP.setAppointmentStatus("pending");
+                //   }
+                //   else if(value == 1){
+                //     myAppP.setAppointmentStatus("upcoming");
+                //   }
+                //   else if(value == 2){
+                //     myAppP.setAppointmentStatus("complete");
+                //   }else{
+                //     myAppP.setAppointmentStatus("cancel");
+                //   }
+                // },
                 tabs: [
+                  Tab(text: "Pending",),
                   Tab(text: "Upcoming",),
                   Tab(text: "Completed",),
                   Tab(text: "Cancelled",),
@@ -68,6 +89,7 @@ class MyAppointmentScreen extends StatelessWidget {
               const Expanded(
                 child: TabBarView(
                   children: [
+                    PendingAppointmentScreen(),
                     UpComingAppointment(),
                     CompletedAppointmentScreen(),
                     CancelAppointmentScreen(),

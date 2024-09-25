@@ -97,7 +97,8 @@ class FavoriteScreen extends StatelessWidget {
                                   appointmentScheduleP.setDoctorDetails(
                                       doctor.userUid,
                                       doctor.name,
-                                      doctor.location
+                                      doctor.location,
+                                      doctor.rating
                                   );
                                   appointmentScheduleP.setAvailabilityTime(
                                       doctor.availabilityFrom,

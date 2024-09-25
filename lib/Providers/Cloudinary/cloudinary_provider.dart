@@ -1,4 +1,3 @@
-// lib/providers/cloudinary_provider.dart
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -76,4 +75,5 @@ class CloudinaryProvider with ChangeNotifier {
     } catch (e) {
       throw Exception('Failed to upload image: $e');
     }
-  }}
+  }
+}

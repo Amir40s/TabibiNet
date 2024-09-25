@@ -8,6 +8,7 @@ import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/data/fee_information_model.dart';
 import 'package:tabibinet_project/model/data/appointment_model.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../Screens/PatientScreens/StartAppointmentScreen/start_appointment_screen.dart';
 import '../../model/services/CloudinaryServices/cloudinary_services.dart';
@@ -35,6 +36,7 @@ class PatientAppointmentProvider with ChangeNotifier {
 
   String? _doctorId;
   String? _doctorName;
+  String? _doctorRating;
   String? _doctorLocation;
   String? _fromTime;
   String? _toTime;
@@ -64,6 +66,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   List<String> get filteredTime => _filteredTime;
   String? get doctorId => _doctorId;
   String? get doctorName => _doctorName;
+  String? get doctorRating => _doctorRating;
   String? get doctorLocation => _doctorLocation;
   String? get fromTime => _fromTime;
   String? get toTime => _toTime;
@@ -107,10 +110,11 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDoctorDetails(doctorId,doctorName,doctorLocation){
+  void setDoctorDetails(doctorId,doctorName,doctorLocation,doctorRating){
     _doctorId = doctorId;
     _doctorName = doctorName;
     _doctorLocation = doctorLocation;
+    _doctorRating = doctorRating;
     log(_doctorId.toString());
     notifyListeners();
   }
@@ -162,6 +166,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "patientId" : auth.currentUser!.uid,
       "doctorId" : _doctorId,
       "doctorName" : _doctorName,
+      "doctorRating" : _doctorRating,
       "doctorLocation" : _doctorLocation,
       "name": profileP!.patientName,
       "phone": profileP!.patientPhone,
@@ -170,7 +175,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "feesId": _selectFeeId,
       "feesType": _selectFeeType,
       "feeSubTitle": _selectFeeSubTitle,
-      "status": "upcoming",
+      "status": "pending",
       "patientName" : nameC.text.toString(),
       "patientEmail" : profileP!.patientEmail,
       "patientAge" : _patientAge,
@@ -183,7 +188,8 @@ class PatientAppointmentProvider with ChangeNotifier {
       "applyDate" : DateTime.now(),
     })
         .whenComplete(() {
-      Get.off(()=>StartAppointmentScreen());
+          ToastMsg().toastMsg("Appointment Send Successfully!");
+      // Get.off(()=>StartAppointmentScreen());
     },);
   }
 

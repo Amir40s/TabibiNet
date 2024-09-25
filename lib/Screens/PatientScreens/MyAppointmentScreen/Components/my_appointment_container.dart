@@ -25,6 +25,7 @@ class MyAppointmentContainer extends StatelessWidget {
     required this.appointmentIcon,
     required this.statusTextColor,
     required this.statusBoxColor,
+    this.isPrimaryButtons = true,
   });
 
   final VoidCallback onTap;
@@ -41,6 +42,7 @@ class MyAppointmentContainer extends StatelessWidget {
   final String appointmentIcon;
   final Color statusBoxColor;
   final Color statusTextColor;
+  final bool? isPrimaryButtons;
 
   @override
   Widget build(BuildContext context) {
@@ -151,29 +153,35 @@ class MyAppointmentContainer extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20,),
-            const DottedLine(
-              color: greyColor,),
+            Visibility(
+              visible: isPrimaryButtons!,
+              child: DottedLine(
+                color: greyColor,),
+            ),
             const SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SubmitButton(
-                    width: 35.w,
-                    height: 40,
-                    title: leftButtonText,
-                    textColor: themeColor,
-                    bgColor: bgColor,
-                    bdRadius: 6,
-                    press: leftButtonTap
-                ),
-                SubmitButton(
-                    width: 35.w,
-                    height: 40,
-                    title: rightButtonText,
-                    bdRadius: 6,
-                    press: rightButtonTap
-                ),
-              ],
+            Visibility(
+              visible: isPrimaryButtons!,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SubmitButton(
+                      width: 35.w,
+                      height: 40,
+                      title: leftButtonText,
+                      textColor: themeColor,
+                      bgColor: bgColor,
+                      bdRadius: 6,
+                      press: leftButtonTap
+                  ),
+                  SubmitButton(
+                      width: 35.w,
+                      height: 40,
+                      title: rightButtonText,
+                      bdRadius: 6,
+                      press: rightButtonTap
+                  ),
+                ],
+              ),
             ),
           ],
         ),

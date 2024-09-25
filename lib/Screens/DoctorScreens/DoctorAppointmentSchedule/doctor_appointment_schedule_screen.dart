@@ -25,12 +25,27 @@ import 'Components/doctor_appointment_button.dart';
 class DoctorAppointmentSchedule extends StatelessWidget {
   DoctorAppointmentSchedule({super.key});
 
-  final List<String> suggestion = [
-    "All",
-    "Pending",
-    "Upcoming",
-    "Completed",
-    "Cancelled",
+  final List<Map<String,String>> suggestion = [
+    {
+      "text1": "All",
+      "text2": "All"
+    },
+    {
+      "text1": "Pending",
+      "text2": "pending"
+    },
+    {
+      "text1": "Upcoming",
+      "text2": "upcoming"
+    },
+    {
+      "text1": "Completed",
+      "text2": "complete"
+    },
+    {
+      "text1": "Cancelled",
+      "text2": "cancel"
+    },
   ];
 
   final List<Map<String,dynamic>> appointmentStatus = [
@@ -171,10 +186,10 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                                 final isSelected = provider.selectedIndex == index;
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectButton(index,suggestion[index]);
+                                    provider.selectButton(index,suggestion[index]["text2"]!);
                                   },
                                   child: SuggestionContainer(
-                                      text: suggestion[index],
+                                      text: suggestion[index]["text1"]!,
                                       boxColor: isSelected ? themeColor : bgColor,
                                       textColor: isSelected ? bgColor : themeColor),
                                 );

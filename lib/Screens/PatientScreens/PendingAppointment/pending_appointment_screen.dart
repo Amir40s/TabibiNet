@@ -1,38 +1,43 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+import 'package:tabibinet_project/model/res/widgets/app_bottom_sheet.dart';
+import 'package:tabibinet_project/model/res/widgets/no_found_card.dart';
 
 import '../../../Providers/MyAppointment/my_appointment_provider.dart';
+import '../../../constant.dart';
+import '../../../model/data/appointment_model.dart';
 import '../../../model/res/constant/app_assets.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
-import '../../../model/res/widgets/no_found_card.dart';
+import '../../../model/res/widgets/curved_top_painter.dart';
+import '../../../model/res/widgets/dotted_line.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../CancelAppointmentReason/cancel_appointment_reason_screen.dart';
 import '../MyAppointmentScreen/Components/my_appointment_container.dart';
 
-class CompletedAppointmentScreen extends StatelessWidget {
-  const CompletedAppointmentScreen({super.key});
+class PendingAppointmentScreen extends StatelessWidget {
+  const PendingAppointmentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(
-        Duration.zero,
-        () => Provider.of<MyAppointmentProvider>(context,listen: false).setAppointmentStatus("complete")
+      Duration.zero,
+      () => Provider.of<MyAppointmentProvider>(context,listen: false).setAppointmentStatus("pending"),
     );
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      keyboardDismissBehavior:
-      ScrollViewKeyboardDismissBehavior.onDrag,
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
         const SizedBox(
           height: 20,
         ),
         Consumer<MyAppointmentProvider>(
           builder: (context, value, child) {
-            return StreamBuilder(
+            return StreamBuilder<List<AppointmentModel>>(
               stream: value.filterValue.isNotEmpty ? value.fetchFilterAppointment() :
               value.fetchMyAppointment(),
               builder: (context, snapshot) {
@@ -43,6 +48,7 @@ class CompletedAppointmentScreen extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
+
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const NoFoundCard();
                 }
@@ -56,32 +62,28 @@ class CompletedAppointmentScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final appoint = appoints[index];
                     return MyAppointmentContainer(
-                      appointmentIcon: AppIcons.chat,
+                      appointmentIcon: AppIcons.phone,
                       doctorName: appoint.doctorName,
-                      appointmentStatusText: "Accepted",
+                      appointmentStatusText: "Pending",
                       chatStatusText: appoint.feesType,
                       image: appoint.image,
                       appointmentTimeText: appoint.appointmentTime,
                       ratingText: appoint.doctorRating,
-                      leftButtonText: "Book Again",
-                      rightButtonText: "Leave a Review",
-                      statusTextColor: themeColor,
-                      statusBoxColor: secondaryGreenColor,
-                      onTap: () {
-
-                      },
+                      leftButtonText: "Cancel",
+                      rightButtonText: "Start",
+                      statusTextColor: purpleColor,
+                      statusBoxColor: purpleColor.withOpacity(0.1),
+                      isPrimaryButtons: false,
+                      onTap: () {},
                       leftButtonTap: () {
-
                       },
                       rightButtonTap: () {
-
                       },
                     );
                   },
                 );
-              },
-            );
-          },),
+              },);
+            },),
         const SizedBox(
           height: 30,
         )

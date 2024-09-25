@@ -17,6 +17,7 @@ import '../../../Providers/PatientAppointment/patient_appointment_provider.dart'
 import '../../../model/data/specialize_model.dart';
 import '../../../model/data/user_model.dart';
 import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/no_found_card.dart';
 import '../DoctorDetailScreen/doctor_detail_screen.dart';
 import '../FilterScreen/filter_screen.dart';
 import '../PatientHomeScreen/components/top_doctor_container.dart';
@@ -33,6 +34,7 @@ class FindDoctorScreen extends StatelessWidget {
     {'title': 'Nutritionist'},
     {'title': 'Label'},
   ];
+
   final searchC = TextEditingController();
 
   @override
@@ -139,15 +141,18 @@ class FindDoctorScreen extends StatelessWidget {
                       )
                     ),
                     const SizedBox(height: 20,),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         children: [
-                          TextWidget(
-                            text: "480 Founds", fontSize: 20,
-                            fontWeight: FontWeight.w600, isTextCenter: false,
-                            textColor: textColor, fontFamily: AppFonts.semiBold,),
-                          Spacer(),
+                          Consumer<FindDoctorProvider>(
+                            builder: (context, value, child) {
+                              return TextWidget(
+                                text: "${value.numberOfDoctors} Founds", fontSize: 20,
+                                fontWeight: FontWeight.w600, isTextCenter: false,
+                                textColor: textColor, fontFamily: AppFonts.semiBold,);
+                            },),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -166,7 +171,7 @@ class FindDoctorScreen extends StatelessWidget {
                               return Center(child: Text('Error: ${snapshot.error}'));
                             }
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                              return const Center(child: Text('No Doctors found'));
+                              return const NoFoundCard();
                             }
 
                             // List of users

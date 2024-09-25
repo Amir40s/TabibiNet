@@ -3,23 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/widgets/profile_tile.dart';
 
+import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
+import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
-import '../../../model/res/widgets/curved_top_painter.dart';
+import '../../../model/res/widgets/app_bottom_sheet.dart';
 import '../../../model/res/widgets/image_loader.dart';
-import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/header.dart';
-import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/profile_tile.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../PatientScreens/EditProfileScreen/patient_edit_profile_screen.dart';
 import '../../PatientScreens/NotificationSetting/notification_setting_screen.dart';
-import '../../PatientScreens/UpComingAppointment/upcoming_appointment_screen.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
 import '../../StartScreens/OnboardingScreen/onboarding_screen.dart';
+import '../DoctorEditProfile/doctor_edit_profile_screen.dart';
 import '../PaymentManagementScreen/payment_management_screen.dart';
 
 class DoctorProfileScreen extends StatelessWidget {
@@ -163,80 +161,21 @@ class DoctorProfileScreen extends StatelessWidget {
                       iconColor: redColor,
                       onTap: () {
                         Get.bottomSheet(
-                            Stack(
-                              alignment: AlignmentDirectional.bottomEnd,
-                              children: [
-                                CustomPaint(
-                                  size: Size(100.w, 45.h),
-                                  painter: CurvedTopPainter(),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      const TextWidget(
-                                        text: "Log Out", fontSize: 24,
-                                        fontWeight: FontWeight.w600, isTextCenter: false,
-                                        textColor: redColor, fontFamily: AppFonts.medium,
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      const DottedLine(
-                                        color: greyColor,
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      const TextWidget(
-                                        text: "Are you sure you want to log out", fontSize: 16,
-                                        fontWeight: FontWeight.w400, isTextCenter: true,
-                                        textColor: textColor, maxLines: 2,
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SubmitButton(
-                                            width: 38.w,
-                                            height: 50,
-                                            title: "Cancel",
-                                            textColor: themeColor,
-                                            bgColor: bgColor,
-                                            bdRadius: 6,
-                                            press: () {
-                                              Get.back();
-                                            },
-                                          ),
-                                          SubmitButton(
-                                            width: 38.w,
-                                            height: 50,
-                                            title: "Logout",
-                                            bdRadius: 6,
-                                            press: () {
-                                              auth.signOut()
-                                                  .whenComplete(() {
-                                                Get.offAll(()=>OnboardingScreen());
-                                              },);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ));
+                            AppBottomSheet(
+                              height: 45.h,
+                              width: 100.w,
+                              title: "Log Out",
+                              subTitle: "Are you sure you want to log out",
+                              primaryButText: "Logout",
+                              secondaryButText: "Cancel",
+                              primaryButTap: () {
+                                auth.signOut()
+                                    .whenComplete(() {
+                                  Get.offAll(()=>OnboardingScreen());
+                                },);
+                              },
+                            )
+                        );
                         },),
                   ],
                 )

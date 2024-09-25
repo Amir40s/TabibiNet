@@ -60,7 +60,8 @@ class DoctorSection extends StatelessWidget {
                         appointmentScheduleP.setDoctorDetails(
                             user.userUid,
                             user.name,
-                            user.location
+                            user.location,
+                            user.rating
                         );
                         appointmentScheduleP.setAvailabilityTime(
                             user.availabilityFrom,

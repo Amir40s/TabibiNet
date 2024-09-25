@@ -97,6 +97,7 @@ class InputField2 extends StatelessWidget {
   final int? maxLines, maxLength;
   final IconData? prefixIcon;
   final Widget? suffixIcon;
+  final Function(String)? onChanged;
 
   const InputField2({
     super.key,
@@ -108,6 +109,7 @@ class InputField2 extends StatelessWidget {
     this.maxLength,
     this.prefixIcon,
     this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -132,6 +134,7 @@ class InputField2 extends StatelessWidget {
       controller: inputController,
       maxLength: maxLength,
       textAlign: TextAlign.start,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(prefixIcon,color: greyColor,),

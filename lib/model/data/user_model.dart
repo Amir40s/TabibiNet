@@ -7,6 +7,7 @@ class UserModel {
   final String userType;
   final String phoneNumber;
   final String country;
+  final String birthDate;
   final String speciality;
   final String specialityId;
   final String availabilityFrom;
@@ -34,6 +35,7 @@ class UserModel {
     required this.userType,
     required this.phoneNumber,
     required this.country,
+    required this.birthDate,
     required this.speciality,
     required this.specialityId,
     required this.availabilityFrom,
@@ -65,6 +67,7 @@ class UserModel {
       userType: data['email'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',
       country: data['country'] ?? '',
+      birthDate: data['birthDate'] ?? '',
       speciality: data['speciality'] ?? '',
       specialityId: data['specialityId'] ?? '',
       availabilityFrom: data['availabilityFrom'] ?? '',

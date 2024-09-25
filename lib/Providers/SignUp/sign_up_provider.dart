@@ -80,6 +80,7 @@ class SignUpProvider extends ChangeNotifier{
             "name": nameC.text,
             "phoneNumber": phoneC.text,
             "country": country,
+            "birthDate": "",
             "memberShip": "No",
             "profileUrl": "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
             "rating": "0.0",

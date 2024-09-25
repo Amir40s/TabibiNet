@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../../../Providers/PatientHome/patient_home_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/header.dart';
-import '../../../model/res/widgets/reusable_drop_down.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../AppointmentScheduleScreen/Components/fee_container.dart';
 import '../VoiceCallScreen/appointment_voice_call_screen.dart';
 
 class StartAppointmentScreen extends StatelessWidget {
-  StartAppointmentScreen({super.key});
+  StartAppointmentScreen({
+    super.key,
+    required this.doctorName,
+    required this.appointmentTime,
+    required this.consultancyType,
+    required this.consultancyFee,
+    required this.consultancySubTitle,
+  });
+
+  final String doctorName;
+  final String appointmentTime;
+  final String consultancyType;
+  final String consultancyFee;
+  final String consultancySubTitle;
 
   final timeC = TextEditingController();
 
@@ -42,8 +52,9 @@ class StartAppointmentScreen extends StatelessWidget {
                       child: SvgPicture.asset(AppIcons.notificationIcon)
                   ),
                   SizedBox(height: height1,),
-                  const TextWidget(
-                    text: "You have received an Appointment Invitation From DR FATIMA", fontSize: 20,
+                  TextWidget(
+                    text: "You have received an Appointment Invitation From DR $doctorName",
+                    fontSize: 20,
                     fontWeight: FontWeight.w600, isTextCenter: true, maxLines: 2,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   const SizedBox(height: 40,),
@@ -67,8 +78,8 @@ class StartAppointmentScreen extends StatelessWidget {
                         color: themeColor
                       )
                     ),
-                    child: const TextWidget(
-                      text: "12:00 ", fontSize: 16,
+                    child: TextWidget(
+                      text: appointmentTime, fontSize: 16,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                   ),
@@ -78,27 +89,26 @@ class StartAppointmentScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<PatientHomeProvider>(
-                    builder: (context, provider, child) {
-                    return ReusableDropdown(
-                      width: 100.w,
-                      verticalPad: 5.0,
-                      borderRadius: 15,
-                      fontSize: 16,
-                      selectedValue: provider.selectedAppointmentType,
-                      items: _dropdownItems,
-                      fontFamily: AppFonts.semiBold,
-                      borderColor: themeColor,
-
-                      hintText: "All",
-                      onChanged: (value) {
-                        provider.setAppointmentType(value!);
-                    },);
-                  },),
+                  Container(
+                    width: 100.w,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: bgColor,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                            color: themeColor
+                        )
+                    ),
+                    child: TextWidget(
+                      text: consultancyType, fontSize: 16,
+                      fontWeight: FontWeight.w600, isTextCenter: false,
+                      textColor: textColor, fontFamily: AppFonts.semiBold,),
+                  ),
                   SizedBox(height: height1,),
-                  const FeeContainer(
-                    title: "Consultancy",
-                    subTitle: "Book a free consultancy ",
+                  FeeContainer(
+                    title: consultancyType,
+                    subTitle: consultancySubTitle,
+                    fees: consultancyFee,
                   ),
                 ],
               ),
@@ -119,9 +129,20 @@ class StartAppointmentScreen extends StatelessWidget {
 }
 
 
-//SizedBox(height: height1,),
-//                   const FeeContainer(),
-//                   SizedBox(height: height1,),
-//                   const FeeContainer(),
-//                   SizedBox(height: height1,),
-//                   const FeeContainer(),
+//Consumer<PatientHomeProvider>(
+//                     builder: (context, provider, child) {
+//                     return ReusableDropdown(
+//                       width: 100.w,
+//                       verticalPad: 5.0,
+//                       borderRadius: 15,
+//                       fontSize: 16,
+//                       selectedValue: provider.selectedAppointmentType,
+//                       items: _dropdownItems,
+//                       fontFamily: AppFonts.semiBold,
+//                       borderColor: themeColor,
+//
+//                       hintText: "All",
+//                       onChanged: (value) {
+//                         provider.setAppointmentType(value!);
+//                     },);
+//                   },),

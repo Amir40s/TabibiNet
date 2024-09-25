@@ -219,6 +219,7 @@ class SignInProvider extends ChangeNotifier{
           "specialityId": _specialityId ?? "",
           "specialityName": _speciality ?? "",
           "country": country,
+          "birthDate": "",
           "memberShip": "No",
           "location": location,
           "latitude": latitude,

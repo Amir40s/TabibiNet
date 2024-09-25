@@ -80,10 +80,15 @@ class AppointmentContainer extends StatelessWidget {
                   text: text1, fontSize: 12.sp,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.regular,),
-                TextWidget(
-                  text: text2, fontSize: 16.sp,
-                  fontWeight: FontWeight.w600, isTextCenter: false,
-                  textColor: textColor, fontFamily: AppFonts.semiBold,),
+                SizedBox(
+                  width: 28.w,
+                  child: TextWidget(
+                    text: text2, fontSize: 10.sp, maxLines: 2,
+                    fontWeight: FontWeight.w600, isTextCenter: false,
+                    textColor: textColor, fontFamily: AppFonts.semiBold,),
+                ),
+                SizedBox(height: .5.h,),
+
                 Container(
                   padding: const EdgeInsets.all(7),
                   decoration: BoxDecoration(
