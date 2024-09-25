@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
+import 'package:tabibinet_project/model/res/widgets/no_found_card.dart';
 
 import '../../../Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
@@ -211,7 +212,9 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                               return Center(child: Text('Error: ${snapshot.error}'));
                             }
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                              return const Center(child: Text('No Patients found'));
+                              return const NoFoundCard(
+                                subTitle: "",
+                              );
                             }
 
                             // List of users

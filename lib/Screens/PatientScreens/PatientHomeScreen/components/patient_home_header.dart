@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
 
 import '../../../../constant.dart';
@@ -46,10 +47,13 @@ class PatientHomeHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(
-                        text: "HI, ${value.patientName.toString()}!", fontSize: 20,
-                        fontWeight: FontWeight.w600, isTextCenter: false,
-                        textColor: textColor),
+                    SizedBox(
+                      width: 42.w,
+                      child: TextWidget(
+                          text: "HI, ${value.patientName.toString()}!", fontSize: 20,
+                          fontWeight: FontWeight.w600, isTextCenter: false,
+                          textColor: textColor),
+                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                       decoration: BoxDecoration(

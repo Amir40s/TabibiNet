@@ -15,6 +15,7 @@ import '../../../model/res/widgets/profile_tile.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../PatientScreens/EditProfileScreen/patient_edit_profile_screen.dart';
 import '../../PatientScreens/NotificationSetting/notification_setting_screen.dart';
+import '../../PatientScreens/TermsAndCondition/terms_and_condition_screen.dart';
 import '../../StartScreens/LanguageScreen/language_screen.dart';
 import '../../StartScreens/OnboardingScreen/onboarding_screen.dart';
 import '../DoctorEditProfile/doctor_edit_profile_screen.dart';
@@ -107,7 +108,7 @@ class DoctorProfileScreen extends StatelessWidget {
                       iconBgColor: secondaryGreenColor,
                       iconColor: themeColor,
                       onTap: () {
-                        Get.to(()=>PatientEditProfileScreen());
+                        Get.to(()=>const DoctorEditProfileScreen());
                     },),
                     ProfileTile(
                       title: "Notification",
@@ -123,7 +124,7 @@ class DoctorProfileScreen extends StatelessWidget {
                       iconBgColor: secondaryGreenColor,
                       iconColor: themeColor,
                       onTap: () {
-                        // Get.to(()=>NotificationSettingScreen());
+                        Get.to(()=>TermsAndConditionScreen());
                       },),
                     ProfileTile(
                       title: "Payment management",

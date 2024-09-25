@@ -69,6 +69,7 @@ class DoctorProfileProvider extends ChangeNotifier{
       })
           .whenComplete(() {
         _isLoading = false;
+        ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
     },);

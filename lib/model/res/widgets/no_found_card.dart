@@ -8,7 +8,12 @@ import '../constant/app_fonts.dart';
 import 'text_widget.dart';
 
 class NoFoundCard extends StatelessWidget {
-  const NoFoundCard({super.key});
+  const NoFoundCard({
+    super.key,
+    this.subTitle
+  });
+
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +27,8 @@ class NoFoundCard extends StatelessWidget {
             fontSize: 14, fontWeight: FontWeight.w600,
             isTextCenter: false, textColor: textColor),
         SizedBox(height: .5.h,),
-        const TextWidget(
-            text: "You can now make multiple"
+        TextWidget(
+            text: subTitle ?? "You can now make multiple"
                 " doctoral appointments at once\n"
                 "You can  appointments at once You can ",
             maxLines: 2,
