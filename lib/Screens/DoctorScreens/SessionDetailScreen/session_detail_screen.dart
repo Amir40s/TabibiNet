@@ -1,11 +1,17 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/model/data/appointment_model.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/info_tile.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+
+import '../../../Providers/actionProvider/actionProvider.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   SessionDetailScreen({
@@ -13,11 +19,15 @@ class SessionDetailScreen extends StatelessWidget {
     required this.status,
     required this.statusTextColor,
     required this.boxColor,
+    required this.model,
   });
 
   final String status;
   final Color statusTextColor;
   final Color boxColor;
+  final AppointmentModel model;
+
+
   final nameC = TextEditingController();
   final ageC = TextEditingController();
   final genderC = TextEditingController();
@@ -63,21 +73,21 @@ class SessionDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Micheal Rickliff"),
+                     InfoTile(title: model.doctorName),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Age", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "22"),
+                     InfoTile(title: model.patientAge.toString()),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Gender", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Male"),
+                     InfoTile(title: model.patientGender.toString()),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Present Complaint ", fontSize: 16.sp,
@@ -85,11 +95,7 @@ class SessionDetailScreen extends StatelessWidget {
                       textColor: textColor, fontFamily: AppFonts.medium,),
                     SizedBox(height: height2,),
                     TextWidget(
-                      text: "I’m having very bad heart burn"
-                          " after meal from past few days."
-                          " It’s now killing. I’m willing to "
-                          "get some dietary recommendation along"
-                          " with medicines for my stomach issues",
+                      text: model.patientProblem.toString(),
                       fontSize: 12.sp, fontWeight: FontWeight.w400,
                       isTextCenter: false, textColor: textColor,
                       fontFamily: AppFonts.regular, maxLines: 10,
@@ -114,7 +120,8 @@ class SessionDetailScreen extends StatelessWidget {
                           bgColor: const Color(0xff04AD01).withOpacity(0.1),
                           bdColor: const Color(0xff04AD01),
                           press: () {
-
+                            ActionProvider.startLoading();
+                            uploadReminder();
                         },),
                       ],
                     ),
@@ -132,5 +139,28 @@ class SessionDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void uploadReminder() async {
+    var timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+    ActionProvider.startLoading();
+
+    try {
+      final docRef = FirebaseFirestore.instance.collection('appointmentReminder').doc(timeStamp);
+      await docRef.set({
+        'doctorName': model.doctorName,
+        'patientAge': model.patientAge,
+        'patientGender': model.patientGender,
+        'patientProblem': model.patientProblem,
+        'status': status,
+        'id': timeStamp,
+        'location': model.doctorLocation,
+      });
+      ActionProvider.stopLoading();
+      log('Reminder uploaded successfully');
+    } catch (e) {
+      ActionProvider.stopLoading();
+      log('Error uploading reminder: $e');
+    }
   }
 }

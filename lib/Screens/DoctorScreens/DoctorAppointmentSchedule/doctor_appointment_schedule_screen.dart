@@ -228,9 +228,10 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                                     onTap : () {
                                       Get.to(() =>
                                           SessionDetailScreen(
-                                            status: patient.patientName,
+                                            status: patient.status,
                                             statusTextColor: appointmentStatus[index]["textColor"],
                                             boxColor: appointmentStatus[index]["boxColor"],
+                                            model: patient,
                                           ));
                                     },
                                     patientName: patient.patientName,

@@ -14,7 +14,16 @@ import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 import '../../../model/res/widgets/info_tile.dart';
 
 class AppointmentReminderDetailScreen extends StatelessWidget {
-  const AppointmentReminderDetailScreen({super.key});
+  const AppointmentReminderDetailScreen({
+    super.key,
+    required this.name,
+    required this.age,
+    required this.gender,
+    required this.time,
+    required this.location,
+  });
+
+  final String name,age,gender,time,location;
 
   @override
   Widget build(BuildContext context) {
@@ -53,35 +62,35 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Micheal Rickliff"),
+                     InfoTile(title: name.toString()),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Age", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "22"),
+                     InfoTile(title: age.toString()),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Gender", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Male"),
+                     InfoTile(title: gender.toString()),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Time of Appointment", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "12:30 - 4 Aug"),
+                     InfoTile(title: time.toString(),),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Appointment Location", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "In Office"),
+                     InfoTile(title: location.toString()  ),
                     const SizedBox(height: 30,),
                     SubmitButton(
                       title: "Send Reminder",

@@ -55,7 +55,7 @@ class AppointmentContainer extends StatelessWidget {
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.semiBold,),
                 TextWidget(
-                  text: "Phone Number: $patientPhone", fontSize: 12.sp,
+                  text: "Phone Number:\n $patientPhone", fontSize: 12.sp,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.regular,),
                 TextWidget(

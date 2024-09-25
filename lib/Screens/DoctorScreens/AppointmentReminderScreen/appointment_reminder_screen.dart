@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -21,54 +22,76 @@ class AppointmentReminderScreen extends StatelessWidget {
           children: [
             const Header(text: "Appointment Reminders"),
             Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('appointmentReminder').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text('No users found'));
+                  }
+                return ListView.separated(
+                  shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: bgColor,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                            color: greyColor
-                        )
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            TextWidget(
-                              text: "Micheal Rickliff", fontSize: 16.sp,
-                              fontWeight: FontWeight.w600, isTextCenter: false,
-                              textColor: textColor, fontFamily: AppFonts.semiBold,),
-                            const SizedBox(height: 10,),
-                            TextWidget(
-                              text: "ID Number: #33883", fontSize: 14.sp,
-                              fontWeight: FontWeight.w400, isTextCenter: false,
-                              textColor: textColor, ),
+                      var reminder = snapshot.data!.docs[index];
 
+                      return Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                            color: bgColor,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: greyColor
+                            )
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextWidget(
+                                  text: reminder["doctorName"], fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600, isTextCenter: false,
+                                  textColor: textColor, fontFamily: AppFonts.semiBold,),
+                                const SizedBox(height: 10,),
+                                TextWidget(
+                                  text: "ID Number: ${reminder['id']}", fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400, isTextCenter: false,
+                                  textColor: textColor, ),
+
+                              ],
+                            ),
+                            SubmitButton(
+                              width: 26.w,
+                              height: 40,
+                              title: "View Detail",
+                              textColor: themeColor,
+                              bgColor: themeColor.withOpacity(0.1),
+                              press: () {
+                                Get.to(()=> AppointmentReminderDetailScreen(
+                                  name: reminder['doctorName'] ,
+                                  age: reminder['patientAge'] ,
+                                  gender: reminder['patientGender'] ,
+                                  location: reminder['location'],
+                                  time: reminder['id'],
+                                ));
+                              },)
                           ],
                         ),
-                        SubmitButton(
-                          width: 26.w,
-                          height: 40,
-                          title: "View Detail",
-                          textColor: themeColor,
-                          bgColor: themeColor.withOpacity(0.1),
-                          press: () {
-                            Get.to(()=>const AppointmentReminderDetailScreen());
-                        },)
-                      ],
-                    ),
-                  );
-                },
+                      );
+                    },
                     separatorBuilder: (context, index) {
-                  return const SizedBox(height: 15,);
-                },
-                    itemCount: 10
-                )
-            )
+                      return const SizedBox(height: 15,);
+                    },
+                );
+              },),
+            ),
           ],
         ),
       ),
