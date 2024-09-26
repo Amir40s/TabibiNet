@@ -56,7 +56,6 @@ class DoctorProfileProvider extends ChangeNotifier{
     }
   }
 
-
   Future<void> updateProfileWithImage()async{
     _isLoading = true;
     notifyListeners();
@@ -69,6 +68,7 @@ class DoctorProfileProvider extends ChangeNotifier{
       })
           .whenComplete(() {
         _isLoading = false;
+        ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
     },);

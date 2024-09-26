@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/EPrescriptionScreen/e_prescription_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/data/appointment_model.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
@@ -129,7 +131,7 @@ class SessionDetailScreen extends StatelessWidget {
                     SubmitButton(
                       title: "View E-prescriptions",
                       press: () {
-
+                        Get.to(()=>EPrescriptionScreen());
                     },)
 
                   ],

@@ -10,6 +10,15 @@ class FavoritesProvider with ChangeNotifier {
 
   List<String> favoriteDoctors = [];
 
+  String _filterValue = "";
+
+  String get filterValue => _filterValue;
+
+  filterDoc(value){
+    _filterValue = value;
+    notifyListeners();
+  }
+
   // Fetch favorite doctors for the current patient
   Future<void> fetchFavoriteDoctors() async {
     final snapshot = await fireStore
@@ -47,6 +56,32 @@ class FavoritesProvider with ChangeNotifier {
         final doctorSnapshot = await fireStore.collection('users').doc(doctorId).get();
         if (doctorSnapshot.exists) {
           doctorDetails.add(UserModel.fromDocumentSnapshot(doctorSnapshot));
+        }
+      }
+
+      return doctorDetails;
+    });
+  }
+
+  Stream<List<UserModel>> fetchFilterFavDoc() {
+    return favoriteDoctorsStream().asyncMap((favoriteDoctorIds) async {
+      List<UserModel> doctorDetails = [];
+
+      // Get the list of health professionals from Firestore
+      final querySnapshot = await fireStore
+          .collection('users')
+          .where("userType", isEqualTo: "Health Professional")
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        // Check if the doctor is in the list of favoriteDoctorIds
+        if (favoriteDoctorIds.contains(doc.id)) {
+          final doctor = UserModel.fromDocumentSnapshot(doc);
+
+          // Filter by doctor name (case-insensitive)
+          if (doctor.name.toLowerCase().startsWith(_filterValue.toLowerCase())) {
+            doctorDetails.add(doctor);
+          }
         }
       }
 

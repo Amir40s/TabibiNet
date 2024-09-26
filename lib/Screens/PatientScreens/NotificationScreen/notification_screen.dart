@@ -39,7 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                   Row(
+                  Row(
                     children: [
                       const TextWidget(
                         text: "Latest Update", fontSize: 20,
