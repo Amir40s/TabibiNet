@@ -59,7 +59,9 @@ class DoctorSpecialityContainer extends StatelessWidget {
                     fontWeight: FontWeight.w400, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.regular,),
                   const SizedBox(width: 5,),
-                  const Icon(Icons.arrow_forward_outlined,color: textColor,size: 18,)
+                  const Visibility(
+                      visible: false,
+                      child: Icon(Icons.arrow_forward_outlined,color: textColor,size: 18,))
                 ],
               ),
             ],
