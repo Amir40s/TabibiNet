@@ -22,6 +22,12 @@ class MyAppointmentProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  cancelAppointment(String id)async{
+    await fireStore.collection("appointment").doc(id).update({
+      "status" : "cancel"
+    });
+  }
+
   Stream<List<AppointmentModel>> fetchMyAppointment() {
     return fireStore.collection('appointment')
         .where("patientId",isEqualTo: auth.currentUser!.uid)

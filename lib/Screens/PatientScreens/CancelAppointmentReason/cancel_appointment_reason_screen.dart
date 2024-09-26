@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
@@ -9,11 +10,17 @@ import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../Providers/MyAppointment/my_appointment_provider.dart';
 import '../CancelScreen/cancel_successful_screen.dart';
 import 'Components/cancel_reason_section.dart';
 
 class CancelAppointmentReasonScreen extends StatelessWidget {
-  CancelAppointmentReasonScreen({super.key});
+  CancelAppointmentReasonScreen({
+    super.key,
+    required this.appointmentId
+  });
+
+  final String appointmentId;
 
   final List<String> reasons = [
     "I want to change to another doctor",
@@ -30,6 +37,7 @@ class CancelAppointmentReasonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myAppointP = Provider.of<MyAppointmentProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -70,6 +78,7 @@ class CancelAppointmentReasonScreen extends StatelessWidget {
                     SubmitButton(
                       title: "Submit",
                       press: () {
+                        myAppointP.cancelAppointment(appointmentId);
                         Get.to(()=>const CancelSuccessfulScreen());
                     },),
                     const SizedBox(height: 20,),

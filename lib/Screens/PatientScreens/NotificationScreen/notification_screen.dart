@@ -34,7 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Header(text: "Notification"),
+            const Header2(text: "Notification"),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

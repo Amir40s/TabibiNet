@@ -31,7 +31,7 @@ class PatientProfileScreen extends StatelessWidget {
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Profile"),
+            const Header2(text: "Profile"),
             Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
