@@ -87,15 +87,6 @@ class PatientHomeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  // Stream to fetch users from FireStore
-  Stream<List<UserModel>> fetchDoctors() {
-    return fireStore.collection('users')
-        .where( "userType", isEqualTo: "Health Professional")
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => UserModel.fromDocumentSnapshot(doc)).toList();
-    });
-  }
-
 }
 
 // **************** Calender Provider Class ****************

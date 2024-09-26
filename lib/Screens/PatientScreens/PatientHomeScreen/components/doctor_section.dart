@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 
 import '../../../../Providers/Favorite/favorite_doctor_provider.dart';
 import '../../../../Providers/PatientAppointment/patient_appointment_provider.dart';
@@ -14,12 +15,12 @@ class DoctorSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userViewModel = Provider.of<PatientHomeProvider>(context, listen: false);
+    final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
     return Consumer(
       builder: (context, value, child) {
         return StreamBuilder<List<UserModel>>(
-          stream: userViewModel.fetchDoctors(),
+          stream: findDoctorP.fetchDoctors(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

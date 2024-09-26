@@ -39,9 +39,9 @@ class FindDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userViewModel = Provider.of<PatientHomeProvider>(context,listen: false);
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
     final findDoctorP = Provider.of<FindDoctorProvider>(context, listen: false);
+    findDoctorP.setNumberOfDoctors();
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -62,6 +62,9 @@ class FindDoctorScreen extends StatelessWidget {
                               width: 72.w,
                               height: 50,
                               child: InputField2(
+                                onChanged: (value) {
+                                  findDoctorP.filterDoctor(value);
+                                },
                                 inputController: searchC,
                                 hintText: "Find here!",
                                 prefixIcon: Icons.search,
@@ -128,7 +131,7 @@ class FindDoctorScreen extends StatelessWidget {
                                   final isSelected = provider.selectedIndex == index;
                                   return GestureDetector(
                                     onTap: () {
-                                      provider.setDoctorCategory(index,spec.id);
+                                      provider.setDoctorCategory(index,spec.id,spec.specialty);
                                     },
                                     child: SuggestionContainer(
                                         text: spec.specialty,
@@ -160,9 +163,11 @@ class FindDoctorScreen extends StatelessWidget {
                     Consumer<FindDoctorProvider>(
                       builder: (context, findProvider, child) {
                         return StreamBuilder<List<UserModel>>(
-                          stream: findProvider.selectDoctorCategory != null && findProvider.selectDoctorCategory != "All" ?
-                          findDoctorP.fetchFilterDoctors(findProvider.selectDoctorCategory!)
-                              : userViewModel.fetchDoctors(),
+
+                          stream: findProvider.selectDoctorCategory == "All" ?
+                          findDoctorP.fetchDoctors() :
+                          findDoctorP.fetchSelectedCatDoc(findProvider.selectDoctorId!),
+
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return const Center(child: CircularProgressIndicator());
@@ -173,45 +178,45 @@ class FindDoctorScreen extends StatelessWidget {
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
                               return const NoFoundCard();
                             }
-
                             // List of users
-                            final users = snapshot.data!;
+                            final docs = snapshot.data!;
+
                             return Consumer<FavoritesProvider>(
                               builder: (context, favProvider, child) {
                                 return ListView.builder(
                                   padding: const EdgeInsets.symmetric(horizontal: 20),
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: users.length,
+                                  itemCount: docs.length,
                                   itemBuilder: (context, index) {
-                                    final user = users[index];
+                                    final doc = docs[index];
                                     // final doctorId = user.userUid;
                                     return TopDoctorContainer(
-                                      doctorName: user.name,
-                                      specialityName: user.speciality,
-                                      specialityDetail: user.specialityDetail,
-                                      availabilityFrom: user.availabilityFrom,
-                                      availabilityTo: user.availabilityTo,
-                                      appointmentFee: user.appointmentFee,
-                                      imageUrl: user.profileUrl,
-                                      rating: user.rating,
-                                      isFav: favProvider.isFavorite(user.userUid),
+                                      doctorName: doc.name,
+                                      specialityName: doc.speciality,
+                                      specialityDetail: doc.specialityDetail,
+                                      availabilityFrom: doc.availabilityFrom,
+                                      availabilityTo: doc.availabilityTo,
+                                      appointmentFee: doc.appointmentFee,
+                                      imageUrl: doc.profileUrl,
+                                      rating: doc.rating,
+                                      isFav: favProvider.isFavorite(doc.userUid),
                                       likeTap: () {
-                                        favProvider.toggleFavorite(user.userUid);
+                                        favProvider.toggleFavorite(doc.userUid);
                                       },
                                       onTap: () {
                                         appointmentScheduleP.setAvailabilityTime(
-                                            user.availabilityFrom,
-                                            user.availabilityTo
+                                            doc.availabilityFrom,
+                                            doc.availabilityTo
                                         );
                                         Get.to(()=> DoctorDetailScreen(
-                                          doctorName: user.name,
-                                          specialityName: user.speciality,
-                                          doctorDetail: user.specialityDetail,
-                                          yearsOfExperience: user.experience,
-                                          patients: user.patients,
-                                          reviews: user.reviews,
-                                          image: user.profileUrl,
+                                          doctorName: doc.name,
+                                          specialityName: doc.speciality,
+                                          doctorDetail: doc.specialityDetail,
+                                          yearsOfExperience: doc.experience,
+                                          patients: doc.patients,
+                                          reviews: doc.reviews,
+                                          image: doc.profileUrl,
                                         ));
                                       },
                                     );

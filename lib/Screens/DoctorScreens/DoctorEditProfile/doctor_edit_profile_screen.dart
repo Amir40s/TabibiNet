@@ -34,38 +34,38 @@ class DoctorEditProfileScreen extends StatelessWidget {
                   Consumer<DoctorProfileProvider>(
                     builder: (context, value, child) {
                       return Center(
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.bottomSheet(
-                                    Container(
-                                      padding: const EdgeInsets.all(20),
-                                      decoration: const BoxDecoration(
-                                          color: bgColor,
-                                          borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          SubmitButton(
-                                            title: "Gallery",
-                                            press: () {
-                                              value.pickImage();
-                                            },),
-                                          const SizedBox(height: 20,),
-                                          SubmitButton(
-                                            title: "Camera",
-                                            press: () {
-                                              value.pickImageFromCamera();
-                                            },),
-                                        ],
-                                      ),
-                                    )
-                                );
-                              },
-                              child: ClipRRect(
+                        child: InkWell(
+                          onTap: () {
+                            Get.bottomSheet(
+                                Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: const BoxDecoration(
+                                      color: bgColor,
+                                      borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SubmitButton(
+                                        title: "Gallery",
+                                        press: () {
+                                          value.pickImage();
+                                        },),
+                                      const SizedBox(height: 20,),
+                                      SubmitButton(
+                                        title: "Camera",
+                                        press: () {
+                                          value.pickImageFromCamera();
+                                        },),
+                                    ],
+                                  ),
+                                )
+                            );
+                          },
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: Container(
                                     height: 150,
@@ -83,17 +83,17 @@ class DoctorEditProfileScreen extends StatelessWidget {
                                   //     : const SizedBox(),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.all(10.sp),
-                              decoration: const BoxDecoration(
-                                  color: themeColor,
-                                  shape: BoxShape.circle
-                              ),
-                              child: const Icon(Icons.camera_alt_outlined,color: bgColor,),
-                            )
-                          ],
+                              Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                padding: EdgeInsets.all(10.sp),
+                                decoration: const BoxDecoration(
+                                    color: themeColor,
+                                    shape: BoxShape.circle
+                                ),
+                                child: const Icon(Icons.camera_alt_outlined,color: bgColor,),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },),

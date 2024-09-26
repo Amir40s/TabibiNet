@@ -56,7 +56,6 @@ class DoctorProfileProvider extends ChangeNotifier{
     }
   }
 
-
   Future<void> updateProfileWithImage()async{
     _isLoading = true;
     notifyListeners();

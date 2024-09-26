@@ -51,7 +51,7 @@ class DoctorHomeHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 42.w,
+                      width: 40.w,
                       child: TextWidget(
                           text: "Hi, ${value.doctorName}", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,

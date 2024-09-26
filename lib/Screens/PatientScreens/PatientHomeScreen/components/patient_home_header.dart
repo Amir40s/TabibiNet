@@ -3,13 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
 
+import '../../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/image_loader.dart';
 import '../../../../model/res/widgets/text_widget.dart';
-import '../../FavoriteScreen/favorite_screen.dart';
+import '../../FavoriteDoctorScreen/favorite_doctor_screen.dart';
 import '../../NotificationScreen/notification_screen.dart';
 
 class PatientHomeHeader extends StatelessWidget {
@@ -48,7 +48,7 @@ class PatientHomeHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 42.w,
+                      width: 40.w,
                       child: TextWidget(
                           text: "HI, ${value.patientName.toString()}!", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
