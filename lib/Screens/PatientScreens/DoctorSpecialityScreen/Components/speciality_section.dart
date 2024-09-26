@@ -86,7 +86,7 @@ class SpecialitySection extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               value.setSpeciality(index);
-              Get.back();
+              // Get.back();
             },
             child: Container(
               decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class SpecialitySection extends StatelessWidget {
                           fontWeight: FontWeight.w400, isTextCenter: false,
                           textColor: isSelected ? greyColor : textColor),
                       const SizedBox(width: 5,),
-                      const Icon(Icons.arrow_forward_outlined,color: textColor,size: 14,)
+                      Icon(Icons.arrow_forward_outlined,color: isSelected ? bgColor : textColor,size: 14,)
                     ],
                   )
                 ],
