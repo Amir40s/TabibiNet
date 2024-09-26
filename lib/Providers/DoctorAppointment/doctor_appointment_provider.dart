@@ -29,6 +29,15 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     });
   }
 
+  Stream<List<AppointmentModel>> fetchPatientsSingle() {
+    return fireStore.collection('appointment')
+        .where("doctorId",isEqualTo: auth.currentUser!.uid)
+        .where("status",isEqualTo: "upcoming")
+        .snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
+    });
+  }
+
   Stream<List<AppointmentModel>> fetchAllPatients() {
     return fireStore
         .collection('appointment')

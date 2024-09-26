@@ -108,13 +108,13 @@ class SignInProvider extends ChangeNotifier{
           if (type == "Patient") {
             await patientProfileProvider!.getSelfInfo()
                 .whenComplete(() {
-              Get.off(() => const PatientBottomNavBar());
+              Get.offAll(() => const PatientBottomNavBar());
             },);
           }
           else if (type == "Health Professional") {
             doctorProfileProvider!.getSelfInfo()
                 .whenComplete(() {
-              Get.off(() => const DoctorBottomNavbar());
+              Get.offAll(() => const DoctorBottomNavbar());
             },);
           }
         }else{

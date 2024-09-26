@@ -67,7 +67,7 @@ class EmrScreen extends StatelessWidget {
                               textColor: themeColor,
                               bgColor: themeColor.withOpacity(0.1),
                               press: () {
-                                Get.to(()=>const EmrDetailScreen());
+                               // Get.to(()=>const EmrDetailScreen());
                               },)
                           ],
                         ),

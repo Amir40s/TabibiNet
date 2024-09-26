@@ -19,7 +19,7 @@ class PatientLabReportScreen extends StatelessWidget {
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Patient's Lab Reports"),
+            const Header2(text: "Patient's Lab Reports"),
             Expanded(
                 child: ListView.separated(
                     shrinkWrap: true,

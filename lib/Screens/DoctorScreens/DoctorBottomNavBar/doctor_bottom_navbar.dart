@@ -7,6 +7,7 @@ import '../../../Providers/BottomNav/bottom_navbar_provider.dart';
 import '../../../model/res/widgets/bottom_nav_bar.dart';
 import '../DoctorAppointmentSchedule/doctor_appointment_schedule_screen.dart';
 import '../DoctorHomeScreen/doctor_home_screen.dart';
+import '../PatientManagementData/patient_management_data_screen.dart';
 import '../PatientManagementScreen/patient_management_screen.dart';
 
 class DoctorBottomNavbar extends StatelessWidget {
@@ -25,7 +26,8 @@ class DoctorBottomNavbar extends StatelessWidget {
               children: [
                 const DoctorHomeScreen(),
                 DoctorAppointmentSchedule(),
-                const PatientManagementScreen(),
+                PatientManagementDataScreen(),
+                //const PatientManagementScreen(),
                 const PatientLabReportScreen()
               ],
             );

@@ -15,7 +15,15 @@ import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
 class EmrDetailScreen extends StatelessWidget {
-  const EmrDetailScreen({super.key});
+  final String patientName;
+  final String patientAge;
+  final String patientGender;
+  final String userProblem;
+  const EmrDetailScreen({super.key,
+    required this.patientName,
+    required this.patientAge,
+    required this.patientGender,
+    required this.userProblem});
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +50,21 @@ class EmrDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Micheal Rickliff"),
+                     InfoTile(title: patientName),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Age", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "22"),
+                     InfoTile(title: patientAge),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Gender", fontSize: 14.sp,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                    const InfoTile(title: "Male"),
+                     InfoTile(title: patientGender),
                     SizedBox(height: height1,),
                     SubmitButton(
                       title: "Chat",
@@ -93,15 +101,7 @@ class EmrDetailScreen extends StatelessWidget {
                           const DottedLine(color: greyColor,),
                           SizedBox(height: height1,),
                           TextWidget(
-                            text: "1. Heart Burn", fontSize: 18.sp,
-                            fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor, fontFamily: AppFonts.regular,),
-                          TextWidget(
-                            text: "2. Hypertension", fontSize: 18.sp,
-                            fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor, fontFamily: AppFonts.regular,),
-                          TextWidget(
-                            text: "3. Diabetes Mellitus", fontSize: 18.sp,
+                            text: userProblem, fontSize: 18.sp,
                             fontWeight: FontWeight.w400, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.regular,),
                         ],

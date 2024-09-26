@@ -53,7 +53,7 @@ class PatientManagementDataScreen extends StatelessWidget {
             SizedBox(height: height1,),
             Expanded(
                 child: StreamBuilder<List<AppointmentModel>>(
-                  stream: doctorAppointmentP.fetchPatients(),
+                  stream: doctorAppointmentP.fetchPatientsSingle(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -109,6 +109,7 @@ class PatientManagementDataScreen extends StatelessWidget {
                                       patientName: user.patientName,
                                       patientAge: user.patientAge,
                                       patientGender: user.patientGender,
+                                        userProblem: user.patientProblem
                                     ));
                                   },)
                               ],

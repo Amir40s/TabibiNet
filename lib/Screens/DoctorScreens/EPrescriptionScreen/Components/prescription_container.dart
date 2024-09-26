@@ -24,20 +24,27 @@ class PrescriptionContainer extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        width: 42.w,
+        height: 10.h,
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
             color: boxColor,
             borderRadius: BorderRadius.circular(20)
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(icon,height: 7.h,),
-            const SizedBox(height: 10,),
-            TextWidget(
-              text: text, fontSize: 18.sp,
-              fontWeight: FontWeight.w600, isTextCenter: true,
-              textColor: bgColor, fontFamily: AppFonts.semiBold,maxLines: 2,)
+            Image.asset(icon,height: 40,width: 40,),
+            const SizedBox(width: 5,),
+            Expanded(
+              child: Align(
+               alignment: Alignment.centerLeft,
+                child: TextWidget(
+                  text: text, fontSize: 16.sp,
+                  fontWeight: FontWeight.w600, isTextCenter: true,
+                  textColor: bgColor, fontFamily: AppFonts.semiBold,maxLines: 2,),
+              ),
+            )
           ],
         ),
       ),

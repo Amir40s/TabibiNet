@@ -44,10 +44,13 @@ class Header extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 15,),
-            TextWidget(
-              text: text, fontSize: 19.sp,
-              fontWeight: FontWeight.w600, isTextCenter: false,
-              textColor: textColor,fontFamily: AppFonts.semiBold,),
+            SizedBox(
+              width: 70.w,
+              child: TextWidget(
+                text: text, fontSize: 19.sp,
+                fontWeight: FontWeight.w600, isTextCenter: false,
+                textColor: textColor,fontFamily: AppFonts.semiBold,),
+            ),
           ],
         ),
       ),

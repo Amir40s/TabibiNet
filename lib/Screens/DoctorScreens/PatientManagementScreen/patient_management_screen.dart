@@ -22,7 +22,7 @@ class PatientManagementScreen extends StatelessWidget {
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Patient Management"),
+            const Header2(text: "Patient Management"),
             Expanded(
               child: GridView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
