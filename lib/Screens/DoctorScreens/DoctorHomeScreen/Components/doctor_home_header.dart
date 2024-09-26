@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorNotification/doctor_notification_screen.dart';
+import 'package:tabibinet_project/main.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
@@ -50,7 +52,7 @@ class DoctorHomeHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
-                        text: "Hi, ${value.doctorName}", fontSize: 20,
+                        text: "Hi, ${value.doctorName}", fontSize: 19,
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor),
                     Container(

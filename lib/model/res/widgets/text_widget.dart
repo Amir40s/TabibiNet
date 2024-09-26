@@ -30,6 +30,8 @@ class TextWidget extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       textAlign: isTextCenter == true ? TextAlign.center: TextAlign.start,
       style: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),);
+          fontSize: fontSize,
+          fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),
+    );
   }
 }
