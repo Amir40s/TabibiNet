@@ -25,7 +25,6 @@ class AppointmentModel {
   final String name;
   final String phone;
   final String status;
-  final String doctorEmail;
 
 
   AppointmentModel( {
@@ -33,7 +32,6 @@ class AppointmentModel {
     required this.id,
     required this.doctorId,
     required this.doctorName,
-    required this.doctorEmail,
     required this.doctorRating,
     required this.doctorLocation,
     required this.patientId,
@@ -73,7 +71,6 @@ class AppointmentModel {
       appointmentDate: data['appointmentDate'] ?? '',
       doctorId: data['doctorId'] ?? '',
       doctorName: data['doctorName'] ?? '',
-      doctorEmail: data['doctorEmail'] ?? '',
       doctorRating: data['doctorRating'] ?? '',
       doctorLocation: data['doctorLocation'] ?? '',
       image: data['image'] ?? '',

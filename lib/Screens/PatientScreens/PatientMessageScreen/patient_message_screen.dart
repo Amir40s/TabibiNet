@@ -22,7 +22,7 @@ class PatientMessageScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Get.to(()=>ChatScreen());
+                       // Get.to(()=>ChatScreen());
                       },
                       child: const ChatUserCard(
                         title: "Michael Faraday",
