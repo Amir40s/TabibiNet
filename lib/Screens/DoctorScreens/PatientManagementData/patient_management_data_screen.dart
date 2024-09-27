@@ -109,7 +109,9 @@ class PatientManagementDataScreen extends StatelessWidget {
                                       patientName: user.patientName,
                                       patientAge: user.patientAge,
                                       patientGender: user.patientGender,
-                                        userProblem: user.patientProblem
+                                        userProblem: user.patientProblem,
+                                      patientEmail: user.patientEmail,
+                                      doctorEmail: user.doctorEmail,
                                     ));
                                   },)
                               ],

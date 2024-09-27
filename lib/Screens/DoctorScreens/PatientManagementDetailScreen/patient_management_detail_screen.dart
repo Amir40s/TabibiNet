@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
@@ -28,12 +30,16 @@ class PatientManagementDetailScreen extends StatelessWidget {
     required this.patientAge,
     required this.patientGender,
     required this.userProblem,
+    required this.patientEmail,
+    required this.doctorEmail,
   });
 
   final String patientName;
   final String patientAge;
   final String patientGender;
   final String userProblem;
+  final String patientEmail;
+  final String doctorEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -173,8 +179,15 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       bgColor: bgColor,
                       textColor: themeColor,
                       iconColor: themeColor,
-                      press: () {
+                      press: () async{
+                        await createChatRoom(doctorEmail, patientEmail);
 
+                        Get.to(ChatScreen(
+                          chatRoomId: _getChatRoomId(doctorEmail, patientEmail),
+                          patientEmail: patientEmail.toString(),
+                          doctorEmail: doctorEmail.toString(),
+                          patientName: patientName.toString(),
+                        ));
                       },),
 
                     // SizedBox(height: height1,),
@@ -288,5 +301,31 @@ class PatientManagementDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  // Function to create chat room
+  Future<void> createChatRoom(String doctorEmail, String patientEmail) async {
+    final chatRoomId = _getChatRoomId(doctorEmail, patientEmail);
+
+    // Reference to Firestore
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    // Check if chat room already exists
+    final roomSnapshot = await _firestore.collection('chatRooms').doc(chatRoomId).get();
+
+    if (!roomSnapshot.exists) {
+      // If the chat room doesn't exist, create a new one
+      await _firestore.collection('chatRooms').doc(chatRoomId).set({
+        'doctorEmail': doctorEmail,
+        'patientEmail': patientEmail,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
+
+    // Optionally, add initial message or other details if necessary
+  }
+
+  // Function to generate unique chat room ID based on doctor and patient emails
+  String _getChatRoomId(String doctorEmail, String patientEmail) {
+    return "${doctorEmail}_${patientEmail}";
   }
 }

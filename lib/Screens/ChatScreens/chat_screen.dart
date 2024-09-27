@@ -1,7 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  const ChatScreen(
+      {super.key,
+      required this.chatRoomId,
+      required this.patientEmail,
+      required this.doctorEmail,
+        required this.patientName});
+
+
+  final String chatRoomId;
+  final String patientEmail;
+  final String patientName;
+  final String doctorEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +28,14 @@ class ChatScreen extends StatelessWidget {
               child: const Text('72 x 72'),
             ),
             const SizedBox(width: 10),
-            const Column(
+             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Michel Reckliff',
-                  style: TextStyle(fontSize: 18),
+                  patientName.toString(),
+                  style: const TextStyle(fontSize: 18),
                 ),
-                Text(
+                const Text(
                   'Online',
                   style: TextStyle(fontSize: 14, color: Colors.white70),
                 ),
@@ -37,21 +49,31 @@ class ChatScreen extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(10),
-                  children: [
-                    _buildUserMessage('Hi, good afternoon Michel', false),
-                    _buildUserMessage('Hello Good Afternoon Dr.', true),
-                    _buildUserMessage(
-                        'I’ve been experiencing some discomfort in my lower abdomen',
-                        true),
-                    _buildUserMessage(
-                        'Have you noticed any other symptoms, such as fever or changes in urination?',
-                        false),
-                    _buildUserMessage(
-                        'No fever, but I’ve been urinating more frequently than usual.',
-                        true),
-                  ],
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('chatRooms')
+                      .doc(chatRoomId)
+                      .collection('messages')
+                      .orderBy('time', descending: false)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    var messages = snapshot.data!.docs;
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(10),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        var messageData = messages[index];
+                        bool isSender = messageData['sender'] == patientEmail;
+                        return _buildUserMessage(
+                          messageData['message'],
+                          isSender,
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
               _buildMessageInput(),
@@ -84,6 +106,25 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget _buildMessageInput() {
+    TextEditingController messageController = TextEditingController();
+    void sendMessage() async {
+      if (messageController.text.isNotEmpty) {
+        Map<String, dynamic> messageData = {
+          'message': messageController.text,
+          'sender': patientEmail,
+          'time': FieldValue.serverTimestamp(),
+        };
+
+        await FirebaseFirestore.instance
+            .collection('chatRooms')
+            .doc(chatRoomId)
+            .collection('messages')
+            .add(messageData);
+
+        // Clear the message field after sending
+        messageController.clear();
+      }
+    }
     return Container(
       padding: const EdgeInsets.all(10),
       color: Colors.white,
@@ -95,6 +136,7 @@ class ChatScreen extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              controller: messageController,
               decoration: InputDecoration(
                 hintText: 'Message',
                 border: OutlineInputBorder(
@@ -108,7 +150,7 @@ class ChatScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.send, color: Colors.blueAccent),
-            onPressed: () {},
+            onPressed: sendMessage,
           ),
         ],
       ),

@@ -24,9 +24,11 @@ class AppointmentModel {
   final String name;
   final String phone;
   final String status;
+  final String doctorEmail;
 
 
-  AppointmentModel({
+  AppointmentModel( {
+    required this.doctorEmail,
     required this.id,
     required this.doctorId,
     required this.doctorName,
@@ -56,6 +58,7 @@ class AppointmentModel {
   factory AppointmentModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return AppointmentModel(
+      doctorEmail: data['doctorEmail'] ?? '',
       id: doc.id,
       patientId: data['patientId'] ?? '',
       patientName: data['patientName'] ?? '',
