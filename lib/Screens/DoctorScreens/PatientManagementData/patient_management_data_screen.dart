@@ -106,6 +106,7 @@ class PatientManagementDataScreen extends StatelessWidget {
                                   bgColor: themeColor.withOpacity(0.1),
                                   press: () {
                                     Get.to(()=> PatientManagementDetailScreen(
+                                      appointmentId : user.id,
                                       patientName: user.patientName,
                                       patientAge: user.patientAge,
                                       patientGender: user.patientGender,

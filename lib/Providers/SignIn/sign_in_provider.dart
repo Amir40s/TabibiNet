@@ -11,7 +11,6 @@ import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_c
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
 import '../../global_provider.dart';
-import '../../model/data/specialize_model.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 import '../../model/services/NotificationServices/flutter_local_notification.dart';
@@ -20,8 +19,7 @@ class SignInProvider extends ChangeNotifier{
 
   final AuthServices authServices = AuthServices();
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
-  final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
+  final profileProvider = GlobalProviderAccess.profilePro;
   final patientNotificationProvider = GlobalProviderAccess.patientNotificationPro;
 
   final String title = "Congratulations!";
@@ -106,13 +104,13 @@ class SignInProvider extends ChangeNotifier{
 
         if(type == _userType){
           if (type == "Patient") {
-            await patientProfileProvider!.getSelfInfo()
+            await profileProvider!.getSelfInfo()
                 .whenComplete(() {
               Get.offAll(() => const PatientBottomNavBar());
             },);
           }
           else if (type == "Health Professional") {
-            doctorProfileProvider!.getSelfInfo()
+            profileProvider!.getSelfInfo()
                 .whenComplete(() {
               Get.offAll(() => const DoctorBottomNavbar());
             },);
@@ -244,7 +242,7 @@ class SignInProvider extends ChangeNotifier{
                 title: title,
                 subTitle: subTitle,
                 type: type);
-            patientProfileProvider!.getSelfInfo()
+            profileProvider!.getSelfInfo()
               .whenComplete(() {
           Get.off(() => const PatientBottomNavBar());
           },);
@@ -255,7 +253,7 @@ class SignInProvider extends ChangeNotifier{
                 title: title,
                 subTitle: subTitle,
                 type: type);
-            doctorProfileProvider!.getSelfInfo()
+            profileProvider!.getSelfInfo()
                 .whenComplete(() {
                   Get.off(() => const DoctorBottomNavbar());
                   },);

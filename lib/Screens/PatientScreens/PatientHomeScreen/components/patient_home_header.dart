@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../Providers/PatientProfile/patient_profile_provider.dart';
+import '../../../../Providers/Profile/profile_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/image_loader.dart';
@@ -23,7 +23,7 @@ class PatientHomeHeader extends StatelessWidget {
         height: 72,
         child: Row(
           children: [
-            Consumer<PatientProfileProvider>(
+            Consumer<ProfileProvider>(
               builder: (context, value, child) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -34,14 +34,14 @@ class PatientHomeHeader extends StatelessWidget {
                         color: skyBlueColor,
                         borderRadius: BorderRadius.circular(10)
                     ),
-                    child: ImageLoaderWidget(imageUrl: value.imageUrl)
+                    child: ImageLoaderWidget(imageUrl: value.profileUrl)
                     // value.image != null ? Image.file(value.image!, fit: BoxFit.cover,)
                     //     : const SizedBox(),
                   ),
                 );
               },),
             const SizedBox(width: 10,),
-            Consumer<PatientProfileProvider>(
+            Consumer<ProfileProvider>(
               builder: (context, value, child) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,7 +50,7 @@ class PatientHomeHeader extends StatelessWidget {
                     SizedBox(
                       width: 40.w,
                       child: TextWidget(
-                          text: "HI, ${value.patientName.toString()}!", fontSize: 20,
+                          text: "HI, ${value.name.toString()}!", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor),
                     ),
@@ -62,7 +62,7 @@ class PatientHomeHeader extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          TextWidget(text: value.patientCountry, fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
+                          TextWidget(text: value.country, fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
                           const Icon(Icons.location_on,color: themeColor,size: 20,),
                         ],
                       ),

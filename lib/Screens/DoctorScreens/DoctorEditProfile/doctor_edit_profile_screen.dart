@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
+import '../../../Providers/Profile/profile_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/header.dart';
@@ -31,7 +31,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  Consumer<DoctorProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return Center(
                         child: InkWell(
@@ -76,7 +76,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                                     ),
                                     child: value.image != null ?
                                     Image.file(value.image!,fit: BoxFit.cover,) :
-                                    ImageLoaderWidget(imageUrl: value.imageUrl)
+                                    ImageLoaderWidget(imageUrl: value.profileUrl)
                                   // value.image != null ? Image.file(
                                   //   value.image!,
                                   //   fit: BoxFit.cover,)
@@ -103,7 +103,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<DoctorProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return InputField(
                         inputController: value.nameC,
@@ -116,7 +116,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<DoctorProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return GestureDetector(
                         onTap: () async {
@@ -144,7 +144,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextWidget(
-                                text: value.doctorDOB, fontSize: 12,
+                                text: value.birthDate, fontSize: 12,
                                 fontWeight: FontWeight.w600, isTextCenter: false,
                                 textColor: textColor, fontFamily: AppFonts.medium,),
                               const Icon(Icons.calendar_month_rounded,color: greyColor,)
@@ -154,7 +154,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                       );
                     },),
                   SizedBox(height: height1,),
-                  Consumer<DoctorProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                     return value.isLoading ?
                     const Row(

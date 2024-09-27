@@ -6,7 +6,7 @@ import 'package:tabibinet_project/global_provider.dart';
 class AppLifecycleObserver with WidgetsBindingObserver {
 
   final AppStateProvider appStateProvider;
-  final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
+  final profileProvider = GlobalProviderAccess.profilePro;
 
 
   AppLifecycleObserver(this.appStateProvider);

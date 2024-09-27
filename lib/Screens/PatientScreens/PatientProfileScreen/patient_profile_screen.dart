@@ -6,7 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../Providers/PatientProfile/patient_profile_provider.dart';
+import '../../../Providers/Profile/profile_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -49,7 +49,7 @@ class PatientProfileScreen extends StatelessWidget {
                         ),
                         child:Row(
                           children: [
-                            Consumer<PatientProfileProvider>(
+                            Consumer<ProfileProvider>(
                               builder: (context, value, child) {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
@@ -60,7 +60,7 @@ class PatientProfileScreen extends StatelessWidget {
                                         color: greyColor,
                                         shape: BoxShape.circle
                                     ),
-                                    child: ImageLoaderWidget(imageUrl: value.imageUrl)
+                                    child: ImageLoaderWidget(imageUrl: value.profileUrl)
                                     // value.image != null ? Image.file(
                                     //   value.image!,
                                     //   fit: BoxFit.cover,)
@@ -69,19 +69,19 @@ class PatientProfileScreen extends StatelessWidget {
                                 );
                               },),
                             const SizedBox(width: 10,),
-                            Consumer<PatientProfileProvider>(
+                            Consumer<ProfileProvider>(
                               builder: (context, value, child) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextWidget(
-                                    text: value.patientName, fontSize: 20,
+                                    text: value.name, fontSize: 20,
                                     fontWeight: FontWeight.w600, isTextCenter: false,
                                     textColor: bgColor, fontFamily: AppFonts.medium,
                                   ),
                                   const SizedBox(height: 10,),
                                   TextWidget(
-                                      text: value.patientPhone, fontSize: 16,
+                                      text: value.phoneNumber, fontSize: 16,
                                       fontWeight: FontWeight.w400, isTextCenter: false,
                                       textColor: bgColor
                                   ),

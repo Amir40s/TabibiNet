@@ -26,6 +26,7 @@ import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 class PatientManagementDetailScreen extends StatelessWidget {
   const PatientManagementDetailScreen({
     super.key,
+    required this.appointmentId,
     required this.patientName,
     required this.patientAge,
     required this.patientGender,
@@ -34,6 +35,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
     required this.doctorEmail,
   });
 
+  final String appointmentId;
   final String patientName;
   final String patientAge;
   final String patientGender;
@@ -133,7 +135,9 @@ class PatientManagementDetailScreen extends StatelessWidget {
                             icon: AppIcons.prescriptionIcon,
                             boxColor: const Color(0xff0596DE),
                             onTap: () {
-                              Get.to(()=>const EPrescriptionDataScreen());
+                              Get.to(()=> EPrescriptionDataScreen(
+                                appointmentId: ,
+                              ));
                             },
                           ),
 

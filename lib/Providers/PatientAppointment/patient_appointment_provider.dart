@@ -21,7 +21,7 @@ class PatientAppointmentProvider with ChangeNotifier {
 
   final CloudinaryService _cloudinaryService = CloudinaryService();
 
-  final profileP = GlobalProviderAccess.patientProfilePro;
+  final profileP = GlobalProviderAccess.profilePro;
 
   final nameC = TextEditingController();
   final phoneC = TextEditingController();
@@ -172,16 +172,16 @@ class PatientAppointmentProvider with ChangeNotifier {
       "doctorEmail" : _doctorEmail,
       "doctorRating" : _doctorRating,
       "doctorLocation" : _doctorLocation,
-      "name": profileP!.patientName,
-      "phone": profileP!.patientPhone,
-      "image": profileP!.imageUrl,
+      "name": profileP!.name,
+      "phone": profileP!.phoneNumber,
+      "image": profileP!.profileUrl,
       "fees": _selectFee,
       "feesId": _selectFeeId,
       "feesType": _selectFeeType,
       "feeSubTitle": _selectFeeSubTitle,
       "status": "pending",
       "patientName" : nameC.text.toString(),
-      "patientEmail" : profileP!.patientEmail,
+      "patientEmail" : profileP!.email,
       "patientAge" : _patientAge,
       "patientPhone" : phoneC.text.toString(),
       "patientGender" : _selectedGender,

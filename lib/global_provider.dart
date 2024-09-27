@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
-import 'Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
-import 'Providers/PatientProfile/patient_profile_provider.dart';
+import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -27,10 +26,10 @@ class GlobalProviderAccess {
     return null;
   }
 
-  static PatientProfileProvider? get patientProfilePro {
+  static ProfileProvider? get profilePro {
     final context = navigatorKey.currentContext;
     if (context != null) {
-      return Provider.of<PatientProfileProvider>(context, listen: false);
+      return Provider.of<ProfileProvider>(context, listen: false);
     }
     return null;
   }
@@ -43,13 +42,6 @@ class GlobalProviderAccess {
     return null;
   }
 
-  static DoctorProfileProvider? get doctorProfilePro {
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      return Provider.of<DoctorProfileProvider>(context, listen: false);
-    }
-    return null;
-  }
 
   static PatientNotificationProvider? get patientNotificationPro {
     final context = navigatorKey.currentContext;

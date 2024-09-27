@@ -14,8 +14,7 @@ import '../../model/services/NotificationServices/flutter_local_notification.dar
 class SignUpProvider extends ChangeNotifier{
 
   final AuthServices authServices = AuthServices();
-  final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
-  final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
+  final profileProvider = GlobalProviderAccess.profilePro;
   final patientNotificationProvider = GlobalProviderAccess.patientNotificationPro;
 
   final String title = "Congratulations!";
@@ -108,7 +107,7 @@ class SignUpProvider extends ChangeNotifier{
                   title: title,
                   subTitle: subTitle,
                   type: type);
-              await patientProfileProvider!.getSelfInfo()
+              await profileProvider!.getSelfInfo()
             .whenComplete(() {
                 Get.to(()=>PaywallScreen());
               },);
@@ -120,7 +119,7 @@ class SignUpProvider extends ChangeNotifier{
                   title: title,
                   subTitle: subTitle,
                   type: type);
-              doctorProfileProvider!.getSelfInfo()
+              profileProvider!.getSelfInfo()
                   .whenComplete(() {
                 Get.off(() => const DoctorBottomNavbar());
               },);
