@@ -15,8 +15,7 @@ class SplashServices {
   Future<void> isLogin() async {
 
     final user = FirebaseAuth.instance.currentUser;
-    final patientProfileProvider = GlobalProviderAccess.patientProfilePro;
-    final doctorProfileProvider = GlobalProviderAccess.doctorProfilePro;
+    final profileProvider = GlobalProviderAccess.profilePro;
 
     if (user != null) {
       CollectionReference userCollection = fireStore.collection("users");
@@ -36,12 +35,13 @@ class SplashServices {
             Get.back(); // Dismiss the dialog
 
             if (type == "Patient") {
-              await patientProfileProvider!.getSelfInfo()
+              await profileProvider!.getSelfInfo()
                   .whenComplete(() {
                 Get.off(() => const PatientBottomNavBar());
               },);
-            } else if (type == "Health Professional") {
-              doctorProfileProvider!.getSelfInfo()
+            }
+            else if (type == "Health Professional") {
+              profileProvider!.getSelfInfo()
                   .whenComplete(() {
                 Get.off(() => const DoctorBottomNavbar());
               },);

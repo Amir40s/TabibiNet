@@ -10,7 +10,12 @@ import '../../../model/res/widgets/text_widget.dart';
 import '../LabReportScreen/lab_report_screen.dart';
 
 class EPrescriptionDataScreen extends StatelessWidget {
-  const EPrescriptionDataScreen({super.key});
+  const EPrescriptionDataScreen({
+    super.key,
+    required this.appointmentId
+  });
+  
+  final String appointmentId;
 
   @override
   Widget build(BuildContext context) {
@@ -111,4 +116,19 @@ class EPrescriptionDataScreen extends StatelessWidget {
       ),
     );
   }
+  
+  Future sendPrescription() async {
+
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    await fireStore.collection("appointment")
+        .doc(appointmentId)
+        .collection("ePrescription").doc(id).set({
+      "tabletName" : "",
+      "numberOfTablets" : "",
+      "repetition" : "",
+      "dayTime" : "",
+    });
+  }
+  
 }

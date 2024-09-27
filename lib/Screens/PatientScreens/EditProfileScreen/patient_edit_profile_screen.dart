@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/PatientProfile/patient_profile_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
@@ -10,7 +9,7 @@ import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
-import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
+import '../../../Providers/Profile/profile_provider.dart';
 import '../../../model/res/widgets/image_loader.dart';
 
 class PatientEditProfileScreen extends StatelessWidget {
@@ -32,7 +31,7 @@ class PatientEditProfileScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  Consumer<PatientProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return Center(
                         child: InkWell(
@@ -77,7 +76,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                                   ),
                                   child: value.image != null ?
                                   Image.file(value.image!,fit: BoxFit.cover,) :
-                                  ImageLoaderWidget(imageUrl: value.imageUrl)
+                                  ImageLoaderWidget(imageUrl: value.profileUrl)
                                 ),
                               ),
                               Container(
@@ -100,7 +99,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<PatientProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                     return InputField(
                       inputController: value.nameC,
@@ -113,7 +112,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<PatientProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return GestureDetector(
                         onTap: () async {
@@ -141,7 +140,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextWidget(
-                                text: value.patientDOB, fontSize: 12,
+                                text: value.birthDate, fontSize: 12,
                                 fontWeight: FontWeight.w600, isTextCenter: false,
                                 textColor: textColor, fontFamily: AppFonts.medium,),
                               const Icon(Icons.calendar_month_rounded,color: greyColor,)
@@ -151,7 +150,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                       );
                     },),
                   SizedBox(height: height1,),
-                  Consumer<PatientProfileProvider>(
+                  Consumer<ProfileProvider>(
                     builder: (context, value, child) {
                       return value.isLoading ?
                       const Row(

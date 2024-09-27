@@ -8,7 +8,7 @@ import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
-import '../../../Providers/DoctorProfile/doctor_profile_provider.dart';
+import '../../../Providers/Profile/profile_provider.dart';
 import '../DoctorAppointmentSchedule/doctor_appointment_schedule_screen.dart';
 import '../EPrescriptionScreen/e_prescription_screen.dart';
 import 'Components/doctor_home_header.dart';
@@ -21,7 +21,7 @@ class DoctorHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<DoctorProfileProvider>(context,listen: false).getSelfInfo();
+    Provider.of<ProfileProvider>(context,listen: false).getSelfInfo();
     double height = 20;
     return SafeArea(
       child: Scaffold(

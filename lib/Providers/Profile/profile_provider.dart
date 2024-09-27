@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../constant.dart';
 import '../../global_provider.dart';
+import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/CloudinaryServices/cloudinary_services.dart';
 
-class DoctorProfileProvider extends ChangeNotifier{
+class ProfileProvider extends ChangeNotifier{
 
   final languageP = GlobalProviderAccess.languagePro;
   final CloudinaryService _cloudinaryService = CloudinaryService();
@@ -25,18 +25,60 @@ class DoctorProfileProvider extends ChangeNotifier{
   String _doctorDOB = "";
   String _imageUrl = "";
   String _doctorEmail = "";
+  String _name = "";
+  String _email = "";
+  String _userType = "";
+  String _phoneNumber = "";
+  String _country = "";
+  String _birthDate = "";
+  String _speciality = "";
+  String _specialityId = "";
+  String _availabilityFrom = "";
+  String _availabilityTo = "";
+  String _specialityDetail = "";
+  String _appointmentFee = "";
+  String _memberShip = "";
+  String _experience = "";
+  String _patients = "";
+  String _reviews = "";
+  String _profileUrl = "";
+  String _rating = "";
+  String _isOnline = "";
+  String _location = "";
+  String _latitude = "";
+  String _longitude = "";
+  String _accountType = "";
   File? _image;
   bool _isDataFetched = true;
   bool _isLoading = false;
 
-  String get doctorName => _doctorName;
-  String get doctorPhone => _doctorPhone;
-  String get doctorCountry => _doctorCountry;
-  String get doctorDOB => _doctorDOB;
-  String get imageUrl => _imageUrl;
-  File? get image => _image;
+  String get name => _name;
+  String get email => _email;
+  String get userType => _userType;
+  String get phoneNumber => _phoneNumber;
+  String get country => _country;
+  String get birthDate => _birthDate;
+  String get speciality => _speciality;
+  String get specialityId => _specialityId;
+  String get availabilityFrom => _availabilityFrom;
+  String get availabilityTo => _availabilityTo;
+  String get specialityDetail => _specialityDetail;
+  String get appointmentFee => _appointmentFee;
+  String get memberShip => _memberShip;
+  String get experience => _experience;
+  String get patients => _patients;
+  String get reviews => _reviews;
+  String get profileUrl => _profileUrl;
+  String get rating => _rating;
+  String get isOnline => _isOnline;
+  String get location => _location;
+  String get latitude => _latitude;
+  String get longitude => _longitude;
+  String get accountType => _accountType;
   bool get isLoading => _isLoading;
   String get doctorEmail => _doctorEmail;
+  File? get image => _image;
+  bool get isDataFetched => _isDataFetched;
 
   Future<void> getSelfInfo() async {
     languageP?.loadSavedLanguage();
@@ -51,13 +93,20 @@ class DoctorProfileProvider extends ChangeNotifier{
         _doctorDOB = value.get("birthDate");
         _imageUrl = value.get("profileUrl");
         nameC.text = _doctorName;
+        _name = value.get("name");
+        _phoneNumber = value.get("phoneNumber");
+        _country = value.get("country");
+        _birthDate = value.get("birthDate");
+        _email = value.get("email");
+        _profileUrl = value.get("profileUrl");
+        nameC.text = _name;
         _isDataFetched = false;
         notifyListeners();
       },);
-      log(_doctorName);
-      log(_doctorPhone);
-      log(_imageUrl);
-      log('Doctor email from fumction is::: ${_doctorEmail}');
+      log(_name);
+      log(_phoneNumber);
+      log(_email);
+      log(_profileUrl);
     }
   }
 
@@ -68,8 +117,8 @@ class DoctorProfileProvider extends ChangeNotifier{
     uploadFile().whenComplete(() {
       fireStore.collection("users").doc(auth.currentUser!.uid).update({
         "name" : nameC.text,
-        "birthDate" : _doctorDOB,
-        "profileUrl" : _imageUrl,
+        "birthDate" : _birthDate,
+        "profileUrl" : _profileUrl,
       })
           .whenComplete(() {
         _isLoading = false;

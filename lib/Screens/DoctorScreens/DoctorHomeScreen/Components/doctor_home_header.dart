@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorNotification/doctor_notification_screen.dart';
 
+import '../../../../Providers/Profile/profile_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
 import '../../../../model/res/widgets/image_loader.dart';
@@ -24,7 +24,7 @@ class DoctorHomeHeader extends StatelessWidget {
         height: 72,
         child: Row(
           children: [
-            Consumer<DoctorProfileProvider>(
+            Consumer<ProfileProvider>(
               builder: (context, value, child) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -35,7 +35,7 @@ class DoctorHomeHeader extends StatelessWidget {
                         color: const Color(0xffCBE2FF),
                         borderRadius: BorderRadius.circular(10)
                     ),
-                    child: ImageLoaderWidget(imageUrl: value.imageUrl)
+                    child: ImageLoaderWidget(imageUrl: value.profileUrl)
                     // value.image != null ? Image.file(
                     //   value.image!,
                     //   fit: BoxFit.cover,)
@@ -44,7 +44,7 @@ class DoctorHomeHeader extends StatelessWidget {
                 );
             },),
             const SizedBox(width: 10,),
-            Consumer<DoctorProfileProvider>(
+            Consumer<ProfileProvider>(
               builder: (context, value, child) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,7 +53,7 @@ class DoctorHomeHeader extends StatelessWidget {
                     SizedBox(
                       width: 40.w,
                       child: TextWidget(
-                          text: "Hi, ${value.doctorName}", fontSize: 20,
+                          text: "Hi, ${value.name}", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor),
                     ),
@@ -65,7 +65,7 @@ class DoctorHomeHeader extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          TextWidget(text: value.doctorCountry, fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
+                          TextWidget(text: value.country, fontSize: 12, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
                           const Icon(Icons.location_on,color: themeColor,size: 20,),
                         ],
                       ),

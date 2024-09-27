@@ -5,7 +5,6 @@ import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 import 'package:tabibinet_project/model/data/faq_model.dart';
 
-import '../../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
 import '../../../../model/res/constant/app_icons.dart';

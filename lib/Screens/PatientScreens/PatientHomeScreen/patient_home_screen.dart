@@ -4,10 +4,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/Profile/profile_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
 import '../../../Providers/Favorite/favorite_doctor_provider.dart';
-import '../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +26,7 @@ class PatientHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<PatientProfileProvider>(context,listen: false).getSelfInfo();
+    Provider.of<ProfileProvider>(context,listen: false).getSelfInfo();
     Provider.of<FavoritesProvider>(context,listen: false).fetchFavoriteDoctors();
     // final appStateProvider = Provider.of<AppStateProvider>(context,listen: false);
     // final lifecycleObserver = AppLifecycleObserver(appStateProvider);

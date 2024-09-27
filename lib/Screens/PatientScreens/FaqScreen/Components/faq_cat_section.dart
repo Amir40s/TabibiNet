@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 
-import '../../../../Providers/PatientProfile/patient_profile_provider.dart';
 import '../../../../constant.dart';
 import '../../FindDoctorScreen/Components/suggestion_container.dart';
 

@@ -4,13 +4,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/Favorite/favorite_doctor_provider.dart';
 
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/DoctorHome/doctor_home_provider.dart';
-import 'Providers/DoctorProfile/doctor_profile_provider.dart';
 import 'Providers/FaqProvider/faq_provider.dart';
+import 'Providers/Favorite/favorite_doctor_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/LabReport/lab_report_provider.dart';
 import 'Providers/Language/language_provider.dart';
@@ -21,8 +20,8 @@ import 'Providers/Onboard/onboard_provider.dart';
 import 'Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'Providers/PatientHome/patient_home_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
-import 'Providers/PatientProfile/patient_profile_provider.dart';
 import 'Providers/PayWall/paywall_provider.dart';
+import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 import 'Providers/SignUp/sign_up_provider.dart';
 import 'Providers/chatProvider/chatProvider.dart';
@@ -78,19 +77,18 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => PatientHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DateProvider(),),
             ChangeNotifierProvider(create: (context) => PatientNotificationProvider(),),
-            ChangeNotifierProvider(create: (context) => PatientProfileProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorHomeProvider(),),
             ChangeNotifierProvider(create: (context) => DoctorAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => MedicineProvider(),),
             ChangeNotifierProvider(create: (context) => PatientAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => FindDoctorProvider(),),
-            ChangeNotifierProvider(create: (context) => DoctorProfileProvider(),),
             ChangeNotifierProvider(create: (context) => FavoritesProvider(),),
             ChangeNotifierProvider(create: (context) => AppStateProvider(),),
             ChangeNotifierProvider(create: (context) => LabReportProvider(),),
             ChangeNotifierProvider(create: (context) => FaqProvider(),),
             ChangeNotifierProvider(create: (context) => MyAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
+            ChangeNotifierProvider(create: (context) => ProfileProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

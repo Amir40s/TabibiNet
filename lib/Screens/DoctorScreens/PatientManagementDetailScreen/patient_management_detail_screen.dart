@@ -30,6 +30,7 @@ import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 class PatientManagementDetailScreen extends StatelessWidget {
    PatientManagementDetailScreen({
     super.key,
+    required this.appointmentId,
     required this.patientName,
     required this.patientAge,
     required this.patientGender,
@@ -39,6 +40,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
     required this.profilePic,
   });
 
+  final String appointmentId;
   final String patientName;
   final String patientAge;
   final String patientGender;
@@ -89,35 +91,37 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     SizedBox(height: height2,),
                     InfoTile(title: patientGender),
                     SizedBox(height: height1,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        PrescriptionContainer(
-                          text: "Manage Patients",
-                          icon: AppIcons.managePatientIcon,
-                          boxColor: const Color(0xff45D0EE),
-                          onTap: () {
-                            Get.to(()=>PatientManagementDataScreen());
-                          },
-                        ),
-                        SizedBox(width: 4.w,),
-                        PrescriptionContainer(
-                          text: "EMR",
-                          icon: AppIcons.emrIcon,
-                          boxColor: const Color(0xffF24C0F),
-                          onTap: () {
-                            Get.to(()=> EmrDetailScreen(
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          PrescriptionContainer(
+                            text: "Manage Patients",
+                            icon: AppIcons.managePatientIcon,
+                            boxColor: const Color(0xff45D0EE),
+                            onTap: () {
+                              Get.to(()=>PatientManagementDataScreen());
+                            },
+                          ),
+                          SizedBox(width: 4.w,),
+                          PrescriptionContainer(
+                            text: "EMR",
+                            icon: AppIcons.emrIcon,
+                            boxColor: const Color(0xffF24C0F),
+                            onTap: () {
+                              Get.to(()=> EmrDetailScreen(
 
-                              patientAge: patientAge,
-                              patientGender: patientGender,
-                              patientName: patientName,
-                              userProblem: userProblem,
+                                patientAge: patientAge,
+                                patientGender: patientGender,
+                                patientName: patientName,
+                                userProblem: userProblem,
 
-                            ));
-                          },
-                        ),
+                              ));
+                            },
+                          ),
 
-                      ],
+                        ],
+                      )
                     ),
                     SizedBox(height: 3.h,),
                     Row(
@@ -137,11 +141,35 @@ class PatientManagementDetailScreen extends StatelessWidget {
                           icon: AppIcons.prescriptionIcon,
                           boxColor: const Color(0xff0596DE),
                           onTap: () {
-                            Get.to(()=>const EPrescriptionDataScreen());
+                            Get.to(()=>const EPrescriptionDataScreen(appointmentId: '',));
                           },
                         ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          PrescriptionContainer(
+                            text: "Results",
+                            icon: AppIcons.resultIcon,
+                            boxColor: const Color(0xffDEBA05),
+                            onTap: () {
+                              Get.to(()=>const PatientLabReportScreen());
+                            },
+                          ),
+                          SizedBox(width: 4.w,),
+                          PrescriptionContainer(
+                            text: "E-prescription",
+                            icon: AppIcons.prescriptionIcon,
+                            boxColor: const Color(0xff0596DE),
+                            onTap: () {
+                              Get.to(()=> EPrescriptionDataScreen(
+                                appointmentId: '',
+                              ));
+                            },
+                          ),
 
-                      ],
+                        ],
+                      )
                     ),
                     SizedBox(height: height1,),
                     Container(
