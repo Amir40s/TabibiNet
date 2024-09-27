@@ -206,7 +206,7 @@ class BookingConfirmedScreen extends StatelessWidget {
                             SubmitButton(
                               title: "Done",
                               press: () async {
-                                await appointmentP.addPatient();
+                                await appointmentP.sendAppointment();
                             },),
                             const SizedBox(height: 20,),
                           ],

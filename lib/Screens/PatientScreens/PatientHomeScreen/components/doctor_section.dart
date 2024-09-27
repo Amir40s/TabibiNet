@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
+import 'package:tabibinet_project/model/res/widgets/no_found_card.dart';
 
 import '../../../../Providers/Favorite/favorite_doctor_provider.dart';
 import '../../../../Providers/PatientAppointment/patient_appointment_provider.dart';
@@ -29,11 +30,10 @@ class DoctorSection extends StatelessWidget {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No users found'));
+              return const NoFoundCard();
             }
 
-            // List of users
-            final users = snapshot.data!;
+            final docs = snapshot.data!;
 
             return Consumer<FavoritesProvider>(
               builder: (context, provider, child) {
@@ -41,41 +41,42 @@ class DoctorSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: users.length,
+                  itemCount: docs.length,
                   itemBuilder: (context, index) {
-                    final user = users[index];
+                    final doc = docs[index];
                     return TopDoctorContainer(
-                      doctorName: user.name,
-                      specialityName: user.speciality,
-                      specialityDetail: user.specialityDetail,
-                      availabilityFrom: user.availabilityFrom,
-                      availabilityTo: user.availabilityTo,
-                      appointmentFee: user.appointmentFee,
-                      imageUrl: user.profileUrl,
-                      rating: user.rating,
-                      isFav: provider.isFavorite(user.userUid),
+                      doctorName: doc.name,
+                      specialityName: doc.speciality,
+                      specialityDetail: doc.specialityDetail,
+                      availabilityFrom: doc.availabilityFrom,
+                      availabilityTo: doc.availabilityTo,
+                      appointmentFee: doc.appointmentFee,
+                      imageUrl: doc.profileUrl,
+                      rating: doc.rating,
+                      isFav: provider.isFavorite(doc.userUid),
                       likeTap: () {
-                        provider.toggleFavorite(user.userUid);
+                        provider.toggleFavorite(doc.userUid);
                       },
                       onTap: () {
                         appointmentScheduleP.setDoctorDetails(
-                            user.userUid,
-                            user.name,
-                            user.location,
-                            user.rating
+                            doc.userUid,
+                            doc.name,
+                            doc.location,
+                            doc.rating,
+                            doc.email
                         );
                         appointmentScheduleP.setAvailabilityTime(
-                            user.availabilityFrom,
-                            user.availabilityTo
+                            doc.availabilityFrom,
+                            doc.availabilityTo
                         );
                         Get.to(()=> DoctorDetailScreen(
-                          doctorName: user.name,
-                          specialityName: user.speciality,
-                          doctorDetail: user.specialityDetail,
-                          yearsOfExperience: user.experience,
-                          patients: user.patients,
-                          reviews: user.reviews,
-                          image: user.profileUrl,
+                          doctorName: doc.name,
+                          specialityName: doc.speciality,
+                          doctorDetail: doc.specialityDetail,
+                          yearsOfExperience: doc.experience,
+                          patients: doc.patients,
+                          reviews: doc.reviews,
+                          image: doc.profileUrl,
                         ));
                       },
                     );

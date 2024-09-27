@@ -13,6 +13,7 @@ class AppointmentModel {
   final String appointmentDate;
   final String doctorId;
   final String doctorName;
+  final String doctorEmail;
   final String doctorRating;
   final String doctorLocation;
   final String image;
@@ -30,6 +31,7 @@ class AppointmentModel {
     required this.id,
     required this.doctorId,
     required this.doctorName,
+    required this.doctorEmail,
     required this.doctorRating,
     required this.doctorLocation,
     required this.patientId,
@@ -68,6 +70,7 @@ class AppointmentModel {
       appointmentDate: data['appointmentDate'] ?? '',
       doctorId: data['doctorId'] ?? '',
       doctorName: data['doctorName'] ?? '',
+      doctorEmail: data['doctorEmail'] ?? '',
       doctorRating: data['doctorRating'] ?? '',
       doctorLocation: data['doctorLocation'] ?? '',
       image: data['image'] ?? '',

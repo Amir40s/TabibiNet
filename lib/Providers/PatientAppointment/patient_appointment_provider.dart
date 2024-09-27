@@ -36,6 +36,7 @@ class PatientAppointmentProvider with ChangeNotifier {
 
   String? _doctorId;
   String? _doctorName;
+  String? _doctorEmail;
   String? _doctorRating;
   String? _doctorLocation;
   String? _fromTime;
@@ -66,6 +67,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   List<String> get filteredTime => _filteredTime;
   String? get doctorId => _doctorId;
   String? get doctorName => _doctorName;
+  String? get doctorEmail => _doctorEmail;
   String? get doctorRating => _doctorRating;
   String? get doctorLocation => _doctorLocation;
   String? get fromTime => _fromTime;
@@ -110,9 +112,10 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDoctorDetails(doctorId,doctorName,doctorLocation,doctorRating){
+  void setDoctorDetails(doctorId,doctorName,doctorLocation,doctorRating,doctorEmail){
     _doctorId = doctorId;
     _doctorName = doctorName;
+    _doctorEmail = doctorEmail;
     _doctorLocation = doctorLocation;
     _doctorRating = doctorRating;
     log(_doctorId.toString());
@@ -158,7 +161,7 @@ class PatientAppointmentProvider with ChangeNotifier {
     });
   }
 
-  Future<void> addPatient() async {
+  Future<void> sendAppointment() async {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
 
     await fireStore.collection("appointment").doc(id).set({
@@ -166,6 +169,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "patientId" : auth.currentUser!.uid,
       "doctorId" : _doctorId,
       "doctorName" : _doctorName,
+      "doctorEmail" : _doctorEmail,
       "doctorRating" : _doctorRating,
       "doctorLocation" : _doctorLocation,
       "name": profileP!.patientName,
