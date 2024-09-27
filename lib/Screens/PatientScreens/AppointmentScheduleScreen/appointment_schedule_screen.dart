@@ -23,22 +23,7 @@ import '../PatientDetailScreen/patient_detail_screen.dart';
 import 'Components/fee_container.dart';
 
 class AppointmentScheduleScreen extends StatelessWidget {
-  AppointmentScheduleScreen({super.key});
-
-  final List<Map<String ,String>> feesList = [
-    {
-      "title" : "Consultancy",
-      "subTitle" : "Book a free consultancy",
-    },
-    {
-      "title" : "Voice Call",
-      "subTitle" : "Can make a voice call with doctor",
-    },
-    {
-      "title" : "Help Center ",
-      "subTitle" : "Contact with Admin if you are facing Any issues",
-    },
-  ];
+  const AppointmentScheduleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

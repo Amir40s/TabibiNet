@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/SpecificDoctorScreen/specific_doctor_screen.dart';
 
 import '../../../../Providers/FindDoctor/find_doctor_provider.dart';
 import '../../../../constant.dart';
@@ -50,7 +52,7 @@ class SpecialitySliderSection extends StatelessWidget {
           final specs = snapshot.data!;
 
           return Consumer<FindDoctorProvider>(
-            builder: (context, value, child) {
+            builder: (context, provider, child) {
               return ListView.builder(
                 padding: const EdgeInsets.only(left: 20),
                 shrinkWrap: true,
@@ -59,11 +61,17 @@ class SpecialitySliderSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final spec = specs[index];
                   // final data = doctorSpecialityList[index];
-                  return DoctorSpecialityContainer(
-                    title: spec.specialty,
-                    subTitle: "",
-                    icon: AppIcons.brainIcon,
-                    boxColor: bgColor,
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(()=>SpecificDoctorScreen(specialityName: spec.specialty,));
+                      provider.setDoctorCategory(index,spec.id,spec.specialty);
+                    },
+                    child: DoctorSpecialityContainer(
+                      title: spec.specialty,
+                      subTitle: "",
+                      icon: AppIcons.brainIcon,
+                      boxColor: bgColor,
+                    ),
                   );
                 },);
             },);

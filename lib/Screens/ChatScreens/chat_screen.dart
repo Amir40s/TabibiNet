@@ -2,14 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen(
-      {super.key,
-      required this.chatRoomId,
-      required this.patientEmail,
-      required this.doctorEmail,
-        required this.patientName});
-
-
+  const ChatScreen({super.key, required this.chatRoomId, required this.patientEmail, required this.doctorEmail, required this.patientName});
   final String chatRoomId;
   final String patientEmail;
   final String patientName;
@@ -33,9 +26,9 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Text(
                   patientName.toString(),
-                  style: const TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18),
                 ),
-                const Text(
+                Text(
                   'Online',
                   style: TextStyle(fontSize: 14, color: Colors.white70),
                 ),
@@ -107,6 +100,7 @@ class ChatScreen extends StatelessWidget {
 
   Widget _buildMessageInput() {
     TextEditingController messageController = TextEditingController();
+
     void sendMessage() async {
       if (messageController.text.isNotEmpty) {
         Map<String, dynamic> messageData = {

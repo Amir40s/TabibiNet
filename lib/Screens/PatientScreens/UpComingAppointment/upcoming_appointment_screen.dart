@@ -86,7 +86,9 @@ class UpComingAppointment extends StatelessWidget {
                                   secondaryButText: "Back to Home",
                                   primaryButTap: () {
                                     Get.back();
-                                    Get.to(()=>CancelAppointmentReasonScreen());
+                                    Get.to(()=>CancelAppointmentReasonScreen(
+                                      appointmentId: appoint.id,
+                                    ));
                                   },
                                 )
                             );
