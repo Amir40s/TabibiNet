@@ -24,6 +24,7 @@ class DoctorProfileProvider extends ChangeNotifier{
   String _doctorCountry = "";
   String _doctorDOB = "";
   String _imageUrl = "";
+  String _doctorEmail = "";
   File? _image;
   bool _isDataFetched = true;
   bool _isLoading = false;
@@ -35,13 +36,16 @@ class DoctorProfileProvider extends ChangeNotifier{
   String get imageUrl => _imageUrl;
   File? get image => _image;
   bool get isLoading => _isLoading;
+  String get doctorEmail => _doctorEmail;
 
   Future<void> getSelfInfo() async {
     languageP?.loadSavedLanguage();
     if(_isDataFetched){
+
       await fireStore.collection("users").doc(auth.currentUser!.uid).get()
           .then((value) {
         _doctorName = value.get("name");
+        _doctorEmail = value.get("email");
         _doctorPhone = value.get("phoneNumber");
         _doctorCountry = value.get("country");
         _doctorDOB = value.get("birthDate");
@@ -53,6 +57,7 @@ class DoctorProfileProvider extends ChangeNotifier{
       log(_doctorName);
       log(_doctorPhone);
       log(_imageUrl);
+      log('Doctor email from fumction is::: ${_doctorEmail}');
     }
   }
 

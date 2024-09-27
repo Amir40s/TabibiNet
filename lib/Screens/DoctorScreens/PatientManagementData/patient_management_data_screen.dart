@@ -112,6 +112,7 @@ class PatientManagementDataScreen extends StatelessWidget {
                                         userProblem: user.patientProblem,
                                       patientEmail: user.patientEmail,
                                       doctorEmail: user.doctorEmail,
+                                      profilePic: user.image,
                                     ));
                                   },)
                               ],

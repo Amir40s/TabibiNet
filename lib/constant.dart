@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'global_provider.dart';
+
 const Color themeColor = Color(0xff0596DE);
 const Color bgColor = Color(0xffFFFFFF);
 const Color textColor = Color(0xff0E0D39);
@@ -22,3 +24,33 @@ const Color red1Color = Color(0xffE30505);
 FirebaseFirestore fireStore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
+
+String? getCurrentUid(){
+  final provider = GlobalProviderAccess.doctorProfilePro;
+  String email = provider!.doctorEmail;
+  return email;
+}
+
+String convertTimestamp(String timestampString) {
+  DateTime parsedTimestamp = parseTimestamp(timestampString);
+  final now = DateTime.now();
+  final difference = now.difference(parsedTimestamp);
+
+  if (difference.inMinutes < 60) {
+    return '${difference.inMinutes}m';
+  } else if (difference.inHours < 24) {
+    return '${difference.inHours}h';
+  } else if (difference.inDays < 30) {
+    return '${difference.inDays}d';
+  } else if (difference.inDays < 365) {
+    final months = difference.inDays ~/ 30;
+    return '${months}mm';
+  } else {
+    final years = difference.inDays ~/ 365;
+    return '${years}y';
+  }
+}
+
+DateTime parseTimestamp(String timestampString) {
+  return DateTime.parse(timestampString);
+}

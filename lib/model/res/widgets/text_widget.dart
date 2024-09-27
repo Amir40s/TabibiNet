@@ -6,9 +6,9 @@ class TextWidget extends StatelessWidget {
       {super.key,
         required this.text,
         required this.fontSize,
-        required this.fontWeight,
-        required this.isTextCenter,
-        required this.textColor,
+        this.fontWeight = FontWeight.normal,
+         this.isTextCenter,
+         this.textColor,
         this.maxLines,
         this.fontFamily = "Regular",
         this.valueKey
@@ -16,8 +16,8 @@ class TextWidget extends StatelessWidget {
   final String text;
   final double fontSize;
   final FontWeight fontWeight;
-  final Color textColor;
-  final bool isTextCenter;
+  final Color? textColor;
+  final bool? isTextCenter;
   final int? maxLines;
   final String fontFamily;
   final ValueKey<int>? valueKey;

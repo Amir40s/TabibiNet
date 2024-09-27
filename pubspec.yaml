@@ -68,6 +68,7 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_local_notifications: ^17.2.2
   shared_preferences: ^2.3.2
+  timeago: ^3.6.1
 #  timezone: ^0.9.4
 
 

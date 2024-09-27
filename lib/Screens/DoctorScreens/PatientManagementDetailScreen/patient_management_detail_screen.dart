@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
 import 'package:tabibinet_project/constant.dart';
@@ -15,6 +18,7 @@ import 'package:tabibinet_project/model/res/widgets/info_tile.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../Providers/chatProvider/chatProvider.dart';
 import '../../../model/data/appointment_model.dart';
 import '../EPrescriptionScreen/Components/prescription_container.dart';
 import '../EPrescription_data/e_prescription_data_screen.dart';
@@ -24,7 +28,7 @@ import '../PatientManagementData/patient_management_data_screen.dart';
 import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 
 class PatientManagementDetailScreen extends StatelessWidget {
-  const PatientManagementDetailScreen({
+   PatientManagementDetailScreen({
     super.key,
     required this.patientName,
     required this.patientAge,
@@ -32,6 +36,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
     required this.userProblem,
     required this.patientEmail,
     required this.doctorEmail,
+    required this.profilePic,
   });
 
   final String patientName;
@@ -40,6 +45,8 @@ class PatientManagementDetailScreen extends StatelessWidget {
   final String userProblem;
   final String patientEmail;
   final String doctorEmail;
+  final String profilePic;
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,63 +89,59 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     SizedBox(height: height2,),
                     InfoTile(title: patientGender),
                     SizedBox(height: height1,),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          PrescriptionContainer(
-                            text: "Manage Patients",
-                            icon: AppIcons.managePatientIcon,
-                            boxColor: const Color(0xff45D0EE),
-                            onTap: () {
-                              Get.to(()=>PatientManagementDataScreen());
-                            },
-                          ),
-                          SizedBox(width: 4.w,),
-                          PrescriptionContainer(
-                            text: "EMR",
-                            icon: AppIcons.emrIcon,
-                            boxColor: const Color(0xffF24C0F),
-                            onTap: () {
-                              Get.to(()=> EmrDetailScreen(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        PrescriptionContainer(
+                          text: "Manage Patients",
+                          icon: AppIcons.managePatientIcon,
+                          boxColor: const Color(0xff45D0EE),
+                          onTap: () {
+                            Get.to(()=>PatientManagementDataScreen());
+                          },
+                        ),
+                        SizedBox(width: 4.w,),
+                        PrescriptionContainer(
+                          text: "EMR",
+                          icon: AppIcons.emrIcon,
+                          boxColor: const Color(0xffF24C0F),
+                          onTap: () {
+                            Get.to(()=> EmrDetailScreen(
 
-                                patientAge: patientAge,
-                                patientGender: patientGender,
-                                patientName: patientName,
-                                userProblem: userProblem,
+                              patientAge: patientAge,
+                              patientGender: patientGender,
+                              patientName: patientName,
+                              userProblem: userProblem,
 
-                              ));
-                            },
-                          ),
+                            ));
+                          },
+                        ),
 
-                        ],
-                      )
+                      ],
                     ),
                     SizedBox(height: 3.h,),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          PrescriptionContainer(
-                            text: "Results",
-                            icon: AppIcons.resultIcon,
-                            boxColor: const Color(0xffDEBA05),
-                            onTap: () {
-                              Get.to(()=>const PatientLabReportScreen());
-                            },
-                          ),
-                          SizedBox(width: 4.w,),
-                          PrescriptionContainer(
-                            text: "E-prescription",
-                            icon: AppIcons.prescriptionIcon,
-                            boxColor: const Color(0xff0596DE),
-                            onTap: () {
-                              Get.to(()=>const EPrescriptionDataScreen());
-                            },
-                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        PrescriptionContainer(
+                          text: "Results",
+                          icon: AppIcons.resultIcon,
+                          boxColor: const Color(0xffDEBA05),
+                          onTap: () {
+                            Get.to(()=>const PatientLabReportScreen());
+                          },
+                        ),
+                        SizedBox(width: 4.w,),
+                        PrescriptionContainer(
+                          text: "E-prescription",
+                          icon: AppIcons.prescriptionIcon,
+                          boxColor: const Color(0xff0596DE),
+                          onTap: () {
+                            Get.to(()=>const EPrescriptionDataScreen());
+                          },
+                        ),
 
-                        ],
-                      )
+                      ],
                     ),
                     SizedBox(height: height1,),
                     Container(
@@ -179,15 +182,18 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       bgColor: bgColor,
                       textColor: themeColor,
                       iconColor: themeColor,
-                      press: () async{
-                        await createChatRoom(doctorEmail, patientEmail);
+                      press: () async{log('CLicked on chat button');
 
-                        Get.to(ChatScreen(
-                          chatRoomId: _getChatRoomId(doctorEmail, patientEmail),
+
+                      final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(patientEmail.toString(),"");                        log("Chat room id is::{$chatRoomId}");
+                      Provider.of<ChatProvider>(context,listen: false).updateMessageStatus(chatRoomId);
+                      Get.to(ChatScreen(
+                          chatRoomId: chatRoomId,
                           patientEmail: patientEmail.toString(),
-                          doctorEmail: doctorEmail.toString(),
                           patientName: patientName.toString(),
+                        profilePic: profilePic,
                         ));
+                        log(chatRoomId);
                       },),
 
                     // SizedBox(height: height1,),
@@ -302,6 +308,10 @@ class PatientManagementDetailScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
   // Function to create chat room
   Future<void> createChatRoom(String doctorEmail, String patientEmail) async {
     final chatRoomId = _getChatRoomId(doctorEmail, patientEmail);

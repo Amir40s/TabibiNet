@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientMessageScreen/patient_message_screen.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../constant.dart';
@@ -32,6 +33,7 @@ class Header extends StatelessWidget {
             InkWell(
               onTap: () {
                 Get.back();
+                // Get.to(ChatListScreen());
               },
               child: Container(
                 height: 40,

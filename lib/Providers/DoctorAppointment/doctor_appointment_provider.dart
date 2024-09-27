@@ -30,6 +30,7 @@ class DoctorAppointmentProvider extends ChangeNotifier{
   }
 
   Stream<List<AppointmentModel>> fetchPatientsSingle() {
+    log("Doctor id is:: ${auth.currentUser!.uid}");
     return fireStore.collection('appointment')
         .where("doctorId",isEqualTo: auth.currentUser!.uid)
         .where("status",isEqualTo: "upcoming")
