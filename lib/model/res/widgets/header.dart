@@ -8,6 +8,7 @@ import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../constant.dart';
 import '../constant/app_fonts.dart';
+import 'image_loader.dart';
 
 
 class Header extends StatelessWidget {
@@ -86,7 +87,8 @@ class Header2 extends StatelessWidget {
 }
 
 class ChatHeader extends StatelessWidget {
-  const ChatHeader({super.key});
+  const ChatHeader({super.key, required this.name, required this.picture});
+  final String name,picture;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,7 @@ class ChatHeader extends StatelessWidget {
                     color: skyBlueColor,
                     borderRadius: BorderRadius.circular(10)
                 ),
-                // child: ImageLoaderWidget(imageUrl: value.imageUrl)
+                child: ImageLoaderWidget(imageUrl: picture)
                 // value.image != null ? Image.file(value.image!, fit: BoxFit.cover,)
                 //     : const SizedBox(),
               ),
@@ -132,8 +134,8 @@ class ChatHeader extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 40.w,
-                  child: const TextWidget(
-                      text: "Michel Reckliff", fontSize: 20,
+                  child:  TextWidget(
+                      text: name, fontSize: 20,
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: bgColor),
                 ),

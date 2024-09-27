@@ -49,13 +49,13 @@ class PatientEditProfileScreen extends StatelessWidget {
                                       SubmitButton(
                                         title: "Gallery",
                                         press: () {
-                                          value.pickImage();
+                                          //value.pickImage();
                                         },),
                                       const SizedBox(height: 20,),
                                       SubmitButton(
                                         title: "Camera",
                                         press: () {
-                                          value.pickImageFromCamera();
+                                          //value.pickImageFromCamera();
                                         },),
                                     ],
                                   ),
@@ -123,7 +123,7 @@ class PatientEditProfileScreen extends StatelessWidget {
                           );
                           if (picked != null) {
                             // Update the selected date in the Provider
-                            value.setDate(picked);
+                            //value.setDate(picked);
                           }
                         },
                         child: Container(
@@ -163,9 +163,9 @@ class PatientEditProfileScreen extends StatelessWidget {
                         title: "Save Changes",
                         press: () {
                           if(value.image != null){
-                            value.updateProfileWithImage();
+                           // value.updateProfileWithImage();
                           }else{
-                            value.updateProfile();
+                           // value.updateProfile();
                           }
                         },);
                     },)

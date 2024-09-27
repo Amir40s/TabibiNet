@@ -26,7 +26,7 @@ FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
 
 String? getCurrentUid(){
-  final provider = GlobalProviderAccess.doctorProfilePro;
+  final provider = GlobalProviderAccess.profilePro;
   String email = provider!.doctorEmail;
   return email;
 }

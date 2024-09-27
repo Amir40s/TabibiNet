@@ -63,7 +63,7 @@ class PatientManagementScreen extends StatelessWidget {
                     icon: AppIcons.prescriptionIcon,
                     boxColor: const Color(0xff0596DE),
                     onTap: () {
-                      Get.to(()=>const EPrescriptionDataScreen());
+                      Get.to(()=>const EPrescriptionDataScreen(appointmentId: '',));
                     },
                   ),
                 ],

@@ -330,8 +330,9 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     // },),
                     SizedBox(height: height1,),
                   ],
-            ))
-          ],
+            )
+            ])
+      )],
         ),
       ),
     );

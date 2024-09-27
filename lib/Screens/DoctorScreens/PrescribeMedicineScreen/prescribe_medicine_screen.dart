@@ -161,7 +161,7 @@ class PrescribeMedicineScreen extends StatelessWidget {
                                 final isSelected = provider.selectRepeat == index;
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectRepeatButton(index);
+                                  //  provider.selectRepeatButton(index);
                                   },
                                   child: SuggestionContainer2(
                                       text: repeat[index],
@@ -191,7 +191,7 @@ class PrescribeMedicineScreen extends StatelessWidget {
                                 final isSelected = provider.selectDay == index;
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectDayButton(index);
+                                    //provider.selectDayButton(index);
                                   },
                                   child: SuggestionContainer2(
                                       text: day[index],
@@ -221,7 +221,7 @@ class PrescribeMedicineScreen extends StatelessWidget {
                                 final isSelected = provider.selectTaken == index;
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectTakenButton(index);
+                                  //  provider.selectTakenButton(index);
                                   },
                                   child: SuggestionContainer2(
                                       text: taken[index],

@@ -76,7 +76,7 @@ class ChatPatientScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const ChatHeader(),
+              ///    const ChatHeader(),
                   Flexible(
                     child: Container(
                       padding: const EdgeInsets.only(top: 20),
