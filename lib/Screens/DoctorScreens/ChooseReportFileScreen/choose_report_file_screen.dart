@@ -49,7 +49,7 @@ class ChooseReportFileScreen extends StatelessWidget {
                   SizedBox(height: height1,),
                   InkWell(
                     onTap: () {
-                      Get.to(()=>const UploadReportFileScreen());
+                      // Get.to(()=>const UploadReportFileScreen());
                     },
                     child: Container(
                       width: 100.w,

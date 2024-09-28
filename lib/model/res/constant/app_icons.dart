@@ -83,5 +83,6 @@ class AppIcons{
   static const String prescriptionIcon = "assets/icons/prescription_icon.png";
   static const String resultIcon = "assets/icons/result_icon.png";
   static const String sendIcon = "assets/icons/send_icon.svg";
+  static const String pdfIcon = "assets/icons/pdf_icon.png";
 
 }

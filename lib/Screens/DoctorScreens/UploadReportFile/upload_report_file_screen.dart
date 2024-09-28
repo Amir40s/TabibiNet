@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/LabReport/lab_report_provider.dart';
+import 'package:tabibinet_project/Providers/Medicine/medicine_provider.dart';
 import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/widgets/dotted_border_container.dart';
@@ -13,10 +14,16 @@ import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
 class UploadReportFileScreen extends StatelessWidget {
-  const UploadReportFileScreen({super.key});
+  const UploadReportFileScreen({
+    super.key,
+    required this.appointmentId
+  });
+
+  final String appointmentId;
 
   @override
   Widget build(BuildContext context) {
+    final medP = Provider.of<MedicineProvider>(context,listen: false);
     double height1 = 20.0;
     double height2 = 10.0;
     return SafeArea(
@@ -36,7 +43,7 @@ class UploadReportFileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
-                  Consumer<LabReportProvider>(
+                  Consumer<MedicineProvider>(
                       builder: (context, value, child) {
                         return InkWell(
                           onTap: () {
@@ -80,12 +87,25 @@ class UploadReportFileScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.regular,),
                   SizedBox(height: height1,),
-                  SubmitButton(
-                    title: "Send Document to Micheal",
-                    press: () {
-                      Get.to(()=>const SuccessScreen(
-                          title: "Document Sent Successfully!",
-                          subTitle: "Document has been sent to the patient"));
+                  Consumer<MedicineProvider>(
+                    builder: (context, value, child) {
+                      return value.isLoading ?
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                        ],
+                      ) :
+                      SubmitButton(
+                        title: "Send Document to Micheal",
+                        press: () {
+                          value.uploadFile(appointmentId)
+                              .whenComplete(() {
+                            Get.off(()=>const SuccessScreen(
+                                title: "Document Sent Successfully!",
+                                subTitle: "Document has been sent to the patient"));
+                          },);
+                        },);
                     },)
                 ],
               ),

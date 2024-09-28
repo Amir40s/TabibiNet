@@ -11,11 +11,13 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../model/res/constant/app_utils.dart';
 import '../../../model/res/widgets/info_tile.dart';
 
 class AppointmentReminderDetailScreen extends StatelessWidget {
-  const AppointmentReminderDetailScreen({
+  AppointmentReminderDetailScreen({
     super.key,
+    required this.email,
     required this.name,
     required this.age,
     required this.gender,
@@ -23,7 +25,9 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
     required this.location,
   });
 
-  final String name,age,gender,time,location;
+  final appUtils = AppUtils();
+
+  final String name,age,gender,time,location,email;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,21 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                       textColor: const Color(0xff04AD01),
                       bdColor: const Color(0xff04AD01),
                       press: () {
-                        Get.to(()=>const ReminderScreen(appBarText: "Send Reminder"));
+                        appUtils.sendReminder(
+                            recipientEmail: email,
+                            messageText: "Hello, Your Time of Appointment"
+                                " is mentions please be on time "
+                                "for doctor appointment",
+                            context: context);
+                        // Get.to(()=> ReminderScreen(
+                        //   appBarText: "Send Reminder",
+                        //   email: email,
+                        //   age: age,
+                        //   gender: gender,
+                        //   name: name,
+                        //   time: time,
+                        //   location: location,
+                        // ));
                     },),
                     SizedBox(height: height1,),
                     SubmitButton(

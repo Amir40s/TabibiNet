@@ -12,10 +12,8 @@ import '../LabReportScreen/lab_report_screen.dart';
 class EPrescriptionDataScreen extends StatelessWidget {
   const EPrescriptionDataScreen({
     super.key,
-    required this.appointmentId
   });
   
-  final String appointmentId;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,7 @@ class EPrescriptionDataScreen extends StatelessWidget {
                                   textColor: themeColor,
                                   bgColor: themeColor.withOpacity(0.1),
                                   press: () {
-                                    Get.to(()=> PrescribeMedicineScreen(isVisible: false,));
+                                    Get.to(()=> PrescribeMedicineScreen(isVisible: false,appointmentId: "",));
                                   },)
                               ],
                             ),
@@ -116,19 +114,5 @@ class EPrescriptionDataScreen extends StatelessWidget {
       ),
     );
   }
-  
-  Future sendPrescription() async {
 
-    final id = DateTime.now().millisecondsSinceEpoch.toString();
-
-    await fireStore.collection("appointment")
-        .doc(appointmentId)
-        .collection("ePrescription").doc(id).set({
-      "tabletName" : "",
-      "numberOfTablets" : "",
-      "repetition" : "",
-      "dayTime" : "",
-    });
-  }
-  
 }

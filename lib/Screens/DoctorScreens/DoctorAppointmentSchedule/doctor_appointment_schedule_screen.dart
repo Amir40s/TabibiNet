@@ -150,7 +150,15 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                           SizedBox(height: height,),
                           DoctorAppointmentButton(
                               onTap: () {
-                                Get.to(()=>const ReminderScreen(appBarText: "SMS Reminder",));
+                                Get.to(()=>const ReminderScreen(
+                                  appBarText: "SMS Reminder",
+                                  email: "email",
+                                  age: "age",
+                                  gender: "gender",
+                                  name: "name",
+                                  time: "time",
+                                  location: "location",
+                                ));
                               },
                               title: "SMS Reminder",
                               icon: AppIcons.smsIcon,

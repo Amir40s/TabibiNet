@@ -57,6 +57,7 @@ class SubmitButton extends StatelessWidget {
             if (title != null)
               Text(
                 title!,
+                maxLines: 2,
                 style: TextStyle(
                     color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
               ),

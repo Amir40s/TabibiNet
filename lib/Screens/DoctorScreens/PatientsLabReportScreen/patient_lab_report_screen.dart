@@ -59,7 +59,7 @@ class PatientLabReportScreen extends StatelessWidget {
                               textColor: themeColor,
                               bgColor: themeColor.withOpacity(0.1),
                               press: () {
-                                Get.to(()=> const LabReportScreen());
+                                // Get.to(()=> const LabReportScreen(date: "",));
                               },)
                           ],
                         ),

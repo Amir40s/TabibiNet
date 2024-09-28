@@ -1,27 +1,29 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/model/res/constant/app_icons.dart';
-import 'package:tabibinet_project/model/res/widgets/dotted_line.dart';
-import 'package:tabibinet_project/model/res/widgets/header.dart';
-import 'package:tabibinet_project/model/res/widgets/info_tile.dart';
-import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
-import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/LabReportScreen/lab_report_screen.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/ResultScreen/result_screen.dart';
 
-import '../../../model/data/appointment_model.dart';
+import '../../../constant.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/dotted_line.dart';
+import '../../../model/res/widgets/header.dart';
+import '../../../model/res/widgets/info_tile.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../../ChatScreens/chat_screen.dart';
 import '../EPrescriptionScreen/Components/prescription_container.dart';
-import '../EPrescription_data/e_prescription_data_screen.dart';
+import '../EmrDetailScreen/Components/medication_list_section.dart';
 import '../EmrDetailScreen/emr_detail_screen.dart';
-import '../EmrScreen/emr_screen.dart';
 import '../PatientManagementData/patient_management_data_screen.dart';
 import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
+import '../PrescribeMedicineScreen/prescribe_medicine_screen.dart';
 
 class PatientManagementDetailScreen extends StatelessWidget {
   const PatientManagementDetailScreen({
@@ -84,16 +86,23 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     SizedBox(height: height2,),
                     InfoTile(title: patientGender),
                     SizedBox(height: height1,),
-                    Expanded(
+                    SizedBox(
+                        width: 100.w,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PrescriptionContainer(
-                            text: "Manage Patients",
+                            text: "Check\nReport",
                             icon: AppIcons.managePatientIcon,
                             boxColor: const Color(0xff45D0EE),
                             onTap: () {
-                              Get.to(()=>PatientManagementDataScreen());
+                              Get.to(()=>LabReportScreen(
+                                date: convertTimeStamp(appointmentId),
+                                appointmentId: appointmentId,
+                                patientName: patientName,
+                                patientAge: patientAge,
+                                patientGender: patientGender,
+                              ));
                             },
                           ),
                           SizedBox(width: 4.w,),
@@ -103,7 +112,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
                             boxColor: const Color(0xffF24C0F),
                             onTap: () {
                               Get.to(()=> EmrDetailScreen(
-
+                                appointmentId: appointmentId,
                                 patientAge: patientAge,
                                 patientGender: patientGender,
                                 patientName: patientName,
@@ -117,16 +126,22 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       )
                     ),
                     SizedBox(height: 3.h,),
-                    Expanded(
+                    SizedBox(
+                      width: 100.w,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PrescriptionContainer(
                             text: "Results",
                             icon: AppIcons.resultIcon,
                             boxColor: const Color(0xffDEBA05),
                             onTap: () {
-                              Get.to(()=>const PatientLabReportScreen());
+                              Get.to(()=> ResultScreen(
+                                  appointmentId: appointmentId,
+                                  patientName: patientName,
+                                  patientAge: patientAge,
+                                  patientGender: patientGender,
+                                  userProblem: userProblem));
                             },
                           ),
                           SizedBox(width: 4.w,),
@@ -135,8 +150,9 @@ class PatientManagementDetailScreen extends StatelessWidget {
                             icon: AppIcons.prescriptionIcon,
                             boxColor: const Color(0xff0596DE),
                             onTap: () {
-                              Get.to(()=> EPrescriptionDataScreen(
-                                appointmentId: ,
+                              Get.to(()=> PrescribeMedicineScreen(
+                                  appointmentId: appointmentId,
+                                  isVisible: true
                               ));
                             },
                           ),
@@ -193,7 +209,10 @@ class PatientManagementDetailScreen extends StatelessWidget {
                           patientName: patientName.toString(),
                         ));
                       },),
-
+                    SizedBox(height: height1,),
+                    MedicationListSection(
+                      appointmentId: appointmentId,
+                    ),
                     // SizedBox(height: height1,),
                     // Container(
                     //   width: 100.w,
@@ -305,6 +324,15 @@ class PatientManagementDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  convertTimeStamp<String>(timestamp) {
+
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp));
+
+    return DateFormat('dd MMM yyyy').format(date);
+
+    // log(formattedDate);
   }
   // Function to create chat room
   Future<void> createChatRoom(String doctorEmail, String patientEmail) async {

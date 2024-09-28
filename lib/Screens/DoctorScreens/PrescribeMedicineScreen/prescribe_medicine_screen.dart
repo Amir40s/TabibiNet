@@ -15,9 +15,17 @@ import '../../../model/res/widgets/text_widget.dart';
 import '../../PatientScreens/FindDoctorScreen/Components/suggestion_container.dart';
 
 class PrescribeMedicineScreen extends StatelessWidget {
-  PrescribeMedicineScreen({super.key,required this.isVisible});
+  PrescribeMedicineScreen({
+    super.key,
+    required this.appointmentId,
+    required this.isVisible
+  });
+
+  final String appointmentId;
 
   final medC = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   final List<String> repeat = [
     "Everyday",
@@ -41,6 +49,7 @@ class PrescribeMedicineScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final medP = Provider.of<MedicineProvider>(context,listen: false);
     double height1 = 20.0;
     double height2 = 10.0;
     return SafeArea(
@@ -60,9 +69,12 @@ class PrescribeMedicineScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor),
                     SizedBox(height: height2,),
-                    InputField(
-                      inputController: medC,
-                      hintText: "medicine Name",
+                    Form(
+                      key: formKey,
+                      child: InputField(
+                        inputController: medP.tabletC,
+                        hintText: "medicine Name",
+                      ),
                     ),
                     SizedBox(height: height1,),
                     Row(
@@ -78,27 +90,40 @@ class PrescribeMedicineScreen extends StatelessWidget {
                             SizedBox(height: height2,),
                             Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: themeColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(6)
-                                  ),
-                                  child: const Icon(CupertinoIcons.minus,color: themeColor,),
-                                ),
-                                const SizedBox(width: 8,),
-                                TextWidget(
-                                    text: "1 Tablet", fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.medium,),
-                                const SizedBox(width: 8,),
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
+                                InkWell(
+                                  onTap: () {
+                                    medP.decDosage();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
                                       color: themeColor.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(6)
+                                    ),
+                                    child: const Icon(CupertinoIcons.minus,color: themeColor,),
                                   ),
-                                  child: const Icon(CupertinoIcons.add,color: themeColor,),
+                                ),
+                                const SizedBox(width: 8,),
+                                Consumer<MedicineProvider>(
+                                  builder: (context, value, child) {
+                                    return TextWidget(
+                                      text: "${value.dosage} Tablet", fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500, isTextCenter: false,
+                                      textColor: textColor, fontFamily: AppFonts.medium,);
+                                  },),
+                                const SizedBox(width: 8,),
+                                InkWell(
+                                  onTap: () {
+                                    medP.addDosage();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: themeColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(6)
+                                    ),
+                                    child: const Icon(CupertinoIcons.add,color: themeColor,),
+                                  ),
                                 ),
                               ],
                             )
@@ -114,27 +139,40 @@ class PrescribeMedicineScreen extends StatelessWidget {
                             SizedBox(height: height2,),
                             Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: themeColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(6)
-                                  ),
-                                  child: const Icon(CupertinoIcons.minus,color: themeColor,),
-                                ),
-                                const SizedBox(width: 8,),
-                                TextWidget(
-                                    text: "1 Week", fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500, isTextCenter: false,
-                                    textColor: textColor, fontFamily: AppFonts.medium,),
-                                const SizedBox(width: 8,),
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
+                                InkWell(
+                                  onTap: () {
+                                    medP.decDuration();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
                                       color: themeColor.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(6)
+                                    ),
+                                    child: const Icon(CupertinoIcons.minus,color: themeColor,),
                                   ),
-                                  child: const Icon(CupertinoIcons.add,color: themeColor,),
+                                ),
+                                const SizedBox(width: 8,),
+                                Consumer<MedicineProvider>(
+                                  builder: (context, value, child) {
+                                    return TextWidget(
+                                      text: "${value.duration} Week", fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500, isTextCenter: false,
+                                      textColor: textColor, fontFamily: AppFonts.medium,);
+                                  },),
+                                const SizedBox(width: 8,),
+                                InkWell(
+                                  onTap: () {
+                                    medP.addDuration();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: themeColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(6)
+                                    ),
+                                    child: const Icon(CupertinoIcons.add,color: themeColor,),
+                                  ),
                                 ),
                               ],
                             )
@@ -158,10 +196,11 @@ class PrescribeMedicineScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: repeat.length,
                               itemBuilder: (context, index) {
-                                final isSelected = provider.selectRepeat == index;
+                                final item = repeat[index];
+                                final isSelected = provider.selectedRepeats.contains(item);
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectRepeatButton(index);
+                                    provider.selectRepeatButton(item);
                                   },
                                   child: SuggestionContainer2(
                                       text: repeat[index],
@@ -188,10 +227,11 @@ class PrescribeMedicineScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: day.length,
                               itemBuilder: (context, index) {
-                                final isSelected = provider.selectDay == index;
+                                final item = day[index];
+                                final isSelected = provider.selectDay.contains(item);
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectDayButton(index);
+                                    provider.selectDayButton(item);
                                   },
                                   child: SuggestionContainer2(
                                       text: day[index],
@@ -218,10 +258,11 @@ class PrescribeMedicineScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: taken.length,
                               itemBuilder: (context, index) {
-                                final isSelected = provider.selectTaken == index;
+                                final item = taken[index];
+                                final isSelected = provider.selectTaken.contains(item);
                                 return GestureDetector(
                                   onTap: () {
-                                    provider.selectTakenButton(index);
+                                    provider.selectTakenButton(item);
                                   },
                                   child: SuggestionContainer2(
                                       text: taken[index],
@@ -235,11 +276,23 @@ class PrescribeMedicineScreen extends StatelessWidget {
                     const SizedBox(height: 30,),
                     Visibility(
                       visible: isVisible,
-                      child: SubmitButton(
-                        title: "Prescribe Medicine ",
-                        press: () {
-
-                      },),
+                      child: Consumer<MedicineProvider>(
+                        builder: (context, value, child) {
+                          return  value.isLoading ?
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(),
+                            ],
+                          ) :
+                          SubmitButton(
+                            title: "Prescribe Medicine ",
+                            press: () {
+                              if(formKey.currentState!.validate()){
+                                value.sendPrescription(appointmentId);
+                              }
+                            },);
+                        },),
                     ),
                     Visibility(
                       visible: !isVisible,

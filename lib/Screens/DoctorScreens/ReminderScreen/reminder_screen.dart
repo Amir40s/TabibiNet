@@ -14,10 +14,17 @@ import '../../SuccessScreen/success_screen.dart';
 class ReminderScreen extends StatelessWidget {
   const ReminderScreen({
     super.key,
-    required this.appBarText
+    required this.appBarText,
+    required this.email,
+    required this.name,
+    required this.age,
+    required this.gender,
+    required this.time,
+    required this.location,
   });
 
-  final String appBarText;
+  final String appBarText,name,age,gender,time,location,email;
+
 
   @override
   Widget build(BuildContext context) {

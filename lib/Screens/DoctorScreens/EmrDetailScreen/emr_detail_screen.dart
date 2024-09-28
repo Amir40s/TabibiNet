@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/EmrDetailScreen/Components/medication_list_section.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/PrescribeMedicineScreen/prescribe_medicine_screen.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/Prescription_creation_screen/prescription_creation_screen.dart';
 
 import '../../../constant.dart';
@@ -15,11 +17,13 @@ import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 
 class EmrDetailScreen extends StatelessWidget {
+  final String appointmentId;
   final String patientName;
   final String patientAge;
   final String patientGender;
   final String userProblem;
   const EmrDetailScreen({super.key,
+    required this.appointmentId,
     required this.patientName,
     required this.patientAge,
     required this.patientGender,
@@ -108,29 +112,7 @@ class EmrDetailScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: height1,),
-                    TextWidget(
-                      text: "Medication List", fontSize: 18.sp,
-                      fontWeight: FontWeight.w600, isTextCenter: false,
-                      textColor: textColor, fontFamily: AppFonts.semiBold,),
-                    SizedBox(height: height1,),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: bgColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: greyColor)
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset(AppIcons.radioOffIcon),
-                        title: TextWidget(
-                          text: "Tab Valsartan 80mg", fontSize: 16.sp,
-                          fontWeight: FontWeight.w500, isTextCenter: false,
-                          textColor: textColor, fontFamily: AppFonts.medium,),
-                        subtitle: TextWidget(
-                          text: "Dosage: 1 q.d - qAM", fontSize: 12.sp,
-                          fontWeight: FontWeight.w400, isTextCenter: false,
-                          textColor: textColor, fontFamily: AppFonts.regular,),
-                      ),
-                    ),
+                    MedicationListSection(appointmentId: appointmentId),
                     SizedBox(height: height1,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,7 +240,9 @@ class EmrDetailScreen extends StatelessWidget {
                       bgColor: bgColor,
                       textColor: themeColor,
                       press: () {
-                        Get.to(()=>PrescriptionCreationScreen());
+                        Get.to(()=>PrescribeMedicineScreen(
+                            appointmentId: appointmentId,
+                            isVisible: true));
                       },),
                     SizedBox(height: height1,),
                   ],

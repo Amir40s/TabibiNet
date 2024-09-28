@@ -1,19 +1,17 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/EPrescriptionScreen/e_prescription_screen.dart';
-import 'package:tabibinet_project/constant.dart';
-import 'package:tabibinet_project/model/data/appointment_model.dart';
-import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
-import 'package:tabibinet_project/model/res/widgets/header.dart';
-import 'package:tabibinet_project/model/res/widgets/info_tile.dart';
-import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
-import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
-
 import '../../../Providers/actionProvider/actionProvider.dart';
+import '../../../constant.dart';
+import '../../../model/data/appointment_model.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/header.dart';
+import '../../../model/res/widgets/info_tile.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
+import '../EPrescriptionScreen/e_prescription_screen.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   SessionDetailScreen({
@@ -152,6 +150,7 @@ class SessionDetailScreen extends StatelessWidget {
       await docRef.set({
         'doctorName': model.doctorName,
         'patientAge': model.patientAge,
+        'patientEmail': model.patientEmail,
         'patientGender': model.patientGender,
         'patientProblem': model.patientProblem,
         'status': status,
@@ -165,4 +164,5 @@ class SessionDetailScreen extends StatelessWidget {
       log('Error uploading reminder: $e');
     }
   }
+
 }

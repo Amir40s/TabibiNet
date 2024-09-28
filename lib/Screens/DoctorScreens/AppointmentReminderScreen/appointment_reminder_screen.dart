@@ -10,8 +10,12 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../model/res/constant/app_utils.dart';
+
 class AppointmentReminderScreen extends StatelessWidget {
-  const AppointmentReminderScreen({super.key});
+  AppointmentReminderScreen({super.key});
+
+  final appUtils = AppUtils();
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +79,7 @@ class AppointmentReminderScreen extends StatelessWidget {
                               bgColor: themeColor.withOpacity(0.1),
                               press: () {
                                 Get.to(()=> AppointmentReminderDetailScreen(
+                                  email: reminder['patientEmail'] ,
                                   name: reminder['doctorName'] ,
                                   age: reminder['patientAge'] ,
                                   gender: reminder['patientGender'] ,

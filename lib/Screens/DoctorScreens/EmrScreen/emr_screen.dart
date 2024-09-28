@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../constant.dart';
@@ -7,7 +6,6 @@ import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
-import '../EmrDetailScreen/emr_detail_screen.dart';
 
 class EmrScreen extends StatelessWidget {
   const EmrScreen({super.key});

@@ -19,7 +19,7 @@ class QuickAccessSection extends StatelessWidget {
       children: [
         QuickAccessContainer(
           onTap: (){
-            Get.to(()=>const AppointmentReminderScreen());
+            Get.to(()=> AppointmentReminderScreen());
           },
           text: 'Appointment\nReminders',
           boxColor: purpleColor,

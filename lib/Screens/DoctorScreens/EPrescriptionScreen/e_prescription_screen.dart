@@ -54,7 +54,10 @@ class EPrescriptionScreen extends StatelessWidget {
                       icon: AppIcons.calculateDosageIcon,
                       boxColor: const Color(0xffDEBA05),
                       onTap: () {
-                        Get.to(()=>PrescribeMedicineScreen(isVisible: true,));
+                        Get.to(()=>PrescribeMedicineScreen(
+                          isVisible: true,
+                          appointmentId: "",
+                        ));
                       },
                     ),
                     PrescriptionContainer(
