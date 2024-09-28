@@ -19,6 +19,12 @@ class ProfileProvider extends ChangeNotifier{
   final TextEditingController nameC = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
+  String _doctorName = "";
+  String _doctorPhone = "";
+  String _doctorCountry = "";
+  String _doctorDOB = "";
+  String _imageUrl = "";
+  String _doctorEmail = "";
   String _name = "";
   String _email = "";
   String _userType = "";
@@ -70,14 +76,23 @@ class ProfileProvider extends ChangeNotifier{
   String get longitude => _longitude;
   String get accountType => _accountType;
   bool get isLoading => _isLoading;
+  String get doctorEmail => _doctorEmail;
   File? get image => _image;
   bool get isDataFetched => _isDataFetched;
 
   Future<void> getSelfInfo() async {
     languageP?.loadSavedLanguage();
     if(_isDataFetched){
+
       await fireStore.collection("users").doc(auth.currentUser!.uid).get()
           .then((value) {
+        _doctorName = value.get("name");
+        _doctorEmail = value.get("email");
+        _doctorPhone = value.get("phoneNumber");
+        _doctorCountry = value.get("country");
+        _doctorDOB = value.get("birthDate");
+        _imageUrl = value.get("profileUrl");
+        nameC.text = _doctorName;
         _name = value.get("name");
         _phoneNumber = value.get("phoneNumber");
         _country = value.get("country");
@@ -114,6 +129,20 @@ class ProfileProvider extends ChangeNotifier{
 
   }
 
+  Future<void> updateProfile()async{
+    _isLoading = true;
+    notifyListeners();
+    await fireStore.collection("users").doc(auth.currentUser!.uid).update({
+      "name" : nameC.text,
+      "birthDate" : _doctorDOB,
+    })
+        .whenComplete(() {
+          _isLoading = false;
+          ToastMsg().toastMsg("Profile Update Successfully!");
+          notifyListeners();
+    },);
+  }
+
   Future<void> uploadFile() async {
     _isLoading = true;
     notifyListeners();
@@ -121,7 +150,7 @@ class ProfileProvider extends ChangeNotifier{
     try {
       String? url = await _cloudinaryService.uploadFile(_image!);
       if (url != null) {
-        _profileUrl = url;
+        _imageUrl = url;
         log("message:: $url");
         notifyListeners();
       }
@@ -131,20 +160,6 @@ class ProfileProvider extends ChangeNotifier{
       _isLoading = false;
       notifyListeners();
     }
-  }
-
-  Future<void> updateProfile()async{
-    _isLoading = true;
-    notifyListeners();
-    await fireStore.collection("users").doc(auth.currentUser!.uid).update({
-      "name" : nameC.text,
-      "birthDate" : _birthDate,
-    })
-        .whenComplete(() {
-      _isLoading = false;
-      ToastMsg().toastMsg("Profile Update Successfully!");
-      notifyListeners();
-    },);
   }
 
   Future<void> pickImage() async {
@@ -167,7 +182,7 @@ class ProfileProvider extends ChangeNotifier{
 
   void setDate(DateTime date) {
     String format = DateFormat('yyyy-MM-dd').format(date);
-    _birthDate = format;
+    _doctorDOB = format;
     notifyListeners(); // Notify listeners when the date is updated
   }
 
@@ -177,3 +192,18 @@ class ProfileProvider extends ChangeNotifier{
   }
 
 }
+
+
+//FilePickerResult? result = await FilePicker.platform.pickFiles(
+//       type: FileType.image,
+//       allowedExtensions: ['png',],
+//     );
+//
+//     if (result != null) {
+//       // Handle the file selection here
+//       // Example: Access the file using result.files.first
+//       print('File selected: ${result.files.first.name}');
+//     } else {
+//       // User canceled the picker
+//       print('File selection canceled');
+//     }

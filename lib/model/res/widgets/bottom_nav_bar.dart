@@ -80,7 +80,7 @@ class CustomBottomNavBar2 extends StatelessWidget {
             buildNavItem(context, AppIcons.bottom_5, 0),
             buildNavItem(context, AppIcons.bottom_6, 1),
             buildNavItem(context, AppIcons.bottom_7, 2),
-            buildNavItem(context, AppIcons.bottom_8, 3),
+            buildNavItem(context, AppIcons.chat, 3),
           ],
         ),
       ),

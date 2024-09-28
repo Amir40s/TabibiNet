@@ -1,53 +1,163 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tabibinet_project/Screens/ChatScreens/chat_patient_screen.dart';
+import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
+import 'package:tabibinet_project/Screens/ChatScreens/search_controller.dart';
+import 'package:tabibinet_project/constant.dart';
 
-import '../../../Providers/Profile/profile_provider.dart';
+import '../../../Providers/chatProvider/chatProvider.dart';
+import '../../../model/data/chatModel/chatRoomModel.dart';
+import '../../../model/data/chatModel/userChatModel.dart';
 import '../../../model/res/widgets/chat_user_card.dart';
 import '../../../model/res/widgets/header.dart';
+import '../../../model/res/widgets/image_loader.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
-class PatientMessageScreen extends StatelessWidget {
-  const PatientMessageScreen({super.key});
-
-  // Stream<List<AppointmentModel>> fetchPatientsSingle() {
-  //   return fireStore.collection('appointment')
-  //       .where("doctorId",isEqualTo: auth.currentUser!.uid)
-  //       .where("status",isEqualTo: "upcoming")
-  //       .snapshots().map((snapshot) {
-  //     return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
-  //   });
-  // }
+class ChatListScreen extends StatelessWidget {
+  const ChatListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final patientP = Provider.of<ProfileProvider>(context,listen: false);
+    final controller = Get.put(ChatSearchController());
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
             const Header2(text: "Message"),
             Expanded(
-                child: Consumer<ProfileProvider>(
-                  builder: (context, value, child) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        // final chat = chats[index];
-                        return InkWell(
-                          onTap: () {
-                            Get.to(()=>ChatPatientScreen());
-                          },
-                          child: ChatUserCard(
-                            title: "Farhan",
-                            subTitle: "Hi How are you?",
-                            trailingText: "7 Nov",
-                          ),
-                        );
-                      },
-                    );
-                  },)
+                child: Consumer<ChatProvider>(
+                  builder: (context, chatProvider, _) {
+                    return Obx(() {
+                      final searchQuery = controller.searchQuery.value.toLowerCase();
+                      return StreamBuilder<List<ChatRoomModel>>(
+                        stream: chatProvider.getChatRoomsStream(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Text('No chats available'.tr),
+                            );
+                          }
+
+                          var chatRooms = snapshot.data!
+                              .where((chatRoom) {
+                            var otherUserEmail = chatRoom.users
+                                .firstWhere((user) => user != getCurrentUid().toString());
+                            var otherUser = chatProvider.users.firstWhere(
+                                  (user) => user.email == otherUserEmail,
+                              orElse: () => UserchatModel(
+                                id: '',
+                                name: 'Unknown',
+                                email: otherUserEmail,
+                                profileUrl: '',
+                                userUid: '',
+                              ),
+                            );
+                            return otherUser.name.toLowerCase().contains(searchQuery);
+                          }).toList();
+
+                          if (chatRooms.isEmpty) {
+                            return const Center(
+                              child: Text('No chats match the search criteria'),
+                            );
+                          }
+
+                          return ListView.separated(
+                            itemCount: chatRooms.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              if (index >= chatRooms.length) {
+                                return const SizedBox.shrink();
+                              }
+                              final chatRoom = chatRooms[index];
+                              final unreadCount = chatProvider.unreadMessageCounts[chatRoom.id] ?? 0;
+                              var otherUserEmail = chatRoom.users
+                                  .firstWhere((user) => user != getCurrentUid().toString());
+                              var lastMessage = chatRoom.lastMessage;
+                              var timeStamp = chatRoom.lastTimestamp;
+
+                              var otherUser = chatProvider.users.firstWhere(
+                                    (user) => user.email == otherUserEmail,
+                                orElse: () => UserchatModel(
+                                  id: '',
+                                  name: 'Unknown',
+                                  email: otherUserEmail,
+                                  profileUrl: '',
+                                  userUid: '',
+                                ),
+                              );
+
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: ImageLoaderWidget(imageUrl: otherUser.profileUrl),
+                                  ),
+                                ),
+                                title: TextWidget(
+                                  text: otherUser.name,
+                                  fontSize: 14.0,
+                                  textColor: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                subtitle: TextWidget(
+                                  text: lastMessage ?? '',
+                                  fontSize: 12.0,
+                                  textColor: Colors.grey,
+                                ),
+                                trailing: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      text: timeStamp != null ? convertTimestamp(timeStamp.toString()) : '',
+                                      fontSize: 12.0,
+                                      textColor: Colors.black,
+                                    ),
+                                    const SizedBox(height: 10.0),
+                                    unreadCount > 0
+                                        ? CircleAvatar(
+                                      radius: 7,
+                                      backgroundColor: themeColor,
+                                    )
+                                        : const SizedBox.shrink(),
+                                  ],
+                                ),
+                                onTap: () async {
+                                  final chatRoomId = await context
+                                      .read<ChatProvider>()
+                                      .createOrGetChatRoom(otherUser.email, "");
+                                  // final userBlockStatus = await context
+                                  //     .read<ChatProvider>()
+                                  //     .getUserStatus(chatRoomId);
+                                  context.read<ChatProvider>().updateMessageStatus(chatRoomId);
+
+                                  Get.to(() => ChatScreen(
+                                    patientName: otherUser.name,
+                                   profilePic : otherUser.profileUrl,
+                                    patientEmail: otherUser.email,
+                                    chatRoomId: chatRoomId,
+                                  ));
+                                  // await chatProvider.getUnreadMessageCount(chatRoom.id);
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                color: Colors.grey,
+                              );
+                            },
+                          );
+                        },
+                      );
+                    });
+                  },
+                ),
             )
           ],
         ),
@@ -55,41 +165,3 @@ class PatientMessageScreen extends StatelessWidget {
     );
   }
 }
-//StreamBuilder(
-//                       stream: fireStore.collection("chatRooms")
-//                           .where("patientEmail",isEqualTo: patientP.email).snapshots(),
-//                       builder: (context, snapshot) {
-//
-//                         if (snapshot.connectionState == ConnectionState.waiting) {
-//                           return const Center(child: CircularProgressIndicator());
-//                         }
-//                         if (snapshot.hasError) {
-//                           return Center(child: Text('Error: ${snapshot.error}'));
-//                         }
-//                         if (!snapshot.hasData) {
-//                           return const NoFoundCard();
-//                         }
-//
-//                         // List of users
-//                         final chats = snapshot.data!.docs;
-//
-//                         return ListView.builder(
-//                           shrinkWrap: true,
-//                           itemCount: chats.length,
-//                           itemBuilder: (context, index) {
-//                             final chat = chats[index];
-//                             return InkWell(
-//                               onTap: () {
-//                                 // Get.to(()=>ChatScreen(
-//                                 //
-//                                 // ));
-//                               },
-//                               child: ChatUserCard(
-//                                 title: "chat[""]",
-//                                 subTitle: chat["message"],
-//                                 trailingText: "7 Nov",
-//                               ),
-//                             );
-//                           },
-//                         );
-//                       },)

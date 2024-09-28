@@ -26,7 +26,7 @@ class PatientBottomNavBar extends StatelessWidget {
             index: value.currentIndex,
             children: const [
               PatientHomeScreen(),
-              PatientMessageScreen(),
+              ChatListScreen(),
               NotificationScreen(),
               PatientProfileScreen()
             ],

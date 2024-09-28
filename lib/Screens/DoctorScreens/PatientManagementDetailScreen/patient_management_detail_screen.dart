@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/LabReportScreen/lab_report_screen.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/ResultScreen/result_screen.dart';
@@ -18,6 +20,8 @@ import '../../../model/res/widgets/info_tile.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../ChatScreens/chat_screen.dart';
+import '../../../Providers/chatProvider/chatProvider.dart';
+import '../../../model/data/appointment_model.dart';
 import '../EPrescriptionScreen/Components/prescription_container.dart';
 import '../EmrDetailScreen/Components/medication_list_section.dart';
 import '../EmrDetailScreen/emr_detail_screen.dart';
@@ -26,7 +30,7 @@ import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 import '../PrescribeMedicineScreen/prescribe_medicine_screen.dart';
 
 class PatientManagementDetailScreen extends StatelessWidget {
-  const PatientManagementDetailScreen({
+   PatientManagementDetailScreen({
     super.key,
     required this.appointmentId,
     required this.patientName,
@@ -35,6 +39,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
     required this.userProblem,
     required this.patientEmail,
     required this.doctorEmail,
+    required this.profilePic,
   });
 
   final String appointmentId;
@@ -44,6 +49,8 @@ class PatientManagementDetailScreen extends StatelessWidget {
   final String userProblem;
   final String patientEmail;
   final String doctorEmail;
+  final String profilePic;
+
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +206,13 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       bgColor: bgColor,
                       textColor: themeColor,
                       iconColor: themeColor,
-                      press: () async{
-                        await createChatRoom(doctorEmail, patientEmail);
+                      press: () async{log('CLicked on chat button');
 
-                        Get.to(ChatScreen(
-                          chatRoomId: _getChatRoomId(doctorEmail, patientEmail),
+
+                      final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(patientEmail.toString(),"");                        log("Chat room id is::{$chatRoomId}");
+                      Provider.of<ChatProvider>(context,listen: false).updateMessageStatus(chatRoomId);
+                      Get.to(ChatScreen(
+                          chatRoomId: chatRoomId,
                           patientEmail: patientEmail.toString(),
                           doctorEmail: doctorEmail.toString(),
                           patientName: patientName.toString(),
@@ -319,8 +328,9 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     // },),
                     SizedBox(height: height1,),
                   ],
-            ))
-          ],
+            )
+            ])
+      )],
         ),
       ),
     );
@@ -334,6 +344,10 @@ class PatientManagementDetailScreen extends StatelessWidget {
 
     // log(formattedDate);
   }
+
+
+
+
   // Function to create chat room
   Future<void> createChatRoom(String doctorEmail, String patientEmail) async {
     final chatRoomId = _getChatRoomId(doctorEmail, patientEmail);

@@ -70,6 +70,7 @@ dependencies:
   shared_preferences: ^2.3.2
   webview_flutter: ^3.0.2
   url_launcher: ^6.0.20
+  timeago: ^3.6.1
 #  timezone: ^0.9.4
 
 
