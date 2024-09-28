@@ -25,22 +25,22 @@ class QuickAccessSection extends StatelessWidget {
           boxColor: purpleColor,
           icon: AppIcons.docIcon,
         ),
-        QuickAccessContainer(
-          onTap: (){
-            Get.to(()=>ConsultationScreen());
-          },
-          text: 'Teleconsultations',
-          boxColor: lightRedColor,
-          icon: AppIcons.patientIcon,
-        ),
-        QuickAccessContainer(
-          onTap: (){
-
-          },
-          text: 'DocShare',
-          boxColor: themeColor,
-          icon: AppIcons.docShareIcon,
-        ),
+        // QuickAccessContainer(
+        //   onTap: (){
+        //     Get.to(()=>ConsultationScreen());
+        //   },
+        //   text: 'Teleconsultations',
+        //   boxColor: lightRedColor,
+        //   icon: AppIcons.patientIcon,
+        // ),
+        // QuickAccessContainer(
+        //   onTap: (){
+        //
+        //   },
+        //   text: 'DocShare',
+        //   boxColor: themeColor,
+        //   icon: AppIcons.docShareIcon,
+        // ),
       ],
     );
   }

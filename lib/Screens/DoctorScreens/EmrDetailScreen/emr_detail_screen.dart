@@ -114,127 +114,8 @@ class EmrDetailScreen extends StatelessWidget {
                     SizedBox(height: height1,),
                     MedicationListSection(appointmentId: appointmentId),
                     SizedBox(height: height1,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextWidget(
-                          text: "Medication Reports", fontSize: 18.sp,
-                          fontWeight: FontWeight.w600, isTextCenter: false,
-                          textColor: textColor, fontFamily: AppFonts.semiBold,),
-                        TextWidget(
-                          text: "Download", fontSize: 14.sp,
-                          fontWeight: FontWeight.w500, isTextCenter: false,
-                          textColor: themeColor, fontFamily: AppFonts.regular,),
-                      ],
-                    ),
-                    SizedBox(height: height1,),
-                    Container(
-                      width: 100.w,
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: const Color(0xffE6F5FC),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: greyColor,
-                                blurRadius: 1,
-                                spreadRadius: .5
-                            )
-                          ]
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 65.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: bgColor,
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: TextWidget(
-                                  text: "Stool for E.coli", fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500, isTextCenter: false,
-                                  textColor: textColor, fontFamily: AppFonts.medium,),
-                              ),
-                              Container(
-                                width: 14.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: redColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height2,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 65.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: bgColor,
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: TextWidget(
-                                  text: "Lipid Profile", fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500, isTextCenter: false,
-                                  textColor: textColor, fontFamily: AppFonts.medium,),
-                              ),
-                              Container(
-                                width: 14.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: redColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height2,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 65.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: bgColor,
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: TextWidget(
-                                  text: "Fasting Blood Glucose", fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500, isTextCenter: false,
-                                  textColor: textColor, fontFamily: AppFonts.medium,),
-                              ),
-                              Container(
-                                width: 14.w,
-                                height: 60,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: redColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: height1,),
+
+
                     SubmitButton(
                       title: "Write Prescription",
                       bgColor: bgColor,
@@ -253,3 +134,124 @@ class EmrDetailScreen extends StatelessWidget {
     );
   }
 }
+//Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: [
+//                         TextWidget(
+//                           text: "Medication Reports", fontSize: 18.sp,
+//                           fontWeight: FontWeight.w600, isTextCenter: false,
+//                           textColor: textColor, fontFamily: AppFonts.semiBold,),
+//                         TextWidget(
+//                           text: "Download", fontSize: 14.sp,
+//                           fontWeight: FontWeight.w500, isTextCenter: false,
+//                           textColor: themeColor, fontFamily: AppFonts.regular,),
+//                       ],
+//                     ),
+//                     SizedBox(height: height1,),
+//Container(
+//                       width: 100.w,
+//                       padding: const EdgeInsets.all(15),
+//                       decoration: BoxDecoration(
+//                           color: const Color(0xffE6F5FC),
+//                           borderRadius: BorderRadius.circular(20),
+//                           boxShadow: const [
+//                             BoxShadow(
+//                                 color: greyColor,
+//                                 blurRadius: 1,
+//                                 spreadRadius: .5
+//                             )
+//                           ]
+//                       ),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             children: [
+//                               Container(
+//                                 width: 65.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: bgColor,
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: TextWidget(
+//                                   text: "Stool for E.coli", fontSize: 18.sp,
+//                                   fontWeight: FontWeight.w500, isTextCenter: false,
+//                                   textColor: textColor, fontFamily: AppFonts.medium,),
+//                               ),
+//                               Container(
+//                                 width: 14.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: redColor.withOpacity(0.1),
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
+//                               ),
+//                             ],
+//                           ),
+//                           SizedBox(height: height2,),
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             children: [
+//                               Container(
+//                                 width: 65.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: bgColor,
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: TextWidget(
+//                                   text: "Lipid Profile", fontSize: 18.sp,
+//                                   fontWeight: FontWeight.w500, isTextCenter: false,
+//                                   textColor: textColor, fontFamily: AppFonts.medium,),
+//                               ),
+//                               Container(
+//                                 width: 14.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: redColor.withOpacity(0.1),
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
+//                               ),
+//                             ],
+//                           ),
+//                           SizedBox(height: height2,),
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             children: [
+//                               Container(
+//                                 width: 65.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: bgColor,
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: TextWidget(
+//                                   text: "Fasting Blood Glucose", fontSize: 18.sp,
+//                                   fontWeight: FontWeight.w500, isTextCenter: false,
+//                                   textColor: textColor, fontFamily: AppFonts.medium,),
+//                               ),
+//                               Container(
+//                                 width: 14.w,
+//                                 height: 60,
+//                                 padding: const EdgeInsets.all(15),
+//                                 decoration: BoxDecoration(
+//                                   color: redColor.withOpacity(0.1),
+//                                   borderRadius: BorderRadius.circular(10)
+//                                 ),
+//                                 child: const Icon(CupertinoIcons.delete,color: redColor,size: 30,),
+//                               ),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(height: height1,),

@@ -214,8 +214,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
                       Get.to(ChatScreen(
                           chatRoomId: chatRoomId,
                           patientEmail: patientEmail.toString(),
-                          doctorEmail: doctorEmail.toString(),
-                          patientName: patientName.toString(),
+                          patientName: patientName.toString(), profilePic: profilePic,
                         ));
                       },),
                     SizedBox(height: height1,),
@@ -329,11 +328,10 @@ class PatientManagementDetailScreen extends StatelessWidget {
                     SizedBox(height: height1,),
                   ],
             )
-            ])
-      )],
-        ),
-      ),
-    );
+            )]
+            )
+      )
+        );
   }
 
   convertTimeStamp<String>(timestamp) {

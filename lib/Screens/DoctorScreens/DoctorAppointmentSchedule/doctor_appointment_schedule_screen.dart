@@ -138,41 +138,18 @@ class DoctorAppointmentSchedule extends StatelessWidget {
                         month: DateTime.now(),
                     ),
                     SizedBox(height: height,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
                         children: [
-                          const DoctorAppointmentButton(
-                              title: "Smart Agenda",
-                              icon: AppIcons.agendaIcon,
-                              buttonColor: Color(0xff45D0EE)
-                          ),
-                          SizedBox(height: height,),
-                          DoctorAppointmentButton(
-                              onTap: () {
-                                Get.to(()=>const ReminderScreen(
-                                  appBarText: "SMS Reminder",
-                                  email: "email",
-                                  age: "age",
-                                  gender: "gender",
-                                  name: "name",
-                                  time: "time",
-                                  location: "location",
-                                ));
-                              },
-                              title: "SMS Reminder",
-                              icon: AppIcons.smsIcon,
-                              buttonColor: const Color(0xffF24C0F)
-                          ),
-                          SizedBox(height: height,),
-                          const Row(
+                          Row(
                             children: [
                               TextWidget(
                                 text: "Appointments ", fontSize: 20,
                                 fontWeight: FontWeight.w600, isTextCenter: false,
                                 textColor: textColor,fontFamily: AppFonts.semiBold,),
                               TextWidget(
-                                text: "(2)", fontSize: 16,
+                                text: "", fontSize: 16,
                                 fontWeight: FontWeight.w600, isTextCenter: false,
                                 textColor: Colors.grey,fontFamily: AppFonts.semiBold,)
                             ],
@@ -272,3 +249,26 @@ class DoctorAppointmentSchedule extends StatelessWidget {
   }
 }
 
+//const DoctorAppointmentButton(
+//                               title: "Smart Agenda",
+//                               icon: AppIcons.agendaIcon,
+//                               buttonColor: Color(0xff45D0EE)
+//                           ),
+//                           SizedBox(height: height,),
+//                           DoctorAppointmentButton(
+//                               onTap: () {
+//                                 Get.to(()=>const ReminderScreen(
+//                                   appBarText: "SMS Reminder",
+//                                   email: "email",
+//                                   age: "age",
+//                                   gender: "gender",
+//                                   name: "name",
+//                                   time: "time",
+//                                   location: "location",
+//                                 ));
+//                               },
+//                               title: "SMS Reminder",
+//                               icon: AppIcons.smsIcon,
+//                               buttonColor: const Color(0xffF24C0F)
+//                           ),
+//                           SizedBox(height: height,),

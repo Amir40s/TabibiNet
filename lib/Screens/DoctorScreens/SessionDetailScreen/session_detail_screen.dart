@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../../Providers/actionProvider/actionProvider.dart';
 import '../../../constant.dart';
 import '../../../model/data/appointment_model.dart';
@@ -156,7 +157,9 @@ class SessionDetailScreen extends StatelessWidget {
         'status': status,
         'id': timeStamp,
         'location': model.doctorLocation,
-      });
+      }).whenComplete(() {
+        ToastMsg().toastMsg("Patient Add to Reminder Screen");
+      },);
       ActionProvider.stopLoading();
       log('Reminder uploaded successfully');
     } catch (e) {

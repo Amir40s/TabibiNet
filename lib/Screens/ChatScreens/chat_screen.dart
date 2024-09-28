@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
@@ -361,7 +362,7 @@ class ChatScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.photo, color: themeColor),
             onPressed: () {
-              _uploadPhoto(context);
+              requestGalleryPermission(context);
             },
           ),
           IconButton(
@@ -501,4 +502,24 @@ class ChatScreen extends StatelessWidget {
       );
     }
   }
+
+   Future<void> requestGalleryPermission(context) async {
+     var status = await Permission.photos.status;
+     if (!status.isGranted) {
+       // Request permission
+       if (await Permission.photos.request().isGranted) {
+         _uploadPhoto(context);
+         // Permission granted, proceed with gallery access
+         // print("Gallery permission granted");
+       } else {
+         // Permission denied
+         // print("Gallery permission denied");
+       }
+     } else {
+       // Permission already granted
+       // print("Gallery permission already granted");
+     }
+   }
+
+
 }
