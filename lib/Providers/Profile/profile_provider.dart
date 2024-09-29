@@ -121,8 +121,9 @@ class ProfileProvider extends ChangeNotifier{
         "birthDate" : _birthDate,
         "profileUrl" : _profileUrl,
       })
-          .whenComplete(() {
+          .whenComplete(() async{
         _isLoading = false;
+        await getSelfInfo();
         ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
