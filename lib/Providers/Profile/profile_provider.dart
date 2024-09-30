@@ -120,8 +120,9 @@ class ProfileProvider extends ChangeNotifier{
         "birthDate" : _birthDate,
         "profileUrl" : _profileUrl,
       })
-          .whenComplete(() {
+          .whenComplete(() async{
         _isLoading = false;
+        await getSelfInfo();
         ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
@@ -136,8 +137,9 @@ class ProfileProvider extends ChangeNotifier{
       "name" : nameC.text,
       "birthDate" : _doctorDOB,
     })
-        .whenComplete(() {
+        .whenComplete(() async{
           _isLoading = false;
+          await getSelfInfo();
           ToastMsg().toastMsg("Profile Update Successfully!");
           notifyListeners();
     },);
@@ -189,6 +191,43 @@ class ProfileProvider extends ChangeNotifier{
   void clearImage() {
     _image = null;
     notifyListeners();
+  }
+
+  //clear all when sign out
+  void clearAll() {
+    _doctorName = "";
+    _doctorPhone = "";
+    _doctorCountry = "";
+    _doctorDOB = "";
+    _imageUrl = "";
+    _doctorEmail = "";
+    _name = "";
+    _email = "";
+    _userType = "";
+    _phoneNumber = "";
+    _country = "";
+    _birthDate = "";
+    _speciality = "";
+    _specialityId = "";
+    _availabilityFrom = "";
+    _availabilityTo = "";
+    _specialityDetail = "";
+    _appointmentFee = "";
+    _memberShip = "";
+    _experience = "";
+    _patients = "";
+    _reviews = "";
+    _profileUrl = "";
+    _rating = "";
+    _isOnline = "";
+    _location = "";
+    _latitude = "";
+    _longitude = "";
+    _accountType = "";
+    _isDataFetched = true;
+    _isLoading = false;
+    _image = null;
+    notifyListeners(); // Notify listeners when data is cleared
   }
 
 }
