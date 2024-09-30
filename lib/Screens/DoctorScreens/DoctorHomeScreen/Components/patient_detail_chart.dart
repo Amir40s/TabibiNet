@@ -56,7 +56,7 @@ class PatientDetailChart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildDetailItem(Colors.lightBlueAccent, "Today's Patient", "03"),
+                    buildDetailItem(Colors.lightBlueAccent, "Total Patient", "03"),
                     buildDetailItem(Colors.red, "Prescription sent", "04"),
                     buildDetailItem(Colors.yellow, "Documents shared", "22"),
                   ],
