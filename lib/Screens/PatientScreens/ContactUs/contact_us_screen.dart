@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 class ContactUsScreen extends StatelessWidget {
   ContactUsScreen({super.key});
 
   final nameC = TextEditingController();
+  final phoneC = TextEditingController();
+  final problemC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +51,7 @@ class ContactUsScreen extends StatelessWidget {
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),
                   InputField(
-                    inputController: nameC,
+                    inputController: phoneC,
                     hintText: "Phone Number",
                   ),
                   SizedBox(height: height1,),
@@ -63,7 +70,7 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: height2,),
                   InputField(
-                    inputController: nameC,
+                    inputController: problemC,
                     hintText: "Tell doctor about your problem....",
                     maxLines: 5,
                   ),
@@ -76,7 +83,25 @@ class ContactUsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: SubmitButton(
             title: "Send Massage",
-            press: () {
+            press: () async {
+
+              final chatP = GlobalProviderAccess.chatProvider;
+
+              final chatRoomId = await chatP!.createOrGetChatRoom(
+                  "admin@tabibinet.com", ""
+              );
+
+            Get.to(ChatScreen(
+                chatRoomId: chatRoomId,
+                patientEmail: "admin@tabibinet.com",
+                patientName: "Customer Support",
+                profilePic: "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
+              type: "support",
+              name: nameC.text.toString(),
+              phone: phoneC.text.toString(),
+              problem: problemC.text.toString(),
+            ));
+
 
           },),
         ),

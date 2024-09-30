@@ -51,7 +51,7 @@ class ChatListScreen extends StatelessWidget {
                                   (user) => user.email == otherUserEmail,
                               orElse: () => UserchatModel(
                                 id: '',
-                                name: 'Unknown',
+                                name: 'Support',
                                 email: otherUserEmail,
                                 profileUrl: '',
                                 userUid: '',
@@ -108,6 +108,7 @@ class ChatListScreen extends StatelessWidget {
                                 subtitle: TextWidget(
                                   text: lastMessage ?? '',
                                   fontSize: 12.0,
+                                  maxLines: 1,
                                   textColor: Colors.grey,
                                 ),
                                 trailing: Column(
