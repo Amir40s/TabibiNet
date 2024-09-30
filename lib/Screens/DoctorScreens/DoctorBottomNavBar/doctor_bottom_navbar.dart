@@ -26,7 +26,7 @@ class DoctorBottomNavbar extends StatelessWidget {
             return IndexedStack(
               index: value.currentIndex,
               children: [
-                const DoctorHomeScreen(),
+                 DoctorHomeScreen(),
                 DoctorAppointmentSchedule(),
                 PatientManagementDataScreen(),
                 //const PatientManagementScreen(),
