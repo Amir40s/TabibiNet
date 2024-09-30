@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/Language/language_provider.dart';
 import '../../../constant.dart';
 
 class SubmitButton extends StatelessWidget {
@@ -55,12 +57,14 @@ class SubmitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (title != null)
-              Text(
-                title!,
-                maxLines: 2,
-                style: TextStyle(
-                    color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
-              ),
+              Consumer<LanguageProvider>(builder: (context, value, child) {
+                return Text(
+                  value.translate(title!),
+                  maxLines: 2,
+                  style: TextStyle(
+                      color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
+                );
+              },),
             if (icon != null)
               Padding(
                 padding: EdgeInsets.only(left: title != null ? 8.0 : 0.0),
@@ -140,11 +144,14 @@ class SubmitButton2 extends StatelessWidget {
                 ),
               ),
             if (title != null)
-              Text(
-                title!,
-                style: TextStyle(
-                    color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
-              ),
+              Consumer<LanguageProvider>(builder: (context, value, child) {
+                return Text(
+                  value.translate(title!),
+                  maxLines: 2,
+                  style: TextStyle(
+                      color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
+                );
+              },),
           ],
         ),
       ),

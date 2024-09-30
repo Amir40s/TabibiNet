@@ -1,5 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../Providers/Language/language_provider.dart';
 
 class TextWidget extends StatelessWidget {
   const TextWidget(
@@ -23,15 +26,19 @@ class TextWidget extends StatelessWidget {
   final ValueKey<int>? valueKey;
   @override
   Widget build(BuildContext context) {
-    return AutoSizeText(
-      key: valueKey,
-      text,
-      maxLines: maxLines,
-      overflow: TextOverflow.ellipsis,
-      textAlign: isTextCenter == true ? TextAlign.center: TextAlign.start,
-      style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),
-    );
+    // final languageP = Provider.of<LanguageProvider>(context,listen: false);
+    return Consumer<LanguageProvider>(
+      builder: (context, languageP, child) {
+        return AutoSizeText(
+          key: valueKey,
+          languageP.translate(text),
+          maxLines: maxLines,
+          overflow: TextOverflow.ellipsis,
+          textAlign: isTextCenter == true ? TextAlign.center: TextAlign.start,
+          style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),
+        );
+      },);
   }
 }

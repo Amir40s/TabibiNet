@@ -119,7 +119,7 @@ class ProfileProvider extends ChangeNotifier{
       fireStore.collection("users").doc(auth.currentUser!.uid).update({
         "name" : nameC.text,
         "birthDate" : _birthDate,
-        "profileUrl" : _profileUrl,
+        "profileUrl" : _imageUrl,
       })
           .whenComplete(() async{
         _isLoading = false;

@@ -162,7 +162,7 @@ class SignUpScreen extends StatelessWidget {
                     onTap: () {
                       Get.to(()=>SignInScreen());
                     },
-                    child: const TextWidget(text: " Login ", fontSize: 16, fontWeight: FontWeight.w400,
+                    child: const TextWidget(text: "Login", fontSize: 16, fontWeight: FontWeight.w400,
                         isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,)),
                 const TextWidget(text: "here", fontSize: 16, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
 
