@@ -19,10 +19,7 @@ class PatientDetailChart extends StatelessWidget {
     double height = 20;
     return InkWell(
       onTap: () {
-        FlutterLocalNotification.showBigTextNotification(
-            title: "Hello",
-            body: "How are you?",
-            fln: FlutterLocalNotificationsPlugin());
+
       },
       child: Container(
         padding: const EdgeInsets.all(15),
