@@ -170,6 +170,29 @@ class ProfileProvider extends ChangeNotifier{
     }
   }
 
+  Future<String?> uploadFileReturn() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      String? url = await _cloudinaryService.uploadFile(_image!);
+      if (url != null) {
+        _imageUrl = url;
+        log("message:: $url");
+        notifyListeners();
+        return url;
+      }
+    } catch (e) {
+
+      log("Error: $e");
+      return "";
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+    return null;
+  }
+
   Future<void> pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,11 +10,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
+import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 import '../../Providers/chatProvider/chatProvider.dart';
 import '../../controller/audioController.dart';
 import '../../global_provider.dart';
@@ -21,6 +25,7 @@ import '../../model/res/constant/app_fonts.dart';
 import '../../model/res/constant/app_icons.dart';
 import '../../model/res/widgets/header.dart';
 import '../../model/res/widgets/text_widget.dart';
+import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
    ChatScreen({
@@ -161,44 +166,48 @@ class _ChatScreenState extends State<ChatScreen> {
                                           type == "image"  ?
                                           Image.network(message['url']!.toString(),width: 200.0,height: 200.0,)
                                               :
-                                          // type == "document" ?
-                                          // Container(
-                                          //   width: 180.0,
-                                          //   height: 180.0,
-                                          //   child: Column(
-                                          //     mainAxisAlignment: MainAxisAlignment.start,
-                                          //     crossAxisAlignment: CrossAxisAlignment.center,
-                                          //     children: [
-                                          //       Stack(
-                                          //           children: [
-                                          //             Image.asset(AppImage.docImage),
-                                          //             Positioned(
-                                          //                 top: 0,
-                                          //                 right: 0,
-                                          //                 child: IconButton(
-                                          //                   icon: Icon(Icons.save_alt_outlined,color: Colors.white,),
-                                          //                   onPressed: () async{
-                                          //                     log("message");
-                                          //                     await provider.downloadFile(message['url'], message['text'],fallbackUrl: message['url']);
-                                          //                   },
-                                          //                 )
-                                          //             ),
-                                          //           ]),
-                                          //       TextWidget(
-                                          //         title: "Document: ${message['text']}",
-                                          //         textColor: isCurrentUser ? Colors.white : Colors.black,
-                                          //         fontSize: 12.0,
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ) : type == "voice" ?
+                                          type == "document" ?
+                                          Container(
+                                            width: 180.0,
+                                            height: 180.0,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Stack(
+                                                    children: [
+                                                      Image.asset(AppAssets.docImage),
+                                                      Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: IconButton(
+                                                            icon: const Icon(Icons.save_alt_outlined,color: Colors.white,),
+                                                            onPressed: () async{
+                                                              log("message");
+                                                              await downloadFile(
+                                                                  message['url'],
+                                                                  message['text'],fallbackUrl: message['url']);
+                                                            },
+                                                          )
+                                                      ),
+                                                    ]),
+                                                TextWidget(
+                                                  text: "Document: ${message['text']}",
+                                                  textColor: isCurrentUser ? Colors.white : Colors.black,
+                                                  fontSize: 12.0,
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                          //     : type == "voice" ?
                                           // Container(
                                           //   width: Get.width * 0.54,
                                           //   child: ListTile(
                                           //     title: Text("Voice Message"),
                                           //     trailing: PlayButton(audioUrl: message['text']),
                                           //   ),
-                                          // ) : type == "location"
+                                          // )
+                                          //     : type == "location"
                                           //     ?
                                           //
                                           // Container(
@@ -251,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                           //   chatRoomId: chatRoomId,
                                           //   otherEmail: otherEmail,
                                           // )
-                                          //     :
+                                              :
                                           const SizedBox.shrink(),
                                           SizedBox(height: 3),
                                           Row(
@@ -420,14 +429,36 @@ class _ChatScreenState extends State<ChatScreen> {
                 icon: Icons.description,
                 label: 'Document',
                 color: Colors.purple,
-                press: (){},
+                press: () async{
+                  final docP = GlobalProviderAccess.medicineProvider;
+                  final provider = Provider.of<ChatProvider>(context, listen: false);
+                  await docP!.pickFile();
+                  final url = await docP.uploadFile();
+                  await provider.sendFileMessage(
+                    chatRoomId: widget.chatRoomId,
+                    fileUrl: url.toString(),
+                    type: "document",
+                    otherEmail: widget.patientEmail,
+                  );
+                },
               ),
               _buildIconOption(
                 icon: Icons.photo,
                 label: 'Gallery',
                 color: Colors.red,
-                press: (){
-                  _uploadPhoto(context);
+                press: () async{
+                  final provider = Provider.of<ChatProvider>(context, listen: false);
+
+                  final imageP = GlobalProviderAccess.profilePro;
+                 await imageP!.pickImage();
+                final url =  await imageP.uploadFileReturn();
+
+                 await provider.sendFileMessage(
+                   chatRoomId: widget.chatRoomId,
+                   fileUrl: url.toString(),
+                   type: "image",
+                   otherEmail: widget.patientEmail,
+                 );
                 },
               ),
               _buildIconOption(
@@ -435,6 +466,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 label: 'Audio',
                 color: Colors.blue,
                 press: (){},
+                onLongPressStart: _onLongPressStart,
+                onLongPressEnd: _onLongPressEnd
               ),
             ],
           ),
@@ -443,14 +476,87 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _onLongPressStart() async{
+    log("Long press started");
+    var audioPlayer = AudioPlayer();
+    await audioPlayer.play(AssetSource("Notification.mp3"));
+    audioPlayer.onPlayerComplete.listen((a) {
+      audioController.start.value = DateTime.now();
+      // startRecord();
+      audioController.isRecording.value = true;
+    });
+  }
+
+  void _onLongPressEnd() {
+    log("Long press ended");
+    // Add your logic here (e.g., revert UI, stop animation, etc.)
+  }
+
+
+  // void startRecord() async {
+  //   bool hasPermission = await checkPermission();
+  //   if (hasPermission) {
+  //     recordFilePath = await getFilePath();
+  //     RecordMp3.instance.start(recordFilePath, (type) {
+  //       setState(() {});
+  //     });
+  //   } else {}
+  //   setState(() {});
+  // }
+  //
+  //
+  // void stopRecord() async {
+  //   bool stop = RecordMp3.instance.stop();
+  //   audioController.end.value = DateTime.now();
+  //   audioController.calcDuration();
+  //   var ap = AudioPlayer();
+  //   await ap.play(AssetSource("Notification.mp3"));
+  //   ap.onPlayerComplete.listen((a) {});
+  //   if (stop) {
+  //     audioController.isRecording.value = false;
+  //     audioController.isSending.value = true;
+  //   }
+  // }
+
+  int i=0;
+
+  Future<String> getFilePath() async {
+    Directory storageDirectory = await getApplicationDocumentsDirectory();
+    String sdPath =
+        "${storageDirectory.path}/record${DateTime.now().microsecondsSinceEpoch}.acc";
+    var d = Directory(sdPath);
+    if (!d.existsSync()) {
+      d.createSync(recursive: true);
+    }
+    return "$sdPath/test_${i++}.mp3";
+  }
+
+  Future<bool> checkPermission() async {
+    if (!await Permission.microphone.isGranted) {
+      PermissionStatus status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Widget _buildIconOption({
     required IconData icon,
     required String label,
     required Color color,
-    required VoidCallback press
+    required VoidCallback press,
+     VoidCallback? onLongPressStart, // New parameter for long press start
+     VoidCallback? onLongPressEnd,
   }) {
     return GestureDetector(
       onTap: press,
+      onLongPressStart: onLongPressStart != null
+          ? (_) => onLongPressStart()
+          : null,
+      onLongPressEnd: onLongPressEnd != null
+          ? (_) => onLongPressEnd()
+          : null,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -483,7 +589,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
       await provider.sendFileMessage(
         chatRoomId: widget.chatRoomId,
-        filePath: filePath,
+        fileUrl: filePath,
         type: messageType,
         otherEmail: widget.patientEmail,
       );
@@ -535,4 +641,85 @@ class _ChatScreenState extends State<ChatScreen> {
       openAppSettings(); // Optionally direct the user to the app settings
     }
   }
+
+  Future<void> downloadFile(String url, String fileName,
+      {String? fallbackUrl}) async {
+    PermissionStatus status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      try {
+        log("Downloading File: $url");
+
+        // Get the application documents directory
+        final dir = await getApplicationDocumentsDirectory();
+        final file = File('${dir.path}/$fileName');
+
+        // Make an HTTP GET request to download the file
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Write the file to the local filesystem
+          await file.writeAsBytes(response.bodyBytes);
+          log("File downloaded: ${file.path}");
+          showToast("File downloaded: ${file.path}");
+        } else {
+          log("Failed to download file: ${response.statusCode}");
+          showToast("Failed to download file: ${response.statusCode}");
+          if (fallbackUrl != null) {
+            openWebPage(fallbackUrl);
+          }
+        }
+      } catch (e) {
+        log("Error downloading file: $e");
+        showToast("Error downloading file: $e");
+        if (fallbackUrl != null) {
+          openWebPage(fallbackUrl);
+        }
+      }
+    } else if (status.isDenied) {
+      log("Storage permission denied.");
+      showToast("Storage permission denied. Please grant storage permission to download the file.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    } else if (status.isPermanentlyDenied) {
+      log("Storage permission is permanently denied, opening app settings.");
+      showToast("Storage permission is permanently denied. Please enable it in settings.");
+      bool opened = await openAppSettings();
+      log("Opened app settings: $opened");
+    } else if (status.isRestricted) {
+      log("Storage permission is restricted, cannot request permission.");
+      showToast("Storage permission is restricted, cannot request permission.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    }
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  Future<void> openWebPage(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> launchWebUrl({required String url}) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
 }
