@@ -39,19 +39,38 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     });
   }
 
-  Stream<List<AppointmentModel>> fetchAllPatients() {
-    return fireStore
+  // Stream<List<AppointmentModel>> fetchAllPatients() {
+  //   return fireStore
+  //       .collection('appointment')
+  //       .where("doctorId", isEqualTo: auth.currentUser!.uid)
+  //       .snapshots()
+  //       .map((snapshot) {
+  //     // Filter locally on 'status' to exclude 'Requesting'
+  //     return snapshot.docs
+  //         .where((doc) => doc['status'] != 'Requesting')
+  //         .map((doc) => AppointmentModel.fromDocumentSnapshot(doc))
+  //         .toList();
+  //   });
+  // }
+
+  Stream<List<AppointmentModel>> fetchAllPatients({int? limit}) {
+    var query = fireStore
         .collection('appointment')
         .where("doctorId", isEqualTo: auth.currentUser!.uid)
-        .snapshots()
-        .map((snapshot) {
-      // Filter locally on 'status' to exclude 'Requesting'
+        .where('status', isNotEqualTo: 'Requesting'); // Filter on Firestore
+
+    // Apply the limit if it's passed
+    if (limit != null) {
+      query = query.limit(limit);
+    }
+
+    return query.snapshots().map((snapshot) {
       return snapshot.docs
-          .where((doc) => doc['status'] != 'Requesting')
           .map((doc) => AppointmentModel.fromDocumentSnapshot(doc))
           .toList();
     });
   }
+
 
 
 }

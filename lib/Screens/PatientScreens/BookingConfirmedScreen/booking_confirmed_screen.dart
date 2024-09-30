@@ -43,8 +43,8 @@ class BookingConfirmedScreen extends StatelessWidget {
                                       text: "Booking Confirmed",
                                       fontSize: 24, fontWeight: FontWeight.w600,
                                       isTextCenter: false, textColor: textColor),
-                                  const TextWidget(
-                                      text: "Dr. Jenny Wilson is a highly skilled cardiologist"
+                                   TextWidget(
+                                      text: "Dr. ${appointmentP.doctorName} Wilson is a highly skilled cardiologist"
                                           " dedicated to providing exceptional cardiac care. With ",
                                       fontSize: 12, fontWeight: FontWeight.w400,
                                       isTextCenter: true, textColor: textColor,maxLines: 2,),
@@ -79,20 +79,20 @@ class BookingConfirmedScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      const TextWidget(
-                                          text: "ID : 656352165",
+                                       TextWidget(
+                                          text: "ID : ${appointmentP.doctorId}",
                                           fontSize: 14, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor),
                                       const Spacer(),
-                                      Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                            color: bgColor,
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: greyColor)
-                                        ),
-                                        child: Icon(Icons.edit,color: Colors.grey,size: 18.sp,),
-                                      ),
+                                      // Container(
+                                      //   padding: const EdgeInsets.all(5),
+                                      //   decoration: BoxDecoration(
+                                      //       color: bgColor,
+                                      //       shape: BoxShape.circle,
+                                      //       border: Border.all(color: greyColor)
+                                      //   ),
+                                      //   child: Icon(Icons.edit,color: Colors.grey,size: 18.sp,),
+                                      // ),
                                     ],
                                   ),
                                   const SizedBox(height: 20,),
@@ -115,8 +115,8 @@ class BookingConfirmedScreen extends StatelessWidget {
                                         children: [
                                           SizedBox(
                                             width: 35.w,
-                                            child: const TextWidget(
-                                              text: "Dr. Jenny Wilson", fontSize: 16,
+                                            child:  TextWidget(
+                                              text: "Dr. ${appointmentP.doctorName}", fontSize: 16,
                                               fontWeight: FontWeight.w600, isTextCenter: false,maxLines: 2,
                                               textColor: textColor, fontFamily: AppFonts.semiBold,),
                                           ),
@@ -137,15 +137,15 @@ class BookingConfirmedScreen extends StatelessWidget {
                                   const SizedBox(height: 20,),
                                   SizedBox(
                                     height: 25.sp,
-                                    child: const Row(
+                                    child:  Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextWidget(
+                                        const TextWidget(
                                           text: "Name :",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
-                                            text: "Dr. Jenny Wilson", fontFamily: AppFonts.semiBold,
+                                            text: "Dr. ${appointmentP.doctorName}", fontFamily: AppFonts.semiBold,
                                             fontSize: 12, fontWeight: FontWeight.w600,
                                             isTextCenter: false, textColor: textColor),
                                       ],
@@ -153,15 +153,15 @@ class BookingConfirmedScreen extends StatelessWidget {
                                   ),
                                   SizedBox(
                                     height: 25.sp,
-                                    child: const Row(
+                                    child:  Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextWidget(
+                                        const TextWidget(
                                           text: "Time :",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
-                                            text: "11.30 AM", fontFamily: AppFonts.semiBold,
+                                            text: appointmentP.appointmentTime.toString(), fontFamily: AppFonts.semiBold,
                                             fontSize: 12, fontWeight: FontWeight.w600,
                                             isTextCenter: false, textColor: textColor),
                                       ],
@@ -169,15 +169,15 @@ class BookingConfirmedScreen extends StatelessWidget {
                                   ),
                                   SizedBox(
                                     height: 25.sp,
-                                    child: const Row(
+                                    child:  Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextWidget(
+                                        const TextWidget(
                                           text: "Date :",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
-                                            text: "20/02/2024", fontFamily: AppFonts.semiBold,
+                                            text: appointmentP.appointmentDate.toString(), fontFamily: AppFonts.semiBold,
                                             fontSize: 12, fontWeight: FontWeight.w600,
                                             isTextCenter: false, textColor: textColor),
                                       ],
@@ -185,15 +185,15 @@ class BookingConfirmedScreen extends StatelessWidget {
                                   ),
                                   SizedBox(
                                     height: 25.sp,
-                                    child: const Row(
+                                    child:  Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextWidget(
+                                        const TextWidget(
                                           text: "Total",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
-                                            text: "\$85.00", fontFamily: AppFonts.semiBold,
+                                            text: "${appointmentP.selectFee} MAD", fontFamily: AppFonts.semiBold,
                                             fontSize: 12, fontWeight: FontWeight.w600,
                                             isTextCenter: false, textColor: themeColor),
                                       ],

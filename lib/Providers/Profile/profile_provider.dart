@@ -115,6 +115,8 @@ class ProfileProvider extends ChangeNotifier{
     _isLoading = true;
     notifyListeners();
 
+    // final cloudinaryP = GlobalProviderAccess.
+
     uploadFile().whenComplete(() {
       fireStore.collection("users").doc(auth.currentUser!.uid).update({
         "name" : nameC.text,
@@ -124,6 +126,8 @@ class ProfileProvider extends ChangeNotifier{
           .whenComplete(() async{
         _isLoading = false;
         await getSelfInfo();
+        _imageUrl = "";
+        _image = null;
         ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
@@ -166,6 +170,29 @@ class ProfileProvider extends ChangeNotifier{
     }
   }
 
+  Future<String?> uploadFileReturn() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      String? url = await _cloudinaryService.uploadFile(_image!);
+      if (url != null) {
+        _imageUrl = url;
+        log("message:: $url");
+        notifyListeners();
+        return url;
+      }
+    } catch (e) {
+
+      log("Error: $e");
+      return "";
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+    return null;
+  }
+
   Future<void> pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -187,12 +214,54 @@ class ProfileProvider extends ChangeNotifier{
   void setDate(DateTime date) {
     String format = DateFormat('yyyy-MM-dd').format(date);
     _doctorDOB = format;
-    notifyListeners(); // Notify listeners when the date is updated
+    notifyListeners();
   }
 
   void clearImage() {
     _image = null;
     notifyListeners();
+  }
+
+  //clear all when sign out
+  Future<void> clearAll() async{
+
+    final bottomNav =  GlobalProviderAccess.bottomNavProvider;
+
+    bottomNav!.setIndex(0);
+
+    _doctorName = "";
+    _doctorPhone = "";
+    _doctorCountry = "";
+    _doctorDOB = "";
+    _imageUrl = "";
+    _doctorEmail = "";
+    _name = "";
+    _email = "";
+    _userType = "";
+    _phoneNumber = "";
+    _country = "";
+    _birthDate = "";
+    _speciality = "";
+    _specialityId = "";
+    _availabilityFrom = "";
+    _availabilityTo = "";
+    _specialityDetail = "";
+    _appointmentFee = "";
+    _memberShip = "";
+    _experience = "";
+    _patients = "";
+    _reviews = "";
+    _profileUrl = "";
+    _rating = "";
+    _isOnline = "";
+    _location = "";
+    _latitude = "";
+    _longitude = "";
+    _accountType = "";
+    _isDataFetched = true;
+    _isLoading = false;
+    _image = null;
+    notifyListeners(); // Notify listeners when data is cleared
   }
 
 }

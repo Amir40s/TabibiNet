@@ -7,6 +7,7 @@ import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/dotted_line.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
+import 'package:tabibinet_project/model/services/SharedPreference/shared_preference.dart';
 
 class NotificationSettingScreen extends StatelessWidget {
   const NotificationSettingScreen({super.key});
@@ -41,7 +42,7 @@ class NotificationSettingScreen extends StatelessWidget {
                   ListTile(
                     contentPadding: const EdgeInsets.all(0),
                     title: const TextWidget(
-                      text: "Sound", fontSize: 16,
+                      text: "Notification", fontSize: 16,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.medium,),
                     trailing: Consumer<PatientNotificationProvider>(
@@ -49,7 +50,9 @@ class NotificationSettingScreen extends StatelessWidget {
                       return CupertinoSwitch(
                         value: provider.isSound,
                         activeColor: themeColor,
-                        onChanged: (value) {
+                        onChanged: (value) async{
+                          final pref  = await SharedPreferencesService.getInstance();
+                          pref.setBool("notification", value);
                           provider.setSound(value);
                         },);
                     },),
@@ -57,26 +60,26 @@ class NotificationSettingScreen extends StatelessWidget {
                   SizedBox(height: height2,),
                   const DottedLine(color: greyColor,),
                   SizedBox(height: height2,),
-                  ListTile(
-                    contentPadding: const EdgeInsets.all(0),
-                    title: const TextWidget(
-                      text: "Vibrate", fontSize: 16,
-                      fontWeight: FontWeight.w500, isTextCenter: false,
-                      textColor: textColor, fontFamily: AppFonts.medium,),
-                    trailing: Consumer<PatientNotificationProvider>(
-                      builder: (context, provider, child) {
-                        return CupertinoSwitch(
-                          value: provider.isVibrate,
-                          activeColor: themeColor,
-                          onChanged: (value) {
-                            provider.setVibration(value);
-                          },);
-                      },),
-                  ),
-                  SizedBox(height: height2,),
-                  const DottedLine(color: greyColor,),
-                  SizedBox(height: height1,),
-                  const DottedLine(color: greyColor,),
+                  // ListTile(
+                  //   contentPadding: const EdgeInsets.all(0),
+                  //   title: const TextWidget(
+                  //     text: "Vibrate", fontSize: 16,
+                  //     fontWeight: FontWeight.w500, isTextCenter: false,
+                  //     textColor: textColor, fontFamily: AppFonts.medium,),
+                  //   trailing: Consumer<PatientNotificationProvider>(
+                  //     builder: (context, provider, child) {
+                  //       return CupertinoSwitch(
+                  //         value: provider.isVibrate,
+                  //         activeColor: themeColor,
+                  //         onChanged: (value) {
+                  //           provider.setVibration(value);
+                  //         },);
+                  //     },),
+                  // ),
+                  // SizedBox(height: height2,),
+                  // const DottedLine(color: greyColor,),
+                  // SizedBox(height: height1,),
+                  // const DottedLine(color: greyColor,),
 
                 ],
               ),

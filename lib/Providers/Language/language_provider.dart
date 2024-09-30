@@ -6,9 +6,9 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import '../../model/services/SharedPreference/shared_preference.dart';
 
-class LanguageProvider extends ChangeNotifier{
+class LanguageProvider extends ChangeNotifier {
 
-  final SharedPreferenceService _sharedPreferenceService = SharedPreferenceService();
+  final  SharedPreferencesService _sharedPreferenceService = SharedPreferencesService();
 
   int _selectedIndex = 2; // Default selection
   bool _isBouncing = false;

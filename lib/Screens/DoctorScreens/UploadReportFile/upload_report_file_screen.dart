@@ -99,7 +99,7 @@ class UploadReportFileScreen extends StatelessWidget {
                       SubmitButton(
                         title: "Send Document to Micheal",
                         press: () {
-                          value.uploadFile(appointmentId)
+                          value.addFile(appointmentId)
                               .whenComplete(() {
                             Get.off(()=>const SuccessScreen(
                                 title: "Document Sent Successfully!",

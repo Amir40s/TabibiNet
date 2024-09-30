@@ -41,7 +41,7 @@ class ThankFeedbackScreen extends StatelessWidget {
           child: SubmitButton(
             title: "Go to Dashboard",
             press: () {
-              Get.offAll(()=>const DoctorHomeScreen());
+              Get.offAll(()=> DoctorHomeScreen());
             },),
         ),
       ),

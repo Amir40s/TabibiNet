@@ -19,10 +19,7 @@ class PatientDetailChart extends StatelessWidget {
     double height = 20;
     return InkWell(
       onTap: () {
-        FlutterLocalNotification.showBigTextNotification(
-            title: "Hello",
-            body: "How are you?",
-            fln: FlutterLocalNotificationsPlugin());
+
       },
       child: Container(
         padding: const EdgeInsets.all(15),
@@ -59,7 +56,7 @@ class PatientDetailChart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildDetailItem(Colors.lightBlueAccent, "Today's Patient", "03"),
+                    buildDetailItem(Colors.lightBlueAccent, "Total Patient", "03"),
                     buildDetailItem(Colors.red, "Prescription sent", "04"),
                     buildDetailItem(Colors.yellow, "Documents shared", "22"),
                   ],

@@ -171,6 +171,7 @@ class DoctorProfileScreen extends StatelessWidget {
                               primaryButTap: () {
                                 auth.signOut()
                                     .whenComplete(() {
+
                                   Get.offAll(()=>OnboardingScreen());
                                 },);
                               },
