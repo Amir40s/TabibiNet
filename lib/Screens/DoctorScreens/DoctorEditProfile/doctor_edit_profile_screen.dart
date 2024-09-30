@@ -144,7 +144,7 @@ class DoctorEditProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextWidget(
-                                text: value.birthDate, fontSize: 12,
+                                text: value.dateOfBirth, fontSize: 12,
                                 fontWeight: FontWeight.w600, isTextCenter: false,
                                 textColor: textColor, fontFamily: AppFonts.medium,),
                               const Icon(Icons.calendar_month_rounded,color: greyColor,)

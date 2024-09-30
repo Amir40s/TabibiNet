@@ -28,7 +28,9 @@ class AppointmentReminderScreen extends StatelessWidget {
             Expanded(
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('appointmentReminder').snapshots(),
+                    .collection('appointmentReminder')
+                .where("userUid" , isEqualTo: auth.currentUser?.uid.toString())
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());

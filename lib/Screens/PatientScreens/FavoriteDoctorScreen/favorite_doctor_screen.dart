@@ -40,7 +40,7 @@ class FavoriteScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                          width: 72.w,
+                          width: 87.w,
                           height: 50,
                           child: InputField2(
                             inputController: searchC,
@@ -50,16 +50,16 @@ class FavoriteScreen extends StatelessWidget {
                               favoritesProvider.filterDoc(value);
                             },
                           )),
-                      Container(
-                        padding: const EdgeInsets.all(15),
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            color: themeColor,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: SvgPicture.asset(AppIcons.menuIcon),
-                      )
+                      // Container(
+                      //   padding: const EdgeInsets.all(15),
+                      //   height: 50,
+                      //   width: 50,
+                      //   decoration: BoxDecoration(
+                      //       color: themeColor,
+                      //       borderRadius: BorderRadius.circular(10)
+                      //   ),
+                      //   child: SvgPicture.asset(AppIcons.menuIcon),
+                      // )
                     ],
                   ),
                   const SizedBox(height: 20,),
