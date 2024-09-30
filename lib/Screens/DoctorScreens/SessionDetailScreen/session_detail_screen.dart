@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../../Providers/actionProvider/actionProvider.dart';
 import '../../../constant.dart';
@@ -122,16 +123,19 @@ class SessionDetailScreen extends StatelessWidget {
                           bdColor: const Color(0xff04AD01),
                           press: () {
                             ActionProvider.startLoading();
+
                             uploadReminder();
-                        },),
+                            ToastMsg().toastMsg("Successfully added to reminders!");
+
+                          },),
                       ],
                     ),
                     SizedBox(height: height1,),
-                    SubmitButton(
-                      title: "View E-prescriptions",
-                      press: () {
-                        Get.to(()=>EPrescriptionScreen());
-                    },)
+                    // SubmitButton(
+                    //   title: "View E-prescriptions",
+                    //   press: () {
+                    //     Get.to(()=>EPrescriptionScreen());
+                    // },)
 
                   ],
                 )
@@ -157,6 +161,7 @@ class SessionDetailScreen extends StatelessWidget {
         'status': status,
         'id': timeStamp,
         'location': model.doctorLocation,
+        'userUid' : auth.currentUser?.uid.toString()
       }).whenComplete(() {
         ToastMsg().toastMsg("Patient Add to Reminder Screen");
       },);

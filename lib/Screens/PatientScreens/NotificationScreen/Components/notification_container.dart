@@ -80,13 +80,13 @@ class NotificationContainer extends StatelessWidget {
                         textColor: textColor, fontFamily: AppFonts.regular,maxLines: 4,),
                     ),
                     SizedBox(height: isButton ? 15 : 0,),
-                    isButton? SubmitButton(
-                        width: 30.w,
-                        height: 40,
-                        title: "New",
-                        icon: Icons.arrow_forward_rounded,
-                        press: (){}
-                    ): SizedBox(),
+                    // isButton? SubmitButton(
+                    //     width: 30.w,
+                    //     height: 40,
+                    //     title: "New",
+                    //     icon: Icons.arrow_forward_rounded,
+                    //     press: (){}
+                    // ): SizedBox(),
                   ],
                 ),
               ],

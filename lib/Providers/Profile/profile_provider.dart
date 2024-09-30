@@ -56,6 +56,7 @@ class ProfileProvider extends ChangeNotifier{
   String get email => _email;
   String get userType => _userType;
   String get phoneNumber => _phoneNumber;
+  String get dateOfBirth => _doctorDOB;
   String get country => _country;
   String get birthDate => _birthDate;
   String get speciality => _speciality;
@@ -82,8 +83,8 @@ class ProfileProvider extends ChangeNotifier{
 
   Future<void> getSelfInfo() async {
     languageP?.loadSavedLanguage();
-    if(_isDataFetched){
-
+    _isDataFetched = true;
+    if(_isDataFetched ){
       await fireStore.collection("users").doc(auth.currentUser!.uid).get()
           .then((value) {
         _doctorName = value.get("name");
@@ -138,9 +139,10 @@ class ProfileProvider extends ChangeNotifier{
       "birthDate" : _doctorDOB,
     })
         .whenComplete(() async{
-          _isLoading = false;
-          await getSelfInfo();
           ToastMsg().toastMsg("Profile Update Successfully!");
+          await getSelfInfo();
+          log("Updated info");
+          _isLoading = false;
           notifyListeners();
     },);
   }

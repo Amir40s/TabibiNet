@@ -59,7 +59,7 @@ class FindDoctorScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              width: 72.w,
+                              width: 87.w,
                               height: 50,
                               child: InputField2(
                                 onChanged: (value) {
@@ -80,21 +80,21 @@ class FindDoctorScreen extends StatelessWidget {
                                     child: SvgPicture.asset(AppIcons.crossIcon),
                                   ),
                               )),
-                          InkWell(
-                            onTap: () {
-                              Get.to(()=>FilterScreen());
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(15),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  color: themeColor,
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: SvgPicture.asset(AppIcons.menuIcon),
-                            ),
-                          )
+                          // InkWell(
+                          //   onTap: () {
+                          //     Get.to(()=>FilterScreen());
+                          //   },
+                          //   child: Container(
+                          //     padding: const EdgeInsets.all(15),
+                          //     height: 50,
+                          //     width: 50,
+                          //     decoration: BoxDecoration(
+                          //         color: themeColor,
+                          //         borderRadius: BorderRadius.circular(10)
+                          //     ),
+                          //     child: SvgPicture.asset(AppIcons.menuIcon),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

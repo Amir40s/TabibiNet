@@ -36,12 +36,12 @@ class DoctorHomeScreen extends StatelessWidget {
                     SizedBox(height: height,),
                     const PatientDetailChart(),
                     SizedBox(height: height,),
-                    SubmitButton(
-                      title: "View E-prescriptions",
-                      press: () {
-                        Get.to(()=>const EPrescriptionScreen());
-                    },),
-                    SizedBox(height: height,),
+                    // SubmitButton(
+                    //   title: "View E-prescriptions",
+                    //   press: () {
+                    //     Get.to(()=>const EPrescriptionScreen());
+                    // },),
+                    // SizedBox(height: height,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
