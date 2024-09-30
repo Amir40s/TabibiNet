@@ -115,15 +115,19 @@ class ProfileProvider extends ChangeNotifier{
     _isLoading = true;
     notifyListeners();
 
+    // final cloudinaryP = GlobalProviderAccess.
+
     uploadFile().whenComplete(() {
       fireStore.collection("users").doc(auth.currentUser!.uid).update({
         "name" : nameC.text,
         "birthDate" : _birthDate,
-        "profileUrl" : _profileUrl,
+        "profileUrl" : _imageUrl,
       })
           .whenComplete(() async{
         _isLoading = false;
         await getSelfInfo();
+        _imageUrl = "";
+        _image = null;
         ToastMsg().toastMsg("Profile Update Successfully!");
         notifyListeners();
       },);
@@ -187,7 +191,7 @@ class ProfileProvider extends ChangeNotifier{
   void setDate(DateTime date) {
     String format = DateFormat('yyyy-MM-dd').format(date);
     _doctorDOB = format;
-    notifyListeners(); // Notify listeners when the date is updated
+    notifyListeners();
   }
 
   void clearImage() {
@@ -196,7 +200,12 @@ class ProfileProvider extends ChangeNotifier{
   }
 
   //clear all when sign out
-  void clearAll() {
+  Future<void> clearAll() async{
+
+    final bottomNav =  GlobalProviderAccess.bottomNavProvider;
+
+    bottomNav!.setIndex(0);
+
     _doctorName = "";
     _doctorPhone = "";
     _doctorCountry = "";

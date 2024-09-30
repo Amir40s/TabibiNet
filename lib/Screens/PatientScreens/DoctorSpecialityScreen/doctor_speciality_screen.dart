@@ -20,21 +20,22 @@ class DoctorSpecialityScreen extends StatelessWidget {
             const Header(text: "Doctor Speciality"),
             Expanded(
                 child: ListView(
+                  shrinkWrap: true,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: SpecialitySection(),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: TextWidget(
-                        text: "Diagnostics & Tests", fontSize: 20,
-                        fontWeight: FontWeight.w600, isTextCenter: false,
-                        textColor: textColor, fontFamily: AppFonts.semiBold,),
-                    ),
-                    const SizedBox(height: 20,),
-                    const DiagnosticSection(),
-                    const SizedBox(height: 20,),
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //   child: TextWidget(
+                    //     text: "Diagnostics & Tests", fontSize: 20,
+                    //     fontWeight: FontWeight.w600, isTextCenter: false,
+                    //     textColor: textColor, fontFamily: AppFonts.semiBold,),
+                    // ),
+                    // const SizedBox(height: 20,),
+                    // // const DiagnosticSection(),
+                    // const SizedBox(height: 20,),
               ],
             ))
           ],

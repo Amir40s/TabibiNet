@@ -38,7 +38,7 @@ class PatientProfileScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(()=>PatientEditProfileScreen());
+                        Get.to(()=>const PatientEditProfileScreen());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),
@@ -230,7 +230,8 @@ class PatientProfileScreen extends StatelessWidget {
                               secondaryButText: "Cancel",
                               primaryButTap: () {
                                 auth.signOut()
-                                    .whenComplete(() {
+                                    .whenComplete(() async{
+                                    await Provider.of<ProfileProvider>(context,listen: false).clearAll();
                                   Get.offAll(()=>OnboardingScreen());
                                 },);
                               },

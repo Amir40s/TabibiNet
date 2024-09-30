@@ -185,7 +185,7 @@ class TopDoctorContainer extends StatelessWidget {
                     )),
                 const SizedBox(width: 10,),
                 TextWidget(
-                  text: "\$$appointmentFee", fontSize: 18,
+                  text: "$appointmentFee MAD", fontSize: 18,
                   fontWeight: FontWeight.w600, isTextCenter: false,
                   textColor: textColor, fontFamily: AppFonts.semiBold,),
               ],

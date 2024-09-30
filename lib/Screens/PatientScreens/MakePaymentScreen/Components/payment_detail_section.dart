@@ -30,7 +30,7 @@ class PaymentDetailSection extends StatelessWidget {
             trailing: Consumer<PatientAppointmentProvider>(
               builder: (context, value, child) {
                 return TextWidget(
-                    text: "\$${value.selectFee}", fontSize: 16,
+                    text: "${value.selectFee} MAD", fontSize: 16,
                     fontWeight: FontWeight.w400, isTextCenter: false,
                     textColor: textColor
                 );
@@ -53,7 +53,7 @@ class PaymentDetailSection extends StatelessWidget {
           ),
           ListTile(
             title: TextWidget(text: "Other Service", fontSize: 14, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
-            trailing: TextWidget(text: "\$0.0", fontSize: 16, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
+            trailing: TextWidget(text: "0.0 MAD", fontSize: 16, fontWeight: FontWeight.w400, isTextCenter: false, textColor: textColor),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 13.0),
@@ -68,7 +68,7 @@ class PaymentDetailSection extends StatelessWidget {
             trailing: Consumer<PatientAppointmentProvider>(
               builder: (context, value, child) {
                 return TextWidget(
-                    text: "\$${value.selectFee}", fontSize: 16,
+                    text: "${value.selectFee} MAD", fontSize: 16,
                     fontWeight: FontWeight.w400, isTextCenter: false,
                     textColor: themeColor,fontFamily: AppFonts.semiBold,
                 );
