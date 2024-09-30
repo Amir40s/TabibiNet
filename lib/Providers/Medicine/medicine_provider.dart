@@ -75,7 +75,7 @@ class MedicineProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> uploadFile(appointmentId) async {
+  Future<String?> uploadFile() async {
 
     File file = File(_selectedFilePath.toString());
 
@@ -93,16 +93,19 @@ class MedicineProvider extends ChangeNotifier{
       // Get the download URL
       final String downloadUrl = await fileRef.getDownloadURL();
 
-      await addFile(appointmentId, downloadUrl);
+      // await addFile(appointmentId, downloadUrl);
 
       log('File uploaded successfully: $downloadUrl');
+      return downloadUrl;
     } catch (e) {
       log('Error uploading file: $e');
+      return "";
     }
   }
 
-  Future<void> addFile(appointmentId,fileUrl) async {
+  Future<void> addFile(appointmentId) async {
     final String id = DateTime.now().millisecondsSinceEpoch.toString();
+    String fileUrl = await uploadFile() ?? "";
     fireStore.collection("appointment")
         .doc(appointmentId)
         .collection("report")

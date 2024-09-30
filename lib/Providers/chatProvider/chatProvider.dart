@@ -201,19 +201,24 @@ class ChatProvider with ChangeNotifier {
   }
 
 
-  Future<void> sendFileMessage({required String chatRoomId, required String filePath, required String type, required String otherEmail}) async {
+  Future<void> sendFileMessage({
+    required String chatRoomId,
+    required String fileUrl,
+    required String type,
+    required String otherEmail
+  }) async {
     final currentUserEmail = getCurrentUid();
-    final file = File(filePath);
-    final fileName = file.uri.pathSegments.last;
-
-    // Upload file to Firebase Storage
-    final ref = _storage.ref().child('chatFiles/$chatRoomId/$fileName');
-    await ref.putFile(file);
-
-    final fileUrl = await ref.getDownloadURL();
+    // final file = File(filePath);
+    // final fileName = file.uri.pathSegments.last;
+    //
+    // // Upload file to Firebase Storage
+    // final ref = _storage.ref().child('chatFiles/$chatRoomId/$fileName');
+    // await ref.putFile(file);
+    //
+    // final fileUrl = await ref.getDownloadURL();
 
     final newMessage = {
-      'text': fileName,
+      'text': type,
       'sender': currentUserEmail,
       'timestamp': FieldValue.serverTimestamp(),
       'read': false,
@@ -223,7 +228,7 @@ class ChatProvider with ChangeNotifier {
     };
     await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
     await _firestore.collection('chatRooms').doc(chatRoomId).update({
-      'lastMessage': fileName,
+      'lastMessage': type,
       'isMessage': otherEmail,
       'lastTimestamp': FieldValue.serverTimestamp(),
     });

@@ -1,32 +1,79 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
+import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 import '../../Providers/chatProvider/chatProvider.dart';
+import '../../controller/audioController.dart';
 import '../../global_provider.dart';
 import '../../model/res/constant/app_fonts.dart';
 import '../../model/res/constant/app_icons.dart';
 import '../../model/res/widgets/header.dart';
 import '../../model/res/widgets/text_widget.dart';
+import 'package:http/http.dart' as http;
 
-class ChatScreen extends StatelessWidget {
-   ChatScreen({super.key, required this.chatRoomId, required this.patientEmail, required this.patientName, required this.profilePic});
+class ChatScreen extends StatefulWidget {
+   ChatScreen({
+     super.key, required this.chatRoomId,
+     required this.patientEmail,
+     required this.patientName,
+     required this.profilePic,
+     this.type = "user",
+     this.problem = "",
+     this.phone = "",
+     this.name = ""
+   });
   final String chatRoomId;
   final String patientEmail;
   final String patientName;
   final String profilePic;
+  final String type;
+  final String problem,phone,name;
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   TextEditingController messageController = TextEditingController();
+
+  AudioController audioController = Get.put(AudioController());
+  late String recordFilePath;
+
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  String audioURL = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.type == "support"){
+      messageController.text  = "${widget.name} \n ${widget.phone} \n\n Problem:\n${widget.problem}";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ChatProvider>(context);
     final doctorP = GlobalProviderAccess.profilePro;
+
+
 
     return Scaffold(
       backgroundColor: themeColor,
@@ -40,8 +87,8 @@ class ChatScreen extends StatelessWidget {
               Column(
                 children: [
                    ChatHeader(
-                    name: patientName,
-                    picture: profilePic,
+                    name: widget.patientName,
+                    picture: widget.profilePic,
                   ),
                   Flexible(
                     child: Container(
@@ -53,13 +100,13 @@ class ChatScreen extends StatelessWidget {
                           )
                       ),
                       child: StreamBuilder(
-                        stream: context.read<ChatProvider>().getMessages(chatRoomId),
+                        stream: context.read<ChatProvider>().getMessages(widget.chatRoomId),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Center(child: CircularProgressIndicator());
                           }
-                          provider.markMessageAsRead(chatRoomId);
-                          provider.updateDeliveryStatus(chatRoomId);
+                          provider.markMessageAsRead(widget.chatRoomId);
+                          provider.updateDeliveryStatus(widget.chatRoomId);
                           final messages = snapshot.data!.docs;
                           List<Widget> messageWidgets = [];
                           for (var message in messages) {
@@ -69,19 +116,19 @@ class ChatScreen extends StatelessWidget {
                             final isDelivered = message["delivered"];
                             final type = message["type"];
                             final documentId = message.id.toString();
-        
+
                             final relativeTime = messageTimestamp != null
                                 ? timeago.format(messageTimestamp.toDate())
                                 : '';
-        
+
                             // return ListView
                             final isCurrentUser = messageSender == AppUtils().getCurrentUserEmail();
-        
+
                             final messageWidget = Dismissible(
                               key: Key(documentId),
                               direction: DismissDirection.endToStart,
                               onDismissed: (direction) {
-                                provider.deleteMessage(chatRoomId, documentId);
+                                provider.deleteMessage(widget.chatRoomId, documentId);
                                 Fluttertoast.showToast(
                                   msg: "Message deleted",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -119,44 +166,48 @@ class ChatScreen extends StatelessWidget {
                                           type == "image"  ?
                                           Image.network(message['url']!.toString(),width: 200.0,height: 200.0,)
                                               :
-                                          // type == "document" ?
-                                          // Container(
-                                          //   width: 180.0,
-                                          //   height: 180.0,
-                                          //   child: Column(
-                                          //     mainAxisAlignment: MainAxisAlignment.start,
-                                          //     crossAxisAlignment: CrossAxisAlignment.center,
-                                          //     children: [
-                                          //       Stack(
-                                          //           children: [
-                                          //             Image.asset(AppImage.docImage),
-                                          //             Positioned(
-                                          //                 top: 0,
-                                          //                 right: 0,
-                                          //                 child: IconButton(
-                                          //                   icon: Icon(Icons.save_alt_outlined,color: Colors.white,),
-                                          //                   onPressed: () async{
-                                          //                     log("message");
-                                          //                     await provider.downloadFile(message['url'], message['text'],fallbackUrl: message['url']);
-                                          //                   },
-                                          //                 )
-                                          //             ),
-                                          //           ]),
-                                          //       TextWidget(
-                                          //         title: "Document: ${message['text']}",
-                                          //         textColor: isCurrentUser ? Colors.white : Colors.black,
-                                          //         fontSize: 12.0,
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          // ) : type == "voice" ?
+                                          type == "document" ?
+                                          Container(
+                                            width: 180.0,
+                                            height: 180.0,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Stack(
+                                                    children: [
+                                                      Image.asset(AppAssets.docImage),
+                                                      Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child: IconButton(
+                                                            icon: const Icon(Icons.save_alt_outlined,color: Colors.white,),
+                                                            onPressed: () async{
+                                                              log("message");
+                                                              await downloadFile(
+                                                                  message['url'],
+                                                                  message['text'],fallbackUrl: message['url']);
+                                                            },
+                                                          )
+                                                      ),
+                                                    ]),
+                                                TextWidget(
+                                                  text: "Document: ${message['text']}",
+                                                  textColor: isCurrentUser ? Colors.white : Colors.black,
+                                                  fontSize: 12.0,
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                          //     : type == "voice" ?
                                           // Container(
                                           //   width: Get.width * 0.54,
                                           //   child: ListTile(
                                           //     title: Text("Voice Message"),
                                           //     trailing: PlayButton(audioUrl: message['text']),
                                           //   ),
-                                          // ) : type == "location"
+                                          // )
+                                          //     : type == "location"
                                           //     ?
                                           //
                                           // Container(
@@ -209,8 +260,8 @@ class ChatScreen extends StatelessWidget {
                                           //   chatRoomId: chatRoomId,
                                           //   otherEmail: otherEmail,
                                           // )
-                                          //     :
-                                          SizedBox.shrink(),
+                                              :
+                                          const SizedBox.shrink(),
                                           SizedBox(height: 3),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -243,7 +294,7 @@ class ChatScreen extends StatelessWidget {
                                 ),
                               ),
                             );
-        
+
                             messageWidgets.add(messageWidget);
                           }
                           return ListView(
@@ -286,89 +337,26 @@ class ChatScreen extends StatelessWidget {
   }
 
   // Widget _buildMessageInput(context) {
-  //   TextEditingController messageController = TextEditingController();
-  //
-  //   // void sendMessage() async {
-  //   //   if (messageController.text.isNotEmpty) {
-  //   //     Map<String, dynamic> messageData = {
-  //   //       'message': messageController.text,
-  //   //       'sender': patientEmail,
-  //   //       'time': FieldValue.serverTimestamp(),
-  //   //     };
-  //   //
-  //   //     await FirebaseFirestore.instance
-  //   //         .collection('chatRooms')
-  //   //         .doc(chatRoomId)
-  //   //         .collection('messages')
-  //   //         .add(messageData);
-  //   //
-  //   //     // Clear the message field after sending
-  //   //     messageController.clear();
-  //   //   }
-  //   // }
-  //
-  //   return Container(
-  //     padding: const EdgeInsets.all(10),
-  //     color: Colors.white,
-  //     child: Row(
-  //       children: [
-  //         IconButton(
-  //           icon: const Icon(Icons.camera_alt, color: Colors.grey),
-  //           onPressed: () {
-  //
-  //           },
-  //         ),
-  //         Expanded(
-  //           child: TextField(
-  //             controller: messageController,
-  //             decoration: InputDecoration(
-  //               hintText: 'Message',
-  //               border: OutlineInputBorder(
-  //                 borderRadius: BorderRadius.circular(30),
-  //                 borderSide: BorderSide.none,
-  //               ),
-  //               fillColor: Colors.grey[200],
-  //               filled: true,
-  //             ),
-  //           ),
-  //         ),
-  //         IconButton(
-  //           icon: const Icon(Icons.send, color: Colors.blueAccent),
-  //           onPressed: () {
-  //             final provider = Provider.of<ChatProvider>(context, listen: false);
-  //             if (messageController.text.isNotEmpty) {
-  //               provider.sendMessage(
-  //                   chatRoomId: chatRoomId, message: messageController.text.toString(),
-  //                   otherEmail: patientEmail.toString(), type: 'text'
-  //               );
-  //               messageController.clear();
-  //             }
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
   Widget _buildMessageInput(context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: secondaryGreenColor,
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.camera_alt, color: themeColor),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.photo, color: themeColor),
-            onPressed: () {
-              requestGalleryPermission(context);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.mic, color: themeColor),
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.camera_alt, color: themeColor),
+          //   onPressed: () {},
+          // ),
+          // IconButton(
+          //   icon: const Icon(Icons.photo, color: themeColor),
+          //   onPressed: () {
+          //     requestGalleryPermission(context);
+          //   },
+          // ),
+          // IconButton(
+          //   icon: const Icon(Icons.mic, color: themeColor),
+          //   onPressed: () {},
+          // ),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -378,7 +366,6 @@ class ChatScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.emoji_emotions_outlined, color: greyColor),
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextField(
@@ -403,12 +390,12 @@ class ChatScreen extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           GestureDetector(
-            onTap: () {
+            onTap: () async{
               final provider = Provider.of<ChatProvider>(context, listen: false);
-              provider.sendMessage(
-                  chatRoomId: chatRoomId, message: messageController.text,otherEmail: patientEmail, type: 'text'
+            await  provider.sendMessage(
+                  chatRoomId: widget.chatRoomId, message: messageController.text,otherEmail: widget.patientEmail, type: 'text'
               );
-              messageController.clear();
+              messageController.text = "";
             },
             child: CircleAvatar(
               backgroundColor: themeColor,
@@ -442,16 +429,45 @@ class ChatScreen extends StatelessWidget {
                 icon: Icons.description,
                 label: 'Document',
                 color: Colors.purple,
+                press: () async{
+                  final docP = GlobalProviderAccess.medicineProvider;
+                  final provider = Provider.of<ChatProvider>(context, listen: false);
+                  await docP!.pickFile();
+                  final url = await docP.uploadFile();
+                  await provider.sendFileMessage(
+                    chatRoomId: widget.chatRoomId,
+                    fileUrl: url.toString(),
+                    type: "document",
+                    otherEmail: widget.patientEmail,
+                  );
+                },
               ),
               _buildIconOption(
                 icon: Icons.photo,
                 label: 'Gallery',
                 color: Colors.red,
+                press: () async{
+                  final provider = Provider.of<ChatProvider>(context, listen: false);
+
+                  final imageP = GlobalProviderAccess.profilePro;
+                 await imageP!.pickImage();
+                final url =  await imageP.uploadFileReturn();
+
+                 await provider.sendFileMessage(
+                   chatRoomId: widget.chatRoomId,
+                   fileUrl: url.toString(),
+                   type: "image",
+                   otherEmail: widget.patientEmail,
+                 );
+                },
               ),
               _buildIconOption(
                 icon: Icons.audiotrack,
                 label: 'Audio',
                 color: Colors.blue,
+                press: (){},
+                onLongPressStart: _onLongPressStart,
+                onLongPressEnd: _onLongPressEnd
               ),
             ],
           ),
@@ -460,22 +476,99 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
+  void _onLongPressStart() async{
+    log("Long press started");
+    var audioPlayer = AudioPlayer();
+    await audioPlayer.play(AssetSource("Notification.mp3"));
+    audioPlayer.onPlayerComplete.listen((a) {
+      audioController.start.value = DateTime.now();
+      // startRecord();
+      audioController.isRecording.value = true;
+    });
+  }
+
+  void _onLongPressEnd() {
+    log("Long press ended");
+    // Add your logic here (e.g., revert UI, stop animation, etc.)
+  }
+
+
+  // void startRecord() async {
+  //   bool hasPermission = await checkPermission();
+  //   if (hasPermission) {
+  //     recordFilePath = await getFilePath();
+  //     RecordMp3.instance.start(recordFilePath, (type) {
+  //       setState(() {});
+  //     });
+  //   } else {}
+  //   setState(() {});
+  // }
+  //
+  //
+  // void stopRecord() async {
+  //   bool stop = RecordMp3.instance.stop();
+  //   audioController.end.value = DateTime.now();
+  //   audioController.calcDuration();
+  //   var ap = AudioPlayer();
+  //   await ap.play(AssetSource("Notification.mp3"));
+  //   ap.onPlayerComplete.listen((a) {});
+  //   if (stop) {
+  //     audioController.isRecording.value = false;
+  //     audioController.isSending.value = true;
+  //   }
+  // }
+
+  int i=0;
+
+  Future<String> getFilePath() async {
+    Directory storageDirectory = await getApplicationDocumentsDirectory();
+    String sdPath =
+        "${storageDirectory.path}/record${DateTime.now().microsecondsSinceEpoch}.acc";
+    var d = Directory(sdPath);
+    if (!d.existsSync()) {
+      d.createSync(recursive: true);
+    }
+    return "$sdPath/test_${i++}.mp3";
+  }
+
+  Future<bool> checkPermission() async {
+    if (!await Permission.microphone.isGranted) {
+      PermissionStatus status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Widget _buildIconOption({
     required IconData icon,
     required String label,
     required Color color,
+    required VoidCallback press,
+     VoidCallback? onLongPressStart, // New parameter for long press start
+     VoidCallback? onLongPressEnd,
   }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: color,
-          child: Icon(icon, size: 30, color: Colors.white),
-        ),
-        SizedBox(height: 8),
-        Text(label, style: TextStyle(fontSize: 16)),
-      ],
+    return GestureDetector(
+      onTap: press,
+      onLongPressStart: onLongPressStart != null
+          ? (_) => onLongPressStart()
+          : null,
+      onLongPressEnd: onLongPressEnd != null
+          ? (_) => onLongPressEnd()
+          : null,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: color,
+            child: Icon(icon, size: 30, color: Colors.white),
+          ),
+          SizedBox(height: 8),
+          Text(label, style: TextStyle(fontSize: 16)),
+        ],
+      ),
     );
   }
 
@@ -495,31 +588,138 @@ class ChatScreen extends StatelessWidget {
         messageType = 'document';
       }
       await provider.sendFileMessage(
-        chatRoomId: chatRoomId,
-        filePath: filePath,
+        chatRoomId: widget.chatRoomId,
+        fileUrl: filePath,
         type: messageType,
-        otherEmail: patientEmail,
+        otherEmail: widget.patientEmail,
       );
     }
   }
 
    Future<void> requestGalleryPermission(context) async {
-     var status = await Permission.photos.status;
-     if (!status.isGranted) {
-       // Request permission
-       if (await Permission.photos.request().isGranted) {
-         _uploadPhoto(context);
-         // Permission granted, proceed with gallery access
-         // print("Gallery permission granted");
-       } else {
-         // Permission denied
-         // print("Gallery permission denied");
-       }
-     } else {
-       // Permission already granted
-       // print("Gallery permission already granted");
+     PermissionStatus? status;
+     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+     int sdkInt = 0;
+     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+     sdkInt = androidInfo.version.sdkInt;
+     if(sdkInt >= 33){
+       log("Message:: No storage permission required for Android 13+");
+       status = await Permission.phone.request();
+       requestPermissions();
+     }else if (sdkInt <= 32){
+       log("Message:: Android 32+");
+       status = await Permission.storage.request();
      }
+    if(sdkInt >= 33){
+      _uploadPhoto(context);
+    }else{
+      var status = await Permission.photos.request();
+      if (!status.isGranted) {
+        // Request permission
+        if (await Permission.photos.request().isGranted) {
+          _uploadPhoto(context);
+          // Permission granted, proceed with gallery access
+          // print("Gallery permission granted");
+        } else {
+          // Permission denied
+          // print("Gallery permission denied");
+        }
+      } else {
+        // Permission already granted
+        // print("Gallery permission already granted");
+      }
+    }
    }
 
+  Future<void> requestPermissions() async {
+    // For Android 13 and above, request specific media permissions
+    if (await Permission.photos.request().isGranted &&
+        await Permission.mediaLibrary.request().isGranted) {
+      // Permission granted, you can proceed with accessing storage or media
+    } else {
+      // Handle permission denied scenario
+      openAppSettings(); // Optionally direct the user to the app settings
+    }
+  }
+
+  Future<void> downloadFile(String url, String fileName,
+      {String? fallbackUrl}) async {
+    PermissionStatus status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      try {
+        log("Downloading File: $url");
+
+        // Get the application documents directory
+        final dir = await getApplicationDocumentsDirectory();
+        final file = File('${dir.path}/$fileName');
+
+        // Make an HTTP GET request to download the file
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Write the file to the local filesystem
+          await file.writeAsBytes(response.bodyBytes);
+          log("File downloaded: ${file.path}");
+          showToast("File downloaded: ${file.path}");
+        } else {
+          log("Failed to download file: ${response.statusCode}");
+          showToast("Failed to download file: ${response.statusCode}");
+          if (fallbackUrl != null) {
+            openWebPage(fallbackUrl);
+          }
+        }
+      } catch (e) {
+        log("Error downloading file: $e");
+        showToast("Error downloading file: $e");
+        if (fallbackUrl != null) {
+          openWebPage(fallbackUrl);
+        }
+      }
+    } else if (status.isDenied) {
+      log("Storage permission denied.");
+      showToast("Storage permission denied. Please grant storage permission to download the file.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    } else if (status.isPermanentlyDenied) {
+      log("Storage permission is permanently denied, opening app settings.");
+      showToast("Storage permission is permanently denied. Please enable it in settings.");
+      bool opened = await openAppSettings();
+      log("Opened app settings: $opened");
+    } else if (status.isRestricted) {
+      log("Storage permission is restricted, cannot request permission.");
+      showToast("Storage permission is restricted, cannot request permission.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    }
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  Future<void> openWebPage(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> launchWebUrl({required String url}) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
 
 }

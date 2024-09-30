@@ -87,21 +87,17 @@ class SignInProvider extends ChangeNotifier{
   Future<void> signIn() async {
     _isLoading = true;
     notifyListeners();
-    auth.signInWithEmailAndPassword(
-        email: emailC.text.toString(),
-        password: passwordC.text.toString()
-    )
-        .then((value) async {
-      DocumentReference docRef = fireStore.collection("users").doc(auth.currentUser!.uid);
 
-      // Check if the document exists
+    try{
+    await auth.signInWithEmailAndPassword(
+          email: emailC.text.toString(),
+          password: passwordC.text.toString()
+      );
+      DocumentReference docRef =  fireStore.collection("users").doc(auth.currentUser!.uid);
       DocumentSnapshot docSnapshot = await docRef.get();
 
       if (docSnapshot.exists) {
-        // Document exists, check the user type
         final type = docSnapshot.get("userType");
-        // Get.back(); // Dismiss the dialog
-
         if(type == _userType){
           if (type == "Patient") {
             await profileProvider!.getSelfInfo()
@@ -128,14 +124,35 @@ class SignInProvider extends ChangeNotifier{
       _isLoading = false;
       notifyListeners();
       log("*********Login********");
-      // Get.to(()=>);
-    },)
-        .onError((error, stackTrace) {
-      ToastMsg().toastMsg(error.toString());
-      _isLoading = false;
+    }on FirebaseAuthException catch (e) {
+      _isLoading =false;
+      ToastMsg().toastMsg(_handleFirebaseAuthException(e));
       notifyListeners();
-      log("*********$error********");
-    },);
+    }
+  }
+
+  String _handleFirebaseAuthException(FirebaseAuthException e) {
+    log("Firebase Error Code: ${e.code}");
+    log("Firebase Error Message: ${e.message}");
+
+    switch (e.code) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'user-disabled':
+        return 'This user has been disabled.';
+      case 'user-not-found':
+        return 'No user found with this email.';
+      case 'wrong-password':
+        return 'Incorrect password.';
+      case 'invalid-credential':
+
+        if (e.message != null && e.message!.contains('auth credential is incorrect')) {
+          return 'The email or password you entered is incorrect.';
+        }
+        return 'Invalid credentials. Please check your email and password.';
+      default:
+        return 'Something went wrong. Please try again.';
+    }
   }
 
   Future<void> signInWithGoogle(

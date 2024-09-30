@@ -1,5 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../SharedPreference/shared_preference.dart';
+
 class FlutterLocalNotification{
 
   static Future initialize(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin)async{
@@ -20,23 +22,26 @@ class FlutterLocalNotification{
     required FlutterLocalNotificationsPlugin fln
   })async{
 
-    AndroidNotificationDetails androidPlatformChannelSpecifics =
-    const AndroidNotificationDetails(
+    final pref  = await SharedPreferencesService.getInstance();
+    bool isNotification = pref.getBool("notification") ?? true;
+    if(isNotification){
+      AndroidNotificationDetails androidPlatformChannelSpecifics =
+      const AndroidNotificationDetails(
         "channelId",
         "channelName",
-      playSound: true,
-      importance: Importance.max,
-      priority: Priority.high,
-      icon: "mipmap/logo",
-    );
+        playSound: true,
+        importance: Importance.max,
+        priority: Priority.high,
+        icon: "mipmap/logo",
+      );
 
-    var notification = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: const DarwinNotificationDetails()
-    );
+      var notification = NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: const DarwinNotificationDetails()
+      );
 
-    await fln.show(0, title, body, notification);
-
+      await fln.show(0, title, body, notification);
+    }
   }
 
 }

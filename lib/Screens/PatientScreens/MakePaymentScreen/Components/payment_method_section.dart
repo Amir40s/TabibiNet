@@ -37,13 +37,13 @@ class PaymentMethodSection extends StatelessWidget {
              onTap: () {
 
            },),
-           PaymentContainer(
-             image: AppIcons.payoneerIcon,
-             text: "Payoneer",
-             isSelected: false,
-             onTap: () {
-
-             },),
+           // PaymentContainer(
+           //   image: AppIcons.payoneerIcon,
+           //   text: "Payoneer",
+           //   isSelected: false,
+           //   onTap: () {
+           //
+           //   },),
            PaymentContainer(
              image: AppIcons.bankIcon,
              text: "Bank Transfer",
@@ -58,53 +58,53 @@ class PaymentMethodSection extends StatelessWidget {
              onTap: () {
 
              },),
-           PaymentContainer(
-             image: AppIcons.codeIcon,
-             text: "Payment Through Code",
-             isSelected: true,
-             onTap: () {
-               Get.to(()=>const PaymentScreen());
-             },),
-           GestureDetector(
-             onTap: () {
-               Get.to(()=>AddCardScreen());
-             },
-             child: Container(
-               decoration: BoxDecoration(
-                 color: bgColor,
-                 borderRadius: BorderRadius.circular(12),
-                 border: Border.all(
-                     color: greyColor
-                 ),
-               ),
-               child: Column(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [
-                   Container(
-                     padding: const EdgeInsets.all(10),
-                     decoration: const BoxDecoration(
-                         shape: BoxShape.circle,
-                         color: themeColor,
-                         boxShadow: [
-                           BoxShadow(
-                               color: Colors.grey,
-                               blurRadius: 1
-                           )
-                         ]
-                     ),
-                     child: const Center(child: Icon(Icons.add,color: bgColor,)),
-                   ),
-                   const TextWidget(
-                     text: "Add Card", fontSize: 14,
-                     fontWeight: FontWeight.w600, isTextCenter: true,
-                     textColor: themeColor, fontFamily: AppFonts.semiBold,
-                     maxLines: 2,
-                   ),
-                 ],
-               ),
-             ),
-           ),
+           // PaymentContainer(
+           //   image: AppIcons.codeIcon,
+           //   text: "Payment Through Code",
+           //   isSelected: true,
+           //   onTap: () {
+           //     Get.to(()=>const PaymentScreen());
+           //   },),
+           // GestureDetector(
+           //   onTap: () {
+           //     Get.to(()=>AddCardScreen());
+           //   },
+           //   child: Container(
+           //     decoration: BoxDecoration(
+           //       color: bgColor,
+           //       borderRadius: BorderRadius.circular(12),
+           //       border: Border.all(
+           //           color: greyColor
+           //       ),
+           //     ),
+           //     child: Column(
+           //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           //       crossAxisAlignment: CrossAxisAlignment.center,
+           //       children: [
+           //         Container(
+           //           padding: const EdgeInsets.all(10),
+           //           decoration: const BoxDecoration(
+           //               shape: BoxShape.circle,
+           //               color: themeColor,
+           //               boxShadow: [
+           //                 BoxShadow(
+           //                     color: Colors.grey,
+           //                     blurRadius: 1
+           //                 )
+           //               ]
+           //           ),
+           //           child: const Center(child: Icon(Icons.add,color: bgColor,)),
+           //         ),
+           //         const TextWidget(
+           //           text: "Add Card", fontSize: 14,
+           //           fontWeight: FontWeight.w600, isTextCenter: true,
+           //           textColor: themeColor, fontFamily: AppFonts.semiBold,
+           //           maxLines: 2,
+           //         ),
+           //       ],
+           //     ),
+           //   ),
+           // ),
          ],
         );
       },

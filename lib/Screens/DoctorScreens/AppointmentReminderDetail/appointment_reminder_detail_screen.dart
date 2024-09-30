@@ -13,6 +13,7 @@ import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import '../../../model/res/constant/app_utils.dart';
 import '../../../model/res/widgets/info_tile.dart';
+import '../../../model/res/widgets/toast_msg.dart';
 
 class AppointmentReminderDetailScreen extends StatelessWidget {
   AppointmentReminderDetailScreen({
@@ -50,14 +51,14 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                           text: "Patient Details", fontSize: 18.sp,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor, fontFamily: AppFonts.semiBold,),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: themeColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8)
-                          ),
-                          child: SvgPicture.asset(AppIcons.editIcon),
-                        )
+                        // Container(
+                        //   padding: const EdgeInsets.all(8),
+                        //   decoration: BoxDecoration(
+                        //     color: themeColor.withOpacity(0.1),
+                        //     borderRadius: BorderRadius.circular(8)
+                        //   ),
+                        //   child: SvgPicture.asset(AppIcons.editIcon),
+                        // )
                       ],
                     ),
                     SizedBox(height: height1,),
@@ -124,8 +125,14 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                       bgColor: const Color(0xffF23A00).withOpacity(0.1),
                       textColor: const Color(0xffF23A00),
                       bdColor: const Color(0xffF23A00),
-                      press: () {
+                      press: () async{
+                        await fireStore.collection("appointmentReminder")
+                            .doc(time)
+                            .update({
+                          "status": "cancel",
+                        });
 
+                        ToastMsg().toastMsg("Appointment Cancel successfully");
                       },),
                   ],
                 )

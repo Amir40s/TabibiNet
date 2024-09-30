@@ -164,6 +164,11 @@ class PatientAppointmentProvider with ChangeNotifier {
   Future<void> sendAppointment() async {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
 
+    String fileUrl = "";
+     if(_selectedFilePath !=null) {
+       fileUrl  = await uploadPdfFile() ?? "";
+     }
+
     await fireStore.collection("appointment").doc(id).set({
       "id" : id,
       "patientId" : auth.currentUser!.uid,
@@ -189,6 +194,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "appointmentTime" : _appointmentTime,
       "appointmentDate" : _appointmentDate,
       "appointmentPayment" : _selectFee,
+      "documentFile" : fileUrl,
       "applyDate" : DateTime.now(),
     })
         .whenComplete(() {
@@ -196,6 +202,34 @@ class PatientAppointmentProvider with ChangeNotifier {
       // Get.off(()=>StartAppointmentScreen());
     },);
   }
+  Future<String?> uploadPdfFile() async {
+
+    File file = File(_selectedFilePath.toString());
+
+    try {
+      _isLoading = true;
+      notifyListeners();
+      // Create a reference to Firebase Storage
+      final storageRef = storage.ref();
+      // Create a reference to the file you want to upload
+      final fileRef = storageRef.child('reports/${file.uri.pathSegments.last}');
+
+      // Upload the file
+      await fileRef.putFile(file);
+
+      // Get the download URL
+      final String downloadUrl = await fileRef.getDownloadURL();
+
+      // await addFile(appointmentId, downloadUrl);
+
+      log('File uploaded successfully: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      log('Error uploading file: $e');
+      return "";
+    }
+  }
+
 
   Future<void> pickFile() async {
     try {

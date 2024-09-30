@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
+import 'package:tabibinet_project/Providers/chatProvider/chatProvider.dart';
+import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
+import 'Providers/Medicine/medicine_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
 import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
@@ -47,6 +50,30 @@ class GlobalProviderAccess {
     final context = navigatorKey.currentContext;
     if (context != null) {
       return Provider.of<PatientNotificationProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static BottomNavBarProvider? get bottomNavProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<BottomNavBarProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static MedicineProvider? get medicineProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<MedicineProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static ChatProvider? get chatProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<ChatProvider>(context, listen: false);
     }
     return null;
   }

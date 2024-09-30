@@ -112,8 +112,15 @@ class SessionDetailScreen extends StatelessWidget {
                           textColor: redColor,
                           bgColor: redColor.withOpacity(0.1),
                           bdColor: redColor,
-                          press: () {
+                          press: () async{
 
+                           await fireStore.collection("appointment")
+                                .doc(model.id)
+                                .update({
+                                  "status": "cancel",
+                                });
+
+                           ToastMsg().toastMsg("Appointment Cancel successfully");
                         },),
                         SubmitButton(
                           width: 40.w,
