@@ -27,50 +27,46 @@ class FaqScreen extends StatelessWidget {
           children: [
             const Header(text: "Faq"),
             Expanded(
-                child: ListView(
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                              width: 72.w,
-                              height: 50,
-                              child: InputField2(
-                                inputController: searchC,
-                                hintText: "Find here!",
-                                prefixIcon: Icons.search,
-                              )),
-                          InkWell(
-                            onTap: () {
-
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(15),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  color: themeColor,
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: SvgPicture.asset(AppIcons.menuIcon),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: height1,),
-                    FaqCatSection(),
-                    SizedBox(height: height1,),
-                    FaqSection()
-
-                  ],
-                ))
+                child: FaqSection())
           ],
         ),
       ),
     );
   }
 }
+
+
+//Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           SizedBox(
+//                               width: 72.w,
+//                               height: 50,
+//                               child: InputField2(
+//                                 inputController: searchC,
+//                                 hintText: "Find here!",
+//                                 prefixIcon: Icons.search,
+//                               )),
+//                           InkWell(
+//                             onTap: () {
+//
+//                             },
+//                             child: Container(
+//                               padding: const EdgeInsets.all(15),
+//                               height: 50,
+//                               width: 50,
+//                               decoration: BoxDecoration(
+//                                   color: themeColor,
+//                                   borderRadius: BorderRadius.circular(10)
+//                               ),
+//                               child: SvgPicture.asset(AppIcons.menuIcon),
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(height: height1,),
+//                     FaqCatSection(),
+//                     SizedBox(height: height1,),

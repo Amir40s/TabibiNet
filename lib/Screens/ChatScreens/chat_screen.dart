@@ -73,12 +73,10 @@ class _ChatScreenState extends State<ChatScreen> {
     final provider = Provider.of<ChatProvider>(context);
     final doctorP = GlobalProviderAccess.profilePro;
 
-
-
-    return Scaffold(
-      backgroundColor: themeColor,
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: themeColor,
+        body: Container(
           decoration: const BoxDecoration(
               color: themeColor
           ),

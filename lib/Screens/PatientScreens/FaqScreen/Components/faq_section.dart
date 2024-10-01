@@ -40,9 +40,8 @@ class FaqSection extends StatelessWidget {
         return Consumer<FaqProvider>(
           builder: (context, value, child) {
             return ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
               itemCount: faqs.length,
               itemBuilder: (context, index) {
                 final isSelected = value.selectFaq == index;
@@ -99,7 +98,6 @@ class FaqSection extends StatelessWidget {
                             fontSize: 12, fontWeight: FontWeight.w400,
                             isTextCenter: false, textColor: textColor, maxLines: 2,),
                         )
-
                       ],
                     ),
                   ),

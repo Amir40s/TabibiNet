@@ -54,9 +54,9 @@ class LanguageScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final isSelected = provider.selectedIndex == index;
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         provider.selectButton(index);
-                        provider.loadLanguage(supportedLanguages[index]);
+                        await provider.loadLanguage(supportedLanguages[index]);
                       },
                       child: LanguageContainer(
                         title: options[index]['title']!,

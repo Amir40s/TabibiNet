@@ -103,10 +103,12 @@
   "Fees Information": "Fees Information",
   "Schedules": "Schedules",
   "Patients details": "Patients details",
+
   "Full Name": "Full Name",
   "Female": "Female",
   "File should be pdf, docx or pptx": "File should be pdf, docx or pptx",
-
+  "Add a file": "Add a file",
+  "or drop it here": " or drop it here",
   "Continue": "Continue",
   "Select Your Age Range": "Select Your Age Range",
   "Phone Number": "Phone Number",
@@ -115,6 +117,17 @@
   "Write Your Problem": "Write Your Problem",
   "Any Documented Test Reports": "Any Documented Test Reports",
   "You can now make multiple doctoral appointments at once You can  appointments at once You can ": "You can now make multiple doctoral appointments at once You can  appointments at once You can ",
+
+  "Make Payment": "Make Payment",
+  "Consulting": "Consulting",
+  "Other Manipulation": "Other Manipulation",
+  "Other Service": "Other Service",
+  "Total": "Total",
+  "Booking Confirmed": "Booking Confirmed",
+  "Start Appointment": "Start Appointment",
+  "Video Call Ended": "Video Call Ended",
+  "Recording have been saved in history": "Recording have been saved in history",
+  "Would you recommended Dr. Marvin to your friends": "Would you recommended Dr. Marvin to your friends"
 
 
 

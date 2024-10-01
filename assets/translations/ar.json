@@ -104,17 +104,30 @@
   "Fees Information": "معلومات الرسوم",
   "Schedules": "الجداول الزمنية",
   "Patients details": "تفاصيل المرضى",
+
   "Full Name": "الاسم الكامل",
   "Select Your Age Range": "اختر فئتك العمرية",
   "Phone Number": "رقم التليفون",
   "Gender": "جنس",
   "Male": "ذكر",
   "Female": "أنثى",
+  "Add a file": "إضافة ملف",
+  "or drop it here": " أو أسقطه هنا",
   "File should be pdf, docx or pptx": "يجب أن يكون الملف pdf أو docx أو pptx",
-
   "Write Your Problem": "اكتب مشكلتك",
   "Any Documented Test Reports": "أي تقارير اختبار موثقة",
-  "You can now make multiple doctoral appointments at once You can  appointments at once You can ": "يمكنك الآن تحديد مواعيد متعددة مع الأطباء دفعة واحدة\nيمكنك تحديد مواعيد دفعة واحدة يمكنك"
+  "You can now make multiple doctoral appointments at once You can  appointments at once You can ": "يمكنك الآن تحديد مواعيد متعددة مع الأطباء دفعة واحدة\nيمكنك تحديد مواعيد دفعة واحدة يمكنك",
+
+  "Make Payment": "Make Payment",
+  "Consulting": "Consulting",
+  "Other Manipulation": "Other Manipulation",
+  "Other Service": "Other Service",
+  "Total": "Total",
+  "Booking Confirmed": "Booking Confirmed",
+  "Start Appointment": "Start Appointment",
+  "Video Call Ended": "Video Call Ended",
+  "Recording have been saved in history": "Recording have been saved in history",
+  "Would you recommended Dr. Marvin to your friends": "Would you recommended Dr. Marvin to your friends"
 
 
 }
