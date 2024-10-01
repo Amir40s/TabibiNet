@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/model/res/constant/app_text.dart';
+import 'package:tabibinet_project/model/services/SharedPreference/shared_preference.dart';
 
 import '../../../Providers/Language/language_provider.dart';
+import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/submit_button.dart';
@@ -26,6 +29,7 @@ class LanguageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -54,9 +58,12 @@ class LanguageScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final isSelected = provider.selectedIndex == index;
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async{
+                        final pref = await SharedPreferencesService.getInstance();
+                       await  pref.setString("language", supportedLanguages[index]);
                         provider.selectButton(index);
-                        provider.loadLanguage(supportedLanguages[index]);
+                        await languageP.translateMultiple(AppText.appTextList);
+                        // provider.loadLanguage(supportedLanguages[index]);
                       },
                       child: LanguageContainer(
                         title: options[index]['title']!,

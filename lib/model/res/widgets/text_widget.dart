@@ -1,5 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../Providers/translation/translation_provider.dart';
 
 class TextWidget extends StatelessWidget {
   const TextWidget(
@@ -23,9 +26,10 @@ class TextWidget extends StatelessWidget {
   final ValueKey<int>? valueKey;
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TranslationProvider>(context);
     return AutoSizeText(
       key: valueKey,
-      text,
+      provider.translatedTexts[text] ?? text,
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       textAlign: isTextCenter == true ? TextAlign.center: TextAlign.start,

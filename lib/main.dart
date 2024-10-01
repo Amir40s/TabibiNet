@@ -25,6 +25,7 @@ import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 import 'Providers/SignUp/sign_up_provider.dart';
 import 'Providers/chatProvider/chatProvider.dart';
+import 'Providers/translation/translation_provider.dart';
 import 'Screens/StartScreens/SplashScreen/splash_screen.dart';
 import 'constant.dart';
 import 'firebase_options.dart';
@@ -89,6 +90,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => MyAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
             ChangeNotifierProvider(create: (context) => ProfileProvider(),),
+            ChangeNotifierProvider(create: (context) => TranslationProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
