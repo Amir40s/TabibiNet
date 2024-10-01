@@ -19,6 +19,16 @@ class PatientAppointmentProvider with ChangeNotifier {
     _filteredTime = List.from(_time); // Initially show all times
   }
 
+  Stream<List<AppointmentModel>> fetchPatientsSingle() {
+    log("Doctor id is:: ${auth.currentUser!.uid}");
+    return fireStore.collection('appointment')
+        .where("patientId",isEqualTo: auth.currentUser!.uid)
+        .where("status",isEqualTo: "upcoming")
+        .snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
+    });
+  }
+
   final CloudinaryService _cloudinaryService = CloudinaryService();
 
   final profileP = GlobalProviderAccess.profilePro;

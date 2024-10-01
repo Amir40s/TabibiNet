@@ -7,6 +7,7 @@ import 'package:tabibinet_project/Screens/PatientScreens/NotificationScreen/noti
 import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientMessageScreen/patient_message_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientProfileScreen/patient_profile_screen.dart';
+import 'package:tabibinet_project/patient_medication_screen.dart';
 
 import '../../../Providers/BottomNav/bottom_navbar_provider.dart';
 import '../../../constant.dart';
@@ -27,7 +28,7 @@ class PatientBottomNavBar extends StatelessWidget {
             children: const [
               PatientHomeScreen(),
               ChatListScreen(),
-              NotificationScreen(),
+              PatientMedicationScreen(),
               PatientProfileScreen()
             ],
           );

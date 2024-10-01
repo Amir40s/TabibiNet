@@ -20,7 +20,7 @@ import '../../../model/res/widgets/info_tile.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../ChatScreens/chat_screen.dart';
-import '../../../Providers/chatProvider/chatProvider.dart';
+import '../../../Providers/chatProvider/chat_provider.dart';
 import '../../../model/data/appointment_model.dart';
 import '../EPrescriptionScreen/Components/prescription_container.dart';
 import '../EmrDetailScreen/Components/medication_list_section.dart';
