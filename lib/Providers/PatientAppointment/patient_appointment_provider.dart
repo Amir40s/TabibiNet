@@ -212,6 +212,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       // Get.off(()=>StartAppointmentScreen());
     },);
   }
+
   Future<String?> uploadPdfFile() async {
 
     File file = File(_selectedFilePath.toString());
@@ -239,7 +240,6 @@ class PatientAppointmentProvider with ChangeNotifier {
       return "";
     }
   }
-
 
   Future<void> pickFile() async {
     try {

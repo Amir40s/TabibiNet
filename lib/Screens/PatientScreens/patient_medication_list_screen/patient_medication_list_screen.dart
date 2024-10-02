@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PrescriptionListScreen/prescription_list_screen.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/patient_medication_screen/patient_medication_screen.dart';
 
-import 'Screens/DoctorScreens/PatientManagementDetailScreen/patient_management_detail_screen.dart';
-import 'constant.dart';
-import 'model/data/appointment_model.dart';
-import 'model/res/constant/app_fonts.dart';
-import 'model/res/widgets/header.dart';
-import 'model/res/widgets/submit_button.dart';
-import 'model/res/widgets/text_widget.dart';
+import '../../DoctorScreens/PatientManagementDetailScreen/patient_management_detail_screen.dart';
+import '../../../constant.dart';
+import '../../../model/data/appointment_model.dart';
+import '../../../model/res/constant/app_fonts.dart';
+import '../../../model/res/widgets/header.dart';
+import '../../../model/res/widgets/submit_button.dart';
+import '../../../model/res/widgets/text_widget.dart';
 
-class PatientMedicationScreen extends StatelessWidget {
-  const PatientMedicationScreen({super.key});
+class PatientMedicationListScreen extends StatelessWidget {
+  const PatientMedicationListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -100,16 +101,14 @@ class PatientMedicationScreen extends StatelessWidget {
                                   textColor: themeColor,
                                   bgColor: themeColor.withOpacity(0.1),
                                   press: () {
-                                    Get.to(()=> PatientManagementDetailScreen(
-                                      appointmentId : user.id,
-                                      patientName: user.patientName,
-                                      patientAge: user.patientAge,
-                                      patientGender: user.patientGender,
-                                      userProblem: user.patientProblem,
-                                      patientEmail: user.patientEmail,
-                                      doctorEmail: user.doctorEmail,
-                                      profilePic: user.image,
+                                    Get.to(()=>PrescriptionListScreen(
+                                        appointmentId: user.id,
+                                      doctorName: user.doctorName,
                                     ));
+                                    // Get.to(()=> PatientMedicationScreen(
+                                    //     doctorName: user.doctorName,
+                                    //     appointmentId: user.id, prescriptionId: '',
+                                    // ));
                                   },)
                               ],
                             ),

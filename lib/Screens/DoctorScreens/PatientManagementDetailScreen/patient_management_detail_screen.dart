@@ -30,7 +30,7 @@ import '../PatientsLabReportScreen/patient_lab_report_screen.dart';
 import '../PrescribeMedicineScreen/prescribe_medicine_screen.dart';
 
 class PatientManagementDetailScreen extends StatelessWidget {
-   PatientManagementDetailScreen({
+   const PatientManagementDetailScreen({
     super.key,
     required this.appointmentId,
     required this.patientName,

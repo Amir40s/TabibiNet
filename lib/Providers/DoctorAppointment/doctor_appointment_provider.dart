@@ -61,8 +61,6 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     });
   }
 
-
-
   // Stream<List<AppointmentModel>> fetchAllPatients() {
   //   return fireStore
   //       .collection('appointment')

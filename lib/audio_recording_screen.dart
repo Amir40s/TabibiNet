@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/AudioPlayerProvider/audio_player_provider.dart';
 
 class AudioRecorder {
   FlutterSoundRecorder _recorder = FlutterSoundRecorder();
@@ -40,16 +44,19 @@ class AudioRecorder {
 }
 
 
-Future<String?> uploadAudioToFirebase(String filePath) async {
+Future<String> uploadAudioToFirebase(String filePath,context) async {
+  final provider = Provider.of<AudioPlayerProvider>(context,listen: false);
   File audioFile = File(filePath);
   try {
+    provider.setLoading(true);
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference storageRef = FirebaseStorage.instance.ref().child('audios/$fileName.aac');
     await storageRef.putFile(audioFile);
+    provider.setLoading(false);
     return await storageRef.getDownloadURL();  // Return URL for future playback
   } catch (e) {
-    print('Error uploading audio: $e');
-    return null;
+    log('Error uploading audio: $e');
+    return provider.setLoading(false);
   }
 }
 
@@ -93,7 +100,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
       String? filePath = _recorder.filePath;
 
       if (filePath != null) {
-        String? url = await uploadAudioToFirebase(filePath);  // Upload to Firebase
+        String? url = await uploadAudioToFirebase(filePath,context);  // Upload to Firebase
         if (url != null) {
           setState(() {
             _audioUrl = url;
@@ -115,7 +122,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Audio Recorder with Firebase'),
+        title: const Text('Audio Recorder with Firebase'),
       ),
       body: Center(
         child: Column(

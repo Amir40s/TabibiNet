@@ -4,7 +4,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/chart_screen.dart';
 
+import 'Providers/AudioPlayerProvider/audio_player_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'Providers/DoctorHome/doctor_home_provider.dart';
@@ -89,6 +91,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => MyAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
             ChangeNotifierProvider(create: (context) => ProfileProvider(),),
+            ChangeNotifierProvider(create: (context) => AudioPlayerProvider(),),
           ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
@@ -100,6 +103,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
+          // home: PatientStatusChart(),
           home: const SplashScreen(),
           // home: const DoctorBottomNavbar(),
           // home: const PatientBottomNavBar(),

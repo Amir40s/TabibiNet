@@ -18,6 +18,7 @@ import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
 import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+import '../../Providers/AudioPlayerProvider/audio_player_provider.dart';
 import '../../Providers/chatProvider/chat_provider.dart';
 import '../../audio_recording_screen.dart';
 import '../../controller/audioController.dart';
@@ -70,6 +71,38 @@ class _ChatScreenState extends State<ChatScreen> {
     if(widget.type == "support"){
       messageController.text  = "${widget.name} \n ${widget.phone} \n\n Problem:\n${widget.problem}";
     }
+  }
+
+  void _handleMicButton() async {
+    if (_isRecording) {
+      // Stop recording
+      await _recorder.stopRecording();
+      String? filePath = _recorder.filePath;
+
+      if (filePath != null) {
+        String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
+        final provider = Provider.of<ChatProvider>(context,listen: false);
+        await provider.sendFileMessage(
+          chatRoomId: widget.chatRoomId,
+          fileUrl: url ?? "",
+          type: "voice",
+          otherEmail: widget.patientEmail,
+        );
+        if (url.isNotEmpty) {
+          setState(() {
+            _audioUrl = url;
+          });
+        }
+      }
+    } else {
+      // Start recording
+      await _recorder.startRecording();
+    }
+
+    // Toggle recording state and update UI
+    setState(() {
+      _isRecording = !_isRecording;
+    });
   }
 
   // @override
@@ -208,17 +241,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                               ],
                                             ),
                                           )
-                                          //     : type == "voice" ?
-                                          // Container(
-                                          //   width: Get.width * 0.54,
-                                          //   child: ListTile(
-                                          //     title: Text("Voice Message"),
-                                          //     trailing: PlayButton(audioUrl: message['text']),
-                                          //   ),
-                                          // )
-                                          //     : type == "location"
-                                          //     ?
-                                          //
+                                              : type == "voice" ?
+                                          Container(
+                                            width: Get.width * 0.54,
+                                            child: ListTile(
+                                              title: Text("Voice Message"),
+                                              trailing: PlayButton(audioUrl: message['url']),
+                                            ),
+                                          )
+                                              // : type == "location"
+                                              // ?
+
                                           // Container(
                                           //   width: Get.width * 0.54,
                                           //   height: 150,
@@ -269,8 +302,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           //   chatRoomId: chatRoomId,
                                           //   otherEmail: otherEmail,
                                           // )
-                                              :
-                                          const SizedBox.shrink(),
+                                          //
+                                          : const SizedBox.shrink(),
                                           const SizedBox(height: 3),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -306,7 +339,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                             );
-
                             messageWidgets.add(messageWidget);
                           }
                           return ListView(
@@ -401,11 +433,13 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(width: 10),
-          GestureDetector(
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onTap: () async{
               final provider = Provider.of<ChatProvider>(context, listen: false);
               if(messageController.text.isEmpty){
-                ;
+                _handleMicButton();
               }
               if(messageController.text.isNotEmpty){
                 await  provider.sendMessage(
@@ -414,14 +448,18 @@ class _ChatScreenState extends State<ChatScreen> {
               }
               messageController.text = "";
             },
-            child: Consumer<ChatProvider>(
+            child: Consumer<AudioPlayerProvider>(
               builder: (context, value, child) {
                 return CircleAvatar(
                   backgroundColor: themeColor,
-                  child: SvgPicture.asset(
+                  child: value.isLoading ? const Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: CircularProgressIndicator(color: bgColor,),
+                  ) :
+                  SvgPicture.asset(
                     messageController.text.isEmpty ? AppIcons.micIcon  : AppIcons.sendIcon,
                     colorFilter: ColorFilter.mode(
-                        value.isRecording ? redColor : bgColor,
+                        _isRecording ? redColor : bgColor,
                         BlendMode.srcIn
                     ),),
                 );
@@ -696,18 +734,21 @@ class _ChatScreenState extends State<ChatScreen> {
           openWebPage(fallbackUrl);
         }
       }
-    } else if (status.isDenied) {
+    }
+    else if (status.isDenied) {
       log("Storage permission denied.");
       showToast("Storage permission denied. Please grant storage permission to download the file.");
       if (fallbackUrl != null) {
         openWebPage(fallbackUrl);
       }
-    } else if (status.isPermanentlyDenied) {
+    }
+    else if (status.isPermanentlyDenied) {
       log("Storage permission is permanently denied, opening app settings.");
       showToast("Storage permission is permanently denied. Please enable it in settings.");
       bool opened = await openAppSettings();
       log("Opened app settings: $opened");
-    } else if (status.isRestricted) {
+    }
+    else if (status.isRestricted) {
       log("Storage permission is restricted, cannot request permission.");
       showToast("Storage permission is restricted, cannot request permission.");
       if (fallbackUrl != null) {
@@ -742,4 +783,44 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+}
+
+
+class PlayButton extends StatelessWidget {
+  final String audioUrl;
+
+  const PlayButton({super.key, required this.audioUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AudioPlayerProvider>(
+      builder: (context, audioPlayerProvider, child) {
+        bool isPlaying = audioPlayerProvider.currentPlayingUrl == audioUrl &&
+            audioPlayerProvider.audioPlayerState == PlayerState.playing;
+
+        return IconButton(
+          icon: Icon(
+            isPlaying ? Icons.pause : Icons.play_arrow,
+          ),
+          onPressed: () {
+            if (isPlaying) {
+              audioPlayerProvider.pause();
+            } else {
+              audioPlayerProvider.play(audioUrl);
+            }
+          },
+        );
+      },
+    );
+  }
+
+
+
+// Future<void> _deleteSelectedMessages() async {
+//   final provider = Provider.of<ChatProvider>(context, listen: false);
+//   for (String messageId in selectedMessages) {
+//     await provider.deleteMessage(widget.chatRoomId, messageId);
+//   }
+//   Fluttertoast.showToast(msg: "Selected messages deleted");
+// }
 }
