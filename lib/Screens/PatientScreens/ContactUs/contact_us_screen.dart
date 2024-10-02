@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/global_provider.dart';
@@ -10,6 +11,8 @@ import 'package:tabibinet_project/model/res/widgets/input_field.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
+
+import '../../../Providers/translation/translation_provider.dart';
 
 class ContactUsScreen extends StatelessWidget {
   ContactUsScreen({super.key});
@@ -23,19 +26,20 @@ class ContactUsScreen extends StatelessWidget {
 
     double height1 = 20;
     double height2 = 10;
+    final languageP  = Provider.of<TranslationProvider>(context);
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Contact Us"),
+             Header(text: languageP.translatedTexts["Contact Us"] ?? "Contact Us"),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TextWidget(
+                   TextWidget(
                     text: "Full Name", fontSize: 14,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
@@ -46,7 +50,7 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: height1,),
                   const TextWidget(
-                    text: "Phone Number *", fontSize: 14,
+                    text: "Phone Number", fontSize: 14,
                     fontWeight: FontWeight.w600, isTextCenter: false,
                     textColor: textColor, fontFamily: AppFonts.semiBold,),
                   SizedBox(height: height2,),

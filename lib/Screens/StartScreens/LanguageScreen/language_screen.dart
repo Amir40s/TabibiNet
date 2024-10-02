@@ -88,7 +88,7 @@ class LanguageScreen extends StatelessWidget {
               },),
               const SizedBox(height: 20,),
               SubmitButton(
-                title: isNextButton? "Next" : "Select",
+                title: isNextButton? "Next" : languageP.translatedTexts["Select"] ?? "Select",
                 press: () {
                   if(isNextButton){
                   Get.to(()=>const LocationScreen());
@@ -103,10 +103,3 @@ class LanguageScreen extends StatelessWidget {
     );
   }
 }
-
-//GoalContainer(
-//                           title: options[index]['title']!, titleColor: isSelected ? bgColor : textColor,
-//                           subTitle: options[index]['subtitle']!, subTitleColor: isSelected ? bgColor : textColor,
-//                           image: options[index]['icon']!, containerColor: isSelected ? themeColor : lightGreyColor,
-//                           borderColor: isSelected ? Color(0xffFDDCC5): Colors.transparent,
-//                           imageColor: isSelected ? bgColor : greyColor),

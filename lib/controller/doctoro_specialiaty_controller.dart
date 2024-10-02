@@ -1,20 +1,28 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
+import 'package:tabibinet_project/global_provider.dart';
+import 'package:tabibinet_project/model/data/faq_model.dart';
 import 'package:tabibinet_project/model/data/specialize_model.dart';
 import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 
 import '../Providers/Language/language_provider.dart';
 import '../model/data/user_model.dart';
 
-class FindDoctorController extends GetxController {
-  final FindDoctorProvider findDoctorProvider;
+class AppDataController extends GetxController {
+  final FindDoctorProvider? findDoctorProvider;
   RxList<SpecializeModel> specialties = <SpecializeModel>[].obs;
   RxBool isLoading = true.obs;
 
   RxList<UserModel> doctorsList = <UserModel>[].obs;
   RxBool isDoctor = true.obs;
 
-  FindDoctorController(this.findDoctorProvider);
+  RxList<FaqModel> faqList = <FaqModel>[].obs;
+  RxBool isFaq = true.obs;
+
+  AppDataController([this.findDoctorProvider]);
 
   @override
   void onInit() {
@@ -32,12 +40,13 @@ class FindDoctorController extends GetxController {
   void fetchSpecialties() async {
     isDoctor(true);
     try {
-      final data = await findDoctorProvider.fetchSpeciality().first;
+      final data = await findDoctorProvider!.fetchSpeciality().first;
       specialties.value = data;
       final languageProvider = Get.find<TranslationProvider>();
       languageProvider.setSpecialties(data.map((e) => e.specialty).toList());
     } catch (e) {
-      Get.snackbar("Error", "Failed to fetch specialties");
+      log(e.toString());
+      // Get.snackbar("Error", "Failed to fetch specialties");
     } finally {
       isLoading(false);
     }
@@ -46,17 +55,40 @@ class FindDoctorController extends GetxController {
   void fetchDoctors() async {
     isDoctor(true);
     try {
-      final data = await findDoctorProvider.fetchDoctors().first;
+      final data = await findDoctorProvider!.fetchDoctors().first;
       doctorsList.value = data;
+      final languageProvider = Get.find<TranslationProvider>();
+      languageProvider.setHomeDoctors(data.map((e) => e.name).toList());
     } catch (e) {
-      Get.snackbar("Error", "Failed to fetch specialties");
+      log(e.toString());
     } finally {
       isDoctor(false);
     }
   }
 
+  void fetchFaq() async {
+    final faqProvider = GlobalProviderAccess.faqProvider;
+    if (faqProvider == null) {
+      Get.snackbar("Error", "FAQ provider is unavailable");
+      return;
+    }
+    isFaq(true);
+    try {
+      final data = await faqProvider.fetchFaq().first;
+      faqList.value = data.cast<FaqModel>();
+      final languageProvider = Get.find<TranslationProvider>();
+      languageProvider.setFAQ(data.map((e) => e.question).toList());
+    } catch (e) {
+     log(e.toString());
+    } finally {
+      isFaq(false);
+    }
+  }
+
+
+
   void setDoctorCategory(int index, String id, String specialty) {
-    findDoctorProvider.setDoctorCategory(index, id, specialty);
+    findDoctorProvider!.setDoctorCategory(index, id, specialty);
   }
 
 }
