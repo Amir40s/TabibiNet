@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorAppointment/doctor_appointment_provider.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 
 import '../../../../../constant.dart';
@@ -22,6 +25,8 @@ class CalendarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final patientAppointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
+    final docAppointmentP = Provider.of<DoctorAppointmentProvider>(context,listen: false);
+    final dateProvider = Provider.of<DateProvider>(context,listen: false);
     return SizedBox(
       height: 120,
       width: 100.w,
@@ -30,36 +35,36 @@ class CalendarSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                    color: greyColor
-                )
-            ),
-            child: Consumer<DateProvider>(
-              builder: (context, dateProvider, child) {
-                DateTime selectedDate = dateProvider.selectedDate;
-                DateTime firstDayOfMonth = DateTime(month.year, month.month, 1);
-                int daysInMonth = DateTime(month.year, month.month + 1, 0).day;
+          InkWell(
+            onTap:  () async {
+              DateTime? selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+              );
+              if (selectedDate != null) {
+                dateProvider.updateSelectedDate(selectedDate);
+                docAppointmentP.selDate(selectedDate);
+              }
+              log("message");
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                      color: greyColor
+                  )
+              ),
+              child: Consumer<DateProvider>(
+                builder: (context, dateProvider, child) {
+                  DateTime selectedDate = dateProvider.selectedDate;
+                  DateTime firstDayOfMonth = DateTime(month.year, month.month, 1);
+                  int daysInMonth = DateTime(month.year, month.month + 1, 0).day;
 
-                return GestureDetector(
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate,
-                      firstDate: firstDate ?? DateTime(2000),
-                      lastDate: DateTime(2100),
-                    );
-
-                    if (pickedDate != null) {
-                      patientAppointmentP.setAppointmentDate(selectedDate);
-                      dateProvider.updateSelectedDate(pickedDate);
-                    }
-                  },
-                  child: ListView.builder(
+                  return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: daysInMonth,
                     shrinkWrap: true,
@@ -70,7 +75,7 @@ class CalendarSection extends StatelessWidget {
                       bool isSelected = selectedDate.day == date.day &&
                           selectedDate.month == date.month &&
                           selectedDate.year == date.year;
-
+                  
                       return Container(
                         width: 60,
                         padding: const EdgeInsets.all(8.0),
@@ -104,9 +109,9 @@ class CalendarSection extends StatelessWidget {
                         ),
                       );
                     },
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],

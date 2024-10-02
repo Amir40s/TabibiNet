@@ -115,7 +115,6 @@ class DoctorHomeScreen extends StatelessWidget {
                             return ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               itemCount: patients.length,
                               itemBuilder: (context, index) {
                                 final patient = patients[index];

@@ -11,7 +11,6 @@ import '../../model/services/SharedPreference/shared_preference.dart';
 
 class LanguageProvider extends ChangeNotifier {
 
-
   int _selectedIndex = 2; // Default selection
   bool _isBouncing = false;
   Map<String, String> _localizedStrings = {};
@@ -36,13 +35,15 @@ class LanguageProvider extends ChangeNotifier {
   Future<void> loadLanguage(String languageCode) async {
     final _sharedPreferenceService = await SharedPreferencesService.getInstance();
 
+
     _selectedLanguage = languageCode;
     String jsonString = await rootBundle.loadString('assets/translations/$languageCode.json');
+    log("************$languageCode******************");
     Map<String, dynamic> jsonMap = json.decode(jsonString);
     _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
 
     // Save selected language to SharedPreferences
-    await _sharedPreferenceService.setString(languageKey, languageCode);
+    await sharedPreferenceService.setString(languageKey, languageCode);
 
     log(_selectedLanguage);
     log(_selectedIndex.toString());
@@ -51,10 +52,12 @@ class LanguageProvider extends ChangeNotifier {
 
   // Load the saved language on app start
   Future<void> loadSavedLanguage() async {
+
     final _sharedPreferenceService = await SharedPreferencesService.getInstance();
 
     String? savedLanguage =  _sharedPreferenceService.getString(languageKey) ?? "en";
     int? savedIndex =  _sharedPreferenceService.getInt(languageIndex) ?? 0;
+
 
     // If no language is saved, default to English
     if (savedLanguage != null) {
@@ -72,7 +75,8 @@ class LanguageProvider extends ChangeNotifier {
     final _sharedPreferenceService = await SharedPreferencesService.getInstance();
 
     _selectedIndex = index;
-    await _sharedPreferenceService.setInt(languageIndex, _selectedIndex);
+    final sharedPreferenceService = await SharedPreferencesService.getInstance();
+    await sharedPreferenceService.setInt(languageIndex, _selectedIndex);
     _isBouncing = true;
     notifyListeners();
   }

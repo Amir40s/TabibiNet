@@ -61,6 +61,7 @@ class LanguageScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final isSelected = provider.selectedIndex == index;
                     return GestureDetector(
+
                       onTap: () async{
                         final pref = await SharedPreferencesService.getInstance();
                        await  pref.setString("language", supportedLanguages[index]);
@@ -69,6 +70,7 @@ class LanguageScreen extends StatelessWidget {
                         await languageP.translateMultiple(AppText.appTextList,targetLanguage: supportedLanguages[index].toString());
                         provider.loadLanguage(supportedLanguages[index]);
                         controller.changeLanguage(supportedLanguages[index].toString());
+
 
                       },
                       child: LanguageContainer(

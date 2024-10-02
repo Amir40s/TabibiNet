@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/Language/language_provider.dart';
 import 'package:tabibinet_project/Providers/Onboard/onboard_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/LanguageScreen/language_screen.dart';
+import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -14,20 +16,40 @@ class OnboardingScreen extends StatelessWidget {
 
   final List<Map<String, String>> onboardingData = [
     {
-      'text1': "Expert Doctor",
-      'text2': ' Advice\nOnline',
-      'text3': 'Access professional medical guidance conveniently from the comfort of your home.',
+      'text1': "Expert Doctor ",
+      'text2': 'Advice Online',
+      'text3': 'Access top-tier medical expertise from the comfort of your home. Our platform connects you with specialized doctors for personalized advice and care, anytime, anywhere.',
     },
     {
-      'text1': "Doctor Support,\nAlways",
-      'text2': ' Ready',
-      'text3': 'Access reliable medical assistance whenever you need it, from trusted professionals.',
+      'text1': "Doctor Support, Always",
+      'text2': 'Ready',
+      'text3': "Our dedicated doctors are here to support you 24/7. Whether it's a simple consultation or urgent advice, you can count on us to be there when you need it most.",
     },
     {
       'text1': "Stay Healthy,",
-      'text2': ' Stay\nConnected',
-      'text3': 'Stay connected to health resources for a healthier, more informed lifestyle.',
+      'text2': 'Stay Connected',
+      'text3': "Your health is our priority. Stay connected with your healthcare providers and maintain your well-being through seamless, continuous care and support.",
     },
+  ];
+
+  final List<String> onboardingImages = [
+    AppAssets.onboard_6,
+    AppAssets.onboard_1,
+    AppAssets.onboard_3,
+    AppAssets.onboard_4,
+    AppAssets.onboard_5,
+    AppAssets.onboard_2,
+    AppAssets.onboard_7,
+  ];
+
+  final List<String> onboardingImages2 = [
+    AppAssets.onboard_7,
+    AppAssets.onboard_5,
+    AppAssets.onboard_2,
+    AppAssets.onboard_4,
+    AppAssets.onboard_5,
+    AppAssets.onboard_1,
+    AppAssets.onboard_6,
   ];
 
   @override
@@ -48,17 +70,20 @@ class OnboardingScreen extends StatelessWidget {
                     height: 100.h,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: onboardingImages.length,
                       itemBuilder: (context, index) {
                       return Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         height: 200,
                         width: 40.w,
                         decoration: BoxDecoration(
                           color: greyColor,
-                          borderRadius: BorderRadius.circular(15)
+                          borderRadius: BorderRadius.circular(15),
                         ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.asset(onboardingImages[index],fit: BoxFit.cover,)),
                       );
                     },),
                   ),
@@ -66,19 +91,22 @@ class OnboardingScreen extends StatelessWidget {
                     width: 47.w,
                     height: 100.h,
                     child: ListView.builder(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: onboardingImages2.length,
                       itemBuilder: (context, index) {
                       return Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         height: 200,
                         width: 40.w,
                         decoration: BoxDecoration(
                           color: greyColor,
-                          borderRadius: BorderRadius.circular(15)
+                          borderRadius: BorderRadius.circular(15),
                         ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.asset(onboardingImages2[index],fit: BoxFit.cover,)),
                       );
                     },),
                   ),
@@ -86,9 +114,9 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
               width: 100.w,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25))
               ),
@@ -106,37 +134,40 @@ class OnboardingScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       transitionBuilder: (Widget child, Animation<double> animation) {
                         return FadeTransition(
                           opacity: animation,
                           child: child,
                         );
                       },
-                      child: RichText(
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                              text: onboardingData[value.currentIndex]['text1']!,
-                              style: TextStyle(color: textColor, fontSize: 30,
-                                  fontFamily: "Regular",fontWeight: FontWeight.w600),
-                              children: [
-                                TextSpan(
-                                  text: onboardingData[value.currentIndex]['text2']!,
-                                  style: TextStyle(color: themeColor, fontSize: 30,
-                                      fontFamily: "Regular",fontWeight: FontWeight.w600),),
-                              ]
-                          )),
+                      child: Consumer<LanguageProvider>(
+                        builder: (context, languageP, child) {
+                          return RichText(
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                  text: languageP.translate(onboardingData[value.currentIndex]['text1']!),
+                                  style: const TextStyle(color: textColor, fontSize: 30,
+                                      fontFamily: "Regular",fontWeight: FontWeight.w600),
+                                  children: [
+                                    TextSpan(
+                                      text: languageP.translate(onboardingData[value.currentIndex]['text2']!),
+                                      style: const TextStyle(color: themeColor, fontSize: 30,
+                                          fontFamily: "Regular",fontWeight: FontWeight.w600),),
+                                  ]
+                              ));
+                        },),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       transitionBuilder: (Widget child, Animation<double> animation) {
                         return FadeTransition(
                           opacity: animation,
@@ -146,10 +177,10 @@ class OnboardingScreen extends StatelessWidget {
                       child: TextWidget(
                         text: onboardingData[value.currentIndex]['text3']!,
                         fontSize: 16, fontWeight: FontWeight.normal,
-                        isTextCenter: true, textColor: textColor,maxLines: 2,
+                        isTextCenter: true, textColor: textColor,maxLines: 6,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -157,8 +188,8 @@ class OnboardingScreen extends StatelessWidget {
                       children: onboardingData.map((data) {
                         int index = onboardingData.indexOf(data);
                         return AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
                           height: 6.0,
                           width: value.currentIndex == index ? 25.0 : 6.0,
                           decoration: BoxDecoration(
@@ -170,7 +201,7 @@ class OnboardingScreen extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -193,12 +224,12 @@ class OnboardingScreen extends StatelessWidget {
                             }
                           },
                           child: Container(
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
+                            padding: const EdgeInsets.all(15),
+                            decoration: const BoxDecoration(
                                 color: themeColor,
                                 shape: BoxShape.circle
                             ),
-                            child: Icon(
+                            child: const Icon(
                               CupertinoIcons.forward,
                               color: bgColor,
                             ),

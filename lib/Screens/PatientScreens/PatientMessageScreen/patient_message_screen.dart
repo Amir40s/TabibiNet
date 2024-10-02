@@ -5,7 +5,7 @@ import 'package:tabibinet_project/Screens/ChatScreens/chat_screen.dart';
 import 'package:tabibinet_project/Screens/ChatScreens/search_controller.dart';
 import 'package:tabibinet_project/constant.dart';
 
-import '../../../Providers/chatProvider/chatProvider.dart';
+import '../../../Providers/chatProvider/chat_provider.dart';
 import '../../../model/data/chatModel/chatRoomModel.dart';
 import '../../../model/data/chatModel/userChatModel.dart';
 import '../../../model/res/widgets/chat_user_card.dart';

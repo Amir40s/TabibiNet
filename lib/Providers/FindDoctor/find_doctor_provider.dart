@@ -10,10 +10,10 @@ class FindDoctorProvider extends ChangeNotifier{
   String _filterValue = "";
   String? _selectSpecialityId;
   String _selectDoctorCategory = "All";
-  int _selectedIndex = 0;
+  int? _selectedIndex;
   int _numberOfDoctors = 0;
 
-  int get selectedIndex => _selectedIndex;
+  int? get selectedIndex => _selectedIndex;
   int get numberOfDoctors => _numberOfDoctors;
   String get filterValue => _filterValue;
   String? get selectDoctorId => _selectSpecialityId;

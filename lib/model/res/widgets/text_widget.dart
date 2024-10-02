@@ -2,7 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 import '../../../Providers/translation/translation_provider.dart';
+
+import '../../../Providers/Language/language_provider.dart';
+
 
 class TextWidget extends StatelessWidget {
   const TextWidget(
@@ -26,6 +30,7 @@ class TextWidget extends StatelessWidget {
   final ValueKey<int>? valueKey;
   @override
   Widget build(BuildContext context) {
+
     final provider = Provider.of<TranslationProvider>(context);
     return AutoSizeText(
       key: valueKey,
@@ -37,5 +42,6 @@ class TextWidget extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: fontWeight, color: textColor,fontFamily: fontFamily),
     );
+
   }
 }

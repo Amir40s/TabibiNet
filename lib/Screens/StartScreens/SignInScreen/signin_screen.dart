@@ -191,7 +191,7 @@ class SignInScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const TextWidget(text: "Don’t have an account?", fontSize: 16, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
+                const TextWidget(text: "Don’t have an account?", fontSize: 14, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
                 InkWell(
                     onTap: () {
                       if(signInP.userType == "Health Professional"){
@@ -201,9 +201,9 @@ class SignInScreen extends StatelessWidget {
                       }
                     },
                     child: const TextWidget(
-                        text: " Sign Up ", fontSize: 16, fontWeight: FontWeight.w400,
+                        text: "Sign Up", fontSize: 14, fontWeight: FontWeight.w400,
                         isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,)),
-                const TextWidget(text: "here", fontSize: 16, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
+                const TextWidget(text: "here", fontSize: 14, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
               ],
             ),
           ],

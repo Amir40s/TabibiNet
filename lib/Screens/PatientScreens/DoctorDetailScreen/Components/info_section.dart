@@ -43,15 +43,15 @@ class InfoSection extends StatelessWidget {
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: bgColor, fontFamily: AppFonts.semiBold,),
               const Spacer(),
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: bgColor,
-                    borderRadius: BorderRadius.circular(8)
-                ),
-                child: const Icon(CupertinoIcons.suit_heart_fill,color: themeColor,size: 20,),
-              ),
+              // Container(
+              //   height: 40,
+              //   width: 40,
+              //   decoration: BoxDecoration(
+              //       color: bgColor,
+              //       borderRadius: BorderRadius.circular(8)
+              //   ),
+              //   child: const Icon(CupertinoIcons.suit_heart_fill,color: themeColor,size: 20,),
+              // ),
             ],
           ),
           TextWidget(

@@ -18,6 +18,7 @@ class AppointmentContainer extends StatelessWidget {
     required this.statusTextColor,
     required this.boxColor,
     this.onTap,
+    this.statusTap,
   });
 
   final String patientName;
@@ -30,6 +31,7 @@ class AppointmentContainer extends StatelessWidget {
   final Color boxColor;
   final Color statusTextColor;
   final VoidCallback? onTap;
+  final VoidCallback? statusTap;
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +91,20 @@ class AppointmentContainer extends StatelessWidget {
                 ),
                 SizedBox(height: .5.h,),
 
-                Container(
-                  padding: const EdgeInsets.all(7),
-                  decoration: BoxDecoration(
-                      color: boxColor,
-                      borderRadius: BorderRadius.circular(8)
+                InkWell(
+                  onTap: statusTap,
+                  child: Container(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                        color: boxColor,
+                        borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: TextWidget(
+                      text: statusText, fontSize: 16,
+                      fontWeight: FontWeight.w500, isTextCenter: false,
+                      textColor: statusTextColor,
+                      fontFamily: AppFonts.medium,),
                   ),
-                  child: TextWidget(
-                    text: statusText, fontSize: 16,
-                    fontWeight: FontWeight.w500, isTextCenter: false,
-                    textColor: statusText == "Pending" ? purpleColor
-                        : statusText == "Cancelled" ? redColor
-                        : themeColor,
-                    fontFamily: AppFonts.medium,),
                 ),
               ],
             ),
