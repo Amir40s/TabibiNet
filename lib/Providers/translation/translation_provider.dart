@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:tabibinet_project/model/api_services/api_services.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
@@ -11,8 +10,9 @@ import 'package:tabibinet_project/model/services/SharedPreference/shared_prefere
 import '../../controller/translation_controller.dart';
 
 class TranslationProvider with ChangeNotifier {
-   int MAX_TEXTS_PER_REQUEST = 100;
-   int MAX_CHARACTERS_PER_REQUEST = 5000;
+
+  int MAX_TEXTS_PER_REQUEST = 100;
+  int MAX_CHARACTERS_PER_REQUEST = 5000;
 
 
 
@@ -24,10 +24,10 @@ class TranslationProvider with ChangeNotifier {
   String get currentLanguage => _currentLanguage;
   Map<String, String> get translatedTexts => _translatedTexts;
 
-   List<String> specialties = [];
+  List<String> specialties = [];
 
 
-   final TranslationController translationController = Get.find<TranslationController>();
+  final TranslationController translationController = Get.find<TranslationController>();
 
   final String _apiKey = BaseUrl.API_KEY;
 
@@ -47,114 +47,119 @@ class TranslationProvider with ChangeNotifier {
 
   }
 
-   void setSpecialties(List<String> specs) {
-     specialties = specs;
-     notifyListeners();
-   }
+  void setSpecialties(List<String> specs) {
+    specialties = specs;
+    notifyListeners();
+  }
 
-   Future<String?> translateSingleText(String text, {String? targetLanguage}) async {
-     targetLanguage ??= _currentLanguage;
+  Future<String?> translateSingleText(String text, {String? targetLanguage}) async {
+    targetLanguage ??= _currentLanguage;
 
-     // Check if the translation already exists for the text in the target language
-     if (_translatedTexts.containsKey(text) && _translatedTexts[text]?.contains(targetLanguage) == true) {
-       return _translatedTexts[text];
-     }
+    // Check if the translation already exists for the text in the target language
+    if (_translatedTexts.containsKey(text) && _translatedTexts[text]?.contains(targetLanguage) == true) {
+      return _translatedTexts[text];
+    }
 
-     try {
-       final String url =
-           '${BaseUrl.BASEURL_TRANSLATOR}$targetLanguage&key=$_apiKey&q=${Uri.encodeComponent(text)}';
-       final response = await ApiService.get(
-           endPoint: url,
-           headers: BaseUrl.headers
-       );
-       log("STATUS CODE:: ${response.statusCode}");
-       log("BODY:: ${response.body}");
-       if (response.statusCode == 200) {
-         final decodedResponse = json.decode(response.body);
-         _translatedText = decodedResponse['data']['translations'][0]['translatedText'];
-         _translatedTexts[text] = _translatedText; // Store the translation
-         log("TRANSLATE:: $_translatedText");
-         return _translatedText;
-       } else {
-         _translatedText = text;
-         _translatedTexts[text] = text;
-         return null;
-       }
-     } catch (e) {
-       log("Error: ${e.toString()}");
-       return null;
-     }
-   }
+    try {
+      final String url =
+          '${BaseUrl.BASEURL_TRANSLATOR}$targetLanguage&key=$_apiKey&q=${Uri.encodeComponent(text)}';
+      final response = await ApiService.get(
+          endPoint: url,
+          headers: BaseUrl.headers
+      );
+      log("STATUS CODE:: ${response.statusCode}");
+      log("BODY:: ${response.body}");
+      if (response.statusCode == 200) {
+        final decodedResponse = json.decode(response.body);
+        _translatedText = decodedResponse['data']['translations'][0]['translatedText'];
+        _translatedTexts[text] = _translatedText; // Store the translation
+        log("TRANSLATE:: $_translatedText");
+        notifyListeners();
+        return _translatedText;
+      } else {
+        _translatedText = text;
+        _translatedTexts[text] = text;
+        notifyListeners();
+        return null;
+      }
+    } catch (e) {
+      log("Error: ${e.toString()}");
+      return null;
+    }
+  }
 
-   Future<void> translateMultiple(List<String> texts, {String? targetLanguage}) async {
+  Future<void> translateMultiple(List<String> texts, {String? targetLanguage}) async {
 
     targetLanguage ??= _currentLanguage;
 
 
-     texts = texts.where((text) =>
-     !_translatedTexts.containsKey(text) ||
-         _translatedTexts[text] != targetLanguage).toList();
+    texts = texts.where((text) =>
+    !_translatedTexts.containsKey(text) ||
+        _translatedTexts[text] != targetLanguage).toList();
 
-     if (texts.isEmpty) return;
+    if (texts.isEmpty) return;
 
-     List<List<String>> batchTexts(List<String> texts, int maxTexts, int maxChars) {
-       List<List<String>> batches = [];
-       List<String> currentBatch = [];
-       int currentBatchLength = 0;
+    List<List<String>> batchTexts(List<String> texts, int maxTexts, int maxChars) {
+      List<List<String>> batches = [];
+      List<String> currentBatch = [];
+      int currentBatchLength = 0;
 
-       for (String text in texts) {
-         if (currentBatch.length >= maxTexts || (currentBatchLength + text.length) > maxChars) {
-           batches.add(currentBatch);
-           currentBatch = [];
-           currentBatchLength = 0;
-         }
-         currentBatch.add(text);
-         currentBatchLength += text.length;
-       }
+      for (String text in texts) {
+        if (currentBatch.length >= maxTexts || (currentBatchLength + text.length) > maxChars) {
+          batches.add(currentBatch);
+          currentBatch = [];
+          currentBatchLength = 0;
+        }
+        currentBatch.add(text);
+        currentBatchLength += text.length;
+      }
 
-       if (currentBatch.isNotEmpty) {
-         batches.add(currentBatch);
-       }
-       return batches;
-     }
+      if (currentBatch.isNotEmpty) {
+        batches.add(currentBatch);
+      }
+      return batches;
+    }
 
-     try {
+    try {
 
-       List<List<String>> batches = batchTexts(texts, MAX_TEXTS_PER_REQUEST, MAX_CHARACTERS_PER_REQUEST);
+      List<List<String>> batches = batchTexts(texts, MAX_TEXTS_PER_REQUEST, MAX_CHARACTERS_PER_REQUEST);
 
-       for (var batch in batches) {
-         final String url = '${BaseUrl.BASEURL_TRANSLATOR}$targetLanguage&key=$_apiKey';
+      for (var batch in batches) {
+        final String url = '${BaseUrl.BASEURL_TRANSLATOR}$targetLanguage&key=$_apiKey';
 
-         final body = {
-           'q': batch,
-         };
+        final body = {
+          'q': batch,
+        };
 
-         final response = await ApiService.post(
-           requestBody: body,
-           headers: BaseUrl.headers,
-           endPoint: url,
-         );
+        final response = await ApiService.post(
+          requestBody: body,
+          headers: BaseUrl.headers,
+          endPoint: url,
+        );
 
-         if (response.statusCode == 200) {
-           final decodedResponse = json.decode(response.body);
-           List<dynamic> translations = decodedResponse['data']['translations'];
+        if (response.statusCode == 200) {
+          final decodedResponse = json.decode(response.body);
+          List<dynamic> translations = decodedResponse['data']['translations'];
 
-           for (int i = 0; i < batch.length; i++) {
-             String originalText = batch[i];
-             String translated = translations[i]['translatedText'] ?? originalText;
-             _translatedTexts[originalText] = translated;
-           }
-         } else {
-           for (var text in batch) {
-             _translatedTexts[text] = text;
-           }
-         }
-       }
-     } catch (e) {
-       for (var text in texts) {
-         _translatedTexts[text] = text;
-       }
-     }
-   }
+          for (int i = 0; i < batch.length; i++) {
+            String originalText = batch[i];
+            String translated = translations[i]['translatedText'] ?? originalText;
+            _translatedTexts[originalText] = translated;
+          }
+          notifyListeners();
+        } else {
+          for (var text in batch) {
+            _translatedTexts[text] = text;
+          }
+          notifyListeners();
+        }
+      }
+    } catch (e) {
+      for (var text in texts) {
+        _translatedTexts[text] = text;
+      }
+      notifyListeners();
+    }
+  }
 
 }

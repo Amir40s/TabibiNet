@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/ReminderScreen/reminder_screen.dart';
 import 'package:tabibinet_project/constant.dart';
@@ -11,6 +12,7 @@ import 'package:tabibinet_project/model/res/widgets/header.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../Providers/TwilioProvider/twilio_provider.dart';
 import '../../../model/res/constant/app_utils.dart';
 import '../../../model/res/widgets/info_tile.dart';
 import '../../../model/res/widgets/toast_msg.dart';
@@ -21,17 +23,21 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
     required this.email,
     required this.name,
     required this.age,
+    required this.phone,
     required this.gender,
     required this.time,
     required this.location,
+    required this.appointmentDate,
+    required this.appointmentTime,
   });
 
   final appUtils = AppUtils();
 
-  final String name,age,gender,time,location,email;
+  final String name,age,gender,time,location,email,phone,appointmentDate,appointmentTime;
 
   @override
   Widget build(BuildContext context) {
+    final twilioProvider = Provider.of<TwilioProvider>(context,listen: false);
     double height1 = 20;
     double height2 = 10;
     return SafeArea(
@@ -103,12 +109,14 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                       textColor: const Color(0xff04AD01),
                       bdColor: const Color(0xff04AD01),
                       press: () {
-                        appUtils.sendReminder(
-                            recipientEmail: email,
-                            messageText: "Hello, Your Time of Appointment"
-                                " is mentions please be on time "
-                                "for doctor appointment",
-                            context: context);
+                        twilioProvider.sendSmsReminder("+923064950700", "Reminder: You have an appointment scheduled on $appointmentDate, at $appointmentTime");
+                        // appUtils.sendReminder(
+                        //     recipientEmail: email,
+                        //     messageText: "Hello, Your Time of Appointment"
+                        //         " is mentions please be on time "
+                        //         "for doctor appointment",
+                        //     context: context);
+
                         // Get.to(()=> ReminderScreen(
                         //   appBarText: "Send Reminder",
                         //   email: email,

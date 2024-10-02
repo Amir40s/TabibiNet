@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/chart_screen.dart';
+import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 
 import 'Providers/AudioPlayerProvider/audio_player_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
@@ -26,12 +27,9 @@ import 'Providers/PayWall/paywall_provider.dart';
 import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 import 'Providers/SignUp/sign_up_provider.dart';
-
-import 'Providers/chatProvider/chatProvider.dart';
+import 'Providers/TwilioProvider/twilio_provider.dart';
 import 'Providers/translation/translation_provider.dart';
-
 import 'Providers/chatProvider/chat_provider.dart';
-
 import 'Screens/StartScreens/SplashScreen/splash_screen.dart';
 import 'constant.dart';
 import 'firebase_options.dart';
@@ -96,6 +94,12 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => MyAppointmentProvider(),),
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
             ChangeNotifierProvider(create: (context) => ProfileProvider(),),
+
+            ChangeNotifierProvider(create: (context) => TwilioProvider(
+                accountSid: BaseUrl.SID_TWILLO,
+                authToken: BaseUrl.AUTH_TOKEN_TWILLO,
+                twilioPhoneNumber: BaseUrl.PHONE_TWILLO
+            ),),
 
             ChangeNotifierProvider(create: (context) => TranslationProvider(),),
 

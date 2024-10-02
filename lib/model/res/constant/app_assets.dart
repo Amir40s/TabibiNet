@@ -14,12 +14,12 @@ class AppAssets{
   static const String partyPopImage = "assets/images/party_pop_image.svg";
   static const String medicineImage = "assets/images/medicine_image.png";
   static const String docImage = "assets/images/doc_image.webp";
-  static const String onboard_1 = "assets/images/onboard_1.jpg";
-  static const String onboard_2 = "assets/images/onboard_2.jpg";
-  static const String onboard_3 = "assets/images/onboard_3.jpg";
-  static const String onboard_4 = "assets/images/onboard_4.jpg";
-  static const String onboard_5 = "assets/images/onboard_5.jpg";
-  static const String onboard_6 = "assets/images/onboard_6.jpg";
-  static const String onboard_7 = "assets/images/onboard_7.jpg";
+  static const String onboard_1 = "assets/images/onboard_1.webp";
+  static const String onboard_2 = "assets/images/onboard_2.webp";
+  static const String onboard_3 = "assets/images/onboard_3.webp";
+  static const String onboard_4 = "assets/images/onboard_4.webp";
+  static const String onboard_5 = "assets/images/onboard_5.webp";
+  static const String onboard_6 = "assets/images/onboard_6.webp";
+  static const String onboard_7 = "assets/images/onboard_7.webp";
 
 }

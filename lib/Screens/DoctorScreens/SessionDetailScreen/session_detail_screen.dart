@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
+import '../../../Providers/TwilioProvider/twilio_provider.dart';
 import '../../../Providers/actionProvider/actionProvider.dart';
 import '../../../constant.dart';
 import '../../../model/data/appointment_model.dart';
@@ -13,7 +13,6 @@ import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/info_tile.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
-import '../EPrescriptionScreen/e_prescription_screen.dart';
 
 class SessionDetailScreen extends StatelessWidget {
   SessionDetailScreen({
@@ -75,7 +74,7 @@ class SessionDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.semiBold,),
                     SizedBox(height: height2,),
-                     InfoTile(title: model.doctorName),
+                     InfoTile(title: model.patientName),
                     SizedBox(height: height1,),
                     TextWidget(
                       text: "Age", fontSize: 14.sp,
@@ -130,7 +129,6 @@ class SessionDetailScreen extends StatelessWidget {
                           bdColor: const Color(0xff04AD01),
                           press: () {
                             ActionProvider.startLoading();
-
                             uploadReminder();
                             ToastMsg().toastMsg("Successfully added to reminders!");
 
@@ -160,11 +158,14 @@ class SessionDetailScreen extends StatelessWidget {
     try {
       final docRef = FirebaseFirestore.instance.collection('appointmentReminder').doc(timeStamp);
       await docRef.set({
-        'doctorName': model.doctorName,
+        'patientName': model.patientName,
         'patientAge': model.patientAge,
         'patientEmail': model.patientEmail,
         'patientGender': model.patientGender,
         'patientProblem': model.patientProblem,
+        'patientPhone': model.patientPhone,
+        'appointmentDate': model.appointmentDate,
+        'appointmentTime': model.appointmentTime,
         'status': status,
         'id': timeStamp,
         'location': model.doctorLocation,
