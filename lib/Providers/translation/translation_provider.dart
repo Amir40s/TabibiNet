@@ -74,10 +74,12 @@ class TranslationProvider with ChangeNotifier {
          _translatedText = decodedResponse['data']['translations'][0]['translatedText'];
          _translatedTexts[text] = _translatedText; // Store the translation
          log("TRANSLATE:: $_translatedText");
+         notifyListeners();
          return _translatedText;
        } else {
          _translatedText = text;
          _translatedTexts[text] = text;
+         notifyListeners();
          return null;
        }
      } catch (e) {
@@ -144,16 +146,19 @@ class TranslationProvider with ChangeNotifier {
              String translated = translations[i]['translatedText'] ?? originalText;
              _translatedTexts[originalText] = translated;
            }
+           notifyListeners();
          } else {
            for (var text in batch) {
              _translatedTexts[text] = text;
            }
+           notifyListeners();
          }
        }
      } catch (e) {
        for (var text in texts) {
          _translatedTexts[text] = text;
        }
+       notifyListeners();
      }
    }
 
