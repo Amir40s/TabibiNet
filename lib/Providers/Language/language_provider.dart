@@ -33,7 +33,7 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> loadLanguage(String languageCode) async {
-    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+    final sharedPreferenceService = await SharedPreferencesService.getInstance();
 
 
     _selectedLanguage = languageCode;
