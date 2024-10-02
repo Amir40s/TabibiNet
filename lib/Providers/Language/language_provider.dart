@@ -3,7 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../controller/translation_controller.dart';
 import '../../model/services/SharedPreference/shared_preference.dart';
 
 class LanguageProvider extends ChangeNotifier {
@@ -14,6 +17,8 @@ class LanguageProvider extends ChangeNotifier {
   String _selectedLanguage = 'en';
   static const String languageKey = 'selected_language';
   static const String languageIndex = 'selected_language_index';
+
+  final TranslationController translationController = Get.put(TranslationController());
 
 
   int get selectedIndex => _selectedIndex;
@@ -28,8 +33,8 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> loadLanguage(String languageCode) async {
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
 
-    final sharedPreferenceService = await SharedPreferencesService.getInstance();
 
     _selectedLanguage = languageCode;
     String jsonString = await rootBundle.loadString('assets/translations/$languageCode.json');
@@ -48,10 +53,11 @@ class LanguageProvider extends ChangeNotifier {
   // Load the saved language on app start
   Future<void> loadSavedLanguage() async {
 
-    final sharedPreferenceService = await SharedPreferencesService.getInstance();
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
 
-    String? savedLanguage = sharedPreferenceService.getString(languageKey);
-    int? savedIndex = sharedPreferenceService.getInt(languageIndex);
+    String? savedLanguage =  _sharedPreferenceService.getString(languageKey) ?? "en";
+    int? savedIndex =  _sharedPreferenceService.getInt(languageIndex) ?? 0;
+
 
     // If no language is saved, default to English
     if (savedLanguage != null) {
@@ -66,6 +72,8 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> selectButton(int index) async {
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+
     _selectedIndex = index;
     final sharedPreferenceService = await SharedPreferencesService.getInstance();
     await sharedPreferenceService.setInt(languageIndex, _selectedIndex);

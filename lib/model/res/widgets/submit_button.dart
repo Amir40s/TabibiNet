@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
+
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
+
 import '../../../constant.dart';
 
 class SubmitButton extends StatelessWidget {
@@ -30,6 +34,7 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TranslationProvider>(context);
     return InkWell(
       onTap: press,
       borderRadius: BorderRadius.circular(20.0),
@@ -57,14 +62,14 @@ class SubmitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (title != null)
-              Consumer<LanguageProvider>(builder: (context, value, child) {
-                return Text(
-                  value.translate(title!),
-                  maxLines: 2,
-                  style: TextStyle(
-                      color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
-                );
-              },),
+
+              Text(
+                provider.translatedTexts[title!] ?? title!,
+                maxLines: 2,
+                style: TextStyle(
+                    color: textColor ?? Colors.white, fontWeight: FontWeight.w500,fontFamily: "Medium"),
+              ),
+
             if (icon != null)
               Padding(
                 padding: EdgeInsets.only(left: title != null ? 8.0 : 0.0),

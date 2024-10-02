@@ -3,12 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/global_provider.dart';
+import 'package:tabibinet_project/model/services/SharedPreference/shared_preference.dart';
 
+import '../../../Providers/translation/translation_provider.dart';
 import '../../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../../Screens/StartScreens/OnboardingScreen/onboarding_screen.dart';
+import '../../res/constant/app_text.dart';
 
 class SplashServices {
 
@@ -16,6 +20,10 @@ class SplashServices {
 
     final user = FirebaseAuth.instance.currentUser;
     final profileProvider = GlobalProviderAccess.profilePro;
+    final transP = GlobalProviderAccess.translationProvider;
+    // final languageP = Provider.of<TranslationProvider>(context);
+
+    await transP!.translateMultiple(AppText.appTextList);
 
     if (user != null) {
       CollectionReference userCollection = fireStore.collection("users");

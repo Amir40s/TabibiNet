@@ -7,6 +7,7 @@ import 'package:tabibinet_project/Screens/StartScreens/DoctorInfoDetailScreen/do
 import 'package:tabibinet_project/Screens/StartScreens/SignInScreen/signin_screen.dart';
 import 'package:tabibinet_project/Screens/StartScreens/SignUpScreen/sign_up_screen.dart';
 
+import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_assets.dart';
 import '../../../model/res/widgets/submit_button.dart';
@@ -19,6 +20,14 @@ class AccountTypeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final signP = Provider.of<SignInProvider>(context,listen: false);
+
+
+    final List<String> _textItems = [
+      'Hello, how are you?',
+      'Welcome to our app!',
+      'Select your preferred language',
+    ];
+
     double height1 = 50.0;
     return SafeArea(
       child: Scaffold(
@@ -70,7 +79,7 @@ class AccountTypeScreen extends StatelessWidget {
               SizedBox(height: height1,),
               SubmitButton(
                 title: "Login",
-                press: () {
+                press: () async{
                     Get.to(()=>SignInScreen());
               },),
               const SizedBox(height: 10,),

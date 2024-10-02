@@ -1,10 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/PatientNotification/patient_notification_provider.dart';
+import 'package:tabibinet_project/controller/notification_controller.dart';
 import 'package:tabibinet_project/model/data/notification_model.dart';
 
 import '../../../constant.dart';
+import '../../../controller/translation_controller.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/dotted_line.dart';
@@ -21,13 +28,13 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
 
-  String? _selectedItem;
-
-  final List<String> _dropdownItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-
   @override
   Widget build(BuildContext context) {
     final notificationP = Provider.of<PatientNotificationProvider>(context, listen: false);
+    final NotificationController notificationController = Get.put(NotificationController(notificationP));
+    final TranslationController translationController = Get.put(TranslationController());
+
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -39,56 +46,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  Row(
+                 const Row(
                     children: [
-                      const TextWidget(
+                       TextWidget(
                         text: "Latest Update", fontSize: 20,
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor, fontFamily: AppFonts.semiBold,),
-                      const Spacer(),
-                      const TextWidget(
-                        text: "Short By :", fontSize: 12,
-                        fontWeight: FontWeight.w400, isTextCenter: false,
-                        textColor: textColor, fontFamily: AppFonts.regular,),
-                      const SizedBox(width: 10,),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: bgColor,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: greyColor
-                          )
-                        ),
-                        child: DropdownButton<String>(
-                          dropdownColor: bgColor,
-                          icon: const Icon(CupertinoIcons.chevron_down,size: 15,),
-                          borderRadius: BorderRadius.circular(8),
-                          underline: const SizedBox(),
-                          hint: const TextWidget(
-                            text: "All", fontSize: 12,
-                            fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor,fontFamily: AppFonts.regular,),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontFamily: AppFonts.regular,
-                            fontWeight: FontWeight.w400,
-                            color: textColor
-                          ),
-                          value: _selectedItem,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _selectedItem = newValue!;
-                            });
-                          },
-                          items: _dropdownItems.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
-                        ),
-                      )
                     ],
                   ),
                   const SizedBox(height: 20,),
@@ -100,43 +63,87 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     direction: Axis.horizontal,
                   ),
                   const SizedBox(height: 20,),
-                  StreamBuilder<List<NotificationModel>>(
-                      stream: notificationP.fetchNotifications(),
-                      builder: (context, snapshot) {
 
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        }
-                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No Notification found'));
-                        }
+                  Obx((){
+                    if (notificationController.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (notificationController.notificationModel.isEmpty) {
+                      return const Center(child: Text('No notification found'));
+                    }
 
-                        // List of users
-                        final nots = snapshot.data!;
+                    final specs = notificationController.notificationModel;
 
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: nots.length,
-                          itemBuilder: (context, index) {
-                            final not = nots[index];
-                            return NotificationContainer(
-                                onTap: () {
+                    // Translate the specialties only once when available
+                    if (translationController.notificationTranslationList.isEmpty) {
+                      translationController.translateNotification(
+                        specs.map((e) => e.title).toList() +
+                            specs.map((e) => e.subTitle).toList(),
+                      );
+                    }
 
-                                },
-                                title: not.title,
-                                subTitle: not.subTitle,
-                                image: AppIcons.calenderIcon,
-                                iconColor: themeColor,
-                                boxColor: secondaryGreenColor,
-                                isButton: not.read == "false"
-                            );
-                          },);
-                        },
-                  )
+                    return  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: specs.length,
+                      itemBuilder: (context, index) {
+                        final doc = specs[index];
+                        final title = translationController.notificationTranslationList[doc.title] ?? doc.title;
+                        final subtitle = translationController.notificationTranslationList[doc.subTitle] ?? doc.subTitle;
+
+                        return NotificationContainer(
+                            onTap: () {
+
+                            },
+                            title: title,
+                            subTitle: subtitle,
+                            image: AppIcons.calenderIcon,
+                            iconColor: themeColor,
+                            boxColor: secondaryGreenColor,
+                            isButton: doc.read == "false"
+                        );
+                      },
+                    );
+                  }),
+
+
+                  // StreamBuilder<List<NotificationModel>>(
+                  //     stream: notificationP.fetchNotifications(),
+                  //     builder: (context, snapshot) {
+                  //
+                  //       if (snapshot.connectionState == ConnectionState.waiting) {
+                  //         return const Center(child: CircularProgressIndicator());
+                  //       }
+                  //       if (snapshot.hasError) {
+                  //         return Center(child: Text('Error: ${snapshot.error}'));
+                  //       }
+                  //       if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  //         return const Center(child: Text('No Notification found'));
+                  //       }
+                  //
+                  //       // List of users
+                  //       final nots = snapshot.data!;
+                  //
+                  //       return ListView.builder(
+                  //         physics: const NeverScrollableScrollPhysics(),
+                  //         shrinkWrap: true,
+                  //         itemCount: nots.length,
+                  //         itemBuilder: (context, index) {
+                  //           final not = nots[index];
+                  //           return NotificationContainer(
+                  //               onTap: () {
+                  //
+                  //               },
+                  //               title: not.title,
+                  //               subTitle: not.subTitle,
+                  //               image: AppIcons.calenderIcon,
+                  //               iconColor: themeColor,
+                  //               boxColor: secondaryGreenColor,
+                  //               isButton: not.read == "false"
+                  //           );
+                  //         },);
+                  //       },
+                  // )
                 ],
               ),
             )

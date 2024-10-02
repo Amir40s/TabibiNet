@@ -98,6 +98,7 @@ class SignUpProvider extends ChangeNotifier{
             "patients": "0",
             "userType": type,
             "accountType": "Custom",
+            "password": passwordC.text.toString().trim(),
           }
           )
           .whenComplete(() async {

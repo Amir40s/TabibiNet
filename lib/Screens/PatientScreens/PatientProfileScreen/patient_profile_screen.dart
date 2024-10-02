@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../Providers/Profile/profile_provider.dart';
+import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
+import '../../../controller/doctoro_specialiaty_controller.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/app_bottom_sheet.dart';
@@ -26,12 +29,13 @@ class PatientProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header2(text: "Profile"),
+             Header2(text: languageP.translatedTexts["Profile"] ?? "Profile"),
             Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
