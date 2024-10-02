@@ -10,11 +10,22 @@ class AppText{
     "Contact Us",
     "FAQ",
     "Terms",
+    "Pending",
+    "Medication List",
+    "No Prescription found",
+    "No Medication Suggest",
+    "Upcoming",
+    "Completed",
+    "You can now make multiple doctoral appointments at once. You can appointments at once. You can..."
+    "Cancelled",
+    "Find here!",
+    "My Appointment",
     "Changes to the Service and/or Terms refer to our commitment to continuously improve and update our platform to enhance user experience and comply with legal requirements. We reserve the right to modify or discontinue any aspect of the service, including features and functionalities, at any time without prior notice. Additionally, we may revise these terms to reflect changes in our business practices, industry standards, or regulatory obligations. Updates to the terms will be effective immediately upon posting on our website or app. Continued use of the service constitutes acceptance of the revised terms."
     "Help and Support",
     "Terms & Conditions",
     "Choose language for app to show",
     "French",
+    "Prescription",
     "Primary Language",
     // "Our Legal and Policies outline the terms and conditions governing the use of our services. By accessing or using our platform, you agree to abide by these terms, which include but are not limited to, user responsibilities, intellectual property rights, privacy practices, and dispute resolution procedures. We reserve the right to update or modify these terms at any time, and your continued use of the platform constitutes acceptance of any changes. Please review our Legal and Policies regularly for updates."
     "Arabic",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/CancelAppointment/cancel_appointment_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/CompletedAppointment/completed_appointment_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PendingAppointment/pending_appointment_screen.dart';
@@ -22,6 +23,7 @@ class MyAppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myAppP = Provider.of<MyAppointmentProvider>(context,listen: false);
+    final languageP = Provider.of<TranslationProvider>(context);
     return SafeArea(
       child: DefaultTabController(
         length: 4, // Number of tabs
@@ -59,7 +61,7 @@ class MyAppointmentScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20,),
-              const TabBar(
+               TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelStyle: TextStyle(
                   fontSize: 14,
@@ -80,10 +82,10 @@ class MyAppointmentScreen extends StatelessWidget {
                 //   }
                 // },
                 tabs: [
-                  Tab(text: "Pending",),
-                  Tab(text: "Upcoming",),
-                  Tab(text: "Completed",),
-                  Tab(text: "Cancelled",),
+                  Tab(text: languageP.translatedTexts["Pending"] ?? "Pending",),
+                  Tab(text: languageP.translatedTexts["Upcoming"] ?? "Upcoming",),
+                  Tab(text: languageP.translatedTexts["Completed"] ?? "Completed",),
+                  Tab(text: languageP.translatedTexts["Cancelled"] ?? "Cancelled",),
                 ],
               ),
               const Expanded(
