@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/controller/translation_controller.dart';
 import 'package:tabibinet_project/model/res/constant/app_text.dart';
 import 'package:tabibinet_project/model/services/SharedPreference/shared_preference.dart';
 
 import '../../../Providers/Language/language_provider.dart';
 import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
+import '../../../controller/doctoro_specialiaty_controller.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -30,6 +32,7 @@ class LanguageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final languageP = Provider.of<TranslationProvider>(context);
+    final TranslationController controller = Get.find<TranslationController>();
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -40,13 +43,13 @@ class LanguageScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50,),
-              const TextWidget(
-                  text: "Choose Language", fontSize: 24,
-                  fontWeight: FontWeight.w600, isTextCenter: false,
-                  textColor: textColor),
+               TextWidget(
+                   text: languageP.translatedTexts["Choose Language"] ?? "Choose Language", fontSize: 24,
+                   fontWeight: FontWeight.w600, isTextCenter: false,
+                   textColor: textColor),
               const SizedBox(height: 10,),
-              const TextWidget(
-                  text: "Choose language for app to show", fontSize: 14,
+               TextWidget(
+                  text: languageP.translatedTexts["Choose language for app to show"] ?? "Choose language for app to show", fontSize: 14,
                   fontWeight: FontWeight.w400, isTextCenter: false,
                   textColor: textColor),
               const SizedBox(height: 20,),
@@ -62,8 +65,11 @@ class LanguageScreen extends StatelessWidget {
                         final pref = await SharedPreferencesService.getInstance();
                        await  pref.setString("language", supportedLanguages[index]);
                         provider.selectButton(index);
-                        await languageP.translateMultiple(AppText.appTextList);
-                        // provider.loadLanguage(supportedLanguages[index]);
+                        languageP.changeLanguage(supportedLanguages[index].toString());
+                        await languageP.translateMultiple(AppText.appTextList,targetLanguage: supportedLanguages[index].toString());
+                        provider.loadLanguage(supportedLanguages[index]);
+                        controller.changeLanguage(supportedLanguages[index].toString());
+
                       },
                       child: LanguageContainer(
                         title: options[index]['title']!,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 
 import '../../../../Providers/Profile/profile_provider.dart';
 import '../../../../constant.dart';
@@ -17,6 +18,7 @@ class PatientHomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
       child: SizedBox(
@@ -50,7 +52,7 @@ class PatientHomeHeader extends StatelessWidget {
                     SizedBox(
                       width: 40.w,
                       child: TextWidget(
-                          text: "HI, ${value.name.toString()}!", fontSize: 20,
+                          text: "${languageP.translatedTexts['Hi'] ?? "Hi"}, ${value.name.toString()}!", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor),
                     ),

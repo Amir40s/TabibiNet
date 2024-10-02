@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/widgets/image_loader.dart';
 
+import '../../../../Providers/translation/translation_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
 import '../../../../model/res/widgets/dotted_line.dart';
@@ -38,6 +40,7 @@ class TopDoctorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -96,7 +99,7 @@ class TopDoctorContainer extends StatelessWidget {
                     SizedBox(
                       width: 35.w,
                       child: TextWidget(
-                        text: "Dr. $doctorName", fontSize: 16,
+                        text: "${languageP.translatedTexts['Dr.']} $doctorName", fontSize: 16,
                         fontWeight: FontWeight.w600, isTextCenter: false,maxLines: 2,
                         textColor: textColor, fontFamily: AppFonts.semiBold,),
                     ),

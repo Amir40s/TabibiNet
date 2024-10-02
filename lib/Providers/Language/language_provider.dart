@@ -3,12 +3,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../controller/translation_controller.dart';
 import '../../model/services/SharedPreference/shared_preference.dart';
 
 class LanguageProvider extends ChangeNotifier {
 
-  final  SharedPreferencesService _sharedPreferenceService = SharedPreferencesService();
 
   int _selectedIndex = 2; // Default selection
   bool _isBouncing = false;
@@ -16,6 +18,8 @@ class LanguageProvider extends ChangeNotifier {
   String _selectedLanguage = 'en';
   static const String languageKey = 'selected_language';
   static const String languageIndex = 'selected_language_index';
+
+  final TranslationController translationController = Get.put(TranslationController());
 
 
   int get selectedIndex => _selectedIndex;
@@ -30,6 +34,8 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> loadLanguage(String languageCode) async {
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+
     _selectedLanguage = languageCode;
     String jsonString = await rootBundle.loadString('assets/translations/$languageCode.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
@@ -45,8 +51,10 @@ class LanguageProvider extends ChangeNotifier {
 
   // Load the saved language on app start
   Future<void> loadSavedLanguage() async {
-    String? savedLanguage = await _sharedPreferenceService.getString(languageKey);
-    int? savedIndex = await _sharedPreferenceService.getInt(languageIndex);
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+
+    String? savedLanguage =  _sharedPreferenceService.getString(languageKey) ?? "en";
+    int? savedIndex =  _sharedPreferenceService.getInt(languageIndex) ?? 0;
 
     // If no language is saved, default to English
     if (savedLanguage != null) {
@@ -61,6 +69,8 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> selectButton(int index) async {
+    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+
     _selectedIndex = index;
     await _sharedPreferenceService.setInt(languageIndex, _selectedIndex);
     _isBouncing = true;
