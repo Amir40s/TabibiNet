@@ -206,7 +206,7 @@ class AppointmentScheduleScreen extends StatelessWidget {
                                               isTextCenter: false, textColor: themeColor),
                                         ),
                                         value.selectedFilePath == null ? TextWidget(
-                                            text: " or drop it here",
+                                            text: "or drop it here",
                                             fontFamily: AppFonts.medium,
                                             fontSize: 16.sp, fontWeight: FontWeight.w500,
                                             isTextCenter: false, textColor: textColor)

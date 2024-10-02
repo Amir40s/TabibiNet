@@ -18,7 +18,9 @@ import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
 import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
-import '../../Providers/chatProvider/chatProvider.dart';
+import '../../Providers/AudioPlayerProvider/audio_player_provider.dart';
+import '../../Providers/chatProvider/chat_provider.dart';
+import '../../audio_recording_screen.dart';
 import '../../controller/audioController.dart';
 import '../../global_provider.dart';
 import '../../model/res/constant/app_fonts.dart';
@@ -28,7 +30,7 @@ import '../../model/res/widgets/text_widget.dart';
 import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
-   ChatScreen({
+   const ChatScreen({
      super.key, required this.chatRoomId,
      required this.patientEmail,
      required this.patientName,
@@ -51,7 +53,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController messageController = TextEditingController();
-
+  final AudioRecorder _recorder = AudioRecorder();
+  bool _isRecording = false;  // Track recording status
+  String? _audioUrl;
   AudioController audioController = Get.put(AudioController());
   late String recordFilePath;
 
@@ -63,22 +67,59 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _recorder.initRecorder();
     if(widget.type == "support"){
       messageController.text  = "${widget.name} \n ${widget.phone} \n\n Problem:\n${widget.problem}";
     }
   }
+
+  void _handleMicButton() async {
+    if (_isRecording) {
+      // Stop recording
+      await _recorder.stopRecording();
+      String? filePath = _recorder.filePath;
+
+      if (filePath != null) {
+        String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
+        final provider = Provider.of<ChatProvider>(context,listen: false);
+        await provider.sendFileMessage(
+          chatRoomId: widget.chatRoomId,
+          fileUrl: url ?? "",
+          type: "voice",
+          otherEmail: widget.patientEmail,
+        );
+        if (url.isNotEmpty) {
+          setState(() {
+            _audioUrl = url;
+          });
+        }
+      }
+    } else {
+      // Start recording
+      await _recorder.startRecording();
+    }
+
+    // Toggle recording state and update UI
+    setState(() {
+      _isRecording = !_isRecording;
+    });
+  }
+
+  // @override
+  // void dispose() {
+  //   _recorder._recorder.closeRecorder();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ChatProvider>(context);
     final doctorP = GlobalProviderAccess.profilePro;
 
-
-
-    return Scaffold(
-      backgroundColor: themeColor,
-      body: SafeArea(
-        child: Container(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: themeColor,
+        body: Container(
           decoration: const BoxDecoration(
               color: themeColor
           ),
@@ -148,7 +189,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: isCurrentUser  ? themeColor : Colors.white,
+                                        color: type == "image"  ? Colors.transparent : isCurrentUser  ? themeColor : Colors.white,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       padding: EdgeInsets.all(10),
@@ -161,10 +202,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                           type == "text" ?
                                           Text(
                                             messageText,
-                                            style: TextStyle(color:  isCurrentUser ? Colors.white : Colors.black),
+                                            style: TextStyle(
+                                                color: isCurrentUser ? Colors.white : Colors.black),
                                           ) :
                                           type == "image"  ?
-                                          Image.network(message['url']!.toString(),width: 200.0,height: 200.0,)
+                                          Image.network(message['url']!.toString(),width: 200.0,height: 200.0,fit: BoxFit.cover,)
                                               :
                                           type == "document" ?
                                           Container(
@@ -199,17 +241,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                               ],
                                             ),
                                           )
-                                          //     : type == "voice" ?
-                                          // Container(
-                                          //   width: Get.width * 0.54,
-                                          //   child: ListTile(
-                                          //     title: Text("Voice Message"),
-                                          //     trailing: PlayButton(audioUrl: message['text']),
-                                          //   ),
-                                          // )
-                                          //     : type == "location"
-                                          //     ?
-                                          //
+                                              : type == "voice" ?
+                                          Container(
+                                            width: Get.width * 0.54,
+                                            child: ListTile(
+                                              title: Text("Voice Message"),
+                                              trailing: PlayButton(audioUrl: message['url']),
+                                            ),
+                                          )
+                                              // : type == "location"
+                                              // ?
+
                                           // Container(
                                           //   width: Get.width * 0.54,
                                           //   height: 150,
@@ -260,24 +302,27 @@ class _ChatScreenState extends State<ChatScreen> {
                                           //   chatRoomId: chatRoomId,
                                           //   otherEmail: otherEmail,
                                           // )
-                                              :
-                                          const SizedBox.shrink(),
-                                          SizedBox(height: 3),
+                                          //
+                                          : const SizedBox.shrink(),
+                                          const SizedBox(height: 3),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
                                                 relativeTime,
                                                 style: TextStyle(
-                                                  color: isCurrentUser ?  Colors.white70 : Colors.grey,
+                                                  color: type == "image" ?
+                                                  Colors.black : isCurrentUser ?
+                                                  Colors.white70 : Colors.grey,
                                                   fontSize: 10,
                                                 ),
                                               ),
                                               if (isCurrentUser) ...[
-                                                SizedBox(width: 5),
+                                                const SizedBox(width: 5),
                                                 Icon(
                                                   message["read"] ? Icons.done_all : Icons.done,
-                                                  color: message["read"] ? Colors.white :  Colors.white70,
+                                                  color: type == "image" ? Colors.black :
+                                                  message["read"] ? Colors.white :  Colors.white70,
                                                   size: 12,
                                                 ),
                                               ],
@@ -294,7 +339,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                             );
-
                             messageWidgets.add(messageWidget);
                           }
                           return ListView(
@@ -389,23 +433,37 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(width: 10),
-          GestureDetector(
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onTap: () async{
               final provider = Provider.of<ChatProvider>(context, listen: false);
-            await  provider.sendMessage(
-                  chatRoomId: widget.chatRoomId, message: messageController.text,otherEmail: widget.patientEmail, type: 'text'
-              );
+              if(messageController.text.isEmpty){
+                _handleMicButton();
+              }
+              if(messageController.text.isNotEmpty){
+                await  provider.sendMessage(
+                    chatRoomId: widget.chatRoomId, message: messageController.text,otherEmail: widget.patientEmail, type: 'text'
+                );
+              }
               messageController.text = "";
             },
-            child: CircleAvatar(
-              backgroundColor: themeColor,
-              child: SvgPicture.asset(
-                AppIcons.sendIcon,
-                colorFilter: const ColorFilter.mode(
-                    bgColor,
-                    BlendMode.srcIn
-                ),),
-            ),
+            child: Consumer<AudioPlayerProvider>(
+              builder: (context, value, child) {
+                return CircleAvatar(
+                  backgroundColor: themeColor,
+                  child: value.isLoading ? const Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: CircularProgressIndicator(color: bgColor,),
+                  ) :
+                  SvgPicture.asset(
+                    messageController.text.isEmpty ? AppIcons.micIcon  : AppIcons.sendIcon,
+                    colorFilter: ColorFilter.mode(
+                        _isRecording ? redColor : bgColor,
+                        BlendMode.srcIn
+                    ),),
+                );
+              },),
           ),
         ],
       ),
@@ -491,7 +549,6 @@ class _ChatScreenState extends State<ChatScreen> {
     log("Long press ended");
     // Add your logic here (e.g., revert UI, stop animation, etc.)
   }
-
 
   // void startRecord() async {
   //   bool hasPermission = await checkPermission();
@@ -634,7 +691,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> requestPermissions() async {
     // For Android 13 and above, request specific media permissions
     if (await Permission.photos.request().isGranted &&
-        await Permission.mediaLibrary.request().isGranted) {
+        await Permission.mediaLibrary.request().isGranted &&
+        await Permission.audio.request().isGranted) {
       // Permission granted, you can proceed with accessing storage or media
     } else {
       // Handle permission denied scenario
@@ -676,18 +734,21 @@ class _ChatScreenState extends State<ChatScreen> {
           openWebPage(fallbackUrl);
         }
       }
-    } else if (status.isDenied) {
+    }
+    else if (status.isDenied) {
       log("Storage permission denied.");
       showToast("Storage permission denied. Please grant storage permission to download the file.");
       if (fallbackUrl != null) {
         openWebPage(fallbackUrl);
       }
-    } else if (status.isPermanentlyDenied) {
+    }
+    else if (status.isPermanentlyDenied) {
       log("Storage permission is permanently denied, opening app settings.");
       showToast("Storage permission is permanently denied. Please enable it in settings.");
       bool opened = await openAppSettings();
       log("Opened app settings: $opened");
-    } else if (status.isRestricted) {
+    }
+    else if (status.isRestricted) {
       log("Storage permission is restricted, cannot request permission.");
       showToast("Storage permission is restricted, cannot request permission.");
       if (fallbackUrl != null) {
@@ -722,4 +783,44 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+}
+
+
+class PlayButton extends StatelessWidget {
+  final String audioUrl;
+
+  const PlayButton({super.key, required this.audioUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AudioPlayerProvider>(
+      builder: (context, audioPlayerProvider, child) {
+        bool isPlaying = audioPlayerProvider.currentPlayingUrl == audioUrl &&
+            audioPlayerProvider.audioPlayerState == PlayerState.playing;
+
+        return IconButton(
+          icon: Icon(
+            isPlaying ? Icons.pause : Icons.play_arrow,
+          ),
+          onPressed: () {
+            if (isPlaying) {
+              audioPlayerProvider.pause();
+            } else {
+              audioPlayerProvider.play(audioUrl);
+            }
+          },
+        );
+      },
+    );
+  }
+
+
+
+// Future<void> _deleteSelectedMessages() async {
+//   final provider = Provider.of<ChatProvider>(context, listen: false);
+//   for (String messageId in selectedMessages) {
+//     await provider.deleteMessage(widget.chatRoomId, messageId);
+//   }
+//   Fluttertoast.showToast(msg: "Selected messages deleted");
+// }
 }

@@ -1,4 +1,5 @@
 <manifest xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.tabibinet_project"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Provide required visibility configuration for API level 30 and above -->
     <queries>
@@ -33,6 +34,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"
+        tools:replace="android:icon, android:label"
         tools:targetApi="m">
 
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />

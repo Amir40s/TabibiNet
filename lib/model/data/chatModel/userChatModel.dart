@@ -18,7 +18,7 @@ class UserchatModel {
       id: map['userId'] ?? "",
       name: map['name'] ?? "",
       email: map['email'] ?? "",
-      profileUrl: map['profileUrl'] ?? "",
+      profileUrl: map['profileUrl'] ?? "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.pngs",
       userUid: map['userUID'] ?? "",
     );
   }

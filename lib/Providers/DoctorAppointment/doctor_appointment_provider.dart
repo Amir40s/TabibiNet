@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../constant.dart';
 import '../../model/data/appointment_model.dart';
@@ -9,9 +10,11 @@ class DoctorAppointmentProvider extends ChangeNotifier{
 
   int _selectedIndex = 0;
   String _selectedAppointmentStatus = "All";
+  String _selectedDate = "";
 
   int get selectedIndex => _selectedIndex;
   String get selectedAppointmentStatus => _selectedAppointmentStatus;
+  String get selectedDate => _selectedDate;
 
   void selectButton(int index,String status) {
     _selectedIndex = index;
@@ -20,13 +23,32 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void selDate(DateTime date) {
+    String formattedDate = DateFormat('EEEE, MMMM d').format(date);
+    _selectedDate = formattedDate;
+    log("**********$_selectedDate************");
+    notifyListeners();
+  }
+
   Stream<List<AppointmentModel>> fetchPatients() {
-    return fireStore.collection('appointment')
-        .where("doctorId",isEqualTo: auth.currentUser!.uid)
-        .where("status",isEqualTo: _selectedAppointmentStatus)
-        .snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
-    });
+
+    if(_selectedDate.isEmpty){
+      return fireStore.collection('appointment')
+          .where("doctorId",isEqualTo: auth.currentUser!.uid)
+          .where("status",isEqualTo: _selectedAppointmentStatus)
+          .snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
+      });
+    }
+    else{
+      return fireStore.collection('appointment')
+          .where("doctorId",isEqualTo: auth.currentUser!.uid)
+          .where("status",isEqualTo: _selectedAppointmentStatus)
+          .where("appointmentDate",isEqualTo: _selectedDate)
+          .snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) => AppointmentModel.fromDocumentSnapshot(doc)).toList();
+      });
+    }
   }
 
   Stream<List<AppointmentModel>> fetchPatientsSingle() {
@@ -57,7 +79,7 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     var query = fireStore
         .collection('appointment')
         .where("doctorId", isEqualTo: auth.currentUser!.uid)
-        .where('status', isNotEqualTo: 'Requesting'); // Filter on Firestore
+        .where('status', isNotEqualTo: 'Requesting');
 
     // Apply the limit if it's passed
     if (limit != null) {
@@ -65,11 +87,21 @@ class DoctorAppointmentProvider extends ChangeNotifier{
     }
 
     return query.snapshots().map((snapshot) {
-      return snapshot.docs
+      var appointments = snapshot.docs
           .map((doc) => AppointmentModel.fromDocumentSnapshot(doc))
           .toList();
+
+      // Apply client-side filtering based on selected date
+      if (_selectedDate.isNotEmpty) {
+        appointments = appointments.where((appointment) {
+          return appointment.appointmentDate == _selectedDate;
+        }).toList();
+      }
+
+      return appointments;
     });
   }
+
 
 
 

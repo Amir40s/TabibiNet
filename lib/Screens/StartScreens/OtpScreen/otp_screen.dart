@@ -81,7 +81,7 @@ class OtpScreen extends StatelessWidget {
                       // Get.to(()=>SignUpScreen());
                     },
                     child: const TextWidget(
-                      text: " Resend", fontSize: 16, fontWeight: FontWeight.w400,
+                      text: "Resend", fontSize: 16, fontWeight: FontWeight.w400,
                       isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,)),
               ],
             ),
