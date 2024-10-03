@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
 import 'package:tabibinet_project/chart_screen.dart';
+import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 
 import 'Providers/AudioPlayerProvider/audio_player_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
@@ -45,6 +49,18 @@ FlutterLocalNotificationsPlugin();
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  // await dotenv.load(fileName: ".env");
+  Stripe.publishableKey=BaseUrl.STRIPE_PUBLISH_KEY;
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
+
+
+
+  // StripePayment.setOptions(StripeOptions(
+  //   publishableKey: "YOUR_PUBLISHABLE_KEY", // Replace with your publishable key
+  //   androidPayMode: 'test', // Set to 'production' in a live environment
+  // ));
 
   runApp(const MyApp());
 
@@ -53,6 +69,8 @@ void main() async {
         DeviceOrientation.portraitUp
       ]
   );
+
+
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -99,6 +117,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => TranslationProvider(),),
 
             ChangeNotifierProvider(create: (context) => AudioPlayerProvider(),),
+            ChangeNotifierProvider(create: (context) => PaymentProvider(),),
 
           ],
         child: GetMaterialApp(

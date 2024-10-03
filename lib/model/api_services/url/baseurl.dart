@@ -7,6 +7,10 @@ class BaseUrl{
  static const AUTH_TOKEN_TWILLO = "35080b15be2077709e82552aff006fdf";
  static const BASEURL_TRANSLATOR = "https://translation.googleapis.com/language/translate/v2?target=";
 
+
+ static const STRIPE_PUBLISH_KEY = "pk_test_51OXrpRBC0sELRyHqOtIZqApjwI9lcaIAdfOYdLum2UXUBmNcPExcePNn2bHVOowdcbpKcEtjR1IHHKu8U2lYOHp8000VZWNcHh";
+ static const STRIPE_SCRET_KEY = "sk_test_51OXrpRBC0sELRyHqBaZDqsdWoETRPXbH0hvT4A2Bl0yALfWKVR3MsQAZx0N0kZaue9gR5eC9jWcsvrB4SLUHeagb00VT2t70Ym";
+
  static const headers = {'Content-Type': 'application/json'};
 
 

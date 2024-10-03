@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Providers/PatientAppointment/patient_appointment_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../DoctorScreens/EmrDetailScreen/Components/medication_list_section.dart';
-import '../patient_medication_screen/patient_medication_screen.dart';
 
 class PrescriptionListScreen extends StatelessWidget {
   const PrescriptionListScreen({
