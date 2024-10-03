@@ -33,8 +33,8 @@ class LanguageProvider extends ChangeNotifier {
   }
 
   Future<void> loadLanguage(String languageCode) async {
-
     final sharedPreferenceService = await SharedPreferencesService.getInstance();
+
 
     _selectedLanguage = languageCode;
     String jsonString = await rootBundle.loadString('assets/translations/$languageCode.json');
