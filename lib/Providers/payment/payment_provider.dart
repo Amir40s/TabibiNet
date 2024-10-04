@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/payment/payment.dart';
+import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/api_services/api_services.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 import 'package:tabibinet_project/model/payment/payment_inten_model.dart';
@@ -15,6 +16,7 @@ import '../../Screens/PatientScreens/BookingConfirmedScreen/booking_confirmed_sc
 
 class PaymentProvider with ChangeNotifier {
   final String secretKey = BaseUrl.STRIPE_SCRET_KEY;
+  final patientAppointmentP = GlobalProviderAccess.patientAppointmentProvider;
   String customerId = '';
   String ephericalID = '';
   String clientSecret = '';
@@ -192,6 +194,12 @@ class PaymentProvider with ChangeNotifier {
   void checkPaymentStatus() async{
      try{
        await Stripe.instance.presentPaymentSheet();
+       await patientAppointmentP!.sendAppointment(
+         _models!.id.toString(),
+         _models!.amount.toString(),
+         _models!.clientSecret.toString(),
+         _models!.amountReceived.toString(),
+       );
        Get.to(()=>const BookingConfirmedScreen());
        log("payment done");
 

@@ -217,6 +217,7 @@ class AppText{
     "Result",
     "PDF File",
     "Send Document to",
+    "Write Prescription",
   ];
 
 }
