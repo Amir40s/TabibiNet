@@ -314,6 +314,7 @@ class FCMService {
     );
 
     if (response.statusCode == 200) {
+      debugPrint("Notification Send");
       saveNotificationInFirebase(
           title: title, subTitle: body, senderId: senderId);
     } else {}
