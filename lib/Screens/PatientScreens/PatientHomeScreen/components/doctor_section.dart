@@ -25,7 +25,6 @@ class DoctorSection extends StatelessWidget {
     final docp = Provider.of<FindDoctorProvider>(context,listen: false);
     final AppDataController findDoctorController = Get.put(AppDataController(docp));
     final docP = Provider.of<FindDoctorProvider>(context,listen: false);
-    final FindDoctorController findDoctorController = Get.put(FindDoctorController(docP));
 
     final TranslationController translationController = Get.put(TranslationController());
 
