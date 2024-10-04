@@ -1,8 +1,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import  'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/global_provider.dart';
