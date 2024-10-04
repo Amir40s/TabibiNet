@@ -68,8 +68,11 @@ void main() async {
 
 
   String? deviceToken = await fcmService.getDeviceToken();
-  
+
   log("Message Token:: $deviceToken");
+
+  // dQlXksEXS3ik5D7KxqZ63t:APA91bHLwSCZGuan9duS999-q6rr7yyTpuSGj6fN7f01BwSx021BPtulHfRecw1uwXL_gqYdmu0LeOUp6ROeN1ITQXz1WJaPaQVVmxAlxMIPVE_KWm-pEYGmB0MvrWvwNjKP_8aaQ09C
+
   
   // FirebaseMessaging.onBackgroundMessage(handler)
 

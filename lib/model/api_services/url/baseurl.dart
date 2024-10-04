@@ -14,4 +14,7 @@ class BaseUrl{
  static const headers = {'Content-Type': 'application/json'};
 
 
+
+ static const notification = "fMpRGXdhRD2b7NRuyiUkEp:APA91bGj9XQs0d2x6K4ISMsOKce_rYCm8hdDMqgzHxoGprOlD27QZD3pgi8TPe7dEXznN6qidToySEZWSSjuNQEusHttcnDdoCnWT9YMeQP3qt3SF-eHPJtEjMSSGVHbCsZclII5OU41";
+
 }

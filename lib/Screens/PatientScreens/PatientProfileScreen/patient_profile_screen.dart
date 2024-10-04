@@ -6,11 +6,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 
 import '../../../Providers/Profile/profile_provider.dart';
 import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
 import '../../../controller/doctoro_specialiaty_controller.dart';
+import '../../../model/puahNotification/push_notification.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/app_bottom_sheet.dart';
@@ -155,8 +157,15 @@ class PatientProfileScreen extends StatelessWidget {
                       trailing: const Icon(CupertinoIcons.forward,color: textColor,),
                     ),
                     ListTile(
-                      onTap: () {
-                        Get.to(()=>const PaymentScreen());
+                      onTap: () async{
+                        // Get.to(()=>const PaymentScreen());
+                        final fcmService = FCMService();
+                       await fcmService.sendNotification(
+                            BaseUrl.notification,
+                            "title",
+                            "body",
+                            "senderId"
+                        );
                       },
                       minTileHeight: 70,
                       title: const TextWidget(
