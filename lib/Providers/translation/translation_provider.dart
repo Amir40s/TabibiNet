@@ -27,6 +27,7 @@ class TranslationProvider with ChangeNotifier {
    List<String> specialties = [];
    List<String> doctorsList = [];
    List<String> faqList = [];
+   List<String> feeLists = [];
 
 
    final TranslationController translationController = Get.find<TranslationController>();
@@ -48,6 +49,7 @@ class TranslationProvider with ChangeNotifier {
     translationController.updateTranslations(specialties, targetLanguage:  _currentLanguage);
     translationController.updateDoctorTranslation(doctorsList, targetLanguage:  _currentLanguage);
     translationController.updateDoctorFaq(faqList, targetLanguage:  _currentLanguage);
+    translationController.updateFees(feeLists, targetLanguage:  _currentLanguage);
   }
 
    void setSpecialties(List<String> specs) {
@@ -59,6 +61,11 @@ class TranslationProvider with ChangeNotifier {
      doctorsList = doctors;
      notifyListeners();
    }
+
+  void setFeesDoctors(List<String> fees) {
+    feeLists = fees;
+    notifyListeners();
+  }
 
    void setFAQ(List<String> faq) {
      doctorsList = faq;

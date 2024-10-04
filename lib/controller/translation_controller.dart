@@ -28,6 +28,9 @@ class TranslationController extends GetxController {
   var faqList = <String, String>{}.obs;
   var isFaq = false.obs;
 
+  var feeList = <String, String>{}.obs;
+  var isFee = false.obs;
+
   final Map<String, String> languages = {
     'English': 'en',
     'Arabic': 'ar',
@@ -143,6 +146,16 @@ class TranslationController extends GetxController {
     }
   }
 
+  Future<void> translateFees(List<String> texts) async {
+    isFee.value = true;
+    try {
+      var result = await _translationService.translateMultiple(texts);
+      feeList.value = result;
+    } finally {
+      isFee.value = false;
+    }
+  }
+
   void updateTranslations(List<String> texts, {String? targetLanguage}) {
     translateMultiple(texts, targetLanguage: targetLanguage);
   }
@@ -157,5 +170,11 @@ class TranslationController extends GetxController {
     faqList.clear();
     var result = await  _translationService.translateMultiple(texts, targetLanguage: targetLanguage);
     faqList.value = result;
+  }
+
+  void updateFees(List<String> texts, {String? targetLanguage}) async{
+    feeList.clear();
+    var result = await  _translationService.translateMultiple(texts, targetLanguage: targetLanguage);
+    feeList.value = result;
   }
 }
