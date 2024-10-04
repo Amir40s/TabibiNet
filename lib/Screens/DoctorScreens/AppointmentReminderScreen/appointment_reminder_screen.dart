@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -90,6 +92,7 @@ class AppointmentReminderScreen extends StatelessWidget {
                                   appointmentDate: reminder['appointmentDate'],
                                   appointmentTime: reminder['appointmentTime'],
                                 ));
+                                log(reminder['patientPhone']);
                               },)
                           ],
                         ),

@@ -21,6 +21,8 @@ class PatientDetailScreen extends StatelessWidget {
   PatientDetailScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
+  final String phonePattern = r'^\+?([1-9]{1}[0-9]{1,3})?([0-9]{10})$';
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +75,21 @@ class PatientDetailScreen extends StatelessWidget {
                       SizedBox(height: height1,),
                       AgeSection(),
                       SizedBox(height: height1,),
-                      SizedBox(height: height1,),
                       const TextWidget(
                         text: "Phone Number", fontSize: 14,
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor, fontFamily: AppFonts.semiBold,),
                       SizedBox(height: height1,),
-                      InputField(
+                      ValidatedTextField(
+                        validator: (value) {
+                          if (!RegExp(phonePattern).hasMatch(value ?? '')) {
+                            return 'Please enter a valid phone number with country code';
+                          }
+                          return null;
+                        },
                         inputController: patientAppointmentP.phoneC,
                         hintText: "Phone Number",
-                        type: TextInputType.number,
+                        type: TextInputType.phone,
                         suffixIcon: const Padding(
                           padding: EdgeInsets.all(9.0),
                           child: Icon(Icons.phone_in_talk_rounded,color: greyColor,),

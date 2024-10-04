@@ -54,3 +54,9 @@ String convertTimestamp(String timestampString) {
 DateTime parseTimestamp(String timestampString) {
   return DateTime.parse(timestampString);
 }
+
+
+class Statics {
+  static const String appSign = '20f64cab5f1c6c3927f7b2633b465379dfb440b0ca971dd77d63217a4cc4b499';
+  static const int appID = 1249013883; //Your appID
+}

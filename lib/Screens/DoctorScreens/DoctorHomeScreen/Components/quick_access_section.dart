@@ -4,6 +4,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/AppointmentReminderScreen/appointment_reminder_screen.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/ConsultationScreen/consultation_screen.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorHomeScreen/Components/quick_access_container.dart';
+import 'package:tabibinet_project/call_screen.dart';
 
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_icons.dart';
@@ -25,14 +26,17 @@ class QuickAccessSection extends StatelessWidget {
           boxColor: purpleColor,
           icon: AppIcons.docIcon,
         ),
-        // QuickAccessContainer(
-        //   onTap: (){
-        //     Get.to(()=>ConsultationScreen());
-        //   },
-        //   text: 'Teleconsultations',
-        //   boxColor: lightRedColor,
-        //   icon: AppIcons.patientIcon,
-        // ),
+
+        QuickAccessContainer(
+          onTap: (){
+            Get.to(()=>CallScreen());
+            // Get.to(()=>ConsultationScreen());
+          },
+          text: 'Calls',
+          boxColor: lightRedColor,
+          icon: AppIcons.phone,
+        ),
+
         // QuickAccessContainer(
         //   onTap: (){
         //

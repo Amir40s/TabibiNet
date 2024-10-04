@@ -109,7 +109,10 @@ class AppointmentReminderDetailScreen extends StatelessWidget {
                       textColor: const Color(0xff04AD01),
                       bdColor: const Color(0xff04AD01),
                       press: () {
-                        twilioProvider.sendSmsReminder("+923064950700", "Reminder: You have an appointment scheduled on $appointmentDate, at $appointmentTime");
+                        twilioProvider.sendSmsReminder(
+                            phone,
+                            "Reminder: You have an appointment scheduled on $appointmentDate, at $appointmentTime"
+                        );
                         // appUtils.sendReminder(
                         //     recipientEmail: email,
                         //     messageText: "Hello, Your Time of Appointment"

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
 import '../../Screens/SuccessScreen/success_screen.dart';
@@ -29,6 +30,7 @@ class TwilioProvider with ChangeNotifier {
               " the patient about his appointment with you."));      notifyListeners();
     } catch (e) {
       log('Error sending SMS: $e');
+      ToastMsg().toastMsg("Something went wrong!",toastColor: redColor);
     }
   }
 }

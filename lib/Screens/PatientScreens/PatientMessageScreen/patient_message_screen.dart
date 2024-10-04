@@ -21,6 +21,7 @@ class ChatListScreen extends StatelessWidget {
     final controller = Get.put(ChatSearchController());
     return SafeArea(
       child: Scaffold(
+        backgroundColor: bgColor,
         body: Column(
           children: [
             const Header2(text: "Message"),

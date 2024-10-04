@@ -56,9 +56,9 @@ class PatientDetailChart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildDetailItem(Colors.lightBlueAccent, "Total Patient", "03"),
-                    buildDetailItem(Colors.red, "Prescription sent", "04"),
-                    buildDetailItem(Colors.yellow, "Documents shared", "22"),
+                    buildDetailItem(Colors.lightBlueAccent, "Total Patient", "00"),
+                    buildDetailItem(Colors.red, "Prescription sent", "00"),
+                    buildDetailItem(Colors.yellow, "Documents shared", "00"),
                   ],
                 ),
               ],
@@ -97,7 +97,7 @@ class PatientDetailChart extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: SizedBox(
-        width: 38.w,
+        width: 40.w,
         child: Row(
           children: [
             CircleAvatar(

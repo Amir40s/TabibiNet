@@ -22,8 +22,8 @@ class DoctorSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
 
-    final docp = Provider.of<FindDoctorProvider>(context,listen: false);
-    final FindDoctorController findDoctorController = Get.put(FindDoctorController(docp));
+    final docP = Provider.of<FindDoctorProvider>(context,listen: false);
+    final FindDoctorController findDoctorController = Get.put(FindDoctorController(docP));
 
     final TranslationController translationController = Get.put(TranslationController());
 
@@ -65,7 +65,7 @@ class DoctorSection extends StatelessWidget {
           final appointmentFee = translationController.translations[doc.appointmentFee] ?? doc.appointmentFee;
           log("Translated speciality: $speciality");
 
-          log("message:: ${speciality}");
+          log("message:: $speciality");
           return Consumer<FavoritesProvider>(
             builder: (context, provider,value){
               return TopDoctorContainer(

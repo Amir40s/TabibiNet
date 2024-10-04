@@ -4,8 +4,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/chart_screen.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'Providers/AudioPlayerProvider/audio_player_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
@@ -37,6 +38,7 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'global_provider.dart';
+import 'home_page.dart';
 import 'model/LifeCycle/life_cycle.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -46,6 +48,10 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
   runApp(const MyApp());
 
   SystemChrome.setPreferredOrientations(
@@ -54,9 +60,6 @@ void main() async {
       ]
   );
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   // runApp(DevicePreview(
   //   enabled: !kReleaseMode,
   //   builder: (context) => const MyApp(), // Wrap your app
@@ -117,6 +120,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
+          // home: HomePage(),
           // home: PatientStatusChart(),
           home: const SplashScreen(),
           // home: const DoctorBottomNavbar(),
