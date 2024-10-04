@@ -159,9 +159,9 @@ class PatientProfileScreen extends StatelessWidget {
                     ListTile(
                       onTap: () async{
                         // Get.to(()=>const PaymentScreen());
-                        final fcmService = FCMService();
+                        final fcmService =  FCMService();
                        await fcmService.sendNotification(
-                            BaseUrl.notification,
+                            BaseUrl.ab_deviceToekn,
                             "title",
                             "body",
                             "senderId"
