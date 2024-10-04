@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +44,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'global_provider.dart';
 import 'model/LifeCycle/life_cycle.dart';
+import 'model/puahNotification/message_handle.dart';
+import 'model/puahNotification/push_notification.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -49,12 +53,23 @@ FlutterLocalNotificationsPlugin();
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   // await dotenv.load(fileName: ".env");
   Stripe.publishableKey=BaseUrl.STRIPE_PUBLISH_KEY;
   Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
   Stripe.urlScheme = 'flutterstripe';
   await Stripe.instance.applySettings();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  final fcmService = FCMService();
+  await fcmService.initialize();
+
+
+  String? deviceToken = await fcmService.getDeviceToken();
   
+  log("Message Token:: $deviceToken");
   
   // FirebaseMessaging.onBackgroundMessage(handler)
 
@@ -75,9 +90,7 @@ void main() async {
 
 
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
   // runApp(DevicePreview(
   //   enabled: !kReleaseMode,
   //   builder: (context) => const MyApp(), // Wrap your app
