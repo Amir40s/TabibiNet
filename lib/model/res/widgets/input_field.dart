@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
+import '../../../Providers/translation/translation_provider.dart';
 import '../../../constant.dart';
 
 class InputField extends StatelessWidget {
@@ -30,6 +32,7 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP  = Provider.of<TranslationProvider>(context);
     return TextFormField(
       maxLines: maxLines,
       textInputAction: textInputAction,
@@ -52,7 +55,7 @@ class InputField extends StatelessWidget {
       textAlign: TextAlign.start,
       obscureText: obscureText,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: languageP.translatedTexts[hintText] ?? hintText,
         suffixIcon: suffixIcon,
         hintStyle: const TextStyle(
           fontSize: 12,

@@ -16,7 +16,7 @@ class SpecialitySliderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final docp = Provider.of<FindDoctorProvider>(context,listen: false);
-    final FindDoctorController findDoctorController = Get.put(FindDoctorController(docp));
+    final AppDataController findDoctorController = Get.put(AppDataController(docp));
 
     final TranslationController translationController = Get.put(TranslationController());
 

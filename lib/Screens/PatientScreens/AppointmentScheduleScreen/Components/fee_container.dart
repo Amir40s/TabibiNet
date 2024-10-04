@@ -60,7 +60,7 @@ class FeeContainer extends StatelessWidget {
             ),
             const SizedBox(width: 20,),
             SubmitButton(
-              title: fees ?? "120 MAD",
+              title: "$fees MAD" ?? "120 MAD",
               bgColor: secondaryGreenColor,
               height: 50,
               width: 25.w,

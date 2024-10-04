@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
@@ -14,13 +16,15 @@ class TermsAndConditionScreen extends StatelessWidget {
     double height1 = 30;
     double height2 = 10;
 
+    final provider = Provider.of<TranslationProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Header(text: "Legal and Policies"),
+             Header(text: "Legal and Policies"),
             Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -45,7 +49,7 @@ class TermsAndConditionScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.semiBold,),
                           SizedBox(height: height2,),
-                          const TextWidget(
+                           TextWidget(
                             text: "Our Legal and Policies outline the terms"
                                 " and conditions governing the use of our services."
                                 " By accessing or using our platform, you agree to"

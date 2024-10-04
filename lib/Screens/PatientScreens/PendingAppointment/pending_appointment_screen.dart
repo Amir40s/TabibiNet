@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/model/res/widgets/app_bottom_sheet.dart';
 import 'package:tabibinet_project/model/res/widgets/no_found_card.dart';
 
@@ -24,6 +25,7 @@ class PendingAppointmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     Future.delayed(
       Duration.zero,
       () => Provider.of<MyAppointmentProvider>(context,listen: false).setAppointmentStatus("pending"),
@@ -46,7 +48,7 @@ class PendingAppointmentScreen extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: Text('Error: ${languageP.translateSingleText(snapshot.error.toString())}'));
                 }
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {

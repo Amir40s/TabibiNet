@@ -18,6 +18,16 @@ class TranslationController extends GetxController {
 
   final String _apiKey = BaseUrl.API_KEY;
 
+  final TranslationService _translationService = TranslationService();
+  var translations = <String, String>{}.obs;
+  var isLoading = false.obs;
+
+  var notificationTranslationList = <String, String>{}.obs;
+  var isNotification = false.obs;
+
+  var faqList = <String, String>{}.obs;
+  var isFaq = false.obs;
+
   final Map<String, String> languages = {
     'English': 'en',
     'Arabic': 'ar',
@@ -100,12 +110,8 @@ class TranslationController extends GetxController {
     }
   }
 
-  final TranslationService _translationService = TranslationService();
-  var translations = <String, String>{}.obs;
-  var isLoading = false.obs;
 
-  // This method will fetch translations using the service
-  Future<void> translateTexts(List<String> texts) async {
+  Future<void> translateHomeDoctor(List<String> texts) async {
     isLoading.value = true;
     try {
       var result = await _translationService.translateMultiple(texts);
@@ -115,10 +121,8 @@ class TranslationController extends GetxController {
     }
   }
 
-  var notificationTranslationList = <String, String>{}.obs;
-  var isNotification = false.obs;
 
-  // This method will fetch translations using the service
+
   Future<void> translateNotification(List<String> texts) async {
     isNotification.value = true;
     try {
@@ -129,7 +133,29 @@ class TranslationController extends GetxController {
     }
   }
 
+  Future<void> translateFaq(List<String> texts) async {
+    isFaq.value = true;
+    try {
+      var result = await _translationService.translateMultiple(texts);
+      faqList.value = result;
+    } finally {
+      isFaq.value = false;
+    }
+  }
+
   void updateTranslations(List<String> texts, {String? targetLanguage}) {
     translateMultiple(texts, targetLanguage: targetLanguage);
+  }
+
+  void updateDoctorTranslation(List<String> texts, {String? targetLanguage}) async{
+    translatedTexts.clear();
+    var result = await  _translationService.translateMultiple(texts, targetLanguage: targetLanguage);
+    translations.value = result;
+  }
+
+  void updateDoctorFaq(List<String> texts, {String? targetLanguage}) async{
+    faqList.clear();
+    var result = await  _translationService.translateMultiple(texts, targetLanguage: targetLanguage);
+    faqList.value = result;
   }
 }

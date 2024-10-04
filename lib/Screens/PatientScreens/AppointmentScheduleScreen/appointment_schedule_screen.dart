@@ -161,6 +161,7 @@ class AppointmentScheduleScreen extends StatelessWidget {
                                           );
                                         },
                                         title: fee.type,
+                                        fees: fee.fees,
                                         subTitle: fee.subTitle,
                                         borderColor: isSelected ? themeColor : greyColor,
                                         icon: isSelected ? AppIcons.radioOnIcon : AppIcons.radioOffIcon,

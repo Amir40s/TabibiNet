@@ -28,15 +28,9 @@ class PatientHomeScreen extends StatelessWidget {
 
     Provider.of<ProfileProvider>(context,listen: false).getSelfInfo();
     Provider.of<FavoritesProvider>(context,listen: false).fetchFavoriteDoctors();
-    // final appStateProvider = Provider.of<AppStateProvider>(context,listen: false);
-    // final lifecycleObserver = AppLifecycleObserver(appStateProvider);
-    //
-    // // Add observer to handle lifecycle events
-    // lifecycleObserver.addObserver();
 
     double height1 = 20;
     DateTime now = DateTime.now();
-    // Format the time using intl
     String formattedTime = DateFormat('EEEE, MMMM d').format(now);
 
     return SafeArea(

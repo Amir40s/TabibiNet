@@ -7,41 +7,81 @@ import 'package:tabibinet_project/model/services/SharedPreference/shared_prefere
 class TranslationService {
   final String _apiKey = BaseUrl.API_KEY;
 
-  Future<Map<String, String>> translateMultiple(List<String> texts) async {
+  static const int MAX_TEXTS_PER_REQUEST = 100;
+  static const int MAX_CHARACTERS_PER_REQUEST = 5000;
+
+  Future<Map<String, String>> translateMultiple(List<String> texts, {String? targetLanguage}) async {
+    // Use the current language if none is provided
     final pref = await SharedPreferencesService.getInstance();
     String language = pref.getString("language") ?? "en";
+    targetLanguage ??= language;
+
+    texts = texts.toSet().toList();
+
+    Map<String, String> translationMap = {};
+
+    if (texts.isEmpty) return translationMap;
 
     try {
-      final String url = '${BaseUrl.BASEURL_TRANSLATOR}$language&key=$_apiKey';
+      List<List<String>> batches = _batchTexts(texts, MAX_TEXTS_PER_REQUEST, MAX_CHARACTERS_PER_REQUEST);
 
-      final body = {
-        'q': texts,
-      };
+      for (var batch in batches) {
+        final String url = '${BaseUrl.BASEURL_TRANSLATOR}$targetLanguage&key=$_apiKey';
 
-      final response = await ApiService.post(
-          requestBody: body, headers: BaseUrl.headers, endPoint: url);
-      log("STATUS CODE:: ${response.statusCode}");
-      log("BODY:: ${response.body}");
-
-      if (response.statusCode == 200) {
-        final decodedResponse = json.decode(response.body);
-        List<dynamic> translations = decodedResponse['data']['translations'];
-
-        // Return the translated texts as a map
-        return {
-          for (int i = 0; i < texts.length; i++)
-            texts[i]: translations[i]['translatedText'] ?? texts[i]
+        final body = {
+          'q': batch,
         };
-      } else {
-        return {
-          for (var text in texts) text: 'Translation failed',
-        };
+
+        final response = await ApiService.post(
+          requestBody: body,
+          headers: BaseUrl.headers,
+          endPoint: url,
+        );
+
+        if (response.statusCode == 200) {
+          final decodedResponse = json.decode(response.body);
+          List<dynamic> translations = decodedResponse['data']['translations'];
+
+          for (int i = 0; i < batch.length; i++) {
+            String originalText = batch[i];
+            String translated = translations[i]['translatedText'] ?? originalText;
+            translationMap[originalText] = translated;
+          }
+        } else {
+          for (var text in batch) {
+            translationMap[text] = text;
+          }
+        }
       }
     } catch (e) {
-      log("Error in translateMultiple: $e");
-      return {
-        for (var text in texts) text: 'Error in translation',
-      };
+      for (var text in texts) {
+        translationMap[text] = text;
+      }
     }
+
+    return translationMap;
   }
+
+  List<List<String>> _batchTexts(List<String> texts, int maxTexts, int maxChars) {
+    List<List<String>> batches = [];
+    List<String> currentBatch = [];
+    int currentBatchLength = 0;
+
+    for (String text in texts) {
+      if (currentBatch.length >= maxTexts || (currentBatchLength + text.length) > maxChars) {
+        batches.add(currentBatch);
+        currentBatch = [];
+        currentBatchLength = 0;
+      }
+      currentBatch.add(text);
+      currentBatchLength += text.length;
+    }
+
+    if (currentBatch.isNotEmpty) {
+      batches.add(currentBatch);
+    }
+
+    return batches;
+  }
+
 }

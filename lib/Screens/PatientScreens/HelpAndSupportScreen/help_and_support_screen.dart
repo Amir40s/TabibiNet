@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/ContactUs/contact_us_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/FaqScreen/faq_screen.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/TermsAndCondition/terms_and_condition_screen.dart';
@@ -18,13 +20,14 @@ class HelpAndSupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // double height1 = 20;
+    final languageP  = Provider.of<TranslationProvider>(context);
     double height2 = 10;
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Help and Support"),
+             Header(text: "Help and Support"),
             Container(
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -41,8 +44,8 @@ class HelpAndSupportScreen extends StatelessWidget {
                       Get.to(()=>FaqScreen());
                     },
                     contentPadding: const EdgeInsets.all(0),
-                    title: const TextWidget(
-                      text: "FAQ", fontSize: 16,
+                    title:  TextWidget(
+                      text: languageP.translatedTexts["FAQ"] ?? "FAQ", fontSize: 16,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.medium,),
                     trailing: Container(
@@ -64,8 +67,8 @@ class HelpAndSupportScreen extends StatelessWidget {
                       Get.to(()=>ContactUsScreen());
                     },
                     contentPadding: const EdgeInsets.all(0),
-                    title: const TextWidget(
-                      text: "Contact Us", fontSize: 16,
+                    title:  TextWidget(
+                      text: languageP.translatedTexts["Contact Us"] ?? "Contact Us", fontSize: 16,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.medium,),
                     trailing: Container(
@@ -87,8 +90,8 @@ class HelpAndSupportScreen extends StatelessWidget {
                       Get.to(()=>TermsAndConditionScreen());
                     },
                     contentPadding: const EdgeInsets.all(0),
-                    title: const TextWidget(
-                      text: "terms & Conditions", fontSize: 16,
+                    title:  TextWidget(
+                      text: languageP.translatedTexts["Terms & Conditions"] ?? "Terms & Conditions", fontSize: 16,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor, fontFamily: AppFonts.medium,),
                     trailing: Container(

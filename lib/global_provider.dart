@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 import 'package:tabibinet_project/Providers/Language/language_provider.dart';
+import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
 
 import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/Providers/chatProvider/chat_provider.dart';
@@ -84,6 +86,22 @@ class GlobalProviderAccess {
     final context = navigatorKey.currentContext;
     if (context != null) {
       return Provider.of<TranslationProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static FaqProvider? get faqProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<FaqProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static PaymentProvider? get paymentProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<PaymentProvider>(context, listen: false);
     }
     return null;
   }

@@ -22,13 +22,15 @@ class DoctorSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final appointmentScheduleP = Provider.of<PatientAppointmentProvider>(context, listen: false);
 
+    final docp = Provider.of<FindDoctorProvider>(context,listen: false);
+    final AppDataController findDoctorController = Get.put(AppDataController(docp));
     final docP = Provider.of<FindDoctorProvider>(context,listen: false);
-    final FindDoctorController findDoctorController = Get.put(FindDoctorController(docP));
 
     final TranslationController translationController = Get.put(TranslationController());
 
 
     return Obx((){
+
       if (findDoctorController.isDoctor.value) {
         return const Center(child: CircularProgressIndicator());
       }
@@ -38,9 +40,10 @@ class DoctorSection extends StatelessWidget {
 
       final specs = findDoctorController.doctorsList;
 
-      // Translate the specialties only once when available
+      log("List:: $specs");
+
       if (translationController.translations.isEmpty) {
-        translationController.translateTexts(
+        translationController.translateHomeDoctor(
           specs.map((e) => e.name).toList() +
               specs.map((e) => e.speciality).toList() +
               specs.map((e) => e.specialityDetail).toList() +
@@ -60,9 +63,6 @@ class DoctorSection extends StatelessWidget {
           final name = translationController.translations[doc.name] ?? doc.name;
           final speciality = translationController.translations[doc.speciality] ?? doc.speciality;
           final specialityDetail = translationController.translations[doc.specialityDetail] ?? doc.specialityDetail;
-          final availabilityFrom = translationController.translations[doc.availabilityFrom] ?? doc.availabilityFrom;
-          final availabilityTo = translationController.translations[doc.availabilityTo] ?? doc.availabilityTo;
-          final appointmentFee = translationController.translations[doc.appointmentFee] ?? doc.appointmentFee;
           log("Translated speciality: $speciality");
 
           log("message:: $speciality");

@@ -1,12 +1,19 @@
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
+import 'package:tabibinet_project/chart_screen.dart';
+import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 
 import 'Providers/AudioPlayerProvider/audio_player_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
@@ -40,6 +47,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'global_provider.dart';
 import 'home_page.dart';
 import 'model/LifeCycle/life_cycle.dart';
+import 'model/puahNotification/message_handle.dart';
+import 'model/puahNotification/push_notification.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -47,11 +56,40 @@ FlutterLocalNotificationsPlugin();
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // await dotenv.load(fileName: ".env");
+  Stripe.publishableKey=BaseUrl.STRIPE_PUBLISH_KEY;
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  final fcmService = FCMService();
+  await fcmService.initialize();
+
+
+  String? deviceToken = await fcmService.getDeviceToken();
+
+  log("Message Token:: $deviceToken");
+
+  // dQlXksEXS3ik5D7KxqZ63t:APA91bHLwSCZGuan9duS999-q6rr7yyTpuSGj6fN7f01BwSx021BPtulHfRecw1uwXL_gqYdmu0LeOUp6ROeN1ITQXz1WJaPaQVVmxAlxMIPVE_KWm-pEYGmB0MvrWvwNjKP_8aaQ09C
+
+
+  // FirebaseMessaging.onBackgroundMessage(handler)
+
+
+
+  // StripePayment.setOptions(StripeOptions(
+  //   publishableKey: "YOUR_PUBLISHABLE_KEY", // Replace with your publishable key
+  //   androidPayMode: 'test', // Set to 'production' in a live environment
+  // ));
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(const MyApp());
 
   SystemChrome.setPreferredOrientations(
@@ -72,7 +110,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
+    return Sizer(
       builder: (context, orientation, screenType) {
       return MultiProvider(
           providers: [
@@ -108,6 +146,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => TranslationProvider(),),
 
             ChangeNotifierProvider(create: (context) => AudioPlayerProvider(),),
+            ChangeNotifierProvider(create: (context) => PaymentProvider(),),
 
           ],
         child: GetMaterialApp(

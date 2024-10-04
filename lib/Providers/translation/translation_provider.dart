@@ -17,7 +17,7 @@ class TranslationProvider with ChangeNotifier {
 
 
   String _translatedText = "";
-  String _currentLanguage = "ar";
+  String _currentLanguage = "en";
   Map<String, String> _translatedTexts = {};
 
   String get translatedText => _translatedText;
@@ -25,6 +25,8 @@ class TranslationProvider with ChangeNotifier {
   Map<String, String> get translatedTexts => _translatedTexts;
 
    List<String> specialties = [];
+   List<String> doctorsList = [];
+   List<String> faqList = [];
 
 
    final TranslationController translationController = Get.find<TranslationController>();
@@ -44,13 +46,26 @@ class TranslationProvider with ChangeNotifier {
     _currentLanguage = _languages[language] ?? 'en';
     notifyListeners();
     translationController.updateTranslations(specialties, targetLanguage:  _currentLanguage);
-
+    translationController.updateDoctorTranslation(doctorsList, targetLanguage:  _currentLanguage);
+    translationController.updateDoctorFaq(faqList, targetLanguage:  _currentLanguage);
   }
 
    void setSpecialties(List<String> specs) {
      specialties = specs;
      notifyListeners();
    }
+
+   void setHomeDoctors(List<String> doctors) {
+     doctorsList = doctors;
+     notifyListeners();
+   }
+
+   void setFAQ(List<String> faq) {
+     doctorsList = faq;
+     notifyListeners();
+   }
+
+
 
    Future<String?> translateSingleText(String text, {String? targetLanguage}) async {
      targetLanguage ??= _currentLanguage;

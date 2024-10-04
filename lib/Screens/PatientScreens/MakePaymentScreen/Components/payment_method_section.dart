@@ -54,7 +54,7 @@ class PaymentMethodSection extends StatelessWidget {
            PaymentContainer(
              image: AppIcons.masterCardIcon,
              text: "Mastercard",
-             isSelected: false,
+             isSelected: true,
              onTap: () {
 
              },),

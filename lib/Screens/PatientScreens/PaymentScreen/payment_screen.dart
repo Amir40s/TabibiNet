@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
@@ -9,6 +13,8 @@ import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
+import '../../../Providers/payment/payment.dart';
+import '../../../Providers/payment/payment_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../CodeGenerationScreen/code_generation_screen.dart';
 import '../MakePaymentScreen/Components/payment_detail_section.dart';
@@ -21,6 +27,8 @@ class PaymentScreen extends StatelessWidget {
 
     double height1 = 20.0;
     double height2 = 10.0;
+
+    final paymentProvider = Provider.of<PaymentProvider>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
@@ -162,8 +170,9 @@ class PaymentScreen extends StatelessWidget {
                     SizedBox(height: height1),
                     SubmitButton(
                       title: "Confirm Appointment",
-                      press: () {
+                      press: () async{
                         Get.to(()=>CodeGenerationScreen());
+
                     },),
                     SizedBox(height: height1),
                   ],
@@ -174,4 +183,6 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
   }
+
+
 }
