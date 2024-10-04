@@ -118,7 +118,7 @@ class DoctorProfileScreen extends StatelessWidget {
                         Get.to(()=>NotificationSettingScreen());
                     },),
                     ProfileTile(
-                      title: "Privacy ",
+                      title: "Privacy",
                       icon: AppIcons.privacyIcon,
                       iconBgColor: secondaryGreenColor,
                       iconColor: themeColor,
