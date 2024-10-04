@@ -11,6 +11,7 @@ import '../../../../model/res/widgets/text_widget.dart';
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
 
+  final String phonePattern = r'^\+?([1-9]{1}[0-9]{1,3})?([0-9]{10})$';
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +46,22 @@ class SignUpForm extends StatelessWidget {
           fontWeight: FontWeight.w600, isTextCenter: false,
           textColor: textColor,fontFamily: AppFonts.semiBold,),
         SizedBox(height: height1,),
-        InputField(
-          inputController: signUpP.phoneC,
-          hintText: "Enter Phone Number",
-          type: TextInputType.number,
+        ValidatedTextField(
+            inputController: signUpP.phoneC,
+            hintText: "+1234567890",
+            type: TextInputType.phone,
+            validator: (value) {
+              if (!RegExp(phonePattern).hasMatch(value ?? '')) {
+                return 'Please enter a valid phone number with country code';
+              }
+              return null;
+            },
         ),
+        // InputField(
+        //   inputController: signUpP.phoneC,
+        //   hintText: "Enter Phone Number",
+        //   type: TextInputType.number,
+        // ),
         SizedBox(height: height1,),
         const TextWidget(
           text: "Password", fontSize: 14,

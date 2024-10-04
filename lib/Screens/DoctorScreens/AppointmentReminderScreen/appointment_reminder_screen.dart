@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -13,9 +15,7 @@ import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 import '../../../model/res/constant/app_utils.dart';
 
 class AppointmentReminderScreen extends StatelessWidget {
-  AppointmentReminderScreen({super.key});
-
-  final appUtils = AppUtils();
+  const AppointmentReminderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class AppointmentReminderScreen extends StatelessWidget {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('appointmentReminder')
-                .where("userUid" , isEqualTo: auth.currentUser?.uid.toString())
-                .where("status", isEqualTo: "upcoming")
+                    .where("userUid" , isEqualTo: auth.currentUser!.uid.toString())
+                    .where("status", isEqualTo: "upcoming")
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -63,7 +63,7 @@ class AppointmentReminderScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextWidget(
-                                  text: reminder["doctorName"], fontSize: 16.sp,
+                                  text: reminder["patientName"], fontSize: 16.sp,
                                   fontWeight: FontWeight.w600, isTextCenter: false,
                                   textColor: textColor, fontFamily: AppFonts.semiBold,),
                                 const SizedBox(height: 10,),
@@ -83,12 +83,16 @@ class AppointmentReminderScreen extends StatelessWidget {
                               press: () {
                                 Get.to(()=> AppointmentReminderDetailScreen(
                                   email: reminder['patientEmail'] ,
-                                  name: reminder['doctorName'] ,
+                                  name: reminder['patientName'] ,
                                   age: reminder['patientAge'] ,
                                   gender: reminder['patientGender'] ,
                                   location: reminder['location'],
                                   time: reminder['id'],
+                                  phone: reminder['patientPhone'],
+                                  appointmentDate: reminder['appointmentDate'],
+                                  appointmentTime: reminder['appointmentTime'],
                                 ));
+                                log(reminder['patientPhone']);
                               },)
                           ],
                         ),

@@ -107,19 +107,17 @@ class TopDoctorContainer extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          child: TextWidget(
-                            text: specialityName, fontSize: 14,
-                            fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor, fontFamily: AppFonts.regular,),
-                        ),
+                        TextWidget(
+                          text: specialityName, fontSize: 14,
+                          fontWeight: FontWeight.w400, isTextCenter: false,
+                          textColor: textColor, fontFamily: AppFonts.regular,),
                         const SizedBox(width: 5,),
                         const Icon(Icons.circle,color: textColor,size: 5,),
                         const SizedBox(width: 5,),
                         SizedBox(
-                          width: 20.w,
+                          width: 18.w,
                           child: TextWidget(
-                            text: specialityDetail, fontSize: 12,
+                            text: specialityDetail, fontSize: 12,maxLines: 1,
                             fontWeight: FontWeight.w400, isTextCenter: false,
                             textColor: textColor, fontFamily: AppFonts.regular,),
                         ),
@@ -138,12 +136,15 @@ class TopDoctorContainer extends StatelessWidget {
                         const SizedBox(width: 5,),
                         const Icon(Icons.access_time_filled_rounded,color: themeColor, size: 20,),
                         const SizedBox(width: 5,),
-                        TextWidget(
-                          text: "$availabilityFrom-$availabilityTo", fontSize: 12,
-                          fontWeight: FontWeight.w400, isTextCenter: false,
-                          textColor: themeColor, fontFamily: AppFonts.regular,),
+                        SizedBox(
+                          width: 25.w,
+                          child: TextWidget(
+                            text: "$availabilityFrom-$availabilityTo", fontSize: 12,
+                            fontWeight: FontWeight.w400, isTextCenter: false,maxLines: 1,
+                            textColor: themeColor, fontFamily: AppFonts.regular,),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 const Spacer(),

@@ -91,14 +91,16 @@ class SignUpScreen extends StatelessWidget {
                 title: "Sign Up",
                 press: () async {
                   if(value.passwordC.text == value.confirmPasswordC.text){
-                    int otp = AppUtils().generateUniqueNumber();
-                    value.setLoading(true);
-                    await appUtils.sendMail(
-                        recipientEmail: value.emailC.text.toString(),
-                        otpCode: otp.toString(),
-                        context: context
-                    );
-                    value.setLoading(false);
+                    if(formKey.currentState!.validate()){
+                      int otp = AppUtils().generateUniqueNumber();
+                      value.setLoading(true);
+                      await appUtils.sendMail(
+                          recipientEmail: value.emailC.text.toString(),
+                          otpCode: otp.toString(),
+                          context: context
+                      );
+                      value.setLoading(false);
+                    }
                   }else{
                     ToastMsg().toastMsg("Confirm Password is InCorrect!");
                   }

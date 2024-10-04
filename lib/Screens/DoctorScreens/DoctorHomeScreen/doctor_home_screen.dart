@@ -22,25 +22,25 @@ import 'Components/quick_access_section.dart';
 import 'Components/range_select_calendar.dart';
 
 class DoctorHomeScreen extends StatelessWidget {
-   DoctorHomeScreen({super.key});
+   const DoctorHomeScreen({super.key});
 
-  final List<Map<String,dynamic>> appointmentStatus = [
-    {
-      "status" : "Pending",
-      "textColor" : purpleColor,
-      "boxColor" : purpleColor.withOpacity(0.1),
-    },
-    {
-      "status" : "Cancelled",
-      "textColor" : redColor,
-      "boxColor" : redColor.withOpacity(0.1),
-    },
-    {
-      "status" : "Completed",
-      "textColor" : themeColor,
-      "boxColor" : secondaryGreenColor,
-    },
-  ];
+  // final List<Map<String,dynamic>> appointmentStatus = [
+  //   {
+  //     "status" : "Pending",
+  //     "textColor" : purpleColor,
+  //     "boxColor" : purpleColor.withOpacity(0.1),
+  //   },
+  //   {
+  //     "status" : "Cancelled",
+  //     "textColor" : redColor,
+  //     "boxColor" : redColor.withOpacity(0.1),
+  //   },
+  //   {
+  //     "status" : "Completed",
+  //     "textColor" : themeColor,
+  //     "boxColor" : secondaryGreenColor,
+  //   },
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -118,25 +118,32 @@ class DoctorHomeScreen extends StatelessWidget {
                               itemCount: patients.length,
                               itemBuilder: (context, index) {
                                 final patient = patients[index];
+                                final isPending = patient.status == "pending";
                                 return AppointmentContainer(
                                     onTap : () {
                                       Get.to(() =>
                                           SessionDetailScreen(
                                             status: patient.status,
-                                            statusTextColor: appointmentStatus[index]["textColor"],
-                                            boxColor: appointmentStatus[index]["boxColor"],
+                                            statusTextColor: themeColor,
+                                            boxColor: secondaryGreenColor,
                                             model: patient,
                                           ));
+                                    },
+                                    statusTap: () {
+                                      if(isPending){
+                                        updateStatus(patient.id);
+                                      }
                                     },
                                     patientName: patient.patientName,
                                     patientGender: patient.patientGender,
                                     patientAge: patient.patientAge,
                                     patientPhone: patient.patientPhone,
-                                    statusText: patient.status,
+                                    statusText: isPending ? "Accept" : patient.status,
                                     text1: "Appointment Date",
                                     text2: patient.appointmentDate,
-                                    statusTextColor: appointmentStatus[index]["textColor"],
-                                    boxColor: appointmentStatus[index]["boxColor"]);
+                                    statusTextColor: isPending ? bgColor : themeColor,
+                                    boxColor: isPending ? themeColor : secondaryGreenColor
+                                );
                               },
                               separatorBuilder: (context, index) {
                                 return const SizedBox(height: 15,);
@@ -153,5 +160,9 @@ class DoctorHomeScreen extends StatelessWidget {
       ),
     );
   }
-
+   Future<void> updateStatus(id)async{
+     fireStore.collection("appointment").doc(id).update({
+       "status" : "upcoming"
+     });
+   }
 }

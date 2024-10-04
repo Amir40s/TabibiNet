@@ -8,6 +8,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
 import 'package:tabibinet_project/chart_screen.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
@@ -32,17 +35,17 @@ import 'Providers/PayWall/paywall_provider.dart';
 import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
 import 'Providers/SignUp/sign_up_provider.dart';
+import 'Providers/TwilioProvider/twilio_provider.dart';
 
 import 'Providers/translation/translation_provider.dart';
-
 import 'Providers/chatProvider/chat_provider.dart';
-
 import 'Screens/StartScreens/SplashScreen/splash_screen.dart';
 import 'constant.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'global_provider.dart';
+import 'home_page.dart';
 import 'model/LifeCycle/life_cycle.dart';
 import 'model/puahNotification/message_handle.dart';
 import 'model/puahNotification/push_notification.dart';
@@ -73,7 +76,7 @@ void main() async {
 
   // dQlXksEXS3ik5D7KxqZ63t:APA91bHLwSCZGuan9duS999-q6rr7yyTpuSGj6fN7f01BwSx021BPtulHfRecw1uwXL_gqYdmu0LeOUp6ROeN1ITQXz1WJaPaQVVmxAlxMIPVE_KWm-pEYGmB0MvrWvwNjKP_8aaQ09C
 
-  
+
   // FirebaseMessaging.onBackgroundMessage(handler)
 
 
@@ -83,6 +86,10 @@ void main() async {
   //   androidPayMode: 'test', // Set to 'production' in a live environment
   // ));
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 
   SystemChrome.setPreferredOrientations(
@@ -90,9 +97,6 @@ void main() async {
         DeviceOrientation.portraitUp
       ]
   );
-
-
-
 
   // runApp(DevicePreview(
   //   enabled: !kReleaseMode,
@@ -133,6 +137,12 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
             ChangeNotifierProvider(create: (context) => ProfileProvider(),),
 
+            ChangeNotifierProvider(create: (context) => TwilioProvider(
+                accountSid: BaseUrl.SID_TWILLO,
+                authToken: BaseUrl.AUTH_TOKEN_TWILLO,
+                twilioPhoneNumber: BaseUrl.PHONE_TWILLO
+            ),),
+
             ChangeNotifierProvider(create: (context) => TranslationProvider(),),
 
             ChangeNotifierProvider(create: (context) => AudioPlayerProvider(),),
@@ -149,6 +159,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: themeColor,primary: themeColor),
             useMaterial3: true,
           ),
+          // home: HomePage(),
           // home: PatientStatusChart(),
           home: const SplashScreen(),
           // home: const DoctorBottomNavbar(),

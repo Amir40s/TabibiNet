@@ -1,10 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/Profile/profile_provider.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/constant/app_icons.dart';
+import '../../../model/res/widgets/call_invitation.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
@@ -15,6 +22,7 @@ class StartAppointmentScreen extends StatelessWidget {
   StartAppointmentScreen({
     super.key,
     required this.doctorName,
+    required this.doctorId,
     required this.appointmentTime,
     required this.consultancyType,
     required this.consultancyFee,
@@ -22,6 +30,7 @@ class StartAppointmentScreen extends StatelessWidget {
   });
 
   final String doctorName;
+  final String doctorId;
   final String appointmentTime;
   final String consultancyType;
   final String consultancyFee;
@@ -119,13 +128,40 @@ class StartAppointmentScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: SubmitButton(
             title: "Continue",
-            press: () {
-              Get.to(()=> const AppointmentVoiceCallScreen());
+            press: () async {
+              final String callID = DateTime.now().millisecondsSinceEpoch.toString();
+              await storeCallId(context,callID, doctorId);
+              await ZegoUIKitSignalingPlugin().sendInvitation(
+                pushConfig: ZegoSignalingPluginPushConfig(),
+                invitees: [doctorId],
+                timeout: 60,  // Optional extra information to include with the invitation
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CallInvitationPage(callID: callID, isVideoCall: false),
+                ),
+              );
+              // Get.to(()=> const AppointmentVoiceCallScreen());
             },),
         ),
       ),
     );
   }
+
+  Future<void> storeCallId(context,callId,doctorId)async{
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+    fireStore.collection("calls").doc(id).set({
+      "id": id,
+      "callId": callId,
+      "patientId": auth.currentUser!.uid,
+      "patientName": "Abdullah",
+      "doctorId": doctorId,
+    });
+  }
+
+
+
 }
 
 

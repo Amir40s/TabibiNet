@@ -267,3 +267,98 @@ class InputField3 extends StatelessWidget {
   }
 }
 
+class ValidatedTextField extends StatelessWidget {
+  final TextEditingController inputController;
+  final TextInputType? type;
+  final TextInputAction? textInputAction;
+  final String? hintText;
+  final String? labelText;
+  final int? maxLines, maxLength;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
+  final bool obscureText;
+  final String? Function(String?)? validator;
+  final bool isRequired;
+
+  const ValidatedTextField ({
+    super.key,
+    required this.inputController,
+    this.type,
+    this.maxLines = 1,
+    this.textInputAction,
+    this.hintText,
+    this.maxLength,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.labelText,
+    this.obscureText = false,
+    required this.validator,
+    this.isRequired = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLines: maxLines,
+      textInputAction: textInputAction,
+      keyboardType: type,
+      style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          fontFamily: AppFonts.medium
+      ),
+      validator: (value) {
+        if (isRequired && (value == null || value.isEmpty)) {
+          return 'Please enter $labelText';
+        } else if (validator != null) {
+          return validator!(value);
+        }
+        return null;
+      },
+      cursorColor: themeColor,
+      controller: inputController,
+      maxLength: maxLength,
+      textAlign: TextAlign.start,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        label: TextWidget(
+            text: labelText ?? "",
+            fontSize: 12.sp, fontWeight: FontWeight.w400,
+            isTextCenter: false, textColor: textColor),
+        suffixIcon: suffixIcon,
+        hintStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: greyColor,
+            fontFamily: AppFonts.medium
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        alignLabelWithHint: true,
+        border: OutlineInputBorder(
+          borderSide:  const BorderSide(
+            color: themeColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide:  const BorderSide(
+            color: themeColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide:  const BorderSide(
+            color: greyColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+}
+

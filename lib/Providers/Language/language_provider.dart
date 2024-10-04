@@ -53,10 +53,10 @@ class LanguageProvider extends ChangeNotifier {
   // Load the saved language on app start
   Future<void> loadSavedLanguage() async {
 
-    final _sharedPreferenceService = await SharedPreferencesService.getInstance();
+    final sharedPreferenceService = await SharedPreferencesService.getInstance();
 
-    String? savedLanguage =  _sharedPreferenceService.getString(languageKey) ?? "en";
-    int? savedIndex =  _sharedPreferenceService.getInt(languageIndex) ?? 0;
+    String? savedLanguage =  sharedPreferenceService.getString(languageKey) ?? "en";
+    int? savedIndex =  sharedPreferenceService.getInt(languageIndex) ?? 0;
 
 
     // If no language is saved, default to English

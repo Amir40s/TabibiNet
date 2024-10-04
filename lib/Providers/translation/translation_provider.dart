@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:tabibinet_project/model/api_services/api_services.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
@@ -11,8 +10,9 @@ import 'package:tabibinet_project/model/services/SharedPreference/shared_prefere
 import '../../controller/translation_controller.dart';
 
 class TranslationProvider with ChangeNotifier {
-   int MAX_TEXTS_PER_REQUEST = 100;
-   int MAX_CHARACTERS_PER_REQUEST = 5000;
+
+  int MAX_TEXTS_PER_REQUEST = 100;
+  int MAX_CHARACTERS_PER_REQUEST = 5000;
 
 
 

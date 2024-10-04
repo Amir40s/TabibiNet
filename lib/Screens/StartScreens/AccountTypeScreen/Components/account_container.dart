@@ -66,7 +66,7 @@ class AccountContainer extends StatelessWidget {
                 SizedBox(
                   width: width,
                   child: TextWidget(
-                      text: title, fontSize: 16.sp,
+                      text: title, fontSize: 16,
                       fontWeight: FontWeight.w500, isTextCenter: false,
                       textColor: textColor,fontFamily: "Medium",),
                 ),
