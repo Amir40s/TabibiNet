@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/controller/translation_controller.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../model/res/constant/app_fonts.dart';
 import '../../../../../model/res/widgets/text_widget.dart';
+import '../../../../Providers/translation/translation_provider.dart';
 import '../../../../model/res/constant/app_icons.dart';
 
 class InfoSection extends StatelessWidget {
@@ -25,6 +30,7 @@ class InfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
       height: 48.h,
@@ -39,7 +45,7 @@ class InfoSection extends StatelessWidget {
           Row(
             children: [
               TextWidget(
-                text: "Dr. $doctorName", fontSize: 20.sp,
+                text: "${languageP.translatedTexts["Dr."] ?? "Dr."} $doctorName", fontSize: 20.sp,
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: bgColor, fontFamily: AppFonts.semiBold,),
               const Spacer(),
@@ -74,7 +80,7 @@ class InfoSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
-                      text: "Patients", fontSize: 12.sp,
+                      text: languageP.translatedTexts["Patients"] ?? "Patients", fontSize: 12.sp,
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(
@@ -95,7 +101,7 @@ class InfoSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
-                      text: "Years experience", fontSize: 12.sp,
+                      text: languageP.translatedTexts["Years experience"] ?? "Years experience", fontSize: 12.sp,
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(
@@ -116,7 +122,7 @@ class InfoSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
-                      text: "Reviews", fontSize: 12.sp,
+                      text: languageP.translatedTexts["Reviews"] ?? "Reviews", fontSize: 12.sp,
                       fontWeight: FontWeight.w400, isTextCenter: false,
                       textColor: bgColor),
                   TextWidget(

@@ -9,6 +9,7 @@ import 'package:tabibinet_project/Providers/chatProvider/chat_provider.dart';
 import 'Providers/BottomNav/bottom_navbar_provider.dart';
 import 'Providers/FindDoctor/find_doctor_provider.dart';
 import 'Providers/Medicine/medicine_provider.dart';
+import 'Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
 import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
@@ -102,6 +103,14 @@ class GlobalProviderAccess {
     final context = navigatorKey.currentContext;
     if (context != null) {
       return Provider.of<PaymentProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static PatientAppointmentProvider? get patientAppointmentProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<PatientAppointmentProvider>(context, listen: false);
     }
     return null;
   }
