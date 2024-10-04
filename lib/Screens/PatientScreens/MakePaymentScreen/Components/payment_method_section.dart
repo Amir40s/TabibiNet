@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../model/res/constant/app_fonts.dart';
@@ -17,6 +18,7 @@ class PaymentMethodSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageP = Provider.of<TranslationProvider>(context);
     return Consumer<PatientHomeProvider>(
       builder: (context, value, child) {
         return GridView(
@@ -32,7 +34,7 @@ class PaymentMethodSection extends StatelessWidget {
          children: [
            PaymentContainer(
              image: AppIcons.paypalIcon,
-             text: "Paypal",
+             text: languageP.translatedTexts["Paypal"] ?? "Paypal",
              isSelected: false,
              onTap: () {
 
@@ -46,14 +48,14 @@ class PaymentMethodSection extends StatelessWidget {
            //   },),
            PaymentContainer(
              image: AppIcons.bankIcon,
-             text: "Bank Transfer",
+             text: languageP.translatedTexts["Bank Transfer"] ?? "Bank Transfer",
              isSelected: false,
              onTap: () {
 
              },),
            PaymentContainer(
              image: AppIcons.masterCardIcon,
-             text: "Mastercard",
+             text: languageP.translatedTexts["Mastercard"] ?? "Mastercard",
              isSelected: true,
              onTap: () {
 

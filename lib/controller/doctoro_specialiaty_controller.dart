@@ -5,6 +5,7 @@ import 'package:tabibinet_project/Providers/FaqProvider/faq_provider.dart';
 import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/data/faq_model.dart';
+import 'package:tabibinet_project/model/data/fee_information_model.dart';
 import 'package:tabibinet_project/model/data/specialize_model.dart';
 import 'package:tabibinet_project/Providers/FindDoctor/find_doctor_provider.dart';
 
@@ -21,6 +22,9 @@ class AppDataController extends GetxController {
 
   RxList<FaqModel> faqList = <FaqModel>[].obs;
   RxBool isFaq = true.obs;
+
+  RxList<FeeInformationModel> feeList = <FeeInformationModel>[].obs;
+  RxBool isFee = true.obs;
 
   AppDataController([this.findDoctorProvider]);
 
@@ -63,6 +67,21 @@ class AppDataController extends GetxController {
       log(e.toString());
     } finally {
       isDoctor(false);
+    }
+  }
+
+  void fetchFees() async {
+    final feesProvider = GlobalProviderAccess.patientAppointmentProvider;
+    isFee(true);
+    try {
+      final data = await feesProvider!.fetchFeeInfo().first;
+      feeList.value = data;
+      final languageProvider = Get.find<TranslationProvider>();
+      languageProvider.setFeesDoctors(data.map((e) => e.type).toList());
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isFee(false);
     }
   }
 

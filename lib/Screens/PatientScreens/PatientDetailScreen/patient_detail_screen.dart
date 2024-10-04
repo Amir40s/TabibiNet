@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 
@@ -28,6 +29,7 @@ class PatientDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final patientAppointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
+    final languageP = Provider.of<TranslationProvider>(context);
     double height1 = 20;
 
     return SafeArea(
@@ -83,7 +85,7 @@ class PatientDetailScreen extends StatelessWidget {
                       ValidatedTextField(
                         validator: (value) {
                           if (!RegExp(phonePattern).hasMatch(value ?? '')) {
-                            return 'Please enter a valid phone number with country code';
+                            return languageP.translatedTexts["Please enter a valid phone number with country code"] ?? "Please enter a valid phone number with country code";
                           }
                           return null;
                         },
@@ -150,7 +152,7 @@ class PatientDetailScreen extends StatelessWidget {
                                 patientAppointmentP.selectPatientAge != null){
                               Get.to(()=>const MakePaymentScreen());
                             }else{
-                              ToastMsg().toastMsg("Gender or Age is Missing!",toastColor: redColor);
+                              ToastMsg().toastMsg(languageP.translatedTexts["Gender or Age is Missing!"] ?? "Gender or Age is Missing!",toastColor: redColor);
                             }
                           }
                       },

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
+import '../../../controller/translation_controller.dart';
 import 'Components/about_section.dart';
 import 'Components/info_section.dart';
 
@@ -27,6 +30,7 @@ class DoctorDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TranslationController translationController = Get.put(TranslationController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondaryGreenColor,
@@ -49,14 +53,14 @@ class DoctorDetailScreen extends StatelessWidget {
                     ),
                   ),
                   InfoSection(
-                    doctorName: doctorName,
-                    specialityName: specialityName,
+                    doctorName: translationController.translations[doctorName] ?? doctorName,
+                    specialityName: translationController.translatedTexts[specialityName] ?? specialityName,
                     yearsOfExperience: yearsOfExperience,
                     patients: patients,
                     reviews: reviews,
                   ),
                   AboutSection(
-                    doctorDetail: doctorDetail,
+                    doctorDetail: translationController.translations[doctorDetail] ?? doctorDetail,
                   ),
                 ],
               ),
