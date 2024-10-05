@@ -11,6 +11,8 @@ class AppText{
     "FAQ",
     "Terms",
     "Pending",
+    "No Patients found",
+    "Appointments Call",
     "Medication List",
     "No Prescription found",
     "No Medication Suggest",

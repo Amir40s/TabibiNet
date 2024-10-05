@@ -4,6 +4,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/DoctorHome/doctor_home_provider.dart';
+import 'package:tabibinet_project/Providers/subscription_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
@@ -70,10 +71,15 @@ class DoctorHomeScreen extends StatelessWidget with WidgetsBindingObserver{
                     //     Get.to(()=>const EPrescriptionScreen());
                     // },),
                     // SizedBox(height: height,),
-                    const TextWidget(
-                      text: "Quick Access", fontSize: 20,
-                      fontWeight: FontWeight.w600, isTextCenter: false,
-                      textColor: textColor,fontFamily: AppFonts.semiBold,),
+                    Consumer<SubscriptionProvider>(
+                     builder: (context, provider, child){
+                       provider.initialize();
+                       return const TextWidget(
+                         text: "Quick Access", fontSize: 20,
+                         fontWeight: FontWeight.w600, isTextCenter: false,
+                         textColor: textColor,fontFamily: AppFonts.semiBold,);
+                     },
+                    ),
                     SizedBox(height: height,),
                     const QuickAccessSection(),
                     SizedBox(height: height,),

@@ -13,6 +13,7 @@ import 'Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'Providers/PatientNotification/patient_notification_provider.dart';
 import 'Providers/Profile/profile_provider.dart';
 import 'Providers/SignIn/sign_in_provider.dart';
+import 'Providers/subscription_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -111,6 +112,14 @@ class GlobalProviderAccess {
     final context = navigatorKey.currentContext;
     if (context != null) {
       return Provider.of<PatientAppointmentProvider>(context, listen: false);
+    }
+    return null;
+  }
+
+  static SubscriptionProvider? get subscriptionProvider {
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      return Provider.of<SubscriptionProvider>(context, listen: false);
     }
     return null;
   }

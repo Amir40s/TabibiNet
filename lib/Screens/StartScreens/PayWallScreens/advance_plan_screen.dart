@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
 import '../../../Providers/SignUp/sign_up_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
@@ -17,6 +18,7 @@ class AdvancePlanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<SignUpProvider>(context,listen: false);
+    final payment = Provider.of<PaymentProvider>(context,listen: false);
     return Container(
       width: 100.w,
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -52,8 +54,12 @@ class AdvancePlanScreen extends StatelessWidget {
           SubmitButton(
             title: "Get Started",
             radius: 100,
-            press: () {
-              provider.memberShip("Advance");
+            press: () async{
+              await  payment.initPaymentSheet(
+                  amount: "350",
+                  name: "Membership",
+                  type: "trial"
+              );
             },)
         ],
       ),
