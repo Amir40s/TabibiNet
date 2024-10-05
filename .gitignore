@@ -17,7 +17,7 @@ migrate_working_dir/
 .idea/
 
 # Ignore the push_messaging.json file
-android/app/push_messaging.json
+**android/app/push_messaing.json
 
 config.dart
 *.env

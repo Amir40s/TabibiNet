@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tabibinet_project/constant.dart';
 
 
 class ActionProvider extends ChangeNotifier{
@@ -171,4 +172,18 @@ class ActionProvider extends ChangeNotifier{
     notifyListeners();  // Notify listeners (UI will be updated)
   }
 
+
+  void setDoctorOnline() async{
+    String uid = auth.currentUser?.uid.toString() ?? "";
+   await fireStore.collection("users").doc(uid).update({
+      "isOnline" : true
+    });
+  }
+
+  void setDoctorOffline() async{
+    String uid = auth.currentUser?.uid.toString() ?? "";
+   await fireStore.collection("users").doc(uid).update({
+      "isOnline" : false
+    });
+  }
 }
