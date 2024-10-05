@@ -52,6 +52,7 @@ class AppDataController extends GetxController {
       specialties.value = data;
       final languageProvider = Get.find<TranslationProvider>();
       languageProvider.setSpecialties(data.map((e) => e.specialty).toList());
+      update();
     } catch (e) {
       log(e.toString());
       // Get.snackbar("Error", "Failed to fetch specialties");
@@ -67,6 +68,7 @@ class AppDataController extends GetxController {
       doctorsList.value = data;
       final languageProvider = Get.find<TranslationProvider>();
       languageProvider.setHomeDoctors(data.map((e) => e.name).toList());
+      update();
     } catch (e) {
       log(e.toString());
     } finally {

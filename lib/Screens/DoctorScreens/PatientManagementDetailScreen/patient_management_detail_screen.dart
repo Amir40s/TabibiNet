@@ -215,6 +215,7 @@ class PatientManagementDetailScreen extends StatelessWidget {
                           chatRoomId: chatRoomId,
                           patientEmail: patientEmail.toString(),
                           patientName: patientName.toString(), profilePic: profilePic,
+                        deviceToken: "",
                         ));
                       },),
                     SizedBox(height: height1,),

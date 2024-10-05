@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/model/puahNotification/push_notification.dart';
 import 'package:tabibinet_project/model/res/appUtils/appUtils.dart';
 import 'package:tabibinet_project/model/res/constant/app_assets.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -35,6 +36,7 @@ class ChatScreen extends StatefulWidget {
      required this.patientEmail,
      required this.patientName,
      required this.profilePic,
+     required this.deviceToken,
      this.type = "user",
      this.problem = "",
      this.phone = "",
@@ -44,7 +46,7 @@ class ChatScreen extends StatefulWidget {
   final String patientEmail;
   final String patientName;
   final String profilePic;
-  final String type;
+  final String type,deviceToken;
   final String problem,phone,name;
 
   @override
@@ -74,6 +76,31 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleMicButton() async {
+
+    if (_isRecording) {
+      // Stop recording
+      await _recorder.stopRecording();
+      String? filePath = _recorder.filePath;
+
+      if (filePath != null) {
+        String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
+        final provider = Provider.of<ChatProvider>(context,listen: false);
+        final fcm = FCMService();
+        await fcm.sendNotification(widget.deviceToken,
+            "Incoming Message",
+            "you have received voice message",
+            widget.patientEmail);
+        await provider.sendFileMessage(
+          chatRoomId: widget.chatRoomId,
+          fileUrl: url ?? "",
+          type: "voice",
+          otherEmail: widget.patientEmail,
+        );
+        if (url.isNotEmpty) {
+          setState(() {
+            _audioUrl = url;
+          });
+
     var status = await Permission.microphone.status;
     if (!status.isGranted) {
       // Request the permission
@@ -103,6 +130,7 @@ class _ChatScreenState extends State<ChatScreen> {
         } else {
           // Start recording
           await _recorder.startRecording();
+
         }
         setState(() {
           _isRecording = !_isRecording;
@@ -455,6 +483,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 _handleMicButton();
               }
               if(messageController.text.isNotEmpty){
+                final fcm = FCMService();
+               await fcm.sendNotification(widget.deviceToken,
+                    "Incoming Message", messageController.text.toString(), widget.patientEmail);
                 await  provider.sendMessage(
                     chatRoomId: widget.chatRoomId, message: messageController.text,otherEmail: widget.patientEmail, type: 'text'
                 );
@@ -505,6 +536,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   final provider = Provider.of<ChatProvider>(context, listen: false);
                   await docP!.pickFile();
                   final url = await docP.uploadFile();
+                  final fcm = FCMService();
+                  await fcm.sendNotification(widget.deviceToken,
+                      "Incoming Message",
+                      "you have received document file",
+                      widget.patientEmail);
                   await provider.sendFileMessage(
                     chatRoomId: widget.chatRoomId,
                     fileUrl: url.toString(),
@@ -524,6 +560,11 @@ class _ChatScreenState extends State<ChatScreen> {
                  await imageP!.pickImage();
                 final url =  await imageP.uploadFileReturn();
 
+                  final fcm = FCMService();
+                  await fcm.sendNotification(widget.deviceToken,
+                      "Incoming Message",
+                      "you have received Image file",
+                      widget.patientEmail);
                  await provider.sendFileMessage(
                    chatRoomId: widget.chatRoomId,
                    fileUrl: url.toString(),

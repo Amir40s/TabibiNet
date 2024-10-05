@@ -68,6 +68,7 @@ class SpecificDoctorScreen extends StatelessWidget {
                                   appointmentFee: doc.appointmentFee,
                                   imageUrl: doc.profileUrl,
                                   rating: doc.rating,
+                                  isOnline: doc.isOnline,
                                   isFav: favProvider.isFavorite(doc.userUid),
                                   likeTap: () {
                                     favProvider.toggleFavorite(doc.userUid);

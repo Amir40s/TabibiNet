@@ -22,6 +22,7 @@ class TopDoctorContainer extends StatelessWidget {
     required this.imageUrl,
     required this.rating,
     required this.isFav,
+    required this.isOnline,
     this.onTap,
     this.likeTap,
   });
@@ -35,6 +36,7 @@ class TopDoctorContainer extends StatelessWidget {
   final String imageUrl;
   final String rating;
   final bool isFav;
+  final bool isOnline;
   final VoidCallback? onTap;
   final VoidCallback? likeTap;
 
@@ -80,7 +82,7 @@ class TopDoctorContainer extends StatelessWidget {
                         height: 15,
                         width: 15,
                         decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: isOnline ? Colors.green : Colors.grey,
                             shape: BoxShape.circle,
                             border: Border.all(
                                 color: bgColor,

@@ -28,6 +28,7 @@ class DoctorSection extends StatelessWidget {
 
     final TranslationController translationController = Get.put(TranslationController());
 
+    findDoctorController.fetchDoctors();
 
     return Obx((){
 
@@ -35,7 +36,7 @@ class DoctorSection extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
       if (findDoctorController.doctorsList.isEmpty) {
-        return const Center(child: Text('No specialties found'));
+        return const Center(child: Text('No doctors found'));
       }
 
       final specs = findDoctorController.doctorsList;
@@ -77,6 +78,7 @@ class DoctorSection extends StatelessWidget {
                 appointmentFee: doc.appointmentFee,
                 imageUrl: doc.profileUrl,
                 rating: doc.rating,
+                isOnline: doc.isOnline,
                 isFav: provider.isFavorite(doc.userUid),
                 likeTap: () {
                   provider.toggleFavorite(doc.userUid);
@@ -114,7 +116,7 @@ class DoctorSection extends StatelessWidget {
     // return Consumer(
     //   builder: (context, value, child) {
     //     return StreamBuilder<List<UserModel>>(
-    //       stream: findDoctorP.fetchDoctors(),
+    //       stream: docp.fetchDoctors(),
     //       builder: (context, snapshot) {
     //         if (snapshot.connectionState == ConnectionState.waiting) {
     //           return const Center(child: CircularProgressIndicator());
@@ -151,6 +153,7 @@ class DoctorSection extends StatelessWidget {
     //                   appointmentFee: doc.appointmentFee,
     //                   imageUrl: doc.profileUrl,
     //                   rating: doc.rating,
+    //                   isOnline: doc.isOnline,
     //                   isFav: provider.isFavorite(doc.userUid),
     //                   likeTap: () {
     //                     provider.toggleFavorite(doc.userUid);

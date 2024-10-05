@@ -101,6 +101,7 @@ class ContactUsScreen extends StatelessWidget {
                 patientName: "Customer Support",
                 profilePic: "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
               type: "support",
+              deviceToken: "",
               name: nameC.text.toString(),
               phone: phoneC.text.toString(),
               problem: problemC.text.toString(),
