@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../constant.dart';
+
 class DoctorHomeProvider extends ChangeNotifier {
+
+  int _numberOfDoctors = 0;
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
 
@@ -18,4 +22,14 @@ class DoctorHomeProvider extends ChangeNotifier {
     _selectedEndDate = null;
     notifyListeners();
   }
+
+  void setNumberOfPatients(){
+    fireStore.collection('appointment')
+        .where("doctorId",isEqualTo: auth.currentUser!.uid)
+        .snapshots().listen((snapshot) {
+      _numberOfDoctors = snapshot.docs.length; // Get the length of the documents
+      notifyListeners(); // Notify listeners to rebuild widgets when data changes
+    });
+  }
+
 }

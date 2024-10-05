@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
-import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/premium_plan_screen.dart';
 
 import '../../../Providers/PayWall/paywall_provider.dart';
 import '../../../constant.dart';
@@ -11,6 +8,7 @@ import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import 'advance_plan_screen.dart';
 import 'free_plan_screen.dart';
+import 'premium_plan_screen.dart';
 
 class PaywallScreen extends StatelessWidget {
   PaywallScreen({super.key});

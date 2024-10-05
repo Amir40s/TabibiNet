@@ -171,7 +171,7 @@ class SignUpProvider extends ChangeNotifier{
         {
           "memberShip" : memberShip.toString()
         }
-    ).whenComplete(() => Get.to(()=>const PatientBottomNavBar()),);
+    ).whenComplete(() => Get.to(()=>const DoctorBottomNavbar()),);
   }
 
 }

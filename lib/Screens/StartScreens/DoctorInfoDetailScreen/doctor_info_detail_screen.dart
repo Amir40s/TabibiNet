@@ -75,7 +75,7 @@ class DoctorInfoDetailScreen extends StatelessWidget {
               DoctorAppointmentTimeSection(),
               SizedBox(height: height1,),
               const TextWidget(
-                text: "Appointment Fee (\$)", fontSize: 14,
+                text: "Appointment Fee (MAD)", fontSize: 14,
                 fontWeight: FontWeight.w600, isTextCenter: false,
                 textColor: textColor,fontFamily: AppFonts.semiBold,),
               SizedBox(height: height2,),

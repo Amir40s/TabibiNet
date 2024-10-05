@@ -26,15 +26,6 @@ import 'Components/suggestion_container.dart';
 class FindDoctorScreen extends StatelessWidget {
   FindDoctorScreen({super.key});
 
-  final List<Map<String, String>> suggestion = [
-    {'title': 'All'},
-    {'title': 'General'},
-    {'title': 'Cardiologist'},
-    {'title': 'Dentist'},
-    {'title': 'Nutritionist'},
-    {'title': 'Label'},
-  ];
-
   final searchC = TextEditingController();
 
   @override

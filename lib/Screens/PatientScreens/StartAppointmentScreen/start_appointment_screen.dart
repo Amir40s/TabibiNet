@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/Profile/profile_provider.dart';
+import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import '../../../constant.dart';
@@ -16,7 +13,6 @@ import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../AppointmentScheduleScreen/Components/fee_container.dart';
-import '../VoiceCallScreen/appointment_voice_call_screen.dart';
 
 class StartAppointmentScreen extends StatelessWidget {
   StartAppointmentScreen({
@@ -155,7 +151,7 @@ class StartAppointmentScreen extends StatelessWidget {
       "id": id,
       "callId": callId,
       "patientId": auth.currentUser!.uid,
-      "patientName": "Abdullah",
+      "patientName": Provider.of<PatientAppointmentProvider>(context).nameC.text,
       "doctorId": doctorId,
     });
   }

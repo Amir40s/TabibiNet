@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorHome/doctor_home_provider.dart';
 
 import '../../../../Providers/translation/translation_provider.dart';
 import '../../../../constant.dart';
@@ -18,6 +19,7 @@ class PatientDetailChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DoctorHomeProvider>(context,listen: false);
     double height = 20;
     return InkWell(
       onTap: () {
@@ -97,47 +99,50 @@ class PatientDetailChart extends StatelessWidget {
 
   Widget buildDetailItem(context,Color color, String title, String value) {
     final langP = Provider.of<TranslationProvider>(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: SizedBox(
-        width: 40.w,
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 4,
-              backgroundColor: color,
-            ),
-            const SizedBox(width: 8),
-            SizedBox(
-              width: 22.w,
-              child: AutoSizeText(
-                minFontSize: 6,
-                langP.translatedTexts[title] ?? "Hi",
-                maxLines: 2,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  fontFamily: AppFonts.medium
+    return Consumer(
+      builder: (context, provider, child) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: SizedBox(
+            width: 40.w,
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 4,
+                  backgroundColor: color,
                 ),
-              ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 22.w,
+                  child: AutoSizeText(
+                    minFontSize: 6,
+                    langP.translatedTexts[title] ?? "Hi",
+                    maxLines: 2,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: AppFonts.medium
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                AutoSizeText(
+                  minFontSize: 6,
+                  value,
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                      fontFamily: AppFonts.medium
+                  ),
+                ),
+              ],
             ),
-            const Spacer(),
-            AutoSizeText(
-              minFontSize: 6,
-              value,
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-                fontFamily: AppFonts.medium
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      },);
   }
 
 }
