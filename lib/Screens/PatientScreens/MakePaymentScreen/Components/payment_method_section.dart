@@ -32,13 +32,13 @@ class PaymentMethodSection extends StatelessWidget {
               mainAxisSpacing: 20
           ),
          children: [
-           PaymentContainer(
-             image: AppIcons.paypalIcon,
-             text: languageP.translatedTexts["Paypal"] ?? "Paypal",
-             isSelected: false,
-             onTap: () {
-
-           },),
+           // PaymentContainer(
+           //   image: AppIcons.paypalIcon,
+           //   text: languageP.translatedTexts["Paypal"] ?? "Paypal",
+           //   isSelected: false,
+           //   onTap: () {
+           //
+           // },),
            // PaymentContainer(
            //   image: AppIcons.payoneerIcon,
            //   text: "Payoneer",

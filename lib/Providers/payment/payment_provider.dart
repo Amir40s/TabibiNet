@@ -14,6 +14,7 @@ import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/api_services/api_services.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 import 'package:tabibinet_project/model/payment/payment_inten_model.dart';
+import 'package:tabibinet_project/model/puahNotification/push_notification.dart';
 
 import '../../Screens/PatientScreens/BookingConfirmedScreen/booking_confirmed_screen.dart';
 
@@ -209,6 +210,15 @@ class PaymentProvider with ChangeNotifier {
            _models!.clientSecret.toString(),
            _models!.amountReceived.toString(),
          );
+
+         final fcm = FCMService();
+         fcm.sendNotification(
+           patientAppointmentP!.doctorDeviceToken.toString(),
+           "New Appointment",
+          "you have received one new appointment",
+          "zyx",
+         );
+
          Get.to(()=>const BookingConfirmedScreen());
        }else{
          String uid = auth.currentUser?.uid.toString() ?? "";

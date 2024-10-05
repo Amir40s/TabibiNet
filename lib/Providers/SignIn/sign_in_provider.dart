@@ -236,7 +236,7 @@ class SignInProvider extends ChangeNotifier{
           "email": auth.currentUser!.email,
           "profileUrl": "https://res.cloudinary.com/dz0mfu819/image/upload/v1725947218/profile_xfxlfl.png",
           "rating": "0.0",
-          "isOnline": "false",
+          "isOnline": false,
           "specialityId": _specialityId ?? "",
           "specialityName": _speciality ?? "",
           "country": country,
