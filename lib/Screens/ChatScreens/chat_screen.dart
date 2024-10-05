@@ -31,17 +31,17 @@ import '../../model/res/widgets/text_widget.dart';
 import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
-   const ChatScreen({
-     super.key, required this.chatRoomId,
-     required this.patientEmail,
-     required this.patientName,
-     required this.profilePic,
-     required this.deviceToken,
-     this.type = "user",
-     this.problem = "",
-     this.phone = "",
-     this.name = ""
-   });
+  const ChatScreen({
+    super.key, required this.chatRoomId,
+    required this.patientEmail,
+    required this.patientName,
+    required this.profilePic,
+    required this.deviceToken,
+    this.type = "user",
+    this.problem = "",
+    this.phone = "",
+    this.name = ""
+  });
   final String chatRoomId;
   final String patientEmail;
   final String patientName;
@@ -83,8 +83,9 @@ class _ChatScreenState extends State<ChatScreen> {
       String? filePath = _recorder.filePath;
 
       if (filePath != null) {
-        String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
-        final provider = Provider.of<ChatProvider>(context,listen: false);
+        String? url = await uploadAudioToFirebase(
+            filePath, context); // Upload to Firebase
+        final provider = Provider.of<ChatProvider>(context, listen: false);
         final fcm = FCMService();
         await fcm.sendNotification(widget.deviceToken,
             "Incoming Message",
@@ -101,48 +102,52 @@ class _ChatScreenState extends State<ChatScreen> {
             _audioUrl = url;
           });
 
-    var status = await Permission.microphone.status;
-    if (!status.isGranted) {
-      // Request the permission
-      status = await Permission.microphone.request();
+          var status = await Permission.microphone.status;
+          if (!status.isGranted) {
+            // Request the permission
+            status = await Permission.microphone.request();
 
-      if (status.isGranted) {
-        if (_isRecording) {
-          // Stop recording
-          await _recorder.stopRecording();
-          String? filePath = _recorder.filePath;
+            if (status.isGranted) {
+              if (_isRecording) {
+                // Stop recording
+                await _recorder.stopRecording();
+                String? filePath = _recorder.filePath;
 
-          if (filePath != null) {
-            String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
-            final provider = Provider.of<ChatProvider>(context,listen: false);
-            await provider.sendFileMessage(
-              chatRoomId: widget.chatRoomId,
-              fileUrl: url ?? "",
-              type: "voice",
-              otherEmail: widget.patientEmail,
-            );
-            if (url.isNotEmpty) {
+                if (filePath != null) {
+                  String? url = await uploadAudioToFirebase(
+                      filePath, context); // Upload to Firebase
+                  final provider = Provider.of<ChatProvider>(
+                      context, listen: false);
+                  await provider.sendFileMessage(
+                    chatRoomId: widget.chatRoomId,
+                    fileUrl: url ?? "",
+                    type: "voice",
+                    otherEmail: widget.patientEmail,
+                  );
+                  if (url.isNotEmpty) {
+                    setState(() {
+                      _audioUrl = url;
+                    });
+                  }
+                }
+              } else {
+                // Start recording
+                await _recorder.startRecording();
+              }
               setState(() {
-                _audioUrl = url;
+                _isRecording = !_isRecording;
               });
+            } else if (status.isDenied) {
+              openAppSettings();
+            } else if (status.isPermanentlyDenied) {
+              openAppSettings();
             }
           }
-        } else {
-          // Start recording
-          await _recorder.startRecording();
-
+          else {
+            log("Microphone permission already granted.");
+          }
         }
-        setState(() {
-          _isRecording = !_isRecording;
-        });
-      } else if (status.isDenied) {
-        openAppSettings();
-      } else if (status.isPermanentlyDenied) {
-        openAppSettings();
       }
-    }
-    else {
-      log("Microphone permission already granted.");
     }
   }
 
@@ -168,7 +173,7 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Column(
                 children: [
-                   ChatHeader(
+                  ChatHeader(
                     name: widget.patientName,
                     picture: widget.profilePic,
                   ),
@@ -182,13 +187,16 @@ class _ChatScreenState extends State<ChatScreen> {
                           )
                       ),
                       child: StreamBuilder(
-                        stream: context.read<ChatProvider>().getMessages(widget.chatRoomId),
+                        stream: context.read<ChatProvider>().getMessages(
+                            widget.chatRoomId),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: CircularProgressIndicator());
                           }
                           provider.markMessageAsRead(widget.chatRoomId);
-                          provider.updateDeliveryStatus(widget.chatRoomId);
+                          provider.updateDeliveryStatus(
+                              widget.chatRoomId);
                           final messages = snapshot.data!.docs;
                           List<Widget> messageWidgets = [];
                           for (var message in messages) {
@@ -200,17 +208,20 @@ class _ChatScreenState extends State<ChatScreen> {
                             final documentId = message.id.toString();
 
                             final relativeTime = messageTimestamp != null
-                                ? timeago.format(messageTimestamp.toDate())
+                                ? timeago.format(
+                                messageTimestamp.toDate())
                                 : '';
 
                             // return ListView
-                            final isCurrentUser = messageSender == AppUtils().getCurrentUserEmail();
+                            final isCurrentUser = messageSender ==
+                                AppUtils().getCurrentUserEmail();
 
                             final messageWidget = Dismissible(
                               key: Key(documentId),
                               direction: DismissDirection.endToStart,
                               onDismissed: (direction) {
-                                provider.deleteMessage(widget.chatRoomId, documentId);
+                                provider.deleteMessage(
+                                    widget.chatRoomId, documentId);
                                 Fluttertoast.showToast(
                                   msg: "Message deleted",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -219,22 +230,34 @@ class _ChatScreenState extends State<ChatScreen> {
                               background: Container(
                                 color: Colors.red,
                                 alignment: Alignment.centerRight,
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Icon(Icons.delete, color: Colors.white),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20),
+                                child: Icon(
+                                    Icons.delete, color: Colors.white),
                               ),
                               child: Align(
-                                alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+                                alignment: isCurrentUser ? Alignment
+                                    .centerRight : Alignment.centerLeft,
                                 child: Column(
-                                  mainAxisAlignment: isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-                                  crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                  mainAxisAlignment: isCurrentUser
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
+                                  crossAxisAlignment: isCurrentUser
+                                      ? CrossAxisAlignment.end
+                                      : CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: type == "image"  ? Colors.transparent : isCurrentUser  ? themeColor : Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
+                                        color: type == "image" ? Colors
+                                            .transparent : isCurrentUser
+                                            ? themeColor
+                                            : Colors.white,
+                                        borderRadius: BorderRadius
+                                            .circular(10),
                                       ),
                                       padding: EdgeInsets.all(10),
-                                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
                                       child: Column(
                                         crossAxisAlignment: isCurrentUser
                                             ? CrossAxisAlignment.end
@@ -244,39 +267,57 @@ class _ChatScreenState extends State<ChatScreen> {
                                           Text(
                                             messageText,
                                             style: TextStyle(
-                                                color: isCurrentUser ? Colors.white : Colors.black),
+                                                color: isCurrentUser
+                                                    ? Colors.white
+                                                    : Colors.black),
                                           ) :
-                                          type == "image"  ?
-                                          Image.network(message['url']!.toString(),width: 200.0,height: 200.0,fit: BoxFit.cover,)
+                                          type == "image" ?
+                                          Image.network(
+                                            message['url']!.toString(),
+                                            width: 200.0,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,)
                                               :
                                           type == "document" ?
                                           Container(
                                             width: 180.0,
                                             height: 180.0,
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .start,
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
                                               children: [
                                                 Stack(
                                                     children: [
-                                                      Image.asset(AppAssets.docImage),
+                                                      Image.asset(
+                                                          AppAssets
+                                                              .docImage),
                                                       Positioned(
                                                           top: 0,
                                                           right: 0,
                                                           child: IconButton(
-                                                            icon: const Icon(Icons.save_alt_outlined,color: Colors.white,),
-                                                            onPressed: () async{
-                                                              log("message");
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .save_alt_outlined,
+                                                              color: Colors
+                                                                  .white,),
+                                                            onPressed: () async {
+                                                              log(
+                                                                  "message");
                                                               await downloadFile(
                                                                   message['url'],
-                                                                  message['text'],fallbackUrl: message['url']);
+                                                                  message['text'],
+                                                                  fallbackUrl: message['url']);
                                                             },
                                                           )
                                                       ),
                                                     ]),
                                                 TextWidget(
                                                   text: "Document: ${message['text']}",
-                                                  textColor: isCurrentUser ? Colors.white : Colors.black,
+                                                  textColor: isCurrentUser
+                                                      ? Colors.white
+                                                      : Colors.black,
                                                   fontSize: 12.0,
                                                 )
                                               ],
@@ -286,12 +327,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                           Container(
                                             width: Get.width * 0.54,
                                             child: ListTile(
-                                              title: Text("Voice Message"),
-                                              trailing: PlayButton(audioUrl: message['url']),
+                                              title: Text(
+                                                  "Voice Message"),
+                                              trailing: PlayButton(
+                                                  audioUrl: message['url']),
                                             ),
                                           )
-                                              // : type == "location"
-                                              // ?
+                                          // : type == "location"
+                                          // ?
 
                                           // Container(
                                           //   width: Get.width * 0.54,
@@ -344,26 +387,36 @@ class _ChatScreenState extends State<ChatScreen> {
                                           //   otherEmail: otherEmail,
                                           // )
                                           //
-                                          : const SizedBox.shrink(),
+                                              : const SizedBox.shrink(),
                                           const SizedBox(height: 3),
                                           Row(
-                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisSize: MainAxisSize
+                                                .min,
                                             children: [
                                               Text(
                                                 relativeTime,
                                                 style: TextStyle(
-                                                  color: type == "image" ?
-                                                  Colors.black : isCurrentUser ?
-                                                  Colors.white70 : Colors.grey,
+                                                  color: type == "image"
+                                                      ?
+                                                  Colors.black
+                                                      : isCurrentUser ?
+                                                  Colors.white70 : Colors
+                                                      .grey,
                                                   fontSize: 10,
                                                 ),
                                               ),
                                               if (isCurrentUser) ...[
                                                 const SizedBox(width: 5),
                                                 Icon(
-                                                  message["read"] ? Icons.done_all : Icons.done,
-                                                  color: type == "image" ? Colors.black :
-                                                  message["read"] ? Colors.white :  Colors.white70,
+                                                  message["read"] ? Icons
+                                                      .done_all : Icons
+                                                      .done,
+                                                  color: type == "image"
+                                                      ? Colors.black
+                                                      :
+                                                  message["read"] ? Colors
+                                                      .white : Colors
+                                                      .white70,
                                                   size: 12,
                                                 ),
                                               ],
@@ -374,8 +427,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ),
                                     if(isCurrentUser)
                                       Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 10),
-                                          child: TextWidget(text: isDelivered ? "seen" : "deliver", fontSize:  12.0))
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: TextWidget(
+                                              text: isDelivered
+                                                  ? "seen"
+                                                  : "deliver",
+                                              fontSize: 12.0))
                                   ],
                                 ),
                               ),
@@ -399,6 +457,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
 
   Widget _buildUserMessage(String message, bool isSender) {
     return Align(
@@ -456,7 +515,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       controller: messageController,
                       decoration: const InputDecoration(
-                        hintStyle: TextStyle(color: greyColor,fontFamily: AppFonts.medium),
+                        hintStyle: TextStyle(color: greyColor,
+                            fontFamily: AppFonts.medium),
                         hintText: 'Message',
                         fillColor: bgColor,
                         filled: true,
@@ -468,7 +528,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       onTap: () {
                         _showBottomSheet(context);
                       },
-                      child: const Icon(Icons.attach_file, color: greyColor)),
+                      child: const Icon(
+                          Icons.attach_file, color: greyColor)),
                 ],
               ),
             ),
@@ -477,17 +538,22 @@ class _ChatScreenState extends State<ChatScreen> {
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onTap: () async{
-              final provider = Provider.of<ChatProvider>(context, listen: false);
-              if(messageController.text.isEmpty){
+            onTap: () async {
+              final provider = Provider.of<ChatProvider>(
+                  context, listen: false);
+              if (messageController.text.isEmpty) {
                 _handleMicButton();
               }
-              if(messageController.text.isNotEmpty){
+              if (messageController.text.isNotEmpty) {
                 final fcm = FCMService();
-               await fcm.sendNotification(widget.deviceToken,
-                    "Incoming Message", messageController.text.toString(), widget.patientEmail);
-                await  provider.sendMessage(
-                    chatRoomId: widget.chatRoomId, message: messageController.text,otherEmail: widget.patientEmail, type: 'text'
+                await fcm.sendNotification(widget.deviceToken,
+                    "Incoming Message", messageController.text.toString(),
+                    widget.patientEmail);
+                await provider.sendMessage(
+                    chatRoomId: widget.chatRoomId,
+                    message: messageController.text,
+                    otherEmail: widget.patientEmail,
+                    type: 'text'
                 );
               }
               messageController.text = "";
@@ -501,7 +567,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CircularProgressIndicator(color: bgColor,),
                   ) :
                   SvgPicture.asset(
-                    messageController.text.isEmpty ? AppIcons.micIcon  : AppIcons.sendIcon,
+                    messageController.text.isEmpty
+                        ? AppIcons.micIcon
+                        : AppIcons.sendIcon,
                     colorFilter: ColorFilter.mode(
                         _isRecording ? redColor : bgColor,
                         BlendMode.srcIn
@@ -531,9 +599,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 icon: Icons.description,
                 label: 'Document',
                 color: Colors.purple,
-                press: () async{
+                press: () async {
                   final docP = GlobalProviderAccess.medicineProvider;
-                  final provider = Provider.of<ChatProvider>(context, listen: false);
+                  final provider = Provider.of<ChatProvider>(
+                      context, listen: false);
                   await docP!.pickFile();
                   final url = await docP.uploadFile();
                   final fcm = FCMService();
@@ -553,33 +622,34 @@ class _ChatScreenState extends State<ChatScreen> {
                 icon: Icons.photo,
                 label: 'Gallery',
                 color: Colors.red,
-                press: () async{
-                  final provider = Provider.of<ChatProvider>(context, listen: false);
+                press: () async {
+                  final provider = Provider.of<ChatProvider>(
+                      context, listen: false);
 
                   final imageP = GlobalProviderAccess.profilePro;
-                 await imageP!.pickImage();
-                final url =  await imageP.uploadFileReturn();
+                  await imageP!.pickImage();
+                  final url = await imageP.uploadFileReturn();
 
                   final fcm = FCMService();
                   await fcm.sendNotification(widget.deviceToken,
                       "Incoming Message",
                       "you have received Image file",
                       widget.patientEmail);
-                 await provider.sendFileMessage(
-                   chatRoomId: widget.chatRoomId,
-                   fileUrl: url.toString(),
-                   type: "image",
-                   otherEmail: widget.patientEmail,
-                 );
+                  await provider.sendFileMessage(
+                    chatRoomId: widget.chatRoomId,
+                    fileUrl: url.toString(),
+                    type: "image",
+                    otherEmail: widget.patientEmail,
+                  );
                 },
               ),
               _buildIconOption(
-                icon: Icons.audiotrack,
-                label: 'Audio',
-                color: Colors.blue,
-                press: (){},
-                onLongPressStart: _onLongPressStart,
-                onLongPressEnd: _onLongPressEnd
+                  icon: Icons.audiotrack,
+                  label: 'Audio',
+                  color: Colors.blue,
+                  press: () {},
+                  onLongPressStart: _onLongPressStart,
+                  onLongPressEnd: _onLongPressEnd
               ),
             ],
           ),
@@ -588,7 +658,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _onLongPressStart() async{
+  void _onLongPressStart() async {
     log("Long press started");
     var audioPlayer = AudioPlayer();
     await audioPlayer.play(AssetSource("Notification.mp3"));
@@ -629,12 +699,14 @@ class _ChatScreenState extends State<ChatScreen> {
   //   }
   // }
 
-  int i=0;
+  int i = 0;
 
   Future<String> getFilePath() async {
     Directory storageDirectory = await getApplicationDocumentsDirectory();
     String sdPath =
-        "${storageDirectory.path}/record${DateTime.now().microsecondsSinceEpoch}.acc";
+        "${storageDirectory.path}/record${DateTime
+        .now()
+        .microsecondsSinceEpoch}.acc";
     var d = Directory(sdPath);
     if (!d.existsSync()) {
       d.createSync(recursive: true);
@@ -657,8 +729,8 @@ class _ChatScreenState extends State<ChatScreen> {
     required String label,
     required Color color,
     required VoidCallback press,
-     VoidCallback? onLongPressStart, // New parameter for long press start
-     VoidCallback? onLongPressEnd,
+    VoidCallback? onLongPressStart, // New parameter for long press start
+    VoidCallback? onLongPressEnd,
   }) {
     return GestureDetector(
       onTap: press,
@@ -683,7 +755,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _uploadPhoto(context) async{
+  void _uploadPhoto(context) async {
     final provider = Provider.of<ChatProvider>(context);
     final result = await FilePicker.platform.pickFiles();
     if (result != null) {
@@ -707,27 +779,29 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-   Future<void> requestGalleryPermission(context) async {
-     PermissionStatus? status;
-     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-     int sdkInt = 0;
-     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-     sdkInt = androidInfo.version.sdkInt;
-     if(sdkInt >= 33){
-       log("Message:: No storage permission required for Android 13+");
-       status = await Permission.phone.request();
-       requestPermissions();
-     }else if (sdkInt <= 32){
-       log("Message:: Android 32+");
-       status = await Permission.storage.request();
-     }
-    if(sdkInt >= 33){
+  Future<void> requestGalleryPermission(context) async {
+    PermissionStatus? status;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    int sdkInt = 0;
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    sdkInt = androidInfo.version.sdkInt;
+    if (sdkInt >= 33) {
+      log("Message:: No storage permission required for Android 13+");
+      status = await Permission.phone.request();
+      requestPermissions();
+    } else if (sdkInt <= 32) {
+      log("Message:: Android 32+");
+      status = await Permission.storage.request();
+    }
+    if (sdkInt >= 33) {
       _uploadPhoto(context);
-    }else{
+    } else {
       var status = await Permission.photos.request();
       if (!status.isGranted) {
         // Request permission
-        if (await Permission.photos.request().isGranted) {
+        if (await Permission.photos
+            .request()
+            .isGranted) {
           _uploadPhoto(context);
           // Permission granted, proceed with gallery access
           // print("Gallery permission granted");
@@ -740,13 +814,19 @@ class _ChatScreenState extends State<ChatScreen> {
         // print("Gallery permission already granted");
       }
     }
-   }
+  }
 
   Future<void> requestPermissions() async {
     // For Android 13 and above, request specific media permissions
-    if (await Permission.photos.request().isGranted &&
-        await Permission.mediaLibrary.request().isGranted &&
-        await Permission.audio.request().isGranted) {
+    if (await Permission.photos
+        .request()
+        .isGranted &&
+        await Permission.mediaLibrary
+            .request()
+            .isGranted &&
+        await Permission.audio
+            .request()
+            .isGranted) {
       // Permission granted, you can proceed with accessing storage or media
     } else {
       // Handle permission denied scenario
@@ -791,20 +871,24 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     else if (status.isDenied) {
       log("Storage permission denied.");
-      showToast("Storage permission denied. Please grant storage permission to download the file.");
+      showToast(
+          "Storage permission denied. Please grant storage permission to download the file.");
       if (fallbackUrl != null) {
         openWebPage(fallbackUrl);
       }
     }
     else if (status.isPermanentlyDenied) {
-      log("Storage permission is permanently denied, opening app settings.");
-      showToast("Storage permission is permanently denied. Please enable it in settings.");
+      log(
+          "Storage permission is permanently denied, opening app settings.");
+      showToast(
+          "Storage permission is permanently denied. Please enable it in settings.");
       bool opened = await openAppSettings();
       log("Opened app settings: $opened");
     }
     else if (status.isRestricted) {
       log("Storage permission is restricted, cannot request permission.");
-      showToast("Storage permission is restricted, cannot request permission.");
+      showToast(
+          "Storage permission is restricted, cannot request permission.");
       if (fallbackUrl != null) {
         openWebPage(fallbackUrl);
       }
@@ -838,7 +922,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 }
-
 
 class PlayButton extends StatelessWidget {
   final String audioUrl;
