@@ -32,6 +32,8 @@ class AppDataController extends GetxController {
   void onInit() {
     fetchSpecialties();
     fetchDoctors();
+    fetchFees();
+    fetchFaq();
     super.onInit();
   }
 
@@ -39,6 +41,8 @@ class AppDataController extends GetxController {
   void fetchAll() {
     fetchSpecialties();
     fetchDoctors();
+    fetchFees();
+    fetchFaq();
   }
 
   void fetchSpecialties() async {

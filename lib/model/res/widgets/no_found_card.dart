@@ -28,7 +28,7 @@ class NoFoundCard extends StatelessWidget {
             isTextCenter: false, textColor: textColor),
         SizedBox(height: .5.h,),
         TextWidget(
-            text: subTitle ?? "You can now make multiple doctoral appointments at once. You can appointments at once. You can...",
+            text: subTitle ?? "You can now make multiple doctoral appointments at once",
             maxLines: 2,
             fontSize: 12, fontWeight: FontWeight.w500,
             isTextCenter: true, textColor: textColor),

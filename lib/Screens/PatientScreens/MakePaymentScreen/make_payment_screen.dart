@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/actionProvider/actionProvider.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 
 import '../../../../constant.dart';
@@ -48,8 +49,9 @@ class MakePaymentScreen extends StatelessWidget {
                     SubmitButton(
                       title: "Confirm Appointment",
                       press: () async{
+                        ActionProvider.startLoading();
                         await provider.initPaymentSheet(
-                          amount: appointmentP.selectFee,
+                          amount: appointmentP.selectFee.toString(),
                           name: appointmentP.nameC.text.toString()
                         );
                       },),
