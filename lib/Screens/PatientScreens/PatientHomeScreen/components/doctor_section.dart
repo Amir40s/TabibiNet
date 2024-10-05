@@ -89,7 +89,8 @@ class DoctorSection extends StatelessWidget {
                       doc.name,
                       doc.location,
                       doc.rating,
-                      doc.email
+                      doc.email,
+                      doc.deviceToken
                   );
                   appointmentScheduleP.setAvailabilityTime(
                       doc.availabilityFrom,

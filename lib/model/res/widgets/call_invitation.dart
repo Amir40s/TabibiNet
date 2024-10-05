@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/Profile/profile_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
+import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
@@ -44,6 +45,9 @@ class CallInvitationPage extends StatelessWidget {
                   callID: callID,
                   config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
                   plugins: [ZegoUIKitSignalingPlugin()],
+                  onDispose: () async {
+                    onHangUp();
+                  },
                 ),
                 InkWell(
                   onTap: () => Navigator.pop(context),
@@ -69,6 +73,9 @@ class CallInvitationPage extends StatelessWidget {
                     callID: callID,
                     config: ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall(),
                     plugins: [ZegoUIKitSignalingPlugin()],
+                    onDispose: () async {
+                      onHangUp();
+                    },
                   ),
                   InkWell(
                     onTap: () => Navigator.pop(context),
@@ -86,6 +93,13 @@ class CallInvitationPage extends StatelessWidget {
           },),
       ),
     );
+  }
+  onHangUp()async{
+    fireStore.collection("calls").doc(callID).update({
+      "status" : "Call Ended"
+    }).whenComplete(() {
+      ToastMsg().toastMsg("Call Ended",toastColor: Colors.red);
+    },);
   }
 }
 

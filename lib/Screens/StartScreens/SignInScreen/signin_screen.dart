@@ -177,14 +177,14 @@ class SignInScreen extends StatelessWidget {
                       );
                     },
                     image: AppIcons.googleIcon),
-                const SizedBox(width: 20,),
-                SignContainer(
-                    onTap: () {
-                      auth.signOut();
-                    },
-                    image: AppIcons.appleIcon),
-                const SizedBox(width: 20,),
-                const SignContainer(image: AppIcons.facebookIcon),
+                // const SizedBox(width: 20,),
+                // SignContainer(
+                //     onTap: () {
+                //       auth.signOut();
+                //     },
+                //     image: AppIcons.appleIcon),
+                // const SizedBox(width: 20,),
+                // const SignContainer(image: AppIcons.facebookIcon),
               ],
             ),
             SizedBox(height: height2,),
