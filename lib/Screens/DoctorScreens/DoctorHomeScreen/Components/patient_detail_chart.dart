@@ -19,7 +19,7 @@ class PatientDetailChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DoctorHomeProvider>(context,listen: false);
+    final provider = Provider.of<DoctorHomeProvider>(context);
     double height = 20;
     return InkWell(
       onTap: () {
@@ -60,8 +60,8 @@ class PatientDetailChart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildDetailItem(context,Colors.lightBlueAccent, "Total Patient", "00"),
-                    buildDetailItem(context,Colors.red, "Prescription sent", "00"),
+                    buildDetailItem(context,Colors.lightBlueAccent, "Total Patient", provider.numberOfPatients.toString()),
+                    buildDetailItem(context,Colors.red, "Appointment Reminder", provider.numberOfReminders.toString()),
                     buildDetailItem(context,Colors.yellow, "Documents shared", "00"),
                   ],
                 ),

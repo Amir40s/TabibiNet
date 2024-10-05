@@ -110,7 +110,7 @@ class SignInProvider extends ChangeNotifier{
           else if (type == "Health Professional") {
             profileProvider!.getSelfInfo()
                 .whenComplete(() {
-              Get.offAll(() => PaywallScreen());
+              Get.offAll(() => const DoctorBottomNavbar());
             },);
           }
         }else{

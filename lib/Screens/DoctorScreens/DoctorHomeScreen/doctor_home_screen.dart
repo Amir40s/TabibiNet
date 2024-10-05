@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/DoctorHome/doctor_home_provider.dart';
 import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/widgets/submit_button.dart';
@@ -47,6 +48,8 @@ class DoctorHomeScreen extends StatelessWidget with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     Provider.of<ProfileProvider>(context,listen: false).getSelfInfo();
+    Provider.of<DoctorHomeProvider>(context,listen: false).setNumberOfPatients();
+    Provider.of<DoctorHomeProvider>(context,listen: false).setNumberOfReminders();
     double height = 20;
     return SafeArea(
       child: Scaffold(

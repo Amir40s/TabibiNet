@@ -97,13 +97,7 @@ class LocationProvider extends ChangeNotifier{
     );
   }
 
-  saveLocation(context){
-    Navigator.pop(context);
-    // marker.clear();
-    notifyListeners();
-  }
-
-  location(context){
+  Future<void> location(context) async {
     try{
       getUserCurrentLocation(context).then((value) async {
         kGooglePlex = CameraPosition(

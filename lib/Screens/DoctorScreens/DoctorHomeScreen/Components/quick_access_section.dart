@@ -34,7 +34,7 @@ class QuickAccessSection extends StatelessWidget {
             Get.to(()=>CallScreen());
             // Get.to(()=>ConsultationScreen());
           },
-          text: 'Calls',
+          text: 'Appointments Call',
           boxColor: lightRedColor,
           icon: AppIcons.phone,
         ),
