@@ -6,8 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/Providers/Language/language_provider.dart';
-
 import '../../../Providers/Location/location_provider.dart';
 import '../../../constant.dart';
 import '../../../model/res/constant/app_icons.dart';
@@ -36,7 +34,12 @@ class _LocationScreenState extends State<LocationScreen> {
     Provider.of<LocationProvider>(context,listen: false).location(context);
   }
 
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Provider.of<LocationProvider>(context,listen: false).dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +137,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 press: () {
                   if(locationP.countryName.isNotEmpty){
                     Get.to(()=>const AccountTypeScreen());
+                    locationP.dispose();
                   }else{
                     Get.snackbar("Error!", "Please Select Country");
                   }

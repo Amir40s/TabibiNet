@@ -52,9 +52,6 @@ class MakePaymentScreen extends StatelessWidget {
                           amount: appointmentP.selectFee,
                           name: appointmentP.nameC.text.toString()
                         );
-
-
-
                       },),
                     SizedBox(height: height1),
               ],

@@ -16,7 +16,7 @@ class BaseUrl{
 
 
  static const notification = "fMpRGXdhRD2b7NRuyiUkEp:APA91bGj9XQs0d2x6K4ISMsOKce_rYCm8hdDMqgzHxoGprOlD27QZD3pgi8TPe7dEXznN6qidToySEZWSSjuNQEusHttcnDdoCnWT9YMeQP3qt3SF-eHPJtEjMSSGVHbCsZclII5OU41";
- static const ab_deviceToekn = "eZvXygNbRqmUAqnGX7z81R:APA91bGyobPgsJmImFX77Qe5Zv7EUU1rRbziul0mEFhVDd62WcCW693pgzxcAC32qHY8U6cbcTVR1XvbjKM94guO9h9s3QQ8q0eLZQoV0dscNLQ_koIeEJsbw3tmLJyjnLai6inehUJY";
+ static const ab_deviceToekn = "dQlXksEXS3ik5D7KxqZ63t:APA91bHLwSCZGuan9duS999-q6rr7yyTpuSGj6fN7f01BwSx021BPtulHfRecw1uwXL_gqYdmu0LeOUp6ROeN1ITQXz1WJaPaQVVmxAlxMIPVE_KWm-pEYGmB0MvrWvwNjKP_8aaQ09C";
 
 
 

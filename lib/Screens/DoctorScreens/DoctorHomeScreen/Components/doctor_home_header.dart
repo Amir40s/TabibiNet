@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/DoctorNotification/doctor_notification_screen.dart';
 
 import '../../../../Providers/Profile/profile_provider.dart';
@@ -18,6 +19,7 @@ class DoctorHomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final langP = Provider.of<TranslationProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
       child: SizedBox(
@@ -53,7 +55,7 @@ class DoctorHomeHeader extends StatelessWidget {
                     SizedBox(
                       width: 40.w,
                       child: TextWidget(
-                          text: "Hi, ${value.name}", fontSize: 20,
+                          text: "${langP.translatedTexts['Hi'] ?? "Hi"}, ${value.name}", fontSize: 20,
                           fontWeight: FontWeight.w600, isTextCenter: false,
                           textColor: textColor),
                     ),
@@ -76,7 +78,7 @@ class DoctorHomeHeader extends StatelessWidget {
             const Spacer(),
             InkWell(
               onTap: () {
-                Get.to(()=>const DoctorNotificationScreen());
+                Get.to(()=> DoctorNotificationScreen());
               },
               child: Container(
                 padding: const EdgeInsets.all(8.0),

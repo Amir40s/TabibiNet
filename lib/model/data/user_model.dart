@@ -26,6 +26,7 @@ class UserModel {
   final String latitude;
   final String longitude;
   final String accountType;
+  final String deviceToken;
   final bool isFav;
 
   UserModel({
@@ -54,6 +55,7 @@ class UserModel {
     required this.latitude,
     required this.longitude,
     required this.accountType,
+    required this.deviceToken,
     required this.isFav,
   });
 
@@ -86,6 +88,7 @@ class UserModel {
       latitude: data['latitude'] ?? '',
       longitude: data['longitude'] ?? '',
       accountType: data['accountType'] ?? '',
+      deviceToken: data['deviceToken'] ?? '',
       isFav: data['isFav'] ?? false,
     );
   }

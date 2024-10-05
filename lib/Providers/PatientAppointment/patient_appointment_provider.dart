@@ -171,7 +171,7 @@ class PatientAppointmentProvider with ChangeNotifier {
     });
   }
 
-  Future<void> sendAppointment() async {
+  Future<void> sendAppointment(paymentId,amount,clientSecret,amountReceived) async {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
 
     String fileUrl = "";
@@ -206,6 +206,10 @@ class PatientAppointmentProvider with ChangeNotifier {
       "appointmentPayment" : _selectFee,
       "documentFile" : fileUrl,
       "applyDate" : DateTime.now(),
+      "paymentId" : paymentId,
+      "amount" : amount,
+      "clientSecret" : clientSecret,
+      "amountReceived" : amountReceived,
     })
         .whenComplete(() {
           ToastMsg().toastMsg("Appointment Send Successfully!");

@@ -160,7 +160,7 @@ class PatientProfileScreen extends StatelessWidget {
                       onTap: () async{
                         // Get.to(()=>const PaymentScreen());
                         final fcmService =  FCMService();
-                       await fcmService.sendNotification(
+                        await fcmService.sendNotification(
                             BaseUrl.ab_deviceToekn,
                             "title",
                             "body",

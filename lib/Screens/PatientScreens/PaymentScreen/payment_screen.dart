@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -13,7 +10,6 @@ import '../../../../constant.dart';
 import '../../../../model/res/widgets/header.dart';
 import '../../../../model/res/widgets/submit_button.dart';
 import '../../../../model/res/widgets/text_widget.dart';
-import '../../../Providers/payment/payment.dart';
 import '../../../Providers/payment/payment_provider.dart';
 import '../../../model/res/constant/app_icons.dart';
 import '../CodeGenerationScreen/code_generation_screen.dart';

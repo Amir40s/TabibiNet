@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tabibinet_project/model/services/NotificationServices/flutter_local_notification.dart';
 
+import '../../../../Providers/translation/translation_provider.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
 import '../../../../model/res/widgets/text_widget.dart';
@@ -56,9 +58,9 @@ class PatientDetailChart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildDetailItem(Colors.lightBlueAccent, "Total Patient", "00"),
-                    buildDetailItem(Colors.red, "Prescription sent", "00"),
-                    buildDetailItem(Colors.yellow, "Documents shared", "00"),
+                    buildDetailItem(context,Colors.lightBlueAccent, "Total Patient", "00"),
+                    buildDetailItem(context,Colors.red, "Prescription sent", "00"),
+                    buildDetailItem(context,Colors.yellow, "Documents shared", "00"),
                   ],
                 ),
               ],
@@ -93,7 +95,8 @@ class PatientDetailChart extends StatelessWidget {
     ];
   }
 
-  Widget buildDetailItem(Color color, String title, String value) {
+  Widget buildDetailItem(context,Color color, String title, String value) {
+    final langP = Provider.of<TranslationProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: SizedBox(
@@ -105,18 +108,25 @@ class PatientDetailChart extends StatelessWidget {
               backgroundColor: color,
             ),
             const SizedBox(width: 8),
-            Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                fontFamily: AppFonts.medium
+            SizedBox(
+              width: 22.w,
+              child: AutoSizeText(
+                minFontSize: 6,
+                langP.translatedTexts[title] ?? "Hi",
+                maxLines: 2,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  fontFamily: AppFonts.medium
+                ),
               ),
             ),
             const Spacer(),
-            Text(
+            AutoSizeText(
+              minFontSize: 6,
               value,
+              maxLines: 1,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

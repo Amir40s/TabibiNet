@@ -183,4 +183,12 @@ class LocationProvider extends ChangeNotifier{
 
   }
 
+  @override
+  void dispose() {
+    if (gController.isCompleted) {
+      gController.future.then((controller) => controller.dispose());
+    }
+    super.dispose();
+  }
+
 }

@@ -13,14 +13,8 @@ import '../../../model/res/widgets/text_widget.dart';
 import '../../PatientScreens/NotificationScreen/Components/notification_container.dart';
 import 'Components/doctor_notification_tile.dart';
 
-class DoctorNotificationScreen extends StatefulWidget {
-  const DoctorNotificationScreen({super.key});
-
-  @override
-  State<DoctorNotificationScreen> createState() => _DoctorNotificationScreenState();
-}
-
-class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
+class DoctorNotificationScreen extends StatelessWidget {
+  DoctorNotificationScreen({super.key});
 
   String? _selectedItem;
 
@@ -40,56 +34,12 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  Row(
+                  const Row(
                     children: [
-                      const TextWidget(
+                      TextWidget(
                         text: "Latest Update", fontSize: 20,
                         fontWeight: FontWeight.w600, isTextCenter: false,
                         textColor: textColor, fontFamily: AppFonts.semiBold,),
-                      const Spacer(),
-                      const TextWidget(
-                        text: "Short By :", fontSize: 12,
-                        fontWeight: FontWeight.w400, isTextCenter: false,
-                        textColor: textColor, fontFamily: AppFonts.regular,),
-                      const SizedBox(width: 10,),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: bgColor,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                color: greyColor
-                            )
-                        ),
-                        child: DropdownButton<String>(
-                          dropdownColor: bgColor,
-                          icon: const Icon(CupertinoIcons.chevron_down,size: 15,),
-                          borderRadius: BorderRadius.circular(8),
-                          underline: const SizedBox(),
-                          hint: const TextWidget(
-                            text: "All", fontSize: 12,
-                            fontWeight: FontWeight.w400, isTextCenter: false,
-                            textColor: textColor,fontFamily: AppFonts.regular,),
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontFamily: AppFonts.regular,
-                              fontWeight: FontWeight.w400,
-                              color: textColor
-                          ),
-                          value: _selectedItem,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _selectedItem = newValue!;
-                            });
-                          },
-                          items: _dropdownItems.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
-                        ),
-                      )
                     ],
                   ),
                   const SizedBox(height: 20,),
@@ -135,7 +85,6 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
   }
 }
 
-
 //SizedBox(height: height,),
 //                   const DoctorNotificationTile(
 //                       title: "Upcoming Event",
@@ -168,3 +117,51 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
 //                       icon: AppIcons.availabilityIcon,
 //                       iconBgColor: Color(0xffE1F3FF)
 //                   ),
+
+
+
+
+//const Spacer(),
+//                       const TextWidget(
+//                         text: "Short By :", fontSize: 12,
+//                         fontWeight: FontWeight.w400, isTextCenter: false,
+//                         textColor: textColor, fontFamily: AppFonts.regular,),
+//                       const SizedBox(width: 10,),
+//                       Container(
+//                         padding: const EdgeInsets.symmetric(horizontal: 8),
+//                         decoration: BoxDecoration(
+//                             color: bgColor,
+//                             borderRadius: BorderRadius.circular(8),
+//                             border: Border.all(
+//                                 color: greyColor
+//                             )
+//                         ),
+//                         child: DropdownButton<String>(
+//                           dropdownColor: bgColor,
+//                           icon: const Icon(CupertinoIcons.chevron_down,size: 15,),
+//                           borderRadius: BorderRadius.circular(8),
+//                           underline: const SizedBox(),
+//                           hint: const TextWidget(
+//                             text: "All", fontSize: 12,
+//                             fontWeight: FontWeight.w400, isTextCenter: false,
+//                             textColor: textColor,fontFamily: AppFonts.regular,),
+//                           style: const TextStyle(
+//                               fontSize: 12,
+//                               fontFamily: AppFonts.regular,
+//                               fontWeight: FontWeight.w400,
+//                               color: textColor
+//                           ),
+//                           value: _selectedItem,
+//                           onChanged: (String? newValue) {
+//                             setState(() {
+//                               _selectedItem = newValue!;
+//                             });
+//                           },
+//                           items: _dropdownItems.map((String item) {
+//                             return DropdownMenuItem<String>(
+//                               value: item,
+//                               child: Text(item),
+//                             );
+//                           }).toList(),
+//                         ),
+//                       )

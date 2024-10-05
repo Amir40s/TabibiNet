@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/EmrDetailScreen/Components/medication_list_section.dart';
 import 'package:tabibinet_project/Screens/DoctorScreens/PrescribeMedicineScreen/prescribe_medicine_screen.dart';
-import 'package:tabibinet_project/Screens/DoctorScreens/Prescription_creation_screen/prescription_creation_screen.dart';
 
 import '../../../constant.dart';
 import '../../../model/res/constant/app_fonts.dart';
-import '../../../model/res/constant/app_icons.dart';
 import '../../../model/res/widgets/dotted_line.dart';
 import '../../../model/res/widgets/header.dart';
 import '../../../model/res/widgets/info_tile.dart';

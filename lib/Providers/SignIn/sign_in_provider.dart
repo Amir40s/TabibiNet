@@ -11,6 +11,7 @@ import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_c
 import '../../Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import '../../constant.dart';
 import '../../global_provider.dart';
+import '../../model/puahNotification/push_notification.dart';
 import '../../model/res/widgets/toast_msg.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 import '../../model/services/NotificationServices/flutter_local_notification.dart';
@@ -185,6 +186,10 @@ class SignInProvider extends ChangeNotifier{
         Get.back();
         return;
       }
+      final fcmService = FCMService();
+      String? deviceToken = await fcmService.getDeviceToken();
+
+      log("Message Token:: $deviceToken");
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -250,7 +255,8 @@ class SignInProvider extends ChangeNotifier{
           "reviews": "0",
           "patients": "0",
           "userType": _userType,
-          "accountType": "Google"
+          "accountType": "Google",
+          "deviceToken": deviceToken ?? "",
         }).whenComplete(() async {
           Get.back(); // Dismiss the dialog
           if (_userType == "Patient") {

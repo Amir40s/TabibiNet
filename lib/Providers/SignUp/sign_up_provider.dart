@@ -8,6 +8,7 @@ import 'package:tabibinet_project/model/res/widgets/toast_msg.dart';
 import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_chart.dart';
 import '../../constant.dart';
 import '../../global_provider.dart';
+import '../../model/puahNotification/push_notification.dart';
 import '../../model/services/FirebaseServices/auth_services.dart';
 import '../../model/services/NotificationServices/flutter_local_notification.dart';
 
@@ -70,6 +71,8 @@ class SignUpProvider extends ChangeNotifier{
         password: passwordC.text.toString()
     )
         .then((value) async {
+      final fcmService = FCMService();
+      String? deviceToken = await fcmService.getDeviceToken();
       String? userUID = auth.currentUser!.uid;
       await fireStore.collection("users").doc(userUID).set(
           {
@@ -99,6 +102,7 @@ class SignUpProvider extends ChangeNotifier{
             "userType": type,
             "accountType": "Custom",
             "password": passwordC.text.toString().trim(),
+            "deviceToken": deviceToken ?? "",
           }
           )
           .whenComplete(() async {
