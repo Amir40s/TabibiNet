@@ -56,6 +56,7 @@ class ChatListScreen extends StatelessWidget {
                                 email: otherUserEmail,
                                 profileUrl: '',
                                 userUid: '',
+                                deviceToken: '',
                               ),
                             );
                             return otherUser.name.toLowerCase().contains(searchQuery);
@@ -90,6 +91,7 @@ class ChatListScreen extends StatelessWidget {
                                   email: otherUserEmail,
                                   profileUrl: '',
                                   userUid: '',
+                                  deviceToken: '',
                                 ),
                               );
 
@@ -144,6 +146,7 @@ class ChatListScreen extends StatelessWidget {
                                    profilePic : otherUser.profileUrl,
                                     patientEmail: otherUser.email,
                                     chatRoomId: chatRoomId,
+                                    deviceToken: otherUser.deviceToken,
                                   ));
                                   // await chatProvider.getUnreadMessageCount(chatRoom.id);
                                 },

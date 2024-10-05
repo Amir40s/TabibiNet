@@ -105,6 +105,7 @@ class FavoriteScreen extends StatelessWidget {
                                   appointmentFee: doctor.appointmentFee,
                                   rating: doctor.rating,
                                   imageUrl: doctor.profileUrl,
+                                  isOnline: doctor.isOnline,
                                   isFav: value.isFavorite(doctor.userUid),
                                   likeTap: () {
                                     value.toggleFavorite(doctor.userUid);

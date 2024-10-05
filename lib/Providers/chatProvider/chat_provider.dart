@@ -138,6 +138,7 @@ class ChatProvider with ChangeNotifier {
       email: doc['email'] ?? "",
       profileUrl: doc['profileUrl'] ?? "",
       userUid: doc['userUid'] ?? "",
+      deviceToken: doc['deviceToken'] ?? "",
     ))
         .toList();
     notifyListeners();

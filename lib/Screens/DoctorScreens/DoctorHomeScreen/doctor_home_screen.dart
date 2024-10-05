@@ -21,7 +21,7 @@ import 'Components/patient_detail_chart.dart';
 import 'Components/quick_access_section.dart';
 import 'Components/range_select_calendar.dart';
 
-class DoctorHomeScreen extends StatelessWidget {
+class DoctorHomeScreen extends StatelessWidget with WidgetsBindingObserver{
    const DoctorHomeScreen({super.key});
 
   // final List<Map<String,dynamic>> appointmentStatus = [
@@ -41,6 +41,8 @@ class DoctorHomeScreen extends StatelessWidget {
   //     "boxColor" : secondaryGreenColor,
   //   },
   // ];
+
+
 
   @override
   Widget build(BuildContext context) {

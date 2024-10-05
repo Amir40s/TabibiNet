@@ -71,6 +71,7 @@ class FindDoctorProvider extends ChangeNotifier{
 
   // Stream to fetch users from FireStore
   Stream<List<UserModel>> fetchDoctors() {
+
     if(_filterValue.isEmpty){
       return fireStore.collection('users')
           .where( "userType", isEqualTo: "Health Professional")
@@ -79,6 +80,7 @@ class FindDoctorProvider extends ChangeNotifier{
         return snapshot.docs.map((doc) => UserModel.fromDocumentSnapshot(doc)).toList();
       });
     }else{
+
       return fireStore.collection('users')
           .where( "userType", isEqualTo: "Health Professional")
           .snapshots().map((snapshot) {
