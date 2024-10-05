@@ -21,7 +21,7 @@ class UserModel {
   final Timestamp creationDate;
   final String profileUrl;
   final String rating;
-  final String isOnline;
+  final bool isOnline;
   final String location;
   final String latitude;
   final String longitude;
@@ -83,7 +83,7 @@ class UserModel {
       creationDate: data['creationDate'] ?? '',
       profileUrl: data['profileUrl'] ?? '',
       rating: data['rating'] ?? '',
-      isOnline: data['isOnline'] ?? '',
+      isOnline: data['isOnline'] ?? false,
       location: data['location'] ?? '',
       latitude: data['latitude'] ?? '',
       longitude: data['longitude'] ?? '',
