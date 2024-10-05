@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,20 +51,14 @@ class SubmitButton extends StatelessWidget {
             border: Border.all(
               color: bdColor ?? themeColor
             )
-            // boxShadow: [
-            //   BoxShadow(
-            //       offset: const Offset(0, 2),
-            //       spreadRadius: 1,
-            //       blurRadius: 2,
-            //       color: Colors.grey.withOpacity(.5))
-            // ]
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (title != null)
 
-              Text(
+              AutoSizeText(
+                minFontSize: 8,
                 provider.translatedTexts[title!] ?? title!,
                 maxLines: 2,
                 style: TextStyle(
@@ -150,7 +145,8 @@ class SubmitButton2 extends StatelessWidget {
               ),
             if (title != null)
               Consumer<LanguageProvider>(builder: (context, value, child) {
-                return Text(
+                return AutoSizeText(
+                  minFontSize: 8,
                   value.translate(title!),
                   maxLines: 2,
                   style: TextStyle(
@@ -163,9 +159,3 @@ class SubmitButton2 extends StatelessWidget {
     );
   }
 }
-
-//Icon(
-//                   icon,
-//                   color: iconColor ?? Colors.white,
-//                   size: iconSize ?? 20,
-//                 )

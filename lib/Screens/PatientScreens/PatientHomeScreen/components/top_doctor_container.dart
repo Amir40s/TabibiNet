@@ -107,10 +107,13 @@ class TopDoctorContainer extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextWidget(
-                          text: specialityName, fontSize: 14,
-                          fontWeight: FontWeight.w400, isTextCenter: false,
-                          textColor: textColor, fontFamily: AppFonts.regular,),
+                        SizedBox(
+                          width: 25.w,
+                          child: TextWidget(
+                            text: specialityName, fontSize: 14,maxLines: 1,
+                            fontWeight: FontWeight.w400, isTextCenter: false,
+                            textColor: textColor, fontFamily: AppFonts.regular,),
+                        ),
                         const SizedBox(width: 5,),
                         const Icon(Icons.circle,color: textColor,size: 5,),
                         const SizedBox(width: 5,),

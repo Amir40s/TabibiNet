@@ -74,35 +74,48 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleMicButton() async {
-    if (_isRecording) {
-      // Stop recording
-      await _recorder.stopRecording();
-      String? filePath = _recorder.filePath;
+    var status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      // Request the permission
+      status = await Permission.microphone.request();
 
-      if (filePath != null) {
-        String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
-        final provider = Provider.of<ChatProvider>(context,listen: false);
-        await provider.sendFileMessage(
-          chatRoomId: widget.chatRoomId,
-          fileUrl: url ?? "",
-          type: "voice",
-          otherEmail: widget.patientEmail,
-        );
-        if (url.isNotEmpty) {
-          setState(() {
-            _audioUrl = url;
-          });
+      if (status.isGranted) {
+        if (_isRecording) {
+          // Stop recording
+          await _recorder.stopRecording();
+          String? filePath = _recorder.filePath;
+
+          if (filePath != null) {
+            String? url = await uploadAudioToFirebase(filePath,context); // Upload to Firebase
+            final provider = Provider.of<ChatProvider>(context,listen: false);
+            await provider.sendFileMessage(
+              chatRoomId: widget.chatRoomId,
+              fileUrl: url ?? "",
+              type: "voice",
+              otherEmail: widget.patientEmail,
+            );
+            if (url.isNotEmpty) {
+              setState(() {
+                _audioUrl = url;
+              });
+            }
+          }
+        } else {
+          // Start recording
+          await _recorder.startRecording();
         }
+        setState(() {
+          _isRecording = !_isRecording;
+        });
+      } else if (status.isDenied) {
+        openAppSettings();
+      } else if (status.isPermanentlyDenied) {
+        openAppSettings();
       }
-    } else {
-      // Start recording
-      await _recorder.startRecording();
     }
-
-    // Toggle recording state and update UI
-    setState(() {
-      _isRecording = !_isRecording;
-    });
+    else {
+      log("Microphone permission already granted.");
+    }
   }
 
   // @override

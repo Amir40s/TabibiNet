@@ -168,7 +168,7 @@ class SessionDetailScreen extends StatelessWidget {
         'appointmentTime': model.appointmentTime,
         'status': status,
         'id': timeStamp,
-        'location': model.doctorLocation,
+        'location': model.feesType,
         'userUid' : auth.currentUser?.uid.toString()
       }).whenComplete(() {
         ToastMsg().toastMsg("Patient Add to Reminder Screen");

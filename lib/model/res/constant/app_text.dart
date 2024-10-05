@@ -225,6 +225,7 @@ class AppText{
     "PDF File",
     "Send Document to",
     "Write Prescription",
+    "Appointment Reminder",
   ];
 
 }

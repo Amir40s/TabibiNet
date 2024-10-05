@@ -83,7 +83,7 @@ class ChooseReportFileScreen extends StatelessWidget {
                   ),
                   SizedBox(height: height1,),
                   SubmitButton(
-                    title: "Send Document to Micheal",
+                    title: "Send Document",
                     bgColor: greyColor,
                     textColor: Colors.grey,
                     bdColor: greyColor,

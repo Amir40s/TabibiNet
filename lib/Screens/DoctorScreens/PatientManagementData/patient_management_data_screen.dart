@@ -30,26 +30,26 @@ class PatientManagementDataScreen extends StatelessWidget {
         backgroundColor: bgColor,
         body: Column(
           children: [
-            const Header(text: "Patient Management"),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: InputField2(
-                inputController: searchC,
-                hintText: "Find here!",
-                prefixIcon: Icons.search,
-                suffixIcon: Container(
-                  margin: const EdgeInsets.all(14),
-                  padding: const EdgeInsets.all(3),
-                  height: 20,
-                  width: 20,
-                  decoration: const BoxDecoration(
-                    color: greenColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(AppIcons.crossIcon),
-                ),
-              ),
-            ),
+            const Header2(text: "Patient Management"),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //   child: InputField2(
+            //     inputController: searchC,
+            //     hintText: "Find here!",
+            //     prefixIcon: Icons.search,
+            //     suffixIcon: Container(
+            //       margin: const EdgeInsets.all(14),
+            //       padding: const EdgeInsets.all(3),
+            //       height: 20,
+            //       width: 20,
+            //       decoration: const BoxDecoration(
+            //         color: greenColor,
+            //         shape: BoxShape.circle,
+            //       ),
+            //       child: SvgPicture.asset(AppIcons.crossIcon),
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: height1,),
             Expanded(
                 child: StreamBuilder<List<AppointmentModel>>(
