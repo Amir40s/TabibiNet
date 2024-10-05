@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/patient_home_screen.dart';
+import 'package:tabibinet_project/controller/translation_controller.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/model/res/components/circle_icon.dart';
 import '../../../../constant.dart';

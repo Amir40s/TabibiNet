@@ -112,7 +112,11 @@ class TranslationProvider with ChangeNotifier {
 
    Future<void> translateMultiple(List<String> texts, {String? targetLanguage}) async {
 
-    targetLanguage ??= _currentLanguage;
+    final pref =await  SharedPreferencesService.getInstance();
+
+    final String currentLanguage = pref.getString('language')?? 'en';
+
+    targetLanguage ??= currentLanguage;
 
 
      texts = texts.where((text) =>

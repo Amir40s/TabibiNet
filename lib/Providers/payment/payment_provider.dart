@@ -157,6 +157,7 @@ class PaymentProvider with ChangeNotifier {
     required String amount,
     required String name,
 }) async {
+    log("message:: $amount");
     try {
       // 1. create payment intent on the client side by calling stripe api
       final data = await createPaymentIntent(
@@ -186,6 +187,7 @@ class PaymentProvider with ChangeNotifier {
      checkPaymentStatus();
 
     } catch (e) {
+      log("message:: ${e.toString()}");
       Get.snackbar(e.toString(), "");
       rethrow;
     }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
@@ -24,6 +26,9 @@ class MyAppointmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final myAppP = Provider.of<MyAppointmentProvider>(context,listen: false);
     final languageP = Provider.of<TranslationProvider>(context);
+
+
+
     return SafeArea(
       child: DefaultTabController(
         length: 4, // Number of tabs
@@ -31,7 +36,7 @@ class MyAppointmentScreen extends StatelessWidget {
           backgroundColor: bgColor,
           body: Column(
             children: [
-              const Header(text: "My Appointment"),
+              const Header(text: "My Appointments"),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
@@ -42,7 +47,7 @@ class MyAppointmentScreen extends StatelessWidget {
                         height: 50,
                         child: InputField2(
                           inputController: searchC,
-                          hintText: "Find here!",
+                          hintText: languageP.translatedTexts["Find here!"] ?? "Find here!",
                           prefixIcon: Icons.search,
                           onChanged: (value) {
                             myAppP.filterAppointment(value);
@@ -85,7 +90,7 @@ class MyAppointmentScreen extends StatelessWidget {
                   Tab(text: languageP.translatedTexts["Pending"] ?? "Pending",),
                   Tab(text: languageP.translatedTexts["Upcoming"] ?? "Upcoming",),
                   Tab(text: languageP.translatedTexts["Completed"] ?? "Completed",),
-                  Tab(text: languageP.translatedTexts["Cancelled"] ?? "Cancelled",),
+                  Tab(text: languageP.translatedTexts["canceled"] ?? "canceled",),
                 ],
               ),
               const Expanded(
