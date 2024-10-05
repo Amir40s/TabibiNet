@@ -15,35 +15,15 @@ import '../AccountTypeScreen/account_type_screen.dart';
 import 'Components/google_map_section.dart';
 import 'Components/search_location_field.dart';
 
-class LocationScreen extends StatefulWidget {
+class LocationScreen extends StatelessWidget {
   const LocationScreen({super.key});
 
-  @override
-  State<LocationScreen> createState() => _LocationScreenState();
-}
-
-class _LocationScreenState extends State<LocationScreen> {
-
   // final List<String> supportedLanguages = ['en', 'fr', 'es', 'ar'];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Provider.of<LocationProvider>(context,listen: false).getUserCurrentLocation(context);
-    Provider.of<LocationProvider>(context,listen: false).location(context);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    Provider.of<LocationProvider>(context,listen: false).dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final locationP = Provider.of<LocationProvider>(context,listen: false);
+    locationP.getUserCurrentLocation(context);
+    locationP.location(context);
     // final languageP = Provider.of<LanguageProvider>(context,listen: false);
     return SafeArea(
       child: Scaffold(
@@ -137,7 +117,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 press: () {
                   if(locationP.countryName.isNotEmpty){
                     Get.to(()=>const AccountTypeScreen());
-                    locationP.dispose();
+                    // locationP.dispose();
                   }else{
                     Get.snackbar("Error!", "Please Select Country");
                   }

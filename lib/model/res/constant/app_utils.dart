@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:provider/provider.dart';
+import 'package:tabibinet_project/Providers/SignUp/sign_up_provider.dart';
 import 'package:tabibinet_project/Screens/SuccessScreen/success_screen.dart';
 
 import '../../../Screens/StartScreens/OtpScreen/otp_screen.dart';
@@ -50,7 +52,8 @@ class AppUtils{
     try {
       await send(message, smtpServer);
       Get.snackbar("OTP SEND", "Email sent successfully");
-      Get.to(()=>OtpScreen(otp: otpCode.toString(),));
+      Get.to(()=>OtpScreen());
+      // Get.to(()=>OtpScreen(otp: otpCode.toString(),));
       if(!context.mounted) return;
       // Provider.of<ValueProvider>(context,listen: false).setLoading(false);
       // if(request == "resend"){

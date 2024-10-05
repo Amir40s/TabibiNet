@@ -5,16 +5,19 @@ import '../../../Providers/Location/location_provider.dart';
 import '../../../Providers/SignIn/sign_in_provider.dart';
 import '../../../Providers/SignUp/sign_up_provider.dart';
 import '../../../constant.dart';
+import 'package:tabibinet_project/model/res/constant/app_utils.dart';
 import '../../../model/res/constant/app_fonts.dart';
 import '../../../model/res/widgets/submit_button.dart';
 import '../../../model/res/widgets/text_widget.dart';
 import '../../../model/res/widgets/toast_msg.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key,required this.otp});
+  OtpScreen({super.key,});
 
   final pinC = TextEditingController();
-  final String otp;
+  final appUtils = AppUtils();
+
+  // final String otp;
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +79,23 @@ class OtpScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const TextWidget(text: "Did’nt receive email?", fontSize: 16, fontWeight: FontWeight.w500, isTextCenter: false, textColor: textColor),
-                InkWell(
-                    onTap: () {
-                      // Get.to(()=>SignUpScreen());
-                    },
-                    child: const TextWidget(
-                      text: "Resend", fontSize: 16, fontWeight: FontWeight.w400,
-                      isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,)),
+                Consumer<SignUpProvider>(
+                  builder: (context, value, child) {
+                    return InkWell(
+                        onTap: () async {
+                          int otp = AppUtils().generateUniqueNumber();
+                          await appUtils.sendMail(
+                              recipientEmail: value.emailC.text.toString(),
+                              otpCode: otp.toString(),
+                              context: context
+                          );
+                          Provider.of<SignUpProvider>(context,listen: false).setOTP(otp.toString());
+                          // Get.to(()=>SignUpScreen());
+                        },
+                        child: const TextWidget(
+                          text: "Resend", fontSize: 16, fontWeight: FontWeight.w400,
+                          isTextCenter: false, textColor: themeColor,fontFamily: AppFonts.medium,));
+                  },),
               ],
             ),
             const SizedBox(height: 120,),
@@ -101,7 +114,7 @@ class OtpScreen extends StatelessWidget {
                   title: "Continue",
                   press: () async {
                     FocusScope.of(context).unfocus();
-                    if(value.passwordC.text == value.confirmPasswordC.text){
+                    if(value.otp == pinC.text){
                       // sentOTP(value.emailC.text.toString());
                       await value.signUp(
                           speciality:  signInP.speciality,
@@ -119,7 +132,7 @@ class OtpScreen extends StatelessWidget {
                       );
                     }
                     else{
-                      ToastMsg().toastMsg("Confirm Password is not Correct");
+                      ToastMsg().toastMsg("OTP is Incorrect");
                     }
                     // Get.to(()=>const SuccessScreen(
                     //   title: "Reset Successfully!",

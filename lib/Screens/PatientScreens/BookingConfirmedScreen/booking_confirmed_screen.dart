@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/translation/translation_provider.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/Screens/PatientScreens/PatientHomeScreen/patient_home_screen.dart';
 import 'package:tabibinet_project/controller/translation_controller.dart';
+import 'package:tabibinet_project/Screens/PatientScreens/PatientBottomNavBar/patient_bottom_nav_bar.dart';
 import 'package:tabibinet_project/model/res/components/circle_icon.dart';
 import '../../../../constant.dart';
 import '../../../../model/res/constant/app_fonts.dart';
@@ -22,10 +24,6 @@ class BookingConfirmedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appointmentP = Provider.of<PatientAppointmentProvider>(context,listen: false);
-    final languageP = Provider.of<TranslationProvider>(context);
-
-    TranslationController controller = Get.put(TranslationController());
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondaryGreenColor,
@@ -54,7 +52,8 @@ class BookingConfirmedScreen extends StatelessWidget {
                                       fontSize: 24, fontWeight: FontWeight.w600,
                                       isTextCenter: false, textColor: textColor),
                                    TextWidget(
-                                      text: "Dr. ${controller.translations[appointmentP.doctorName] ?? appointmentP.doctorName} ${languageP.translatedTexts["is a highly skilled cardiologist dedicated to providing exceptional cardiac care. With"]}",
+                                      text: "Dr. ${appointmentP.doctorName} Wilson is a highly skilled cardiologist"
+                                          " dedicated to providing exceptional cardiac care. With ",
                                       fontSize: 12, fontWeight: FontWeight.w400,
                                       isTextCenter: true, textColor: textColor,maxLines: 2,),
                                 ],
@@ -166,7 +165,7 @@ class BookingConfirmedScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const TextWidget(
-                                          text: "Time:",
+                                          text: "Time :",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
@@ -182,7 +181,7 @@ class BookingConfirmedScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const TextWidget(
-                                          text: "Date:",
+                                          text: "Date :",
                                           fontSize: 12, fontWeight: FontWeight.w400,
                                           isTextCenter: false, textColor: textColor,maxLines: 1,),
                                         TextWidget(
@@ -215,7 +214,8 @@ class BookingConfirmedScreen extends StatelessWidget {
                             SubmitButton(
                               title: "Done",
                               press: () async {
-                               Get.offAll(PatientBottomNavBar());
+                                Get.offAll(()=>PatientBottomNavBar());
+                                // await appointmentP.sendAppointment();
                             },),
                             const SizedBox(height: 20,),
                           ],

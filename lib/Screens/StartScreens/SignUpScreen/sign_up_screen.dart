@@ -99,6 +99,7 @@ class SignUpScreen extends StatelessWidget {
                           otpCode: otp.toString(),
                           context: context
                       );
+                      Provider.of<SignUpProvider>(context,listen: false).setOTP(otp.toString());
                       value.setLoading(false);
                     }
                   }else{

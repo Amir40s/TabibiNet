@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/paywall_screen.dart';
 
 import '../../Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
 import '../../Screens/DoctorScreens/DoctorHomeScreen/Components/patient_detail_chart.dart';
@@ -109,7 +110,7 @@ class SignInProvider extends ChangeNotifier{
           else if (type == "Health Professional") {
             profileProvider!.getSelfInfo()
                 .whenComplete(() {
-              Get.offAll(() => const DoctorBottomNavbar());
+              Get.offAll(() => PaywallScreen());
             },);
           }
         }else{
@@ -267,7 +268,7 @@ class SignInProvider extends ChangeNotifier{
                 type: type);
             profileProvider!.getSelfInfo()
               .whenComplete(() {
-          Get.off(() => const PatientBottomNavBar());
+          Get.offAll(() => const PatientBottomNavBar());
           },);
           }
           else{
@@ -278,7 +279,7 @@ class SignInProvider extends ChangeNotifier{
                 type: type);
             profileProvider!.getSelfInfo()
                 .whenComplete(() {
-                  Get.off(() => const DoctorBottomNavbar());
+                  Get.offAll(() => PaywallScreen());
                   },);
           }
         });

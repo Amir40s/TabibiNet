@@ -14,6 +14,7 @@ import '../../model/services/NotificationServices/flutter_local_notification.dar
 
 class SignUpProvider extends ChangeNotifier{
 
+
   final AuthServices authServices = AuthServices();
   final profileProvider = GlobalProviderAccess.profilePro;
   final patientNotificationProvider = GlobalProviderAccess.patientNotificationPro;
@@ -22,6 +23,7 @@ class SignUpProvider extends ChangeNotifier{
   final String subTitle = "Your Account Created Successfully";
   final String type = "Account Registration";
 
+  String _otp = "";
   bool _isCheck = false;
   bool _isLoading = false;
   bool _isSignUpPasswordShow = true;
@@ -32,10 +34,16 @@ class SignUpProvider extends ChangeNotifier{
   TextEditingController phoneC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
   TextEditingController confirmPasswordC = TextEditingController();
+  String get otp => _otp;
   bool get isCheck => _isCheck;
   bool get isLoading => _isLoading;
   bool get isSignUpPasswordShow => _isSignUpPasswordShow;
   bool get isSignUpConfirmPasswordShow => _isSignUpConfirmPasswordShow;
+
+  setOTP(value){
+    _otp = value;
+    notifyListeners();
+  }
 
   setLoading(value){
     _isLoading = value;
@@ -114,7 +122,7 @@ class SignUpProvider extends ChangeNotifier{
                   type: type);
               await profileProvider!.getSelfInfo()
             .whenComplete(() {
-                Get.to(()=>PaywallScreen());
+                Get.offAll(()=>const PatientBottomNavBar());
               },);
               // Get.off(() => const PatientBottomNavBar());
             }
@@ -126,7 +134,7 @@ class SignUpProvider extends ChangeNotifier{
                   type: type);
               profileProvider!.getSelfInfo()
                   .whenComplete(() {
-                Get.off(() => const DoctorBottomNavbar());
+                Get.offAll(() => PaywallScreen());
               },);
               // Get.off(() => const DoctorBottomNavbar());
             }
@@ -163,7 +171,7 @@ class SignUpProvider extends ChangeNotifier{
         {
           "memberShip" : memberShip.toString()
         }
-    ).whenComplete(() => Get.to(()=>PatientBottomNavBar()),);
+    ).whenComplete(() => Get.to(()=>const PatientBottomNavBar()),);
   }
 
 }
