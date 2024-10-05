@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/payment/payment_provider.dart';
 import 'package:tabibinet_project/Screens/StartScreens/PayWallScreens/Components/plan_row.dart';
 
 import '../../../Providers/SignUp/sign_up_provider.dart';
@@ -18,6 +19,7 @@ class PremiumPlanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<SignUpProvider>(context,listen: false);
+    final payment = Provider.of<PaymentProvider>(context,listen: false);
     return Container(
     width: 100.w,
     margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -52,8 +54,14 @@ class PremiumPlanScreen extends StatelessWidget {
         SubmitButton(
           title: "Get Started",
           radius: 100,
-          press: () {
-            provider.memberShip("Premium");
+          press: () async{
+          await  payment.initPaymentSheet(
+                amount: "350",
+                name: "Membership",
+               type: "trial"
+            );
+
+
           },)
       ],
     ),

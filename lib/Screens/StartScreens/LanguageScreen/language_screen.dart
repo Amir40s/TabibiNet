@@ -70,8 +70,6 @@ class LanguageScreen extends StatelessWidget {
                         await languageP.translateMultiple(AppText.appTextList,targetLanguage: supportedLanguages[index].toString());
                         provider.loadLanguage(supportedLanguages[index]);
                         controller.changeLanguage(supportedLanguages[index].toString());
-
-
                       },
                       child: LanguageContainer(
                         title: options[index]['title']!,

@@ -5,8 +5,11 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:tabibinet_project/Providers/payment/payment.dart';
+import 'package:tabibinet_project/Screens/DoctorScreens/DoctorBottomNavBar/doctor_bottom_navbar.dart';
+import 'package:tabibinet_project/constant.dart';
 import 'package:tabibinet_project/global_provider.dart';
 import 'package:tabibinet_project/model/api_services/api_services.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
@@ -156,6 +159,7 @@ class PaymentProvider with ChangeNotifier {
   Future<void> initPaymentSheet({
     required String amount,
     required String name,
+     String type = "payment",
 }) async {
     log("message:: $amount");
     try {
@@ -184,7 +188,7 @@ class PaymentProvider with ChangeNotifier {
         ),
       );
 
-     checkPaymentStatus();
+     checkPaymentStatus(type);
 
     } catch (e) {
       log("message:: ${e.toString()}");
@@ -193,16 +197,35 @@ class PaymentProvider with ChangeNotifier {
     }
   }
 
-  void checkPaymentStatus() async{
+  void checkPaymentStatus(String type) async{
      try{
        await Stripe.instance.presentPaymentSheet();
-       await patientAppointmentP!.sendAppointment(
-         _models!.id.toString(),
-         _models!.amount.toString(),
-         _models!.clientSecret.toString(),
-         _models!.amountReceived.toString(),
-       );
-       Get.to(()=>const BookingConfirmedScreen());
+
+
+       if(type == "payment"){
+         await patientAppointmentP!.sendAppointment(
+           _models!.id.toString(),
+           _models!.amount.toString(),
+           _models!.clientSecret.toString(),
+           _models!.amountReceived.toString(),
+         );
+         Get.to(()=>const BookingConfirmedScreen());
+       }else{
+         String uid = auth.currentUser?.uid.toString() ?? "";
+
+         var logger = Logger();
+         logger.i("Payment done");
+         logger.d(uid);
+        final provider = GlobalProviderAccess.subscriptionProvider;
+
+        if(provider !=null){
+        await provider.startTrial(uid, "premium");
+        Get.offAll(const DoctorBottomNavbar());
+        }
+
+       }
+
+
        log("payment done");
 
      }catch(e){

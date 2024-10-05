@@ -6,6 +6,7 @@ import 'package:tabibinet_project/Screens/ChatScreens/search_controller.dart';
 import 'package:tabibinet_project/constant.dart';
 
 import '../../../Providers/chatProvider/chat_provider.dart';
+import '../../../controller/translation_controller.dart';
 import '../../../model/data/chatModel/chatRoomModel.dart';
 import '../../../model/data/chatModel/userChatModel.dart';
 import '../../../model/res/widgets/chat_user_card.dart';
@@ -19,6 +20,7 @@ class ChatListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ChatSearchController());
+    final transController = Get.put(TranslationController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: bgColor,
@@ -95,6 +97,8 @@ class ChatListScreen extends StatelessWidget {
                                 ),
                               );
 
+
+
                               return ListTile(
                                 leading: CircleAvatar(
                                   child: ClipRRect(
@@ -103,7 +107,7 @@ class ChatListScreen extends StatelessWidget {
                                   ),
                                 ),
                                 title: TextWidget(
-                                  text: otherUser.name,
+                                  text: transController.translations[otherUser.name] ?? otherUser.name,
                                   fontSize: 14.0,
                                   textColor: Colors.black,
                                   fontWeight: FontWeight.bold,

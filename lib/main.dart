@@ -9,6 +9,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tabibinet_project/Providers/subscription_provider.dart';
 import 'package:tabibinet_project/controller/doctor/appdata_provider.dart';
 import 'package:tabibinet_project/model/api_services/url/baseurl.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
@@ -142,6 +143,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => ChatProvider(),),
             ChangeNotifierProvider(create: (context) => ProfileProvider(),),
             ChangeNotifierProvider(create: (context) => AppDataProvider(),),
+            ChangeNotifierProvider(create: (context) => SubscriptionProvider(),),
 
             ChangeNotifierProvider(create: (context) => TwilioProvider(
                 accountSid: BaseUrl.SID_TWILLO,
