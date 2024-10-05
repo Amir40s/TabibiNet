@@ -192,6 +192,7 @@ class PaymentProvider with ChangeNotifier {
   void checkPaymentStatus() async{
      try{
        await Stripe.instance.presentPaymentSheet();
+
        Get.to(()=>const BookingConfirmedScreen());
        log("payment done");
 
