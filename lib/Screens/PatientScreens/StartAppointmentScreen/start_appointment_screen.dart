@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tabibinet_project/Providers/PatientAppointment/patient_appointment_provider.dart';
+import 'package:tabibinet_project/Providers/Profile/profile_provider.dart';
+import 'package:tabibinet_project/model/puahNotification/push_notification.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import '../../../constant.dart';
@@ -19,6 +22,7 @@ class StartAppointmentScreen extends StatelessWidget {
     super.key,
     required this.doctorName,
     required this.doctorId,
+    required this.doctorDeviceToken,
     required this.appointmentTime,
     required this.consultancyType,
     required this.consultancyFee,
@@ -27,6 +31,7 @@ class StartAppointmentScreen extends StatelessWidget {
 
   final String doctorName;
   final String doctorId;
+  final String doctorDeviceToken;
   final String appointmentTime;
   final String consultancyType;
   final String consultancyFee;
@@ -38,7 +43,7 @@ class StartAppointmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final provider = Provider.of<ProfileProvider>(context);
     double height1 = 20;
     double height2 = 10;
 
@@ -125,19 +130,75 @@ class StartAppointmentScreen extends StatelessWidget {
           child: SubmitButton(
             title: "Continue",
             press: () async {
-              final String callID = DateTime.now().millisecondsSinceEpoch.toString();
-              await storeCallId(context,callID, doctorId);
-              await ZegoUIKitSignalingPlugin().sendInvitation(
-                pushConfig: ZegoSignalingPluginPushConfig(),
-                invitees: [doctorId],
-                timeout: 60,  // Optional extra information to include with the invitation
-              );
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CallInvitationPage(callID: callID, isVideoCall: false),
-                ),
-              );
+              // final String callID = DateTime.now().millisecondsSinceEpoch.toString();
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    backgroundColor: bgColor,
+                    surfaceTintColor: bgColor,
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const TextWidget(
+                            text: "Select the Call Type",
+                            fontSize: 14,
+                            fontFamily: AppFonts.semiBold,
+                          ),
+                          const SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SubmitButton(
+                                width: 30.w,
+                                title: "Audio",
+                                press: () async {
+                                  await storeCallId(
+                                      context,
+                                      doctorId,
+                                      provider.name,
+                                      false,
+                                      doctorDeviceToken,
+                                      provider.name,
+                                      "Incoming Audio Call",
+                                      "xyz"
+                                  );
+                                },),
+                              SubmitButton(
+                                width: 30.w,
+                                title: "Video",
+                                press: () async {
+                                  await storeCallId(
+                                      context,
+                                      doctorId,
+                                      provider.name,
+                                      false,
+                                      doctorDeviceToken,
+                                      provider.name,
+                                      "Incoming Video Call",
+                                      "xyz"
+                                  );
+                                },),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },);
+              // await ZegoUIKitSignalingPlugin().sendInvitation(
+              //   pushConfig: ZegoSignalingPluginPushConfig(),
+              //   invitees: [doctorId],
+              //   timeout: 60,  // Optional extra information to include with the invitation
+              // );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => CallInvitationPage(callID: callID, isVideoCall: false),
+              //   ),
+              // );
               // Get.to(()=> const AppointmentVoiceCallScreen());
             },),
         ),
@@ -145,18 +206,27 @@ class StartAppointmentScreen extends StatelessWidget {
     );
   }
 
-  Future<void> storeCallId(context,callId,doctorId)async{
+  Future<void> storeCallId(context,doctorId,patientName,isVideo,token,title,body,senderId)async{
     String id = DateTime.now().millisecondsSinceEpoch.toString();
-    fireStore.collection("calls").doc(id).set({
+    await fireStore.collection("calls").doc(id).set({
       "id": id,
-      "callId": callId,
+      "callId": id,
       "patientId": auth.currentUser!.uid,
-      "patientName": Provider.of<PatientAppointmentProvider>(context).nameC.text,
+      "patientName": patientName,
       "doctorId": doctorId,
+      "isVideo": isVideo,
+      "status": "Incoming",
     });
+    // final String callID = DateTime.now().millisecondsSinceEpoch.toString();
+    final fcm = FCMService();
+    fcm.sendNotification(token, title, body, senderId);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CallInvitationPage(callID: id, isVideoCall: isVideo),
+      ),
+    );
   }
-
-
 
 }
 

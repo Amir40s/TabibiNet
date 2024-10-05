@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tabibinet_project/constant.dart';
+import 'package:tabibinet_project/model/data/call_model.dart';
+import 'package:tabibinet_project/model/res/constant/app_fonts.dart';
 import 'package:tabibinet_project/model/res/constant/app_icons.dart';
 import 'package:tabibinet_project/model/res/widgets/call_invitation.dart';
 import 'package:tabibinet_project/model/res/widgets/header.dart';
+import 'package:tabibinet_project/model/res/widgets/text_widget.dart';
 
 import 'model/res/widgets/no_found_card.dart';
 
@@ -20,8 +23,8 @@ class CallScreen extends StatelessWidget {
           children: [
             const Header(text: "Appointment Calls"),
             Expanded(
-              child: StreamBuilder(
-                stream: fireStore.collection("calls").snapshots(),
+              child: StreamBuilder<List<CallModel>>(
+                stream: fetchCalls(),
                 builder: (context, snapshot) {
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,7 +33,7 @@ class CallScreen extends StatelessWidget {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
-                  if (!snapshot.hasData) {
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const NoFoundCard(
                       subTitle: "",
                     );
@@ -39,16 +42,30 @@ class CallScreen extends StatelessWidget {
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      var call = snapshot.data!.docs[index];
+                      var call = snapshot.data![index];
                       return ListTile(
                         onTap: () {
-                          Get.to(()=>CallInvitationPage(
-                            callID: call["callId"],
-                            isVideoCall: false,
-                          ));
+                          if(call.status == "Incoming"){
+                            Get.to(()=>CallInvitationPage(
+                              callID: call.id,
+                              isVideoCall: call.isVideo,
+                            ));
+                          }
                         },
+                        title: TextWidget(
+                          text: call.patientName,
+                          fontSize: 14,
+                          fontFamily: AppFonts.semiBold,
+                          textColor: textColor,
+                        ),
+                        subtitle: TextWidget(
+                          text: call.status,
+                          fontSize: 11,
+                          fontFamily: AppFonts.medium,
+                          textColor: textColor,
+                        ),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: CircleAvatar(
@@ -56,13 +73,15 @@ class CallScreen extends StatelessWidget {
                             child: SvgPicture.asset(AppIcons.upcomingAppointmentIcon),
                           ),
                         ),
-                        trailing: ClipRRect(
+                        trailing: call.status == "Incoming" ?
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: CircleAvatar(
-                            backgroundColor: purpleColor,
-                            child: SvgPicture.asset(AppIcons.phone),
+                            backgroundColor: Colors.green,
+                            child: SvgPicture.asset(call.isVideo ? AppIcons.video : AppIcons.phone),
                           ),
-                        ),
+                        ) :
+                        const SizedBox(),
                       );
                     },);
                 },
@@ -73,4 +92,18 @@ class CallScreen extends StatelessWidget {
       ),
     );
   }
+
+  Stream<List<CallModel>> fetchCalls() {
+    return fireStore.collection('calls')
+        .where("doctorId", isEqualTo: auth.currentUser!.uid)
+        .snapshots().map((snapshot) {
+      List<CallModel> calls = snapshot.docs.map((doc) => CallModel.fromDocumentSnapshot(doc)).toList();
+
+      // Sort calls by 'id' in descending order
+      calls.sort((a, b) => b.id.compareTo(a.id));  // Assuming 'id' is a field in CallModel
+
+      return calls;
+    });
+  }
+
 }

@@ -2,14 +2,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -211,10 +209,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ? timeago.format(
                                 messageTimestamp.toDate())
                                 : '';
-
                             // return ListView
-                            final isCurrentUser = messageSender ==
-                                AppUtils().getCurrentUserEmail();
+                            final isCurrentUser = messageSender == AppUtils().getCurrentUserEmail();
 
                             final messageWidget = Dismissible(
                               key: Key(documentId),
@@ -324,10 +320,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                             ),
                                           )
                                               : type == "voice" ?
-                                          Container(
+                                          SizedBox(
                                             width: Get.width * 0.54,
                                             child: ListTile(
-                                              title: Text(
+                                              title: const Text(
                                                   "Voice Message"),
                                               trailing: PlayButton(
                                                   audioUrl: message['url']),
@@ -457,8 +453,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
-
   Widget _buildUserMessage(String message, bool isSender) {
     return Align(
       alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
@@ -604,18 +598,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   final provider = Provider.of<ChatProvider>(
                       context, listen: false);
                   await docP!.pickFile();
-                  final url = await docP.uploadFile();
-                  final fcm = FCMService();
-                  await fcm.sendNotification(widget.deviceToken,
-                      "Incoming Message",
-                      "you have received document file",
-                      widget.patientEmail);
-                  await provider.sendFileMessage(
-                    chatRoomId: widget.chatRoomId,
-                    fileUrl: url.toString(),
-                    type: "document",
-                    otherEmail: widget.patientEmail,
-                  );
+                  if(docP.selectedFilePath != null){
+                    final url = await docP.uploadFile();
+                    final fcm = FCMService();
+                    await fcm.sendNotification(widget.deviceToken,
+                        "Incoming Message",
+                        "you have received document file",
+                        widget.patientEmail);
+                    await provider.sendFileMessage(
+                      chatRoomId: widget.chatRoomId,
+                      fileUrl: url.toString(),
+                      type: "document",
+                      otherEmail: widget.patientEmail,
+                    );
+                  }
                 },
               ),
               _buildIconOption(
@@ -628,26 +624,30 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   final imageP = GlobalProviderAccess.profilePro;
                   await imageP!.pickImage();
-                  final url = await imageP.uploadFileReturn();
+                  if(imageP.image != null){
+                    final url = await imageP.uploadFileReturn();
 
-                  final fcm = FCMService();
-                  await fcm.sendNotification(widget.deviceToken,
-                      "Incoming Message",
-                      "you have received Image file",
-                      widget.patientEmail);
-                  await provider.sendFileMessage(
-                    chatRoomId: widget.chatRoomId,
-                    fileUrl: url.toString(),
-                    type: "image",
-                    otherEmail: widget.patientEmail,
-                  );
+                    final fcm = FCMService();
+                    await fcm.sendNotification(widget.deviceToken,
+                        "Incoming Message",
+                        "you have received Image file",
+                        widget.patientEmail);
+                    await provider.sendFileMessage(
+                      chatRoomId: widget.chatRoomId,
+                      fileUrl: url.toString(),
+                      type: "image",
+                      otherEmail: widget.patientEmail,
+                    );
+                  }
                 },
               ),
               _buildIconOption(
                   icon: Icons.audiotrack,
                   label: 'Audio',
                   color: Colors.blue,
-                  press: () {},
+                  press: () {
+
+                  },
                   onLongPressStart: _onLongPressStart,
                   onLongPressEnd: _onLongPressEnd
               ),

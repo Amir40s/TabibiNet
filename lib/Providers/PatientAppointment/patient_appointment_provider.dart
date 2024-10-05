@@ -49,6 +49,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   String? _doctorEmail;
   String? _doctorRating;
   String? _doctorLocation;
+  String? _doctorDeviceToken;
   String? _fromTime;
   String? _toTime;
   String? _appointmentTime;
@@ -79,6 +80,7 @@ class PatientAppointmentProvider with ChangeNotifier {
   String? get doctorName => _doctorName;
   String? get doctorEmail => _doctorEmail;
   String? get doctorRating => _doctorRating;
+  String? get doctorDeviceToken => _doctorDeviceToken;
   String? get doctorLocation => _doctorLocation;
   String? get fromTime => _fromTime;
   String? get toTime => _toTime;
@@ -122,12 +124,13 @@ class PatientAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDoctorDetails(doctorId,doctorName,doctorLocation,doctorRating,doctorEmail){
+  void setDoctorDetails(doctorId,doctorName,doctorLocation,doctorRating,doctorEmail,deviceToken){
     _doctorId = doctorId;
     _doctorName = doctorName;
     _doctorEmail = doctorEmail;
     _doctorLocation = doctorLocation;
     _doctorRating = doctorRating;
+    _doctorDeviceToken = deviceToken;
     log(_doctorId.toString());
     notifyListeners();
   }
@@ -187,6 +190,7 @@ class PatientAppointmentProvider with ChangeNotifier {
       "doctorEmail" : _doctorEmail,
       "doctorRating" : _doctorRating,
       "doctorLocation" : _doctorLocation,
+      "deviceToken" : _doctorDeviceToken,
       "name": profileP!.name,
       "phone": profileP!.phoneNumber,
       "image": profileP!.profileUrl,
